@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="aef63bb7-966e-4176-9d3d-ef67d1826b43" created="3.41.1" activeEnvironment="RLE" name="ESL QA" updated="3.42.0" encryptionMode="Not encrypted" projectVersion="d5567bf8-f0a7-4c12-9210-1c723187b7a6" resourceRoot="" compositeProjectFormat="1.3" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:requirements/>
+  <con:properties>
+    <con:property>
+      <con:name>AppKey</con:name>
+    </con:property>
+  </con:properties>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
+    <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
+// This code is often used for adding custom authentication to ReadyAPI functional tests
+
+// If hardcoding the token, uncomment and change line 5
+// token = '4567'
+
+// If your token is parameterized in Project level custom property, uncomment line 8
+// token = request.parent.testCase.testSuite.project.getProperty('auth_token').getValue()
+
+// To modify all outgoing calls, remove comments from lines 11 to 16
+// headers = request.requestHeaders
+// if (headers.containsKey('auth_token2') == false) {
+//   headers.put('auth_token2', token)
+//   request.requestHeaders = headers
+// }</con:script>
+  </con:eventHandlers>
+  <con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep">
+    <con:script>// Save all test step results into files
+// Change the directory path in line 5 to a location where you want to store details
+// then uncomment lines 5 to 10
+
+// filePath = 'C:\\tempOutputDirectory\\'
+// fos = new java.io.FileOutputStream(filePath + testStepResult.testStep.label + '.txt', true)
+// pw = new java.io.PrintWriter(fos)
+// testStepResult.writeTo(pw)
+// pw.close()
+// fos.close()</con:script>
+  </con:eventHandlers>
+  <con:environment id="1e8db791-2cca-4d3a-9451-5c9a433740b4" name="RLE" index="0">
+    <con:service type="REST" name="Cruise Search">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://eslaservicestst01.rccl.com:13030</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Booking">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://tst1-int.api.rccl.com/esl/booking/tst2</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp</con:value>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="c3a4b580-ecc4-4d69-9e64-f4e9abf07977" name="RLC" index="1">
+    <con:service type="REST" name="Cruise Search">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://eslaservicestst01.rccl.com:13000</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Booking">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://tst1-int.api.rccl.com/esl/booking/tst1</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:authRepository/>
+  <con:environmentSpec>
+    <con:entry environmentId="1e8db791-2cca-4d3a-9451-5c9a433740b4">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+  <con:tags/>
+</con:soapui-project>

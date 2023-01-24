@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="9950760e-9ffd-4689-a210-463b0b8f30e6" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="validateCruiseBooking with connecting to db" searchProperties="true" timeout="0" maxResults="0" disabled="true" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="f44aa4b9-7883-49ab-8dfc-d4802d6d6bc2fileName">validateCruiseBooking-with-connecting-to-db</con:setting>
+    <con:setting id="9950760e-9ffd-4689-a210-463b0b8f30e6fileName">validateCruiseBooking-with-connecting-to-db</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="datasource" name="DataSource" id="03048d09-3df2-419e-a53b-971a7cf5b87d">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>Booking_REST_Input.xls</file>
+          <worksheet>validateCruiseBooking</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>S.No</con:property>
+      <con:property>ServiceName</con:property>
+      <con:property>Operation Name</con:property>
+      <con:property>ExecutionFlag</con:property>
+      <con:property>TestCaseName</con:property>
+      <con:property>TestCaseDescription</con:property>
+      <con:property>application</con:property>
+      <con:property>brand</con:property>
+      <con:property>domainId</con:property>
+      <con:property>language</con:property>
+      <con:property>uuid</con:property>
+      <con:startRow>0</con:startRow>
+      <con:endRow>0</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="properties" name="international bookingId's" id="8b1029e9-b355-4248-95fc-1e11a48562bf">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>BOOKINGID</con:name>
+          <con:value>336459</con:value>
+        </con:property>
+        <con:property>
+          <con:name>BOOKINGID1</con:name>
+          <con:value>437778</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="properties" name="BookingId's for celebrity" id="edff8a05-98dc-4dc8-94d3-69c31616fba0">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>BOOKINGID</con:name>
+          <con:value>78927</con:value>
+        </con:property>
+        <con:property>
+          <con:name>BOOKINGID1</con:name>
+          <con:value>704709</con:value>
+        </con:property>
+        <con:property>
+          <con:name>BOOKINGID2</con:name>
+          <con:value>726771</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="properties" name="Properties 2" id="d4c317ed-ea93-45a4-bd20-23c985eb911a">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>BOOKINGID2</con:name>
+          <con:value>70764</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="properties" name="Properties 1" id="a1c35aa1-f010-41e6-b0e8-914d64e56a84">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>BOOKINGID1</con:name>
+          <con:value>70014</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="properties" name="Properties 3" id="94cda777-93d2-47a7-ad45-3769df8ca1f9">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>BOOKINGID3</con:name>
+          <con:value>73493</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request" id="c49d3a60-ebf7-45b1-86fa-e40f85fec69e">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLSCLDB01.RCCL.COM:14725;databaseName=WebRemoteDataAccess_PBND;user=b2c_user;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
+      <con:connectionProperties/>
+      <con:query>SELECT DISTINCT TOP 100 
+  booking.BVBKID AS bookingId
+  FROM AS400_Mirror.dbo.RZBKVD booking
+  INNER JOIN AS400_Mirror.dbo.RZPITD guestInfo (nolock)
+  ON booking.BVBKID = guestInfo.ABBKID 
+  AND guestInfo.ABPSTA = 'AC'  
+  LEFT OUTER JOIN AS400_Mirror.dbo.RZINAD a (nolock)
+  ON booking.BVBKID = a.NWIAID 
+  LEFT OUTER JOIN AS400_Mirror.dbo.RZGRAD b (nolock)
+  ON booking.BVGAID = b.BDGAID 
+  WHERE booking.BVSDDT = 1191201 AND
+  booking.BVSHIP = 'AL' AND
+  booking.BVBKID LIKE '7%'</con:query>
+      <con:assertion type="XPath Match" id="8bc88815-bc3a-4683-98f1-7d3f1c0cadba" name="Match content of [@rowNumber]">
+        <con:configuration>
+          <path>//Results[1]/ResultSet[1]/Row[1]/@rowNumber</path>
+          <content>1</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 3" id="3a4add2f-8194-4df4-b3bb-28005b263b59">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>BOOKINGID</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[3]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID3</con:targetType>
+        <con:targetStep>Properties 3</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 2" id="1f8aa3e1-80c4-4526-982a-87b4a72c4ec0">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>BOOKINGID</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[2]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID2</con:targetType>
+        <con:targetStep>Properties 2</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 1" id="01329d11-e5ff-48b6-83f7-8f368cca3122">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>BOOKINGID</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID1</con:targetType>
+        <con:targetStep>Properties 1</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking for royal" id="3ed7200c-a4fe-4160-91a7-3854314f5002">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking for royal" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${DataSource#application}",\r
+      "language" : "${DataSource#language}",\r
+      "domainId" : "${DataSource#domainId}",\r
+      "brand" : "${DataSource#brand}",\r
+      "uuid" : "3d11ba67-e179-4d95-8adc-7e81eab2e538"\r
+   },\r
+   "cruiseBookingInfo" : {\r
+      "bookingIds" : [\r
+         "${Properties 1#BOOKINGID1}",\r
+         "${Properties 2#BOOKINGID2}",\r
+         "${Properties 3#BOOKINGID3}"\r
+      ]\r
+   }\r
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking for royal with two bookingId's" id="7299a074-4973-4a1c-b65e-10cae55e8e09">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking for royal with two bookingId's" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${DataSource#application}",\r
+      "language" : "${DataSource#language}",\r
+      "domainId" : "${DataSource#domainId}",\r
+      "brand" : "${DataSource#brand}",\r
+      "uuid" : ""\r
+   },\r
+   "cruiseBookingInfo" : {\r
+      "bookingIds" : [\r
+         "${Properties 1#BOOKINGID1}",\r
+         "${Properties 2#BOOKINGID2}",\r
+         "${Properties 2#BOOKINGID2}"\r
+      ]\r
+   }\r
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking for royal with one bookingId's" id="05998dd1-5381-435e-8989-de79131eeca4">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking for royal with one bookingId's" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${DataSource#application}",\r
+      "language" : "${DataSource#language}",\r
+      "domainId" : "${DataSource#domainId}",\r
+      "brand" : "${DataSource#brand}",\r
+      "uuid" : ""\r
+   },\r
+   "cruiseBookingInfo" : {\r
+      "bookingIds" : [\r
+         "${Properties 1#BOOKINGID1}",\r
+         "${Properties 1#BOOKINGID1}",\r
+         "${Properties 1#BOOKINGID1}"\r
+      ]\r
+   }\r
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasource" name="DataSource1" id="c27fd489-6660-4667-bad6-fa679c06228c">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>Booking_REST_Input.xls</file>
+          <worksheet>validateCruiseBooking</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>S.No</con:property>
+      <con:property>ServiceName</con:property>
+      <con:property>Operation Name</con:property>
+      <con:property>ExecutionFlag</con:property>
+      <con:property>TestCaseName</con:property>
+      <con:property>TestCaseDescription</con:property>
+      <con:property>application</con:property>
+      <con:property>brand</con:property>
+      <con:property>domainId</con:property>
+      <con:property>language</con:property>
+      <con:property>uuid</con:property>
+      <con:startRow>1</con:startRow>
+      <con:endRow>1</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request for celebrity" id="79a6fe7e-0480-4bfa-b4e3-f8491399b095">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLSCLDB01.RCCL.COM:14725;databaseName=WebRemoteDataAccess_PBND;user=b2c_user;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
+      <con:connectionProperties/>
+      <con:query>SELECT DISTINCT TOP 100 
+  booking.BVBKID AS bookingId
+  FROM AS400_Mirror.dbo.RZBKVD booking
+  INNER JOIN AS400_Mirror.dbo.RZPITD guestInfo (nolock)
+  ON booking.BVBKID = guestInfo.ABBKID 
+  AND guestInfo.ABPSTA = 'AC'  
+  LEFT OUTER JOIN AS400_Mirror.dbo.RZINAD a (nolock)
+  ON booking.BVBKID = a.NWIAID 
+  LEFT OUTER JOIN AS400_Mirror.dbo.RZGRAD b (nolock)
+  ON booking.BVGAID = b.BDGAID 
+  WHERE booking.BVSDDT = 1190512 AND
+  booking.BVSHIP = 'CS' AND
+  booking.BVBKID LIKE '7%'</con:query>
+      <con:assertion type="XPath Match" id="8bc88815-bc3a-4683-98f1-7d3f1c0cadba" name="Match content of [@rowNumber]">
+        <con:configuration>
+          <path>//Results[1]/ResultSet[1]/Row[1]/@rowNumber</path>
+          <content>1</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 6" id="4d05c9e4-5914-4567-80b8-658ed48da0a7">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>BOOKINGID2</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request for celebrity</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[3]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID2</con:targetType>
+        <con:targetStep>BookingId's for celebrity</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 5" id="becc62fc-cbcb-413b-96da-b48a5d762417">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true">
+        <con:name>BOOKINGID1</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request for celebrity</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[2]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID1</con:targetType>
+        <con:targetStep>BookingId's for celebrity</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 4" id="ef9c35f5-ae20-4031-b1e4-c14ddab630d6">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true">
+        <con:name>BOOKINGID</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request for celebrity</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID</con:targetType>
+        <con:targetStep>BookingId's for celebrity</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking for celebrity" id="5887bfba-41b0-46d7-9e32-11580ebd7c02">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking for celebrity" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${DataSource1#application}",\r
+      "language" : "${DataSource1#language}",\r
+      "domainId" : "${DataSource1#domainId}",\r
+      "brand" : "${DataSource1#brand}",\r
+      "uuid" : ""\r
+   },\r
+   "cruiseBookingInfo" : {\r
+      "bookingIds" : [\r
+         "${BookingId's for celebrity#BOOKINGID}",\r
+         "${BookingId's for celebrity#BOOKINGID1}",\r
+         "${BookingId's for celebrity#BOOKINGID2}"\r
+      ]\r
+   }\r
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking for celebrity with two bookingId's" id="2ae349a5-201c-4d29-b318-bfbd6e5fcb39">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking for celebrity with two bookingId's" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${DataSource1#application}",\r
+      "language" : "${DataSource1#language}",\r
+      "domainId" : "${DataSource1#domainId}",\r
+      "brand" : "${DataSource1#brand}",\r
+      "uuid" : ""\r
+   },\r
+   "cruiseBookingInfo" : {\r
+      "bookingIds" : [\r
+         "${BookingId's for celebrity#BOOKINGID}",\r
+         "${BookingId's for celebrity#BOOKINGID1}",\r
+         "${BookingId's for celebrity#BOOKINGID1}"\r
+      ]\r
+   }\r
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking for celebrity with one bookingId" id="54829187-1a32-4237-a288-6167854a100b">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking for celebrity with one bookingId" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${DataSource1#application}",\r
+      "language" : "${DataSource1#language}",\r
+      "domainId" : "${DataSource1#domainId}",\r
+      "brand" : "${DataSource1#brand}",\r
+      "uuid" : ""\r
+   },\r
+   "cruiseBookingInfo" : {\r
+      "bookingIds" : [\r
+         "${BookingId's for celebrity#BOOKINGID}",\r
+         "${BookingId's for celebrity#BOOKINGID}",\r
+         "${BookingId's for celebrity#BOOKINGID}"\r
+      ]\r
+   }\r
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request for international bookingId's" id="538e4d69-71b5-4318-869d-d4fc3ab70897">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLSCLDB01.RCCL.COM:14725;databaseName=WebRemoteDataAccess_PBND;user=b2c_user;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
+      <con:connectionProperties/>
+      <con:query>SELECT TOP 100
+booking.BVBKID AS bookingId ,
+guestInfo.ABPAID AS passengerId,  
+guestInfo.ABPLNM AS lastName, 
+guestInfo.ABPFNM AS firstName, 
+guestInfo.ABDEMA as emailAddress,
+booking.BVCBNO AS cabinNumber,
+booking.BVSHIP AS shipCode, 
+booking.BVSDDT AS sailDate, 
+a.NWBKOF as bookingOffice,        
+COALESCE(a.NWAGST, b.BDBKST) as bookingStatus ,
+COALESCE(a.NWOFDT,booking.BVCRDT) as createDate
+FROM AS400_Mirror.dbo.RZBKVD booking
+INNER JOIN AS400_Mirror.dbo.RZPITD guestInfo (nolock)
+ON booking.BVBKID = guestInfo.ABBKID 
+AND guestInfo.ABPSTA = 'AC'  
+LEFT OUTER JOIN AS400_Mirror.dbo.RZINAD a (nolock)
+ON booking.BVBKID = a.NWIAID 
+LEFT OUTER JOIN AS400_Mirror.dbo.RZGRAD b (nolock)
+ON booking.BVGAID = b.BDGAID 
+WHERE 
+--(@In_Passenger_id IS NULL OR guestInfo.ABPAID = @In_Passenger_id) AND
+booking.BVSDDT = 1190512 AND
+booking.BVSHIP = 'CS' AND
+a.NWBKOF != 'MIA'
+--booking.BVBKID = 70674</con:query>
+      <con:assertion type="XPath Match" id="8bc88815-bc3a-4683-98f1-7d3f1c0cadba" name="Match content of [@rowNumber]">
+        <con:configuration>
+          <path>//Results[1]/ResultSet[1]/Row[1]/@rowNumber</path>
+          <content>1</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 8" id="321ddf08-2670-4eb2-91b8-79cb9d325518">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>BOOKINGID1</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request for international bookingId's</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[3]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID1</con:targetType>
+        <con:targetStep>international bookingId's</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 7" id="ecce57e9-2df5-4ec9-9d17-baca9520dd10">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>BOOKINGID</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request for international bookingId's</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/BOOKINGID[1]</con:sourcePath>
+        <con:targetType>BOOKINGID</con:targetType>
+        <con:targetStep>international bookingId's</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking with international bookingId's" id="42040e50-3071-4d48-a7a9-30f9f4e76adf">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking with international bookingId's" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${DataSource1#application}",\r
+      "language" : "${DataSource1#language}",\r
+      "domainId" : "${DataSource1#domainId}",\r
+      "brand" : "${DataSource1#brand}",\r
+      "uuid" : ""\r
+   },\r
+   "cruiseBookingInfo" : {\r
+      "bookingIds" : [\r
+         "${international bookingId's#BOOKINGID}",\r
+         "${international bookingId's#BOOKINGID1}",\r
+         ""\r
+      ]\r
+   }\r
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Copy of validateCruiseBooking with international bookingId's" id="9be53b68-6817-4697-aa04-cdf5f1eef913">
+    <con:settings/>
+    <con:config service="Booking" methodName="POST" resourcePath="/cruisecritic/validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Copy of validateCruiseBooking with international bookingId's" id="7850a358-85a2-462b-99a0-c05407624345" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request>{
+    "header": {
+      "application": "royalcaribbean.com",
+      "language": "en_US",
+      "domainId": "1",
+      "brand": "R",
+      "uuid": "3d11ba67-e179-4d95-8adc-7e81eab2e538"
+    },
+    "cruiseBookingInfo" : {
+        
+      "bookingIds" : 
+      [
+        "9588674",
+        "9590974",
+        "9591131",
+        "9592299",
+        "9596914",
+        "9601085",
+        "9604006",
+        "9605565",
+        "9607204",
+        "9607489",
+        "9612901",
+        "9614113",
+        "9614346",
+        "9615022",
+        "9627736",
+        "9634030",
+        "9638194",
+        "9640240",
+        "9642539",
+        "9650116",
+        "9652344",
+        "9655678",
+        "9657074",
+        "9664025",
+        "9667542",
+        "9668533",
+        "9674152",
+        "9677116",
+        "9681695",
+        "9684512",
+        "9688744",
+        "9693647",
+        "9699436",
+        "9709854",
+        "9710099",
+        "9713708",
+        "9714091",
+        "9716989",
+        "9719675",
+        "9723696",
+        "9728772",
+        "9730700",
+        "9731608",
+        "9736734",
+        "9737127",
+        "9756093",
+        "9760517",
+        "9769708",
+        "9773885",
+        "9779191",
+        "9780625",
+        "9781945",
+        "9794794",
+        "9796712",
+        "9798419",
+        "9801127",
+        "9820136",
+        "9821365",
+        "9839948",
+        "9842992",
+        "9846670",
+        "9851942",
+        "9851980",
+        "9855379",
+        "9858459",
+        "9858973",
+        "9859017",
+        "9863891",
+        "9866978",
+        "9868577",
+        "9896439",
+        "9909378",
+        "9910804",
+        "9912383",
+        "9912396",
+        "9915395",
+        "9917280",
+        "9927424",
+        "9930410",
+        "9935004",
+        "9935360",
+        "9936596",
+        "9944397",
+        "9950772",
+        "9952855",
+        "9954292",
+        "9956707",
+        "9957287",
+        "9961083",
+        "9968673",
+        "9973026",
+        "9975880"
+    ]
+ 
+    }
+     
+    
+}</con:request>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/validateCruiseBooking</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4ff86071-01b9-4628-a0e5-fd2330cd66c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="05d1995b-507d-4e9b-a0ae-b4b3914430c6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c664df8a-1bc9-4fd0-b9df-f335d0d1d097">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="24ea1433-4f38-4a03-8999-7144deaddd02">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f2a94fc-5033-4808-852b-651458fa5742">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f01e9d57-ab54-41f0-9a8a-043e0b93b4f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="755bdcf9-70a8-4132-844d-e5cd8d24e80c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="47074864-6f72-4d97-bae4-21c8ed49aa75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b90fdab2-9475-4f32-8f02-297fa386bc5c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30e190d4-5cca-4b41-a9d3-1723c6ff34d4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="361d8992-6d1c-42db-abc6-a3db88088a91">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4ffc1287-e3e9-4aba-aa44-a81cbddd261a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>PackageCode</con:name>
+      <con:value>AD06N002</con:value>
+    </con:property>
+    <con:property>
+      <con:name>ShipCode</con:name>
+      <con:value>AD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>SailDate</con:name>
+      <con:value>2019-06-08</con:value>
+    </con:property>
+    <con:property>
+      <con:name>FareCode</con:name>
+      <con:value>E5768893</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Category</con:name>
+      <con:value>4V</con:value>
+    </con:property>
+    <con:property>
+      <con:name>CabinNumber</con:name>
+      <con:value>8679</con:value>
+    </con:property>
+    <con:property>
+      <con:name>AccessToken</con:name>
+      <con:value>e7b724bf-eb36-407e-a06f-7bc06bfb696d</con:value>
+    </con:property>
+  </con:properties>
+  <con:reportParameters/>
+  <con:breakPoints>
+    <con:testStepId>ab713861-6501-4534-8dc5-bc318c0b5400</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>c682267c-e6d4-4b01-8a66-211b1f74a44b</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>c5a46c07-1472-4905-a066-8e24c3088dbd</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>725f2f05-1102-47e5-a30d-f7be64f5e39b</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>ee0fbe95-bba4-41de-97ba-00401f947cf8</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>e6871cf9-4da6-4e05-93f4-75ae405ab1e4</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>2189b245-c664-43ed-8fcf-212d6b91a3b0</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>86234b57-3091-4f15-8525-b1e2f33ec14a</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>d3fd72d7-dca3-41b0-8365-86a8448b6a9a</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>5d1b4be4-d4ff-41ff-8e52-290f57bd1a55</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>dbb16df0-ef89-41bc-9830-fcac8ff7c030</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>4692280f-f96b-455d-a34c-dc9d8d830a16</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>76300ab2-15ca-49fa-be4d-aac9ad1cb671</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>6add0441-a3d4-4020-b798-294983c18d69</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>ac895c6c-1a4f-4ad1-8236-7d56856e2b77</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>2dbab23d-5885-4607-a1a0-b38b9b2fa957</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>523b6658-2046-4096-9743-9a5b77525d85</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+</con:testCase>
