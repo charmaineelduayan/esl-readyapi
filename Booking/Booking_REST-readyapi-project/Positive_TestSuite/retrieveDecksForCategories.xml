@@ -9,13 +9,7 @@
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration>
-          <file>Booking_REST_Input.xls</file>
-          <worksheet>RetrieveDecksForCategories</worksheet>
-          <cell>A1</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
+        <con:configuration><file>Booking_REST_Input.xls</file><worksheet>RetrieveDecksForCategories</worksheet><cell>A1</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
       </con:dataSource>
       <con:shared>false</con:shared>
       <con:restartShared>false</con:restartShared>
@@ -349,8 +343,7 @@
   </con:testStep>
   <con:testStep type="groovy" name="FetchValues" id="97db1fd7-8e67-4d9d-a5cb-83ca2d9bc802">
     <con:settings/>
-    <con:config>
-      <script>import java.io.*;
+    <con:config><script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*
@@ -359,33 +352,32 @@ def tc = testRunner.testCase.testSuite.testCases["RetrieveStateroomForCategory_T
 def ts = testRunner.testCase.getTestStepByName("CruiseSearch")
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[2].sailingRef.@package.text();
+def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@package.text();
 log.info(packageCode)
 testRunner.testCase.setPropertyValue("PackageCode",packageCode)
 
 String shipCode= packageCode.substring(0,2);
 testRunner.testCase.setPropertyValue("ShipCode",shipCode)
 
-def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[2].sailingRef.@saildate.text();
+def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@saildate.text();
 log.info(sailDate)
 testRunner.testCase.setPropertyValue("SailDate",sailDate)
 
-def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[2].cabinClassPricing[2].price[2].@priceId.text();
+def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].@priceId.text();
 if(id.equals('')){
-	def fareCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[2].cabinClassPricing[2].price[2].promotion.@id.text();
+	def fareCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].promotion.@id.text();
 	testRunner.testCase.setPropertyValue("FareCode",fareCode)
 }
 else{
 	testRunner.testCase.setPropertyValue("FareCode",id)
-}</script>
-    </con:config>
+}</script></con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="RetrieveStateroomCategories" id="463d9738-1ab0-4037-bc75-e458fb5b62d1">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomCategories" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>http://stg1.mesos.rccl.com/booking-stg1/v4/booking/rest/v3/</con:endpoint>
         <con:request/>
@@ -1788,11 +1780,11 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2023-02-15</con:value>
+      <con:value>2023-02-01</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
-      <con:value/>
+      <con:value>I1826712</con:value>
     </con:property>
     <con:property>
       <con:name>CategoryCode</con:name>
