@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="444d515d-e91b-4198-a1ae-4e19cdbf903f" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-RetrieveSailings-bad-brand" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="444d515d-e91b-4198-a1ae-4e19cdbf903ffileName">Test2-N-RetrieveSailings-bad-brand</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="datasource" name="ContentDS" id="df4160cb-a927-4fc0-8e56-b0bdd0a90efa">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>${#Global#Content_REST_InputPath}</file>
+          <worksheet>Sailings</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>S.No</con:property>
+      <con:property>ServiceName</con:property>
+      <con:property>Operation Name</con:property>
+      <con:property>ExecutionFlag</con:property>
+      <con:property>TestCaseName</con:property>
+      <con:property>TestCaseDescription</con:property>
+      <con:property>application</con:property>
+      <con:property>brand</con:property>
+      <con:property>domainId</con:property>
+      <con:property>language</con:property>
+      <con:property>uuid</con:property>
+      <con:property>sailingType</con:property>
+      <con:property>startDate</con:property>
+      <con:property>endDate</con:property>
+      <con:property>packageId</con:property>
+      <con:startRow>2</con:startRow>
+      <con:endRow>2</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveSailings with invalid brand" id="dc12c663-2dc7-45ca-9383-18373dfea24a">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/sailings" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveSailings with invalid brand" id="c8a9953a-a2e4-43e1-a481-2dcb989f4686" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/sailings</con:originalUri>
+        <con:assertion type="JsonPath Match" id="9dffcf2e-fdff-487e-ad3b-de8b41a9eef2" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="c2287390-481a-48d7-b62a-472f26d4fdf7" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>Invalid brand.</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="7e045dc0-2d91-4f4f-aa76-8923fdd1236e" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>CATL-005</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="${ContentDS#language}"/>
+          <con:entry key="header.application" value="${ContentDS#application}"/>
+          <con:entry key="endDate" value=""/>
+          <con:entry key="sailingType" value=""/>
+          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="startDate" value=""/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>sailingType</con:entry>
+          <con:entry>startDate</con:entry>
+          <con:entry>endDate</con:entry>
+          <con:entry>packageId</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="4e2e9c45-9ecb-4317-97a3-865b4499eaf5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="168d4856-d89c-4c77-b153-ddc77dee7b2c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6234d4f7-43f1-4cf7-9e47-d33ebe8ec561">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="08fecf5f-2d43-4c85-81d6-7e0faa32320a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="eab9a467-bb15-480b-b760-b5b5b3144e23">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasource" name="ContentDS1" id="3add0b33-fb7a-4583-a42e-b6f236976a02">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>${#Global#Content_REST_InputPath}</file>
+          <worksheet>Sailings</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>S.No</con:property>
+      <con:property>ServiceName</con:property>
+      <con:property>Operation Name</con:property>
+      <con:property>ExecutionFlag</con:property>
+      <con:property>TestCaseName</con:property>
+      <con:property>TestCaseDescription</con:property>
+      <con:property>application</con:property>
+      <con:property>brand</con:property>
+      <con:property>domainId</con:property>
+      <con:property>language</con:property>
+      <con:property>uuid</con:property>
+      <con:property>sailingType</con:property>
+      <con:property>startDate</con:property>
+      <con:property>endDate</con:property>
+      <con:property>packageId</con:property>
+      <con:startRow>4</con:startRow>
+      <con:endRow>4</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveSailings with invalid startDate, endDate." id="a23ca255-8560-4b9e-9b98-b3d51541a31d">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/sailings" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveSailings with invalid startDate, endDate." id="c8a9953a-a2e4-43e1-a481-2dcb989f4686" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/sailings</con:originalUri>
+        <con:assertion type="JsonPath Match" id="b77e2e7c-63fb-4654-9e04-2e523e1577ef" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="eb15e21d-0eeb-4205-8fd3-afa30d35eac9" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][1]['code']</path>
+            <content>CONT-0009</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="${ContentDS1#language}"/>
+          <con:entry key="header.application" value="${ContentDS1#application}"/>
+          <con:entry key="endDate" value="${ContentDS1#endDate}"/>
+          <con:entry key="sailingType" value="${ContentDS1#sailingType}"/>
+          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="startDate" value="${ContentDS1#startDate}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>sailingType</con:entry>
+          <con:entry>startDate</con:entry>
+          <con:entry>endDate</con:entry>
+          <con:entry>packageId</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="4e2e9c45-9ecb-4317-97a3-865b4499eaf5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="168d4856-d89c-4c77-b153-ddc77dee7b2c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6234d4f7-43f1-4cf7-9e47-d33ebe8ec561">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="08fecf5f-2d43-4c85-81d6-7e0faa32320a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="eab9a467-bb15-480b-b760-b5b5b3144e23">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveSailings with invalid month and date" id="78b52730-f136-4400-bf2d-969b9eb1f03e">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/sailings" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveSailings with invalid month and date" id="c8a9953a-a2e4-43e1-a481-2dcb989f4686" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/sailings</con:originalUri>
+        <con:assertion type="JsonPath Match" id="c93b01e0-2f0f-44dd-b2f6-1ea8561470fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="f45bbb12-e13a-4c99-8351-7e5ec57d06d1" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][1]['code']</path>
+            <content>CONT-0009</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="${ContentDS1#language}"/>
+          <con:entry key="header.application" value="${ContentDS1#application}"/>
+          <con:entry key="endDate" value="${ContentDS#endDate}"/>
+          <con:entry key="sailingType" value="${ContentDS1#sailingType}"/>
+          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="startDate" value="${ContentDS#startDate}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>sailingType</con:entry>
+          <con:entry>startDate</con:entry>
+          <con:entry>endDate</con:entry>
+          <con:entry>packageId</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="4e2e9c45-9ecb-4317-97a3-865b4499eaf5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="168d4856-d89c-4c77-b153-ddc77dee7b2c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6234d4f7-43f1-4cf7-9e47-d33ebe8ec561">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="08fecf5f-2d43-4c85-81d6-7e0faa32320a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="eab9a467-bb15-480b-b760-b5b5b3144e23">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveSailings with invalid packageId" id="8ffe8d9b-215e-4030-b476-c28c26cca638">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/sailings" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveSailings with invalid packageId" id="c8a9953a-a2e4-43e1-a481-2dcb989f4686" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/sailings</con:originalUri>
+        <con:assertion type="JsonPath Match" id="c93b01e0-2f0f-44dd-b2f6-1ea8561470fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="f8322d55-276b-4be8-b165-c65dc9b9b159" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>CONT-0009</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="${ContentDS1#language}"/>
+          <con:entry key="header.application" value="${ContentDS1#application}"/>
+          <con:entry key="packageId" value="XYZA00AA"/>
+          <con:entry key="sailingType" value="ALL"/>
+          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>sailingType</con:entry>
+          <con:entry>startDate</con:entry>
+          <con:entry>endDate</con:entry>
+          <con:entry>packageId</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="4e2e9c45-9ecb-4317-97a3-865b4499eaf5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="168d4856-d89c-4c77-b153-ddc77dee7b2c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6234d4f7-43f1-4cf7-9e47-d33ebe8ec561">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="08fecf5f-2d43-4c85-81d6-7e0faa32320a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="eab9a467-bb15-480b-b760-b5b5b3144e23">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties/>
+  <con:reportParameters/>
+  <con:breakPoints>
+    <con:testStepId>a2c2437e-6b48-40bf-a895-a41cbf1b201e</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>3add0b33-fb7a-4583-a42e-b6f236976a02</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+</con:testCase>
