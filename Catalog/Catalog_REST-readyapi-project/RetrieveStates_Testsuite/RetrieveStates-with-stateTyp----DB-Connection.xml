@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="fc406ae4-7a10-4648-8807-adc0ff8ed7c3" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="RetrieveStates with stateTyp  - DB Connection" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="fc406ae4-7a10-4648-8807-adc0ff8ed7c3fileName">RetrieveStates-with-stateTyp----DB-Connection</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="properties" name="Properties - StateTypeCodes" id="a7aec5c5-a917-4708-9070-110c4042ebdd">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>STATETYPECODE</con:name>
+          <con:value>ATE</con:value>
+        </con:property>
+        <con:property>
+          <con:name>STATETYPECODE 2</con:name>
+          <con:value>BCN</con:value>
+        </con:property>
+        <con:property>
+          <con:name>STATETYPECODE 3</con:name>
+          <con:value>CMO</con:value>
+        </con:property>
+        <con:property>
+          <con:name>STATETYPECODE 4</con:name>
+          <con:value>EXP</con:value>
+        </con:property>
+        <con:property>
+          <con:name>STATETYPECODE 5</con:name>
+          <con:value>OFM</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request - retrive StateCodes" id="9ebe9eec-04c6-4e95-8f35-34324cfd0a8a">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dbConnectionName>WebRemoteDataAccess_PBND</con:dbConnectionName>
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://10.14.31.120:14729;databaseName=WebRemoteDataAccess_PBND;user=b2c_ven_user;password=PASS_VALUE</con:connectionString>
+      <con:password>BRhPu1nsx</con:password>
+      <con:connectionProperties/>
+      <con:query>SELECT TOP 5 RTRIM(DPCODE) AS CODE , DPCDTY As STATETYPECODE
+       , RTRIM(DPDATA) AS NAME
+FROM AS400_Mirror.dbo.ITCDSD
+ORDER BY NAME;</con:query>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 1" id="177feebe-11a4-4b65-bebd-0b8d29de65fd">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" transferToAll="false" entitize="false">
+        <con:name>STATETYPECODE 1</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - retrive StateCodes</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/STATETYPECODE[1]</con:sourcePath>
+        <con:targetType>STATETYPECODE</con:targetType>
+        <con:targetStep>Properties - StateTypeCodes</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>STATETYPECODE 2</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - retrive StateCodes</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[2]/STATETYPECODE[1]</con:sourcePath>
+        <con:targetType>STATETYPECODE 2</con:targetType>
+        <con:targetStep>Properties - StateTypeCodes</con:targetStep>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>STATETYPECODE 3</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - retrive StateCodes</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[3]/STATETYPECODE[1]</con:sourcePath>
+        <con:targetType>STATETYPECODE 3</con:targetType>
+        <con:targetStep>Properties - StateTypeCodes</con:targetStep>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>STATETYPECODE 4</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - retrive StateCodes</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[4]/STATETYPECODE[1]</con:sourcePath>
+        <con:targetType>STATETYPECODE 4</con:targetType>
+        <con:targetStep>Properties - StateTypeCodes</con:targetStep>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" transferChildNodes="false" transferToAll="false">
+        <con:name>STATETYPECODE 5</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - retrive StateCodes</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[5]/STATETYPECODE[1]</con:sourcePath>
+        <con:targetType>STATETYPECODE 5</con:targetType>
+        <con:targetStep>Properties - StateTypeCodes</con:targetStep>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request - Verify StateCode" id="03f85495-3a63-4623-8671-df1ed09087c4">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dbConnectionName>WebRemoteDataAccess_PBND</con:dbConnectionName>
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://10.14.31.120:14729;databaseName=WebRemoteDataAccess_PBND;user=b2c_ven_user;password=PASS_VALUE</con:connectionString>
+      <con:password>BRhPu1nsx</con:password>
+      <con:connectionProperties/>
+      <con:query>EXEC dbo.usp_vp_itcdsd_data_get '${Properties - StateTypeCodes#STATETYPECODE}';</con:query>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveStates with stateType - Celeb 2" id="fd4e6aef-2ac2-4e16-8fdf-906e62e9adcf">
+    <con:settings/>
+    <con:config service="Catalog operations" resourcePath="/retrieveStates" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveStates with stateType - Celeb 2" id="0d085041-1b93-4a67-a519-96a7f0ea5fdf" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
+  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveStates</con:originalUri>
+        <con:assertion type="XPath Match" id="4e8bc44e-5a32-48ed-9a4e-2be73ed129da" name="Match content of [status]">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
+//ns2:RetrieveStatesResponse[1]/header[1]/status[1]/text()</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="stateType" value="${Properties - StateTypeCodes#STATETYPECODE 3}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be041c68-1c4f-4687-86f3-a7fd0ebf8f9a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="112d4380-5af5-4434-9ffb-730724ba0b9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d0b14709-b491-49ba-810a-8eaf87695276">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7c6f2394-89c3-49d4-b69c-6342fa3d1e75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35b07294-8d95-4318-a9b4-cb4fccfa2147">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e0ee0f68-1c51-48e5-a2a2-1e17b0c737fd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2597b8d7-5406-4909-b493-b10a2c17a2da">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="55b003ce-ac20-45c1-bede-fa861d06ef43">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8113e0fa-0e97-458d-acf0-34e5f47cf7b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cce32330-f3ec-401d-a6dc-092cb46510e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="260fb9ed-7034-4af6-b042-e535905e090c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35c5c00e-1d54-4a7f-bbf6-69bb2aa7c049">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f04bebb4-ce05-45a0-a875-88667fb7e3f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3dd7e3e4-8b16-4060-9022-9468c2f6877b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5a8ee53f-fc0e-4d24-900f-a6985f90d6ab">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cc25719b-f05a-4053-8619-f0a74a3bbcb3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e03e55d5-1ac6-43a9-8041-d29c5d3bb735">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2103ab01-80bf-437d-b846-b569164a5816">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b6e67e98-c598-4594-afff-b51a55854cd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="69441485-52b8-4269-80c3-224724044cc8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b4c0b339-9c72-498f-a512-5d70c9564822">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="639c118c-40a3-43e7-b610-b2e2e468005e">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6ae2666e-fa63-4093-9d43-ce781a088e8f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e6d3c0c6-c6f0-4d75-9a54-c31ff90b2021">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3e9f6048-de6e-4a88-9cd5-ad372c36533c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="deb8c5dd-f934-47ab-a544-4a4393d71c97">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6539fc8c-7c42-4a66-bec0-8706162ecd9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd9435bf-b0f2-48d9-a2d5-efeb3750b730">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="08d304c8-fedc-40a1-9350-c12a7753fc87">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e26e11a1-a70b-4eff-8802-122db38232dc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="feabd46b-7cc3-494d-9bc2-8cb2d2d9838e">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2eeae799-2655-426c-b18a-725790b73823">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveStates with stateType - Royal 2" id="ea83c78a-3352-4e37-a39e-a6fc26475709">
+    <con:settings/>
+    <con:config service="Catalog operations" resourcePath="/retrieveStates" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveStates with stateType - Royal 2" id="0d085041-1b93-4a67-a519-96a7f0ea5fdf" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
+  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
+&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveStates</con:originalUri>
+        <con:assertion type="XPath Match" id="4e8bc44e-5a32-48ed-9a4e-2be73ed129da" name="Match content of [status]">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
+//ns2:RetrieveStatesResponse[1]/header[1]/status[1]/text()</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
+          <con:entry key="stateType" value="${Properties - StateTypeCodes#STATETYPECODE 4}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="R"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be041c68-1c4f-4687-86f3-a7fd0ebf8f9a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="112d4380-5af5-4434-9ffb-730724ba0b9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d0b14709-b491-49ba-810a-8eaf87695276">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7c6f2394-89c3-49d4-b69c-6342fa3d1e75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35b07294-8d95-4318-a9b4-cb4fccfa2147">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e0ee0f68-1c51-48e5-a2a2-1e17b0c737fd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2597b8d7-5406-4909-b493-b10a2c17a2da">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="55b003ce-ac20-45c1-bede-fa861d06ef43">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8113e0fa-0e97-458d-acf0-34e5f47cf7b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cce32330-f3ec-401d-a6dc-092cb46510e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="260fb9ed-7034-4af6-b042-e535905e090c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35c5c00e-1d54-4a7f-bbf6-69bb2aa7c049">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f04bebb4-ce05-45a0-a875-88667fb7e3f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3dd7e3e4-8b16-4060-9022-9468c2f6877b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5a8ee53f-fc0e-4d24-900f-a6985f90d6ab">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cc25719b-f05a-4053-8619-f0a74a3bbcb3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e03e55d5-1ac6-43a9-8041-d29c5d3bb735">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2103ab01-80bf-437d-b846-b569164a5816">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b6e67e98-c598-4594-afff-b51a55854cd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="69441485-52b8-4269-80c3-224724044cc8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b4c0b339-9c72-498f-a512-5d70c9564822">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="639c118c-40a3-43e7-b610-b2e2e468005e">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6ae2666e-fa63-4093-9d43-ce781a088e8f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e6d3c0c6-c6f0-4d75-9a54-c31ff90b2021">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3e9f6048-de6e-4a88-9cd5-ad372c36533c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="deb8c5dd-f934-47ab-a544-4a4393d71c97">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6539fc8c-7c42-4a66-bec0-8706162ecd9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd9435bf-b0f2-48d9-a2d5-efeb3750b730">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="08d304c8-fedc-40a1-9350-c12a7753fc87">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e26e11a1-a70b-4eff-8802-122db38232dc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="feabd46b-7cc3-494d-9bc2-8cb2d2d9838e">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2eeae799-2655-426c-b18a-725790b73823">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties/>
+  <con:reportParameters/>
+  <con:breakPoints>
+    <con:testStepId>5cd747e5-afda-4d43-a950-e4b208629c5a</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>21cf29ab-2865-4613-b29b-cb8c54dde1f3</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>e34b400b-e130-42ab-b959-bdd0b584b580</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>8c4eee83-3384-4864-a9dd-915680070b49</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:environmentSpec>
+    <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:testCase>
