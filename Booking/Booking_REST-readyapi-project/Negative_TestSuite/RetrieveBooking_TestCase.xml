@@ -35,7 +35,13 @@
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration><file>${Booking_InputPath}</file><worksheet>CreateBooking</worksheet><cell>A1</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
+        <con:configuration>
+          <file>${Booking_InputPath}</file>
+          <worksheet>CreateBooking</worksheet>
+          <cell>A1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
       </con:dataSource>
       <con:shared>true</con:shared>
       <con:restartShared>true</con:restartShared>
@@ -1124,12 +1130,12 @@ def accessToken = res.bookingAccessToken.text();
 testRunner.testCase.setPropertyValue("AccessToken",accessToken)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="CreateBooking _allParameterize_1guest" id="cf2a7338-2928-4ccc-a693-6036d69249ee">
+  <con:testStep type="restrequest" name="CreateBooking-allParameterize_1guest" id="cf2a7338-2928-4ccc-a693-6036d69249ee">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="CreateBooking _allParameterize_1guest" id="11440270-6113-4dbd-ae45-70a60fb5f6e0" mediaType="application/json" postQueryString="false">
+      <con:restRequest name="CreateBooking-allParameterize_1guest" id="11440270-6113-4dbd-ae45-70a60fb5f6e0" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${Stage_AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${Stage_AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request>{
@@ -1404,7 +1410,7 @@ testRunner.testCase.setPropertyValue("AccessToken",accessToken)</script>
       <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" entitize="false" ignoreEmpty="false" transferToAll="false" transferChildNodes="false">
         <con:name>bookingId</con:name>
         <con:sourceType>Response</con:sourceType>
-        <con:sourceStep>CreateBooking _allParameterize_1guest</con:sourceStep>
+        <con:sourceStep>CreateBooking-allParameterize_1guest</con:sourceStep>
         <con:sourcePath>$['bookingConfirmation']['bookingId']</con:sourcePath>
         <con:targetType>bookingId</con:targetType>
         <con:targetStep>Properties_Booking</con:targetStep>
@@ -1418,7 +1424,13 @@ testRunner.testCase.setPropertyValue("AccessToken",accessToken)</script>
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration><file>${Booking_InputPath}</file><worksheet>RetrieveBooking</worksheet><cell>A1</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
+        <con:configuration>
+          <file>${Booking_InputPath}</file>
+          <worksheet>RetrieveBooking</worksheet>
+          <cell>A1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
       </con:dataSource>
       <con:shared>true</con:shared>
       <con:restartShared>true</con:restartShared>
@@ -1525,12 +1537,12 @@ testRunner.testCase.setPropertyValue("AccessToken",accessToken)</script>
       <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking - working" id="86572990-b89e-4d6d-bd7e-b32ced5d5cf9" disabled="true">
+  <con:testStep type="restrequest" name="retrieveBooking-working" id="86572990-b89e-4d6d-bd7e-b32ced5d5cf9" disabled="true">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBooking - working" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
+      <con:restRequest name="retrieveBooking-working" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${Stage_AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${Stage_AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request><![CDATA[https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1750371&lastName=Test&sailDate=2019-09-22&shipCode=BR&lockBooking=true&summaryRequested=false]]></con:request>
@@ -1729,12 +1741,12 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking-no BookingID" id="f228cca2-22e0-41e3-a635-2dd0566619d8">
+  <con:testStep type="restrequest" name="retrieveBooking-without BookingID" id="f228cca2-22e0-41e3-a635-2dd0566619d8">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBooking-no BookingID" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
+      <con:restRequest name="retrieveBooking-without BookingID" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${Stage_AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${Stage_AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request><![CDATA[https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&lastName=Hiller&sailDate=2019-09-22&shipCode=BR&lockBooking=false&summaryRequested=false]]></con:request>
@@ -1918,7 +1930,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveBooking-BookingID with NumLetters" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${Stage_AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${Stage_AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request><![CDATA[https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&lastName=Hiller&sailDate=2019-09-22&shipCode=BR&lockBooking=false&summaryRequested=false]]></con:request>
@@ -2098,12 +2110,12 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking-no ShipCode" id="9394839a-0ba0-4f4d-acbe-25cb78e1b5ee">
+  <con:testStep type="restrequest" name="retrieveBooking-without ShipCode" id="9394839a-0ba0-4f4d-acbe-25cb78e1b5ee">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBooking-no ShipCode" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
+      <con:restRequest name="retrieveBooking-without ShipCode" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${Stage_AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${Stage_AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request><![CDATA[http://eslbservicestst01.rccl.com:14000/esl/booking/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=0059808&lastName=Test&sailDate=2019-05-25&lockBooking=false&summaryRequested=false]]></con:request>
@@ -2280,12 +2292,12 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking-no SailDate" id="34cc65f6-98d1-425f-bb81-8d0e58fa916e">
+  <con:testStep type="restrequest" name="retrieveBooking-without SailDate" id="34cc65f6-98d1-425f-bb81-8d0e58fa916e">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBooking-no SailDate" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
+      <con:restRequest name="retrieveBooking-without SailDate" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${Stage_AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${Stage_AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request><![CDATA[http://eslbservicestst01.rccl.com:14000/esl/booking/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=0059808&lastName=Test&sailDate=2019-05-25&lockBooking=false&summaryRequested=false]]></con:request>
@@ -2467,7 +2479,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveBooking-with more bookingID digits" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${Stage_AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${Stage_AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request><![CDATA[https://stg1-int.api.rccl.com/esl/booking/stg1/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&lastName=Hiller&sailDate=2019-09-22&shipCode=BR&lockBooking=false&summaryRequested=false]]></con:request>

@@ -8,7 +8,13 @@
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration><file>Booking_REST_Input.xls</file><worksheet>RetrievePaymentHistory</worksheet><cell>A1</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
+        <con:configuration>
+          <file>Booking_REST_Input.xls</file>
+          <worksheet>RetrievePaymentHistory</worksheet>
+          <cell>A1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
       </con:dataSource>
       <con:shared>false</con:shared>
       <con:restartShared>false</con:restartShared>
@@ -564,6 +570,14 @@ else{
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasourceloop" name="DataSource Loop" id="fd9d10a6-5965-46ca-90ec-20149c5d2b64">
+    <con:settings/>
+    <con:config>
+      <dataSourceStep>DataSource</dataSourceStep>
+      <targetStep>CruiseSearch</targetStep>
+      <discardResults>true</discardResults>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="FetchCategoryCode" id="8698358f-8393-4f68-90ab-e8c7e5a0d97c">
@@ -1430,7 +1444,7 @@ testRunner.testCase.setPropertyValue("BookingAccessToken",bookingAccessToken)</s
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=QQ&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AT&sailDate=2023-01-22]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=QQ&header.domainId=1&header.language=en_US&countryCode=USA&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1652,7 +1666,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AT&sailDate=2023-01-22]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1874,7 +1888,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AT&sailDate=2023-01-22]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2096,7 +2110,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&amp;header.brand=C&amp;header.domainId=1&amp;header.language=en_US&amp;agencyId=108869&amp;sailDate=2023-01-22</con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2326,7 +2340,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AT&sailDate=2023-01-22]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2548,7 +2562,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AT&sailDate=2023-01-22]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2770,7 +2784,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AT&sailDate=2023-01-22]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -3147,14 +3161,6 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasourceloop" name="DataSource Loop" id="fd9d10a6-5965-46ca-90ec-20149c5d2b64">
-    <con:settings/>
-    <con:config>
-      <dataSourceStep>DataSource</dataSourceStep>
-      <targetStep>CruiseSearch</targetStep>
-      <discardResults>true</discardResults>
-    </con:config>
-  </con:testStep>
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
@@ -3166,31 +3172,31 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2023-01-22</con:value>
+      <con:value>2023-04-16</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
-      <con:value/>
+      <con:value>I1773897</con:value>
     </con:property>
     <con:property>
       <con:name>CategoryCode</con:name>
-      <con:value/>
+      <con:value>DI</con:value>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value/>
+      <con:value>8135</con:value>
     </con:property>
     <con:property>
       <con:name>AccessToken</con:name>
-      <con:value/>
+      <con:value>43a28692-3fd1-4325-a7ea-e03306648bf1</con:value>
     </con:property>
     <con:property>
       <con:name>BookingId</con:name>
-      <con:value/>
+      <con:value>1388834</con:value>
     </con:property>
     <con:property>
       <con:name>BookingAccessToken</con:name>
-      <con:value/>
+      <con:value>2714ad46-d8ac-4820-95de-882b1ab30a06</con:value>
     </con:property>
     <con:property>
       <con:name>Request</con:name>

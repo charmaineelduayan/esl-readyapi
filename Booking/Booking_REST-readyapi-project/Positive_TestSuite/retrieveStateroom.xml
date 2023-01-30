@@ -9,7 +9,13 @@
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration><file>Booking_REST_Input.xls</file><worksheet>RetrieveStateroom</worksheet><cell>A1</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
+        <con:configuration>
+          <file>Booking_REST_Input.xls</file>
+          <worksheet>RetrieveStateroom</worksheet>
+          <cell>A1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
       </con:dataSource>
       <con:shared>false</con:shared>
       <con:restartShared>false</con:restartShared>
@@ -353,14 +359,14 @@ def tc = testRunner.testCase.testSuite.testCases["RetrieveStateroom_TestCase"];
 def ts = testRunner.testCase.getTestStepByName("CruiseSearch")
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[1].sailingRef.@package.text();
+def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[6].sailingRef.@package.text();
 log.info(packageCode)
 testRunner.testCase.setPropertyValue("PackageCode",packageCode)
 
 String shipCode= packageCode.substring(0,2);
 testRunner.testCase.setPropertyValue("ShipCode",shipCode)
 
-def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[1].sailingRef.@saildate.text();
+def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[6].sailingRef.@saildate.text();
 log.info(sailDate)
 testRunner.testCase.setPropertyValue("SailDate",sailDate)</script>
     </con:config>
@@ -631,10 +637,10 @@ def tc = testRunner.testCase.testSuite.testCases["LinkBooking_TestCase"];
 def ts = testRunner.testCase.getTestStepByName("RetrieveStateroomCategories")
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def categoryCode = res.stateroomCategoryTypes.e[1].categories.e[0].stateroomCategoryCode.text();
+def categoryCode = res.stateroomCategoryTypes.e[0].categories.e[0].stateroomCategoryCode.text();
 testRunner.testCase.setPropertyValue("CategoryCode",categoryCode)
 
-def selectedFareCode = res.stateroomCategoryTypes.e[1].categories.e[0].selectedFareCode.text();
+def selectedFareCode = res.stateroomCategoryTypes.e[0].categories.e[0].selectedFareCode.text();
 testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
     </con:config>
   </con:testStep>
@@ -646,7 +652,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>http://eslbservicestst01.rccl.com:13000</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-02-08&packageId=ALALTSIP&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-03-15&packageId=ALALTSIP&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=2S&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f77dcaac-0017-49d8-919b-543b16a80b12" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -904,7 +910,7 @@ testRunner.testCase.setPropertyValue("CabinNumber_LinkBooking",cabinNumber_linkB
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-02-08&packageId=ALALTSIP&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-03-15&packageId=ALALTSIP&cabinNumber=9183&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroom</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="c2ffc8ea-757e-4eee-b7ea-6f1ba229b64f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1165,7 +1171,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-02-08&packageId=ALALTSIP&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-03-15&packageId=ALALTSIP&cabinNumber=9183&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroom</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="c2ffc8ea-757e-4eee-b7ea-6f1ba229b64f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1426,7 +1432,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AL&sailDate=2023-02-08&packageId=ALALTSIP&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AL&sailDate=2023-03-15&packageId=ALALTSIP&cabinNumber=9183&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroom</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="c2ffc8ea-757e-4eee-b7ea-6f1ba229b64f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1678,7 +1684,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-02-08&packageId=ALALTSIP&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-03-15&packageId=ALALTSIP&cabinNumber=9183&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&selectedFareCode=I1836179&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroom</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="c2ffc8ea-757e-4eee-b7ea-6f1ba229b64f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1939,7 +1945,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-02-08&packageId=ALALTSIP&currency=USD&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-03-15&packageId=ALALTSIP&cabinNumber=9183&currency=USD&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&selectedFareCode=I1836179&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroom</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="c2ffc8ea-757e-4eee-b7ea-6f1ba229b64f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2182,7 +2188,13 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration><file>Booking_REST_Input.xls</file><worksheet>RetrieveStateroom</worksheet><cell>A2</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
+        <con:configuration>
+          <file>Booking_REST_Input.xls</file>
+          <worksheet>RetrieveStateroom</worksheet>
+          <cell>A1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
       </con:dataSource>
       <con:shared>false</con:shared>
       <con:restartShared>false</con:restartShared>
@@ -2272,7 +2284,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-02-08&packageId=ALALTSIP&currency=USD&stateroomOccupancy.guestAge=60&stateroomOccupancy.accessibleReqd=true&stateroomOccupancy.seniorReqd=true&stateroomOccupancy.militaryReqd=true&stateroomOccupancy.policeReqd=true&stateroomOccupancy.fireFighterReqd=true&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AL&sailDate=2023-03-15&packageId=ALALTSIP&cabinNumber=9183&currency=USD&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&selectedFareCode=I1836179&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroom</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="c2ffc8ea-757e-4eee-b7ea-6f1ba229b64f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2539,19 +2551,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2023-02-08</con:value>
+      <con:value>2023-03-15</con:value>
     </con:property>
     <con:property>
       <con:name>CategoryCode</con:name>
-      <con:value/>
+      <con:value>2S</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
-      <con:value/>
+      <con:value>I1836179</con:value>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value/>
+      <con:value>9183</con:value>
     </con:property>
     <con:property>
       <con:name>CabinNumber_LinkBooking</con:name>
