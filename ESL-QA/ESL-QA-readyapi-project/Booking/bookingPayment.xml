@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="bookingPayment" path="/rest/v3/bookingPayment" id="eae7ae94-d85d-446f-aa61-d1727de930ef" xmlns:con="http://eviware.com/soapui/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <con:settings>
+    <con:setting id="eae7ae94-d85d-446f-aa61-d1727de930effileName">bookingPayment</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="bookingPayment" id="dbb7dece-6c28-4bc3-bc41-1260f2897073" method="POST">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="bookingPayment_singleCC_fetchData" id="d2be06a4-8d6d-4d9e-8c52-3355433c2a16" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US"
+	},
+	"agencyId": "156393",
+	"bookingId": "${#TestCase#bookingId}",
+	"lastName": "${#TestCase#lastname}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"lockBooking": false,
+	"listOfCardPayments": {
+		"cardPayment": [
+			{
+				"cardType": "VA",
+				"cardToken": "4387751111111111",
+				"expireDate": "1030",
+				"cvv": "123",
+				"amount": 500,
+				"currency": "USD",
+				"contact": {
+					"firstName": "ESL One",
+					"lastName": "${#TestCase#lastname}"
+				}
+			}
+		]
+	}
+}</con:request>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+  </con:method>
+</con:resource>
