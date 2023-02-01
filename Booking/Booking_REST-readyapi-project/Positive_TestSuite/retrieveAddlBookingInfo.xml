@@ -11,15 +11,15 @@
       <con:properties>
         <con:property>
           <con:name>bookingAccessToken</con:name>
-          <con:value>7b53c3c3-ac7a-4c54-a65a-7453c1af62ed</con:value>
+          <con:value>34a745da-1ca6-4308-b955-f868060bc067</con:value>
         </con:property>
         <con:property>
           <con:name>bookingId</con:name>
-          <con:value>0529575</con:value>
+          <con:value>1390591</con:value>
         </con:property>
         <con:property>
           <con:name>AccessTokenFromRetrieve</con:name>
-          <con:value>992859ee-6207-43a7-b15b-c9eb98b1c120</con:value>
+          <con:value>990476f3-21a0-4966-836f-f1ea7ed1db44</con:value>
         </con:property>
       </con:properties>
     </con:config>
@@ -28,13 +28,7 @@
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration>
-          <file>Booking_REST_Input.xls</file>
-          <worksheet>CreateBooking</worksheet>
-          <cell>A1</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
+        <con:configuration><file>Booking_REST_Input.xls</file><worksheet>CreateBooking</worksheet><cell>A1</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
       </con:dataSource>
       <con:shared>true</con:shared>
       <con:restartShared>true</con:restartShared>
@@ -498,8 +492,7 @@
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_ShipPkgFare-Code_SailDate" id="da202182-769b-45d1-a460-8a7ee7499d10">
     <con:settings/>
-    <con:config>
-      <script>import java.io.*;
+    <con:config><script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
@@ -508,31 +501,30 @@ def tc = testRunner.testCase.testSuite.testCases["CreateBooking"];
 def ts = testRunner.testCase.getTestStepByName("CruiseSearch");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[7].sailingRef.@package.text();
+def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@package.text();
 testRunner.testCase.setPropertyValue("PackageCode",packageCode);
 
 String shipCode= packageCode.substring(0,2);
 testRunner.testCase.setPropertyValue("ShipCode",shipCode);
 
-def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[7].sailingRef.@saildate.text();
+def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@saildate.text();
 testRunner.testCase.setPropertyValue("SailDate",sailDate);
 
-def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[7].cabinClassPricing[7].price[7].@priceId.text();
+def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].@priceId.text();
 if(id.equals('')){
-	def fareCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[7].cabinClassPricing[7].price[7].promotion.@id.text();
+	def fareCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].promotion.@id.text();
 	testRunner.testCase.setPropertyValue("FareCode",fareCode);
  }
 else{
 	testRunner.testCase.setPropertyValue("FareCode",id);
-}</script>
-    </con:config>
+}</script></con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="RetrieveStateroomCategories" id="1e92abf8-8e9c-4e74-be5e-99254e837f41">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomCategories" id="3b0b3e64-59dd-4f3c-90fb-b77e895e64f7" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>http://eslbservicestst01.rccl.com:14000</con:endpoint>
         <con:request/>
@@ -789,8 +781,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode);</script>
   </con:testStep>
   <con:testStep type="groovy" name="FetchCatagoryCode - 4V" id="f2f77521-4a25-4d3e-8cf0-9f21de44eadb">
     <con:settings/>
-    <con:config>
-      <script>import java.io.*;
+    <con:config><script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
@@ -799,12 +790,11 @@ def tc = testRunner.testCase.testSuite.testCases["CreateBooking"];
 def ts = testRunner.testCase.getTestStepByName("RetrieveStateroomCategories");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def categoryCode = res.stateroomCategoryTypes.e[1].categories.e[1].stateroomCategoryCode.text();
+def categoryCode = res.stateroomCategoryTypes.e[0].categories.e[0].stateroomCategoryCode.text();
 testRunner.testCase.setPropertyValue("Category",categoryCode);
 
-def selectedFareCode = res.stateroomCategoryTypes.e[1].categories.e[1].selectedFareCode.text();
-testRunner.testCase.setPropertyValue("FareCode",selectedFareCode);</script>
-    </con:config>
+def selectedFareCode = res.stateroomCategoryTypes.e[0].categories.e[0].selectedFareCode.text();
+testRunner.testCase.setPropertyValue("FareCode",selectedFareCode);</script></con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="RetrieveStateroomsForCategory" id="8c48a76f-d516-4c4b-a196-92c89b3a5f55">
     <con:settings/>
@@ -2126,7 +2116,7 @@ testRunner.testCase.setPropertyValue("AccessToken",accessToken)</script>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveBooking?header.application=celebritycruises.com&header.brand=C&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=0529575&lastName=Cruise&sailDate=2023-04-08&shipCode=AX&lockBooking=true&summaryRequested=false]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=celebritycruises.com&header.brand=C&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1390591&lastName=Cruise&sailDate=2023-04-16&shipCode=AT&lockBooking=true&summaryRequested=false ]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="81278942-ada3-4e6c-92cd-568abe5e3d3f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2772,31 +2762,31 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>ALALTSIP</con:value>
+      <con:value>AT07E320</con:value>
     </con:property>
     <con:property>
       <con:name>ShipCode</con:name>
-      <con:value>AL</con:value>
+      <con:value>AT</con:value>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2023-03-22</con:value>
+      <con:value>2023-04-16</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
-      <con:value/>
+      <con:value>I1773897</con:value>
     </con:property>
     <con:property>
       <con:name>Category</con:name>
-      <con:value/>
+      <con:value>DI</con:value>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value>3137</con:value>
+      <con:value>9207</con:value>
     </con:property>
     <con:property>
       <con:name>AccessToken</con:name>
-      <con:value>7b53c3c3-ac7a-4c54-a65a-7453c1af62ed</con:value>
+      <con:value>34a745da-1ca6-4308-b955-f868060bc067</con:value>
     </con:property>
     <con:property>
       <con:name>Request</con:name>
