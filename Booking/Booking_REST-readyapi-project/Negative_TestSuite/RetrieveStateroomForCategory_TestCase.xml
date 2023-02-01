@@ -107,20 +107,22 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="criteria.channel" value="${DataSource#Orchestration_channel}"/>
-          <con:entry key="header.brand" value="${DataSource#Orchestration_brand}"/>
-          <con:entry key="header.application" value="${DataSource#Orchestration_application}"/>
-          <con:entry key="criteria.office" value="${DataSource#Orchestration_office}"/>
-          <con:entry key="criteria.cruiseType.value" value="${DataSource#Orchestration_cruiseType}"/>
-          <con:entry key="resultsPreference.pagination.count" value="${DataSource#Orchestration_pagination}"/>
-          <con:entry key="criteria.country" value="${DataSource#Orchestration_country}"/>
-          <con:entry key="resultsPreference.includeResults" value="${DataSource#Orchestration_results}"/>
-          <con:entry key="resultsPreference.includePrices" value="${DataSource#Orchestration_Prices}"/>
-          <con:entry key="criteria.currency" value="${DataSource#Orchestration_currency}"/>
           <con:entry key="criteria.brand.value" value="${DataSource#Orchestration_brand}"/>
-          <con:entry key="resultsPreference.includeFacets" value="${DataSource#Orchestration_Facets}"/>
-          <con:entry key="criteria.bookingType" value="${DataSource#Orchestration_bookingType}"/>
+          <con:entry key="header.application" value="${DataSource#Orchestration_application}"/>
+          <con:entry key="criteria.channel" value="${DataSource#Orchestration_channel}"/>
+          <con:entry key="resultsPreference.includeResults" value="${DataSource#Orchestration_results}"/>
           <con:entry key="criteria.accessibleCabins" value="${DataSource#Orchestration_accessibleCabins}"/>
+          <con:entry key="criteria.office" value="${DataSource#Orchestration_office}"/>
+          <con:entry key="criteria.currency" value="${DataSource#Orchestration_currency}"/>
+          <con:entry key="header.brand" value="${DataSource#Orchestration_brand}"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="2023-05-01"/>
+          <con:entry key="resultsPreference.includePrices" value="${DataSource#Orchestration_Prices}"/>
+          <con:entry key="criteria.bookingType" value="${DataSource#Orchestration_bookingType}"/>
+          <con:entry key="resultsPreference.pagination.count" value="${DataSource#Orchestration_pagination}"/>
+          <con:entry key="resultsPreference.includeFacets" value="${DataSource#Orchestration_Facets}"/>
+          <con:entry key="criteria.country" value="${DataSource#Orchestration_country}"/>
+          <con:entry key="criteria.cruiseType.value" value="${DataSource#Orchestration_cruiseType}"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="2024-05-01"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -333,14 +335,17 @@ def tc = testRunner.testCase.testSuite.testCases["RetrieveStateroomForCategory_T
 def ts = testRunner.testCase.getTestStepByName("CruiseSearch")
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@package.text();
+def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[1].sailingRef.@package.text();
 testRunner.testCase.setPropertyValue("PackageCode",packageCode)
+log.info (packageCode)
 
 String shipCode= packageCode.substring(0,2);
 testRunner.testCase.setPropertyValue("ShipCode",shipCode)
+log.info (shipCode)
 
-def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@saildate.text();
+def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[1].sailingRef.@saildate.text();
 testRunner.testCase.setPropertyValue("SailDate",sailDate)
+log.info (sailDate)
 
 def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].@priceId.text();
 if(id.equals('')){
@@ -357,7 +362,7 @@ else{
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomCategories" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>http://stg1.mesos.rccl.com/booking-stg1/v4/booking/rest/v3/</con:endpoint>
         <con:request/>
@@ -603,11 +608,13 @@ def tc = testRunner.testCase.testSuite.testCases["RetrieveStateroomForCategory_T
 def ts = testRunner.testCase.getTestStepByName("RetrieveStateroomCategories")
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def categoryCode = res.stateroomCategoryTypes.e[0].categories.e[0].stateroomCategoryCode.text();
+def categoryCode = res.stateroomCategoryTypes.e[1].categories.e[1].stateroomCategoryCode.text();
 testRunner.testCase.setPropertyValue("CategoryCode",categoryCode)
+log.info (categoryCode)
 
-def selectedFareCode = res.stateroomCategoryTypes.e[0].categories.e[0].selectedFareCode.text();
-testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
+def selectedFareCode = res.stateroomCategoryTypes.e[1].categories.e[1].selectedFareCode.text();
+testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)
+log.info (selectedFareCode)</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Groovy Script" id="80f4a011-a7f2-47ad-b8c0-a13c78154804">
@@ -2952,7 +2959,7 @@ if(orc_assertion_data.toString().contains("FAILED"))
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>http://eslbservicestst01.rccl.com:13000</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AX&sailDate=2022-12-17&packageId=AX06W137&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=11&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=CC&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=108869&shipCode=CS&sailDate=2018-05-05&packageId=AD05R006&currencyCode=USD&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=O2&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f77dcaac-0017-49d8-919b-543b16a80b12" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -3002,18 +3009,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
-          <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
+          <con:entry key="header.application" value="${DataSource#Orchestration_application}"/>
+          <con:entry key="packageId" value="${DataSource#packageId}"/>
           <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource#seniorReqd}"/>
           <con:entry key="debugId" value=""/>
+          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
           <con:entry key="categoryCode" value="${#TestCase#CategoryCode}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="header.brand" value="CC"/>
           <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource#accessibleReqd}"/>
-          <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="shipCode" value="${DataSource#shipCode}"/>
           <con:entry key="stateroomOccupancy.guestAge" value="${DataSource#guestAge}"/>
           <con:entry key="countryCode" value="${DataSource#countryCode}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
-          <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="sailDate" value="${DataSource#sailDate}"/>
+          <con:entry key="currencyCode" value="${DataSource#currencyCode}"/>
           <con:entry key="header.uuid" value="${DataSource#uuid}"/>
           <con:entry key="stateroomOccupancy.fareCode" value="${DataSource#fareCode}"/>
         </con:parameters>
@@ -3259,7 +3268,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AX&sailDate=2022-12-17&packageId=AX06W137&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=11&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AX&sailDate=2023-06-18&packageId=AD05R006&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&deckCode=YZ&categoryCode=O2&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="30e6ed07-b630-4364-8e5d-3955d27cbf98" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -3298,6 +3307,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="JsonPath Match" id="ddfabda1-8b89-499c-8355-d305284af194" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>"Staterooms are not available."</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:username xsi:nil="true"/>
           <con:password xsi:nil="true"/>
@@ -3308,22 +3326,22 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
-          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource1#seniorReqd}"/>
-          <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
-          <con:entry key="deckCode" value="${DataSource#deckCode}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource#seniorReqd}"/>
+          <con:entry key="packageId" value="${DataSource#packageId}"/>
+          <con:entry key="deckCode" value="YZ"/>
           <con:entry key="debugId" value=""/>
           <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
-          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource1#accessibleReqd}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource#accessibleReqd}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource1#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource#guestAge}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
-          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource1#fareCode}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource#fareCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -3491,7 +3509,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailDate=2022-12-17&currencyCode=USD&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=11&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=USA&sailDate=2023-06-18&currencyCode=USD&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=DI&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="d270ab60-3290-4e02-b5fb-4dc61819e135" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -3523,8 +3541,8 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         </con:assertion>
         <con:assertion type="JsonPath Match" id="0b40adc1-d545-4f23-9177-1762d7ca9844" name="Match content of [code]">
           <con:configuration>
-            <path>$['header']['error'][2]['code']</path>
-            <content>BKNG-0003</content>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
@@ -3540,20 +3558,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
-          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource1#seniorReqd}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource#seniorReqd}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="categoryCode" value="${#TestCase#CategoryCode}"/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
-          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource1#accessibleReqd}"/>
-          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource1#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
+          <con:entry key="categoryCode" value="${DataSource#categoryCode}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource#accessibleReqd}"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource#guestAge}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="currencyCode" value="${DataSource#currencyCode}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="currencyCode" value="${DataSource1#currencyCode}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
-          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource1#fareCode}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource#fareCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -3721,7 +3739,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=CS&sailDate=2022-12-17&packageId=AX06W137&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=11&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=108869&shipCode=YYY&sailDate=2023-06-18&packageId=AX07U162&currencyCode=USD&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=O2&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="b4a3aef1-7c67-4e42-8ff0-ab940a54938a" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -3770,21 +3788,24 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
-          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource#seniorReqd}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource1#seniorReqd}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
+          <con:entry key="deckCode" value="${DataSource1#deckCode}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
-          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource#accessibleReqd}"/>
-          <con:entry key="shipCode" value="${DataSource#shipCode}"/>
-          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
+          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
+          <con:entry key="categoryCode" value="${#TestCase#CategoryCode}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource1#accessibleReqd}"/>
+          <con:entry key="shipCode" value="YYY"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource1#guestAge}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
-          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource#fareCode}"/>
+          <con:entry key="currencyCode" value="${DataSource#currencyCode}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource1#fareCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -3952,7 +3973,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&shipCode=AX&sailDate=2018-05-05&packageId=AX06W137&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=11&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=108869&shipCode=YZ&sailDate=2023-06-18&packageId=AX07U162&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=DI&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="b4a3aef1-7c67-4e42-8ff0-ab940a54938a" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -4001,21 +4022,23 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
-          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource1#seniorReqd}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource#seniorReqd}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
+          <con:entry key="deckCode" value="${DataSource#deckCode}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
-          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource1#accessibleReqd}"/>
-          <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource1#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
-          <con:entry key="sailDate" value="${DataSource#sailDate}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
-          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource1#fareCode}"/>
+          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
+          <con:entry key="categoryCode" value="${DataSource#categoryCode}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource#accessibleReqd}"/>
+          <con:entry key="shipCode" value="YZ"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource#guestAge}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource#fareCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -4404,7 +4427,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&agencyId=108869&shipCode=AX&sailDate=2022-12-17&packageId=AX06W137&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=11&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=aa&shipCode=AX&sailDate=2023-06-18&packageId=AX07U162&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=O2&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="b4a3aef1-7c67-4e42-8ff0-ab940a54938a" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -4466,13 +4489,14 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:entry key="header.application" value="${DataSource1#application}"/>
           <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource1#seniorReqd}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
-          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
           <con:entry key="debugId" value=""/>
+          <con:entry key="agencyId" value="aa"/>
           <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
           <con:entry key="header.brand" value="${DataSource1#brand}"/>
           <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource1#accessibleReqd}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
           <con:entry key="stateroomOccupancy.guestAge" value="${DataSource1#guestAge}"/>
+          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
           <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
@@ -4639,7 +4663,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>AX06W137</con:value>
+      <con:value>AX07U162</con:value>
     </con:property>
     <con:property>
       <con:name>ShipCode</con:name>
@@ -4647,15 +4671,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2022-12-17</con:value>
+      <con:value>2023-06-18</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
-      <con:value>J6035720</con:value>
+      <con:value>J6014380</con:value>
     </con:property>
     <con:property>
       <con:name>CategoryCode</con:name>
-      <con:value>11</con:value>
+      <con:value>O2</con:value>
     </con:property>
     <con:property>
       <con:name>Status</con:name>
