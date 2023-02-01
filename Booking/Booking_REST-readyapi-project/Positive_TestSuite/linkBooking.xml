@@ -11,7 +11,7 @@
       <con:properties>
         <con:property>
           <con:name>bookingId</con:name>
-          <con:value>1380707</con:value>
+          <con:value>1391181</con:value>
         </con:property>
         <con:property>
           <con:name>Booking_Status</con:name>
@@ -31,27 +31,27 @@
         </con:property>
         <con:property>
           <con:name>BookingAccessToken_LinkBooking</con:name>
-          <con:value>5b7c5814-331c-4623-bedb-ae7e8a735ecf</con:value>
+          <con:value>b3804a21-4022-4bfb-8815-12c38461f4b4</con:value>
         </con:property>
         <con:property>
           <con:name>BookingId_LinkBooking</con:name>
-          <con:value>1364220</con:value>
+          <con:value>1391183</con:value>
         </con:property>
         <con:property>
           <con:name>RetrieveToken_ForCancelBooking</con:name>
-          <con:value>fff77b63-7e23-4e9e-af12-075af92a91da</con:value>
+          <con:value>c7a74b09-8bcc-412d-9e2d-047fbdde06b9</con:value>
         </con:property>
         <con:property>
           <con:name>RetrieveToken_ForCancelBooking_2</con:name>
-          <con:value>34c7db60-3339-43bd-b1b2-63541b4fc616</con:value>
+          <con:value>9da8e74e-76bd-4e22-9126-0a13b9ea2083</con:value>
         </con:property>
         <con:property>
           <con:name>TokenToReleaseBooking1</con:name>
-          <con:value>00b543f6-5fd2-4651-a679-0d322c036158</con:value>
+          <con:value>3e1c8578-4586-4908-89de-02517a7176ce</con:value>
         </con:property>
         <con:property>
           <con:name>TokenToReleaseBooking2</con:name>
-          <con:value>de455f77-80ee-4509-aeb1-4a0cfc87ba02</con:value>
+          <con:value>a467abc4-cf3e-43da-a78c-207e02a5044f</con:value>
         </con:property>
       </con:properties>
     </con:config>
@@ -709,11 +709,11 @@ def tc = testRunner.testCase.testSuite.testCases["CreateBooking"];
 def ts = testRunner.testCase.getTestStepByName("RetrieveStateroomCategories");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def categoryCode = res.stateroomCategoryTypes.e[0].categories.e[0].stateroomCategoryCode.text();
+def categoryCode = res.stateroomCategoryTypes.e[1].categories.e[1].stateroomCategoryCode.text();
 log.info(categoryCode)
 testRunner.testCase.setPropertyValue("Category",categoryCode);
 
-def selectedFareCode = res.stateroomCategoryTypes.e[0].categories.e[0].selectedFareCode.text();
+def selectedFareCode = res.stateroomCategoryTypes.e[1].categories.e[1].selectedFareCode.text();
 log.info(selectedFareCode)
 testRunner.testCase.setPropertyValue("FareCode",selectedFareCode);</script>
     </con:config>
@@ -971,11 +971,11 @@ def tc = testRunner.testCase.testSuite.testCases["LinkBooking"];
 def ts = testRunner.testCase.getTestStepByName("RetrieveStateroomsForCategory");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def cabinNumber = res.cabin.e[0].cabinNumber.text();
+def cabinNumber = res.cabin.e[1].cabinNumber.text();
 log.info(cabinNumber)
 testRunner.testCase.setPropertyValue("CabinNumber",cabinNumber);
 
-def cabinNumber_linkBooking = res.cabin.e[1].cabinNumber.text();
+def cabinNumber_linkBooking = res.cabin.e[2].cabinNumber.text();
 log.info(cabinNumber_linkBooking)
 testRunner.testCase.setPropertyValue("CabinNumber_LinkBooking",cabinNumber_linkBooking)</script>
     </con:config>
@@ -3015,7 +3015,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1364218&lastName=Hiller&sailDate=2023-02-01&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1391181&lastName=Hiller&sailDate=2023-05-07&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="81278942-ada3-4e6c-92cd-568abe5e3d3f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -3246,7 +3246,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1364220&lastName=Hiller&sailDate=2023-02-01&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1391183&lastName=Hiller&sailDate=2023-05-07&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="81278942-ada3-4e6c-92cd-568abe5e3d3f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -3804,7 +3804,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&bookingId=1364218&bookingAccessToken=00b543f6-5fd2-4651-a679-0d322c036158]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&bookingId=1391181&bookingAccessToken=3e1c8578-4586-4908-89de-02517a7176ce]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/releaseBooking</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="03c54b15-c75c-4d49-b857-c437e8129dbe" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -4046,7 +4046,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&bookingId=1364220&bookingAccessToken=de455f77-80ee-4509-aeb1-4a0cfc87ba02]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&bookingId=1391183&bookingAccessToken=a467abc4-cf3e-43da-a78c-207e02a5044f]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/releaseBooking</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="03c54b15-c75c-4d49-b857-c437e8129dbe" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -4278,7 +4278,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1364218&lastName=Hiller&sailDate=2023-02-01&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1391181&lastName=Hiller&sailDate=2023-05-07&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="81278942-ada3-4e6c-92cd-568abe5e3d3f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -4726,7 +4726,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1364220&lastName=Hiller&sailDate=2023-02-01&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking?header.application=royalcaribbean.com&header.brand=R&header.language=en_US&header.domainId=1&countryCode=USA&bookingId=1391183&lastName=Hiller&sailDate=2023-05-07&shipCode=AL&lockBooking=true&summaryRequested=false]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="81278942-ada3-4e6c-92cd-568abe5e3d3f" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -5193,11 +5193,11 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value>9655</con:value>
+      <con:value>7502</con:value>
     </con:property>
     <con:property>
       <con:name>AccessToken</con:name>
-      <con:value>848811b1-4731-48d9-90af-bdf9df205805</con:value>
+      <con:value>efe63913-427d-4166-aa37-71933d21ea96</con:value>
     </con:property>
     <con:property>
       <con:name>Request</con:name>
@@ -5209,15 +5209,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>CabinNumber_LinkBooking</con:name>
-      <con:value>9647</con:value>
+      <con:value>7508</con:value>
     </con:property>
     <con:property>
       <con:name>AccessToken_LinkBooking</con:name>
-      <con:value>5b7c5814-331c-4623-bedb-ae7e8a735ecf</con:value>
+      <con:value>b3804a21-4022-4bfb-8815-12c38461f4b4</con:value>
     </con:property>
     <con:property>
       <con:name>Category</con:name>
-      <con:value>2S</con:value>
+      <con:value>4N</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
