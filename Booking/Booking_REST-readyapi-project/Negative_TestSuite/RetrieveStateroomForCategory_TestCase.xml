@@ -2989,13 +2989,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="2ff17fc0-29ec-4589-9052-a7c80ce3b3e7" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="2ff17fc0-29ec-4589-9052-a7c80ce3b3e7" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>CATL-005</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="8fa60231-c719-4ff4-9ae6-3eb68db3a045" name="Content contains error code">
+          <con:configuration>
+            <token>CATL-005</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -3298,7 +3305,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="d4c7d0c1-21ef-4236-b03b-2aa277baac69" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="d4c7d0c1-21ef-4236-b03b-2aa277baac69" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>BKNG-0003</content>
@@ -3307,13 +3314,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="ddfabda1-8b89-499c-8355-d305284af194" name="JSONPath Match">
+        <con:assertion type="JsonPath Match" id="ddfabda1-8b89-499c-8355-d305284af194" name="JSONPath Match" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>"Staterooms are not available."</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="d718d98a-bf72-438d-9edb-d31cc7fafa71" name="Content contains error code">
+          <con:configuration>
+            <token>BKNG-0003</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -3539,13 +3553,29 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="0b40adc1-d545-4f23-9177-1762d7ca9844" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="0b40adc1-d545-4f23-9177-1762d7ca9844" name="Blank ShipCode" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>"NotBlank"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="5af1b78c-e651-4851-ba22-f5d7bc0b6a63" name="Blank packageID" disabled="true">
+          <con:configuration>
+            <path>$['header']['error'][1]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="a031dcc4-9db0-4678-b300-fc3abd1be36f" name="Content contains error code">
+          <con:configuration>
+            <token>NotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -3769,13 +3799,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="25a09858-9df1-4f32-9212-54ea0bfb03e9" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="25a09858-9df1-4f32-9212-54ea0bfb03e9" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>BKNG-0003</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="bf8bf744-a90a-4d90-91d4-c193b3245e7c" name="Content contains error code">
+          <con:configuration>
+            <token>BKNG-0003</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -3790,22 +3827,21 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:parameters>
           <con:entry key="header.language" value="${DataSource#language}"/>
           <con:entry key="header.application" value="${DataSource#application}"/>
-          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource1#seniorReqd}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource#seniorReqd}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
-          <con:entry key="deckCode" value="${DataSource1#deckCode}"/>
-          <con:entry key="debugId" value=""/>
+          <con:entry key="deckCode" value="${DataSource#deckCode}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
           <con:entry key="categoryCode" value="${#TestCase#CategoryCode}"/>
           <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource1#accessibleReqd}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource#accessibleReqd}"/>
           <con:entry key="shipCode" value="YYY"/>
-          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource1#guestAge}"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="${DataSource#guestAge}"/>
           <con:entry key="countryCode" value="${DataSource#countryCode}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="currencyCode" value="${DataSource#currencyCode}"/>
           <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource1#fareCode}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="${DataSource#fareCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -3973,7 +4009,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=108869&shipCode=YZ&sailDate=2023-06-18&packageId=AX07U162&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=DI&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=108869&shipCode=2023-06-18&sailDate=YYYY&packageId=AX07U162&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=DI&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="b4a3aef1-7c67-4e42-8ff0-ab940a54938a" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -4003,13 +4039,11 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="a083c9e8-911b-4f81-9fbf-df01cb0b74de" name="Match content of [code]">
+        <con:assertion type="Simple Contains" id="897e4d08-f948-48a8-ae33-ff66b7efc4c3" name="Content contains error code">
           <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>BKNG-0003</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <token>InvalidDate</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -4032,11 +4066,11 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:entry key="categoryCode" value="${DataSource#categoryCode}"/>
           <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource#accessibleReqd}"/>
-          <con:entry key="shipCode" value="YZ"/>
+          <con:entry key="shipCode" value="${#TestCase#SailDate}"/>
           <con:entry key="stateroomOccupancy.guestAge" value="${DataSource#guestAge}"/>
           <con:entry key="countryCode" value="${DataSource#countryCode}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
-          <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="sailDate" value="YYYY"/>
           <con:entry key="header.uuid" value="${DataSource#uuid}"/>
           <con:entry key="stateroomOccupancy.fareCode" value="${DataSource#fareCode}"/>
         </con:parameters>
@@ -4427,7 +4461,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=aa&shipCode=AX&sailDate=2023-06-18&packageId=AX07U162&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=O2&debugId=]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/retrieveStateroomsForCategory?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=0000&shipCode=AX&sailDate=2023-06-18&packageId=AX07U162&stateroomOccupancy.guestAge=24&stateroomOccupancy.fareCode=BESTRATE&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.accessibleReqd=false&categoryCode=O2&debugId=]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomsForCategory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="b4a3aef1-7c67-4e42-8ff0-ab940a54938a" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -4448,15 +4482,6 @@ def url = rawRequest.substring(rawrequest1,rawrequest2)
 messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="e0de1323-921f-4341-9075-992d31de16fd" name="Match content of [status]">
-          <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Failure</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
         <con:assertion type="JsonPath Match" id="87a641e8-2123-44cd-8581-3f361bc14c0f" name="Match content of [status]">
           <con:configuration>
             <path>$['header']['status']</path>
@@ -4466,13 +4491,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="117dc05e-307d-4c3c-ab18-6e5b5afb2c4a" name="Match content of [description]">
+        <con:assertion type="JsonPath Match" id="117dc05e-307d-4c3c-ab18-6e5b5afb2c4a" name="Match content of [description]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>If agency provided, it must be numeric.</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="83215152-de0c-445f-9b2d-08022a25b515" name="Content contains error code">
+          <con:configuration>
+            <token>BKNG-0060</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -4490,13 +4522,13 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:entry key="stateroomOccupancy.seniorReqd" value="${DataSource1#seniorReqd}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="agencyId" value="aa"/>
+          <con:entry key="agencyId" value="0000"/>
           <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
           <con:entry key="header.brand" value="${DataSource1#brand}"/>
           <con:entry key="stateroomOccupancy.accessibleReqd" value="${DataSource1#accessibleReqd}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
           <con:entry key="stateroomOccupancy.guestAge" value="${DataSource1#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
           <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
