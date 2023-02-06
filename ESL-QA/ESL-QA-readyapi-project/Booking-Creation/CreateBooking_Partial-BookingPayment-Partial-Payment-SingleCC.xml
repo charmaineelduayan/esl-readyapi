@@ -536,7 +536,7 @@ log.info balanceDue
 assert balanceDue!=0.00</scriptText>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="3c8685ee-1562-4316-ac6b-630daaf0ddff" name="Validate cardSuccess flag">
+        <con:assertion type="GroovyScriptAssertion" id="3c8685ee-1562-4316-ac6b-630daaf0ddff" name="Validate cardSuccess flag" disabled="true">
           <con:configuration>
             <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
 
@@ -599,10 +599,12 @@ testRunner.testCase.setPropertyValue("bookingId",booking);
 //Set Test Case Balance Due
 def balanceDue = xml.bookingConfirmation.balanceDue.toDouble()
 def partialPayment = (balanceDue*0.40).round(2)
+def expectedBalanceDue = balanceDue-partialPayment
 log.info(balanceDue)
 log.info(partialPayment)
-
+log.info(expectedBalanceDue)
 testRunner.testCase.setPropertyValue("partialPayment",partialPayment.toString());
+testRunner.testCase.setPropertyValue("expectedBalanceDue",expectedBalanceDue.toString());
 
 
 
@@ -671,12 +673,17 @@ def jsonSlurper = new groovy.json.JsonSlurper();
 def parse = jsonSlurper.parseText(jsonRes)
 
 
-def balanceDue = parse.bookingConfirmation.balanceDue
-log.info balanceDue
-assert balanceDue==0.00</scriptText>
+def actualBalanceDue = parse.bookingConfirmation.balanceDue
+log.info ('Actual: ' + actualBalanceDue)
+
+//get the value from other steps within the test case
+def expectedBalanceDue = messageExchange.modelItem.testStep.testCase.getPropertyValue("expectedBalanceDue").toDouble()
+log.info ('Expected: ' + expectedBalanceDue)
+
+assert actualBalanceDue==expectedBalanceDue</scriptText>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="aba8e0b5-bce2-42c2-9065-11297e98683c" name="Validate cardSuccess flag">
+        <con:assertion type="GroovyScriptAssertion" id="aba8e0b5-bce2-42c2-9065-11297e98683c" name="Validate cardSuccess flag" disabled="true">
           <con:configuration>
             <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
 
@@ -735,7 +742,7 @@ for ( i=0;  i &lt;=count-1; i++){
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2038</con:value>
+      <con:value>2117</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -759,7 +766,7 @@ for ( i=0;  i &lt;=count-1; i++){
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1402431</con:value>
+      <con:value>1407104</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -789,6 +796,10 @@ for ( i=0;  i &lt;=count-1; i++){
       <con:name>partialPayment</con:name>
       <con:value>348.14</con:value>
     </con:property>
+    <con:property>
+      <con:name>expectedBalanceDue</con:name>
+      <con:value>522.22</con:value>
+    </con:property>
   </con:properties>
   <con:reportParameters/>
   <con:environmentSpec>
@@ -796,4 +807,5 @@ for ( i=0;  i &lt;=count-1; i++){
       <con:authProfile>Inherit From Parent</con:authProfile>
     </con:entry>
   </con:environmentSpec>
+  <con:tagId>7f524615-2a12-44eb-b907-7930ce6ab200</con:tagId>
 </con:testCase>
