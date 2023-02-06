@@ -88,20 +88,21 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="criteria.channel" value="${DataSource#Orchestration_channel}"/>
-          <con:entry key="header.brand" value="${DataSource#Orchestration_brand}"/>
-          <con:entry key="header.application" value="${DataSource#Orchestration_application}"/>
-          <con:entry key="criteria.office" value="${DataSource#Orchestration_office}"/>
-          <con:entry key="criteria.cruiseType.value" value="${DataSource#Orchestration_cruiseType}"/>
-          <con:entry key="resultsPreference.pagination.count" value="${DataSource#Orchestration_pagination}"/>
-          <con:entry key="criteria.country" value="${DataSource#Orchestration_countryCode}"/>
-          <con:entry key="resultsPreference.includeResults" value="${DataSource#Orchestration_results}"/>
-          <con:entry key="resultsPreference.includePrices" value="${DataSource#Orchestration_Prices}"/>
-          <con:entry key="criteria.currency" value="${DataSource#Orchestration_currencyCode}"/>
           <con:entry key="criteria.brand.value" value="${DataSource#Orchestration_brand}"/>
-          <con:entry key="resultsPreference.includeFacets" value="${DataSource#Orchestration_Facets}"/>
-          <con:entry key="criteria.bookingType" value="${DataSource#Orchestration_bookingType}"/>
+          <con:entry key="header.application" value="${DataSource#Orchestration_application}"/>
+          <con:entry key="criteria.channel" value="${DataSource#Orchestration_channel}"/>
+          <con:entry key="resultsPreference.includeResults" value="${DataSource#Orchestration_results}"/>
           <con:entry key="criteria.accessibleCabins" value="${DataSource#Orchestration_accessibleCabins}"/>
+          <con:entry key="criteria.office" value="${DataSource#Orchestration_office}"/>
+          <con:entry key="criteria.currency" value="${DataSource#Orchestration_currencyCode}"/>
+          <con:entry key="header.brand" value="${DataSource#Orchestration_brand}"/>
+          <con:entry key="resultsPreference.includePrices" value="${DataSource#Orchestration_Prices}"/>
+          <con:entry key="criteria.bookingType" value="${DataSource#Orchestration_bookingType}"/>
+          <con:entry key="criteria.port.value" value="FLL"/>
+          <con:entry key="resultsPreference.pagination.count" value="${DataSource#Orchestration_pagination}"/>
+          <con:entry key="resultsPreference.includeFacets" value="${DataSource#Orchestration_Facets}"/>
+          <con:entry key="criteria.country" value="${DataSource#Orchestration_countryCode}"/>
+          <con:entry key="criteria.cruiseType.value" value="${DataSource#Orchestration_cruiseType}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -308,9 +309,11 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@package.text();
 String shipCode= packageCode.substring(0,2);
 testRunner.testCase.setPropertyValue("ShipCode",shipCode)
+log.info (shipCode)
 
 def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@saildate.text();
-testRunner.testCase.setPropertyValue("SailDate",sailDate)</script>
+testRunner.testCase.setPropertyValue("SailDate",sailDate)
+log.info (sailDate)</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="FunctionalTest1" id="49c48373-7466-4199-8f6b-ab491b3c1e85">
@@ -318,10 +321,10 @@ testRunner.testCase.setPropertyValue("SailDate",sailDate)</script>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FunctionalTest1" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2018-05-05&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f10cab55-c43f-4a3b-ad83-eca5543d9729" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -363,17 +366,17 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
           <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
           <con:entry key="countryCode" value="${DataSource#countryCode}"/>
           <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="2018-05-05"/>
+          <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${DataSource#shipCode}"/>
           <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
@@ -524,10 +527,10 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FunctionalTest1_International" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -569,19 +572,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${DataSource#shipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -726,15 +729,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest1" id="99aa1e25-45bc-4a03-afdf-4e11d5e867cb">
+  <con:testStep type="restrequest" name="Fn Test1_Blank Brand" id="99aa1e25-45bc-4a03-afdf-4e11d5e867cb" disabled="true">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest1" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test1_Blank Brand" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=CC&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2023-02-02&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -762,13 +765,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="df9c7694-3115-473d-ab86-ab2d64f2ec4e" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="df9c7694-3115-473d-ab86-ab2d64f2ec4e" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.header.error[0].description</path>
             <content>Value is required for brandCode</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="c1031116-5516-4f26-adb2-8b4507a96d9c" name="Contains 2">
+          <con:configuration>
+            <token>CATL-005</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -778,19 +788,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.brand" value="CC"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -935,15 +945,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest2" id="74a2f042-aaec-4a27-9939-d90fbfae18cf">
+  <con:testStep type="restrequest" name="Fn Test 2_Invalid Brand" id="74a2f042-aaec-4a27-9939-d90fbfae18cf">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest2" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 2_Invalid Brand" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=CC&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=EN&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -971,13 +981,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="b0d9e8f0-96b4-4f58-943c-42e8961a9f78" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="b0d9e8f0-96b4-4f58-943c-42e8961a9f78" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.header.error[0].description</path>
             <content>Invalid brand.</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="1e08d445-60cf-4cef-8161-28e2277cd921" name="Contains Invalid Brand Code">
+          <con:configuration>
+            <token>CATL-005</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -987,19 +1004,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.brand" value="CC"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1144,15 +1161,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest3" id="20713d49-5482-45cc-be49-82b3e871371f">
+  <con:testStep type="restrequest" name="Fn Test 3_Blank Country Code, AgencyID" id="20713d49-5482-45cc-be49-82b3e871371f">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest3" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 3_Blank Country Code, AgencyID" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&sailing.shipCode=EN&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1180,13 +1197,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8da7cd2b-ba5e-4cd2-a4db-f13da646cf41" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="8da7cd2b-ba5e-4cd2-a4db-f13da646cf41" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.header.error[0].description</path>
             <content>One of these is required. [countryCode, agencyId]</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="84b004dc-c645-4d40-a217-d5a0e7e4df1a" name="Contains error code for blank country code and agencyID">
+          <con:configuration>
+            <token>ESL_MultipleNotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1196,19 +1220,17 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
           <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
           <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
-          <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
-          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1353,15 +1375,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest4" id="c211ac6d-3ee5-447e-8da6-a9a34e427460">
+  <con:testStep type="restrequest" name="Fn Test 4_Invalid AgencyID" id="c211ac6d-3ee5-447e-8da6-a9a34e427460">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest4" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 4_Invalid AgencyID" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&agencyId=DDD&sailing.shipCode=EN&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1389,13 +1411,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="dd21bf8f-ed4c-408b-8daf-99ebdb78c9f8" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="dd21bf8f-ed4c-408b-8daf-99ebdb78c9f8" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.header.error[0].description</path>
             <content>Error in Agency Validation.. Please contact support.</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="9f6307f3-b330-42c6-a89c-c8a687f9b053" name="Contains Error code for invalid agencyID">
+          <con:configuration>
+            <token>NotNumeric</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1405,19 +1434,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
+          <con:entry key="agencyId" value="DDD"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
           <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
           <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
-          <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
-          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1562,15 +1591,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest5" id="82a49151-1600-414d-96d0-2f11b8c0d95f">
+  <con:testStep type="restrequest" name="Fn Test 5_Blank shipCode" id="82a49151-1600-414d-96d0-2f11b8c0d95f">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest5" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 5_Blank shipCode" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1598,13 +1627,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="9312e532-f4ec-4882-80a2-b3435fcb13ba" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="9312e532-f4ec-4882-80a2-b3435fcb13ba" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.header.error[0].description</path>
             <content>shipCode may not be empty</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="a378c237-a479-4a32-9ce7-c07630ef645b" name="Contains error code for Blank shipCode">
+          <con:configuration>
+            <token>NotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1614,19 +1650,18 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
           <con:entry key="header.application" value="${DataSource#application}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="sailing.shipCode" value="${DataSource#shipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1771,15 +1806,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest6" id="5eec02f7-8252-46bc-9e36-3440e29d3338">
+  <con:testStep type="restrequest" name="Fn Test 6_Incorrect Ship" id="5eec02f7-8252-46bc-9e36-3440e29d3338">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest6" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 6_Incorrect Ship" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=YB&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1807,13 +1842,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="d1b746b3-d057-4c73-8c4c-a3e6d0f4945d" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="d1b746b3-d057-4c73-8c4c-a3e6d0f4945d" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.header.error[0].description</path>
             <content>SHIP IS NOT IN THE SHIP MASTER FILE - ICSHPD</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="ccd9eb19-be6a-4a16-85ce-b350e784236a" name="Contains error code for ship not in master file">
+          <con:configuration>
+            <token>CSE0608</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1823,19 +1865,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
           <con:entry key="header.application" value="${DataSource#application}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="sailing.shipCode" value="${DataSource#shipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="YB"/>
           <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1980,15 +2022,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest7" id="30d7853b-0c9a-418b-af1e-15d157b13989">
+  <con:testStep type="restrequest" name="Fn Test 7_Blank sailDate" id="30d7853b-0c9a-418b-af1e-15d157b13989">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest7" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 7_Blank sailDate" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=5%2F5%2F18&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=EN&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2016,13 +2058,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="16f86b6b-deb2-48de-a106-a6bbc3c7a86e" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="16f86b6b-deb2-48de-a106-a6bbc3c7a86e" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.header.error[0].description</path>
             <content>sailDate may not be empty</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="cc31e6b5-8862-430f-9b76-880b213448f9" name="Contains error code for blank sailDate">
+          <con:configuration>
+            <token>NotNull</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -2032,19 +2081,18 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="sailing.sailDate" value="${DataSource#sailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
           <con:entry key="header.application" value="${DataSource#application}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
           <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2189,15 +2237,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest8" id="afca160a-48ee-4d92-bf67-0c9fdec1d29a">
+  <con:testStep type="restrequest" name="Fn Test 8_Invalid countryCode" id="afca160a-48ee-4d92-bf67-0c9fdec1d29a">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest8" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 8_Invalid countryCode" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=XYZ&sailing.shipCode=EN&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2232,19 +2280,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="XYZ"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2389,15 +2437,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest9" id="b18e2fc5-3eb8-4ff6-a862-a56cd62fb7f1">
+  <con:testStep type="restrequest" name="Fn Test 9_Invalid AirportCode" id="b18e2fc5-3eb8-4ff6-a862-a56cd62fb7f1">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest9" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test 9_Invalid AirportCode" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=EN&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=DD&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2425,13 +2473,20 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="b015f88a-1359-47d8-a075-66259e789140" name="JsonPath Match">
+        <con:assertion type="JsonPath Match" id="b015f88a-1359-47d8-a075-66259e789140" name="JsonPath Match" disabled="true">
           <con:configuration>
             <path>$.preTour.hotel[0].description</path>
             <content>Hotels hsould not be displayed for no airportCityCode</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="3faa9d7b-68e0-45c0-974b-9325891c2616" name="Contains error code for Invalid AirportCode">
+          <con:configuration>
+            <token>CSE0715</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -2441,19 +2496,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="DD"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2598,15 +2653,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest10" id="e5e44202-555e-489a-a223-d41a14d9e78b">
+  <con:testStep type="restrequest" name="Fn Test10_Invalid shipCode" id="e5e44202-555e-489a-a223-d41a14d9e78b">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest10" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test10_Invalid shipCode" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=RX&sailing.sailDate=2023-04-03&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2634,6 +2689,13 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="Simple Contains" id="98a917d1-8765-4146-b711-d01950ea30f3" name="Contains 2">
+          <con:configuration>
+            <token>CSE0608</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -2641,19 +2703,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="RX"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2798,15 +2860,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="MandatoryFieldsTest11" id="028a0346-36a3-48a5-bc43-21f9970572dc">
+  <con:testStep type="restrequest" name="Fn Test11_Invalid sailDate" id="028a0346-36a3-48a5-bc43-21f9970572dc">
     <con:settings/>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="MandatoryFieldsTest11" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
+      <con:restRequest name="Fn Test11_Invalid sailDate" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AD&sailing.sailDate=2022-11-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=EN&sailing.sailDate=06-24-2023&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2834,6 +2896,13 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="Simple Contains" id="520d4f50-d53a-46fc-8890-1875ef339352" name="Contains invalid sailDate">
+          <con:configuration>
+            <token>CSE0002</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -2841,19 +2910,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
-          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
-          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
           <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
-          <con:entry key="guests.guest[0].age" value="${DataSource#age}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="sailing.shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
+          <con:entry key="sailing.sailDate" value="06-24-2023"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -3009,11 +3078,11 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
   <con:properties>
     <con:property>
       <con:name>ShipCode</con:name>
-      <con:value>AD</con:value>
+      <con:value>EN</con:value>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2022-11-10</con:value>
+      <con:value>2023-04-03</con:value>
     </con:property>
     <con:property>
       <con:name>Request</con:name>
