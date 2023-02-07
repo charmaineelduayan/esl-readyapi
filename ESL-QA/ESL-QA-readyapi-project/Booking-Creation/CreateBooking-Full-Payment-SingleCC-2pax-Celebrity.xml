@@ -158,9 +158,9 @@ if (celebrityShips.contains(shipCode)) {
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
+          <con:entry key="guestAge" value="25"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="guestAge[1]" value="25"/>
-          <con:entry key="guestAge[0]" value="25"/>
+          <con:entry key="guestAge[1]" value="50"/>
           <con:entry key="countryCode" value="${#TestCase#country}"/>
           <con:entry key="packageId" value="${#TestCase#packageCode}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
@@ -182,7 +182,7 @@ if (celebrityShips.contains(shipCode)) {
           <con:entry>policeReqd</con:entry>
           <con:entry>fireFighterReqd</con:entry>
           <con:entry>includeAllStaterooms</con:entry>
-          <con:entry>guestAge[0]</con:entry>
+          <con:entry>guestAge</con:entry>
           <con:entry>guestAge[1]</con:entry>
         </con:parameterOrder>
       </con:restRequest>
@@ -692,27 +692,30 @@ log.info(bookingAccessToken)
 testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="releaseBooking" id="8fa71070-8267-4ca3-93ae-d6a1e2b0abea">
+  <con:testStep type="restrequest" name="cancelBooking" id="c33ee466-c20d-4a78-bccb-9f69f999af21">
     <con:settings/>
-    <con:config service="Booking" methodName="releaseBooking" resourcePath="/rest/v3/releaseBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="releaseBooking" id="de6517cc-b30f-416b-9427-21d29356bb6d" mediaType="application/json">
+    <con:config service="Booking" resourcePath="/rest/v3/cancelBooking" methodName="cancelBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cancelBooking" id="f837f382-acaf-4ca4-9a9d-cf578dea2250" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Content-type" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
-        <con:encoding>UTF-8</con:encoding>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="be37509b-9000-4ee0-a8b1-67535b72db92" name="Valid HTTP Status Codes">
+        <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US"
+	},
+	"countryCode":"${#TestCase#country}",
+	"bookingId": "${#TestCase#bookingId}",
+	"bookingAccessToken": "${#TestCase#bookingAccessToken}",
+	"lockBooking": "true"
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/cancelBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="29827a8b-0d35-422d-9b12-6033527343aa" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="ed9d1312-71d3-4bf7-b5be-f34affb3d475" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -720,20 +723,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="header.language" value="en_US"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
-        </con:parameters>
-        <con:environmentSpec>
-          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
-        </con:environmentSpec>
+        <con:parameters/>
       </con:restRequest>
     </con:config>
   </con:testStep>
@@ -764,11 +754,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>11</con:value>
+      <con:value>12</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2144</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -792,7 +782,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1407073</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -800,7 +790,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>f0342efb-defa-4bc6-994c-4ffd657fa346</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -812,7 +802,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
-      <con:value>1370.36</con:value>
+      <con:value>1340.36</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
