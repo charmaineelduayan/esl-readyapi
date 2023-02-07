@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="ac8eff56-8699-4a76-90c1-84f2b78a7616" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="CourtesyHold-No Qualifiers" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="ac8eff56-8699-4a76-90c1-84f2b78a7616" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="CreateBooking-CourtesyHold-USA" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="ac8eff56-8699-4a76-90c1-84f2b78a7616fileName">CourtesyHold-No-Qualifiers</con:setting>
+    <con:setting id="ac8eff56-8699-4a76-90c1-84f2b78a7616fileName">CreateBooking-CourtesyHold-USA</con:setting>
   </con:settings>
   <con:testStep type="restrequest" name="cruiseSearch" id="4682bf8f-3868-4b27-98bc-537dc088ab85">
     <con:settings/>
@@ -158,9 +158,9 @@ if (celebrityShips.contains(shipCode)) {
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
+          <con:entry key="guestAge" value="25"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="guestAge[1]" value="25"/>
-          <con:entry key="guestAge[0]" value="25"/>
+          <con:entry key="guestAge[1]" value="50"/>
           <con:entry key="countryCode" value="${#TestCase#country}"/>
           <con:entry key="packageId" value="${#TestCase#packageCode}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
@@ -182,7 +182,7 @@ if (celebrityShips.contains(shipCode)) {
           <con:entry>policeReqd</con:entry>
           <con:entry>fireFighterReqd</con:entry>
           <con:entry>includeAllStaterooms</con:entry>
-          <con:entry>guestAge[0]</con:entry>
+          <con:entry>guestAge</con:entry>
           <con:entry>guestAge[1]</con:entry>
         </con:parameterOrder>
       </con:restRequest>
@@ -628,23 +628,33 @@ log.info(bookingAccessToken)
 testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="releaseBooking" id="33d9fa8b-432e-435b-87d9-359dcc049b34">
+  <con:testStep type="restrequest" name="cancelBooking" id="b244d44e-9687-44c4-bcfe-1401c998c410">
     <con:settings/>
-    <con:config service="Booking" methodName="releaseBooking" resourcePath="/rest/v3/releaseBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="releaseBooking" id="de6517cc-b30f-416b-9427-21d29356bb6d" mediaType="application/json">
+    <con:config service="Booking" resourcePath="/rest/v3/cancelBooking" methodName="cancelBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cancelBooking" id="f837f382-acaf-4ca4-9a9d-cf578dea2250" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Content-type" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
-        <con:encoding>UTF-8</con:encoding>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="be37509b-9000-4ee0-a8b1-67535b72db92" name="Valid HTTP Status Codes">
+        <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US"
+	},
+	"countryCode": "${#TestCase#country}",
+	"bookingId": "${#TestCase#bookingId}",
+	"bookingAccessToken": "${#TestCase#bookingAccessToken}",
+	"lockBooking": "true"
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cancelBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="dfb2e3c4-8cb5-4303-9de9-f139902b5361" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="ed9d1312-71d3-4bf7-b5be-f34affb3d475" name="Contains">
+        <con:assertion type="Simple Contains" id="df9fb4da-937b-420b-bd2d-2cd57513adea" name="Contains">
           <con:configuration>
             <token>Success</token>
             <ignoreCase>false</ignoreCase>
@@ -656,20 +666,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="header.language" value="en_US"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
-        </con:parameters>
-        <con:environmentSpec>
-          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
-        </con:environmentSpec>
+        <con:parameters/>
       </con:restRequest>
     </con:config>
   </con:testStep>
@@ -704,7 +701,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2058</con:value>
+      <con:value>2047</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -728,7 +725,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1402416</con:value>
+      <con:value>1410811</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -736,7 +733,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>518a6fbd-821f-43db-9c58-dffed3f14622</con:value>
+      <con:value>9186d715-ca7b-4705-a1e3-15ac03ddf5e9</con:value>
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
