@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="9425735e-9c61-4618-bac0-ebc267fc438b" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Validate resultsPreference.groupBy ITINERARY" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="9425735e-9c61-4618-bac0-ebc267fc438bfileName">Validate-resultsPreference.groupBy-ITINERARY</con:setting>
+  </con:settings>
+  <con:testStep type="restrequest" name="CruiseSearch" id="370c9e00-b7ba-43e1-9968-022bcb794de9">
+    <con:settings/>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="CruiseSearch" id="c2a9edf1-0fcf-4666-888d-ec33f280a7de" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="92bb0e4c-d9f4-4a0e-a633-8082216870b3" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="header.application" value="celebritycruises.com"/>
+          <con:entry key="criteria.brand.value" value="C"/>
+          <con:entry key="criteria.ship.value" value="ML"/>
+          <con:entry key="criteria.cruiseType.value" value="CO"/>
+          <con:entry key="criteria.office" value="MIA"/>
+          <con:entry key="criteria.country" value="USA"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.pagination.offset" value="0"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation" id="da2dafaf-d023-4d60-a503-5a331faa5774">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.JsonSlurper
+import com.eviware.soapui.settings.SSLSettings
+import com.eviware.soapui.SoapUI 
+
+
+def ts = testRunner.testCase.getTestStepByName("CruiseSearch");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+int  totalHits = (res.resultsSummary.totalHits.text()).toInteger()
+int countItineraries = res.resultsByPackage.packageSummaryWithClassLevelPricing.size()
+
+assert totalHits==countItineraries
+
+
+for(i=0; i&lt;=countItineraries-1;i++){
+	def getPackage = res.resultsByPackage.packageSummaryWithClassLevelPricing[i].packageReference.@code.text()
+	log.info('PACKAGE: '+getPackage)
+	
+	int sailings = res.resultsByPackage.packageSummaryWithClassLevelPricing[i].cabinClassPriceBySailing.size()
+	log.info('SIZE: '+sailings)
+		
+			for(x=0; x&lt;=sailings-1;x++){
+				def getSailingPackage = res.resultsByPackage.packageSummaryWithClassLevelPricing[i].cabinClassPriceBySailing[x].sailingRef.@package.text()
+				log.info('Packages inside ClassPriceBySailing: '+getSailingPackage)
+				//assert getPackage==getSailingPackage
+				def shipNight = getPackage[0..3]
+				log.info('String:'+ shipNight)
+
+				assert getSailingPackage.contains(shipNight)
+			}
+
+	}</script>
+    </con:config>
+  </con:testStep>
+  <con:properties/>
+  <con:reportParameters/>
+</con:testCase>

@@ -158,9 +158,9 @@ if (celebrityShips.contains(shipCode)) {
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
+          <con:entry key="guestAge" value="25"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="guestAge[1]" value="25"/>
-          <con:entry key="guestAge[0]" value="25"/>
+          <con:entry key="guestAge[1]" value="50"/>
           <con:entry key="countryCode" value="${#TestCase#country}"/>
           <con:entry key="packageId" value="${#TestCase#packageCode}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
@@ -182,7 +182,7 @@ if (celebrityShips.contains(shipCode)) {
           <con:entry>policeReqd</con:entry>
           <con:entry>fireFighterReqd</con:entry>
           <con:entry>includeAllStaterooms</con:entry>
-          <con:entry>guestAge[0]</con:entry>
+          <con:entry>guestAge</con:entry>
           <con:entry>guestAge[1]</con:entry>
         </con:parameterOrder>
       </con:restRequest>
@@ -700,6 +700,41 @@ for ( i=0;  i &lt;=count-1; i++){
       </con:restRequest>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="cancelBooking" id="6715e201-6dcc-48f2-9cd9-8a6a00c973a2">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/cancelBooking" methodName="cancelBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cancelBooking" id="f837f382-acaf-4ca4-9a9d-cf578dea2250" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Content-type" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US"
+	},
+	"countryCode":"${#TestCase#country}",
+	"bookingId": "${#TestCase#bookingId}",
+	"bookingAccessToken": "${#TestCase#bookingAccessToken}",
+	"lockBooking": "true"
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/cancelBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="b92d683d-4387-424b-bb1a-31270334c8bf" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
@@ -731,7 +766,7 @@ for ( i=0;  i &lt;=count-1; i++){
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2132</con:value>
+      <con:value>2091</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -755,7 +790,7 @@ for ( i=0;  i &lt;=count-1; i++){
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1407076</con:value>
+      <con:value>1410806</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
