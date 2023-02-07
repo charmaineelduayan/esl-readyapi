@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="0fad884c-80e0-4764-a831-e64fda6aa898" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Validate resultsPreference.groupBy PACKAGE" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="0fad884c-80e0-4764-a831-e64fda6aa898fileName">Validate-resultsPreference.groupBy-PACKAGE</con:setting>
+  </con:settings>
+  <con:testStep type="restrequest" name="CruiseSearch" id="e5d2240a-a143-4817-911e-018d2da30f5c">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="CruiseSearch" id="31985120-0c0f-4e6e-832a-72366469a759" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="2154c86d-ae54-4dd0-afde-7e3d5670ad6f" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation" id="d3aa6177-0c4d-4062-a062-c0e360df2d51">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.JsonSlurper
+import com.eviware.soapui.settings.SSLSettings
+import com.eviware.soapui.SoapUI 
+
+
+def ts = testRunner.testCase.getTestStepByName("CruiseSearch");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+int  totalHits = (res.resultsSummary.totalHits.text()).toInteger()
+int countItineraries = res.resultsByPackage.packageSummaryWithClassLevelPricing.size()
+
+
+assert totalHits==countItineraries
+
+
+for(i=0; i&lt;=countItineraries-1;i++){
+	def getPackage = res.resultsByPackage.packageSummaryWithClassLevelPricing[i].packageReference.@code.text()
+	log.info('PACKAGE: '+getPackage)
+	
+	int sailings = res.resultsByPackage.packageSummaryWithClassLevelPricing[i].cabinClassPriceBySailing.size()
+	log.info('SIZE: '+sailings)
+		
+			for(x=0; x&lt;=sailings-1;x++){
+				//def getSailingPackage = res.resultsByPackage.packageSummaryWithClassLevelPricing.cabinClassPriceBySailing[i].sailingRef[x].@package.text()
+				def getSailingPackage = res.resultsByPackage.packageSummaryWithClassLevelPricing[i].cabinClassPriceBySailing[x].sailingRef.@package.text()
+				log.info('Packages inside ClassPriceBySailing: : '+getSailingPackage)
+				assert getPackage==getSailingPackage
+			}
+
+	}</script>
+    </con:config>
+  </con:testStep>
+  <con:properties/>
+  <con:reportParameters/>
+</con:testCase>
