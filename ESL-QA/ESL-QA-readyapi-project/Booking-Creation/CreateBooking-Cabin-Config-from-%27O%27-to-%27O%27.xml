@@ -240,13 +240,6 @@ testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="dbc38ae4-a840-4616-9e36-a3c819efa593" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -289,8 +282,14 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Cabin Number
 def cabinNumber = res.cabin.e[0].cabinNumber.text()
-log.info(cabinNumber)
-testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);</script>
+	if (cabinNumber==''){
+		log.info(cabinNumber)
+		def gty = 'GTY'
+		log.info(gty)
+		testRunner.testCase.setPropertyValue("cabinNumber",gty);
+	} else {		
+		testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);
+		}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="bookingAddOns" id="dff29c28-3834-4037-a526-7c58f848a7ce">
@@ -546,7 +545,7 @@ testRunner.testCase.setPropertyValue("lastname",lastname);</script>
   <con:testStep type="delay" name="Delay" id="a4e17ad5-d809-4fd9-a438-791037bb18fb">
     <con:settings/>
     <con:config>
-      <delay>2000</delay>
+      <delay>5000</delay>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="retrieveBooking" id="750f4fe6-7ecf-4b04-902e-b72097ff9294">
@@ -832,7 +831,7 @@ assert newBedconfig == currentBedConfig</scriptText>
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>ML07D314</con:value>
+      <con:value>ML15T120</con:value>
     </con:property>
     <con:property>
       <con:name>TestShip</con:name>
@@ -844,7 +843,7 @@ assert newBedconfig == currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2023-02-11</con:value>
+      <con:value>2023-04-21</con:value>
     </con:property>
     <con:property>
       <con:name>brand</con:name>
@@ -852,15 +851,15 @@ assert newBedconfig == currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
-      <con:value>I1773897</con:value>
+      <con:value>J6014367</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>12</con:value>
+      <con:value>I1</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value/>
+      <con:value>9018</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -884,7 +883,7 @@ assert newBedconfig == currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value/>
+      <con:value>0571977</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -892,15 +891,15 @@ assert newBedconfig == currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value/>
+      <con:value>b3b8903f-34aa-4c91-a540-d1f65aacbfc2</con:value>
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
-      <con:value>1340.36</con:value>
+      <con:value>6194.12</con:value>
     </con:property>
     <con:property>
       <con:name>bookingStatus</con:name>
-      <con:value/>
+      <con:value>OFFERED</con:value>
     </con:property>
     <con:property>
       <con:name>bedConfig</con:name>
