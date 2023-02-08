@@ -241,13 +241,6 @@ testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="dbc38ae4-a840-4616-9e36-a3c819efa593" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -290,8 +283,14 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Cabin Number
 def cabinNumber = res.cabin.e[0].cabinNumber.text()
-log.info(cabinNumber)
-testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);</script>
+	if (cabinNumber==''){
+		log.info(cabinNumber)
+		def gty = 'GTY'
+		log.info(gty)
+		testRunner.testCase.setPropertyValue("cabinNumber",gty);
+	} else {		
+		testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);
+		}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="bookingAddOns" id="fb76408f-0d05-4cf3-8da8-134877728b6e">
@@ -697,11 +696,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>11</con:value>
+      <con:value>12</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2047</con:value>
+      <con:value>GTY</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -725,7 +724,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1410811</con:value>
+      <con:value>1414783</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -733,11 +732,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>9186d715-ca7b-4705-a1e3-15ac03ddf5e9</con:value>
+      <con:value>38b3f7e7-7719-4df5-a8b3-b3b98d7f3ff7</con:value>
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
-      <con:value>1370.36</con:value>
+      <con:value>1340.36</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>

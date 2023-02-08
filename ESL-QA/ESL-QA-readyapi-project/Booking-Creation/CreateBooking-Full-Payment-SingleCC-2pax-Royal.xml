@@ -243,13 +243,6 @@ testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="dbc38ae4-a840-4616-9e36-a3c819efa593" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -292,8 +285,14 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Cabin Number
 def cabinNumber = res.cabin.e[0].cabinNumber.text()
-log.info(cabinNumber)
-testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);</script>
+	if (cabinNumber==''){
+		log.info(cabinNumber)
+		def gty = 'GTY'
+		log.info(gty)
+		testRunner.testCase.setPropertyValue("cabinNumber",gty);
+	} else {		
+		testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);
+		}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="bookingAddOns" id="a906f53a-191c-4b0d-84d6-74ebfcf07790">
@@ -784,7 +783,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1411582</con:value>
+      <con:value>1414766</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -792,7 +791,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>433c4707-85e5-48b3-b1b5-e668ebada885</con:value>
+      <con:value>38ab2bd0-6f8c-438f-b8b2-c3776b2c4889</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>

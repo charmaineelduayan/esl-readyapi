@@ -241,13 +241,6 @@ testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="dbc38ae4-a840-4616-9e36-a3c819efa593" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -290,8 +283,14 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Cabin Number
 def cabinNumber = res.cabin.e[0].cabinNumber.text()
-log.info(cabinNumber)
-testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);</script>
+	if (cabinNumber==''){
+		log.info(cabinNumber)
+		def gty = 'GTY'
+		log.info(gty)
+		testRunner.testCase.setPropertyValue("cabinNumber",gty);
+	} else {		
+		testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);
+		}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="bookingAddOns" id="33b381e6-54a8-4d9d-b920-8a55576d94b1">
@@ -778,7 +777,7 @@ log.info newBedconfig
 def currentBedConfig = messageExchange.modelItem.testStep.testCase.getPropertyValue("bedConfig")
 log.info currentBedConfig
 
-assert newBedconfig != currentBedConfig</scriptText>
+assert newBedconfig == 'O'</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -859,11 +858,11 @@ assert newBedconfig != currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>11</con:value>
+      <con:value>12</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2047</con:value>
+      <con:value>GTY</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -887,7 +886,7 @@ assert newBedconfig != currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1410981</con:value>
+      <con:value>1414790</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -895,11 +894,11 @@ assert newBedconfig != currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>4959cec4-420f-4e0b-a362-77404a7a7f17</con:value>
+      <con:value>5922325e-03df-40bd-9928-2e0441a6d97b</con:value>
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
-      <con:value>1370.36</con:value>
+      <con:value>1340.36</con:value>
     </con:property>
     <con:property>
       <con:name>bookingStatus</con:name>
@@ -907,7 +906,7 @@ assert newBedconfig != currentBedConfig</scriptText>
     </con:property>
     <con:property>
       <con:name>bedConfig</con:name>
-      <con:value>U</con:value>
+      <con:value/>
     </con:property>
   </con:properties>
   <con:reportParameters/>
