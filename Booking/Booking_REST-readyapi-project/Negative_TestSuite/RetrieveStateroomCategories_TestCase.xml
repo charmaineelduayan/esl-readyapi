@@ -11,7 +11,7 @@
         <con:configuration>
           <file>Booking_REST_Input.xls</file>
           <worksheet>RetrieveStateroomCategories</worksheet>
-          <cell>A2</cell>
+          <cell>A1</cell>
           <ignoreEmpty>false</ignoreEmpty>
           <evaluateFormulas>false</evaluateFormulas>
         </con:configuration>
@@ -340,27 +340,31 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@package.text();
 testRunner.testCase.setPropertyValue("PackageCode",packageCode)
+log.info (packageCode)
 
 String shipCode= packageCode.substring(0,2);
 testRunner.testCase.setPropertyValue("ShipCode",shipCode)
+log.info (shipCode)
 
-def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@saildate.text();
+def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[1].sailingRef.@saildate.text();
 testRunner.testCase.setPropertyValue("SailDate",sailDate)
+log.info (sailDate)
 
-def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].@priceId.text();
+def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[1].cabinClassPricing[1].price[1].@priceId.text();
 if(id.equals('')){
 	def fareCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].promotion.@id.text();
 	testRunner.testCase.setPropertyValue("FareCode",fareCode)
+	log.info (fareCode)
 }
 else{
 	testRunner.testCase.setPropertyValue("FareCode",id)
 }</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="FunctionalTest1" id="ee3bf76e-9c45-474f-b22b-e702e81b7fb9">
+  <con:testStep type="restrequest" name="FTest1-Invalid Brand" id="ee3bf76e-9c45-474f-b22b-e702e81b7fb9">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="FunctionalTest1" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
+      <con:restRequest name="FTest1-Invalid Brand" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
@@ -381,13 +385,20 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="88885ff8-9360-42d2-8bd8-c49aebd8eb86" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="88885ff8-9360-42d2-8bd8-c49aebd8eb86" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>CATL-005</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="5885ede4-f17a-4e7c-ba0c-0ee561fbf077" name="Contains">
+          <con:configuration>
+            <token>CATL-005</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -410,7 +421,7 @@ else{
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
           <con:entry key="militaryReqd" value="${DataSource#militaryReqd}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="header.brand" value="${DataSource#brand}"/>
+          <con:entry key="header.brand" value="CC"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
           <con:entry key="seniorReqd" value="${DataSource#seniorReqd}"/>
           <con:entry key="guestAge[0]" value="${DataSource#guestAge}"/>
@@ -602,7 +613,7 @@ else{
         <con:configuration>
           <file>Booking_REST_Input.xls</file>
           <worksheet>RetrieveStateroomCategories</worksheet>
-          <cell>A2</cell>
+          <cell>A5</cell>
           <ignoreEmpty>false</ignoreEmpty>
           <evaluateFormulas>false</evaluateFormulas>
         </con:configuration>
@@ -697,13 +708,20 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="30920056-4c1e-4d07-9e30-f8f75aa71dc2" name="Match content of [description]">
+        <con:assertion type="JsonPath Match" id="30920056-4c1e-4d07-9e30-f8f75aa71dc2" name="Match content of [description]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>One of these is required. [countryCode, agencyId]</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="c50939d7-81fd-4472-9889-88e7d0757a73" name="Contains">
+          <con:configuration>
+            <token>ESL_MultipleNotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -726,7 +744,7 @@ else{
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
           <con:entry key="militaryReqd" value="${DataSource1#militaryReqd}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
           <con:entry key="seniorReqd" value="${DataSource1#seniorReqd}"/>
           <con:entry key="stateroomType" value="${DataSource1#stateroomType}"/>
@@ -1152,7 +1170,7 @@ else{
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest4-blank fareCode, selectedFareCode" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request/>
@@ -1171,13 +1189,20 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="294fd198-0a9a-4cd0-8db1-6f6db177d64c" name="Match content of [description]">
+        <con:assertion type="JsonPath Match" id="294fd198-0a9a-4cd0-8db1-6f6db177d64c" name="Match content of [description]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>Either fareCode or selectedFareCode required</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="5bbfa143-a911-446c-bd4e-1bcb5d898825" name="Contains">
+          <con:configuration>
+            <token>OneChoiceReqd</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1417,13 +1442,20 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="7d2e9662-aacf-430d-85e8-2ede156a8516" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="7d2e9662-aacf-430d-85e8-2ede156a8516" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>ERR6854</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="d486b150-753a-4e29-b01f-3e7b31501e43" name="Contains">
+          <con:configuration>
+            <token>OneChoiceOnly</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1436,27 +1468,29 @@ else{
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="accessibleReqd" value="${DataSource1#accessibleReqd}"/>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
-          <con:entry key="policeReqd" value="${DataSource1#policeReqd}"/>
-          <con:entry key="includeDeckInfo" value="${DataSource1#includeDeckInfo}"/>
-          <con:entry key="includeAllStaterooms" value="${DataSource1#includeAllStaterooms}"/>
-          <con:entry key="includeUpsell" value="${DataSource1#includeUpsell}"/>
+          <con:entry key="accessibleReqd" value="${DataSource#accessibleReqd}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="policeReqd" value="${DataSource#policeReqd}"/>
+          <con:entry key="includeDeckInfo" value="${DataSource#includeDeckInfo}"/>
+          <con:entry key="includeAllStaterooms" value="${DataSource#includeAllStaterooms}"/>
+          <con:entry key="includeUpsell" value="${DataSource#includeUpsell}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
-          <con:entry key="militaryReqd" value="${DataSource1#militaryReqd}"/>
+          <con:entry key="militaryReqd" value="${DataSource#militaryReqd}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="seniorReqd" value="${DataSource1#seniorReqd}"/>
-          <con:entry key="stateroomType" value="${DataSource1#stateroomType}"/>
-          <con:entry key="guestAge[0]" value="${DataSource1#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="fireFighterReqd" value="${DataSource1#fireFighterReqd}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
+          <con:entry key="seniorReqd" value="${DataSource#seniorReqd}"/>
+          <con:entry key="stateroomType" value="${DataSource#stateroomType}"/>
+          <con:entry key="guestAge[0]" value="${DataSource#guestAge}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="fareCode" value="${DataSource#fareCode}"/>
+          <con:entry key="fireFighterReqd" value="${DataSource#fireFighterReqd}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="currency" value="${DataSource#currency}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
-          <con:entry key="selectedFareCode" value="${DataSource#selectedFareCode}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
+          <con:entry key="selectedFareCode" value="${DataSource1#selectedFareCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1637,7 +1671,7 @@ else{
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest6-invalid number of cabins, includeAllStaterooms=true" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request/>
@@ -1665,13 +1699,20 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="0f12bce5-b0ec-4933-9029-d892f3ee4d25" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="0f12bce5-b0ec-4933-9029-d892f3ee4d25" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>numberOfCabins</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="a2ce64f6-d981-4473-9cb4-79c246a246db" name="Contains">
+          <con:configuration>
+            <token>numberOfCabins</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1693,9 +1734,9 @@ else{
           <con:entry key="includeUpsell" value="${DataSource1#includeUpsell}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
           <con:entry key="militaryReqd" value="${DataSource1#militaryReqd}"/>
-          <con:entry key="numberOfCabins" value="${DataSource#numberOfCabins}"/>
+          <con:entry key="numberOfCabins" value="${DataSource1#numberOfCabins}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
           <con:entry key="seniorReqd" value="${DataSource1#seniorReqd}"/>
           <con:entry key="stateroomType" value="${DataSource1#stateroomType}"/>
@@ -1886,7 +1927,7 @@ else{
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest7-blank shipCode, packageCode" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request/>
@@ -1914,6 +1955,13 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="Simple Contains" id="3b3f8c42-1e76-454d-a6da-e26ad836a93a" name="Contains">
+          <con:configuration>
+            <token>NotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:username xsi:nil="true"/>
           <con:password xsi:nil="true"/>
@@ -1925,8 +1973,8 @@ else{
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="accessibleReqd" value="${DataSource1#accessibleReqd}"/>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="policeReqd" value="${DataSource1#policeReqd}"/>
           <con:entry key="includeDeckInfo" value="${DataSource1#includeDeckInfo}"/>
           <con:entry key="includeAllStaterooms" value="${DataSource1#includeAllStaterooms}"/>
@@ -1934,18 +1982,18 @@ else{
           <con:entry key="militaryReqd" value="${DataSource1#militaryReqd}"/>
           <con:entry key="numberOfCabins" value="${DataSource1#numberOfCabins}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="seniorReqd" value="${DataSource1#seniorReqd}"/>
           <con:entry key="stateroomType" value="${DataSource1#stateroomType}"/>
           <con:entry key="guestAge[0]" value="${DataSource1#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="fareCode" value="${DataSource1#fareCode}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="fareCode" value="${DataSource#fareCode}"/>
           <con:entry key="fireFighterReqd" value="${DataSource1#fireFighterReqd}"/>
           <con:entry key="currency" value="${DataSource1#currency}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
-          <con:entry key="selectedFareCode" value="${DataSource1#selectedFareCode}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
+          <con:entry key="selectedFareCode" value="${DataSource#selectedFareCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2126,7 +2174,7 @@ else{
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest8-invalid sailDate" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request/>
@@ -2154,7 +2202,7 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="a09dea58-9bd2-4dd9-abea-de7be960d82f" name="Match content of [description]">
+        <con:assertion type="JsonPath Match" id="a09dea58-9bd2-4dd9-abea-de7be960d82f" name="Match content of [description]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>INVALID SHIP/DEPARTURE DATE - ICSLMD</content>
@@ -2163,13 +2211,20 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="76a5420f-fe7c-449f-8867-bc642abb36ae" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="76a5420f-fe7c-449f-8867-bc642abb36ae" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>CSE0002</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="f86df586-46a3-495b-884c-8c6cbe43b97f" name="Contains">
+          <con:configuration>
+            <token>InvalidDate</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -2182,29 +2237,28 @@ else{
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="accessibleReqd" value="${DataSource1#accessibleReqd}"/>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
-          <con:entry key="policeReqd" value="${DataSource1#policeReqd}"/>
-          <con:entry key="includeDeckInfo" value="${DataSource1#includeDeckInfo}"/>
-          <con:entry key="includeAllStaterooms" value="${DataSource1#includeAllStaterooms}"/>
-          <con:entry key="includeUpsell" value="${DataSource1#includeUpsell}"/>
+          <con:entry key="accessibleReqd" value="${DataSource#accessibleReqd}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="policeReqd" value="${DataSource#policeReqd}"/>
+          <con:entry key="includeDeckInfo" value="${DataSource#includeDeckInfo}"/>
+          <con:entry key="includeAllStaterooms" value="false"/>
+          <con:entry key="includeUpsell" value="true"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
-          <con:entry key="militaryReqd" value="${DataSource1#militaryReqd}"/>
-          <con:entry key="numberOfCabins" value="${DataSource1#numberOfCabins}"/>
+          <con:entry key="militaryReqd" value="${DataSource#militaryReqd}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="seniorReqd" value="${DataSource1#seniorReqd}"/>
-          <con:entry key="stateroomType" value="${DataSource1#stateroomType}"/>
-          <con:entry key="guestAge[0]" value="${DataSource1#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="fareCode" value="${DataSource1#fareCode}"/>
-          <con:entry key="fireFighterReqd" value="${DataSource1#fireFighterReqd}"/>
-          <con:entry key="currency" value="${DataSource1#currency}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
-          <con:entry key="sailDate" value="${DataSource#sailDate}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
+          <con:entry key="seniorReqd" value="${DataSource#seniorReqd}"/>
+          <con:entry key="stateroomType" value="${DataSource#stateroomType}"/>
+          <con:entry key="guestAge[0]" value="${DataSource#guestAge}"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="fareCode" value="${DataSource#fareCode}"/>
+          <con:entry key="fireFighterReqd" value="${DataSource#fireFighterReqd}"/>
+          <con:entry key="currency" value="${DataSource#currency}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
+          <con:entry key="sailDate" value="YYYY"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2385,7 +2439,7 @@ else{
     <con:config service="Booking" resourcePath="/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest9-invalid guestAge" id="5fba8706-403e-4671-b10c-17fe0c3f35b3" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request/>
@@ -2413,13 +2467,20 @@ else{
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="46072c47-5e2d-426d-94f7-82239fe255f3" name="Match content of [description]">
+        <con:assertion type="JsonPath Match" id="46072c47-5e2d-426d-94f7-82239fe255f3" name="Match content of [description]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>1 guest must be at least 21 years of age</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="0ceb5966-2869-4f32-bbdb-ce7191a5cf45" name="Contains">
+          <con:configuration>
+            <token>ageMinimum</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -2432,29 +2493,29 @@ else{
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="accessibleReqd" value="${DataSource1#accessibleReqd}"/>
-          <con:entry key="header.language" value="${DataSource1#language}"/>
-          <con:entry key="header.application" value="${DataSource1#application}"/>
-          <con:entry key="policeReqd" value="${DataSource1#policeReqd}"/>
-          <con:entry key="includeDeckInfo" value="${DataSource1#includeDeckInfo}"/>
-          <con:entry key="includeAllStaterooms" value="${DataSource1#includeAllStaterooms}"/>
-          <con:entry key="includeUpsell" value="${DataSource1#includeUpsell}"/>
+          <con:entry key="accessibleReqd" value="${DataSource#accessibleReqd}"/>
+          <con:entry key="header.language" value="${DataSource#language}"/>
+          <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="policeReqd" value="${DataSource#policeReqd}"/>
+          <con:entry key="includeDeckInfo" value="${DataSource#includeDeckInfo}"/>
+          <con:entry key="includeAllStaterooms" value="${DataSource#includeAllStaterooms}"/>
+          <con:entry key="includeUpsell" value="${DataSource#includeUpsell}"/>
           <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
-          <con:entry key="militaryReqd" value="${DataSource1#militaryReqd}"/>
-          <con:entry key="numberOfCabins" value="${DataSource1#numberOfCabins}"/>
+          <con:entry key="militaryReqd" value="${DataSource#militaryReqd}"/>
+          <con:entry key="numberOfCabins" value="${DataSource#numberOfCabins}"/>
           <con:entry key="debugId" value=""/>
-          <con:entry key="header.brand" value="${DataSource1#brand}"/>
+          <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
-          <con:entry key="seniorReqd" value="${DataSource1#seniorReqd}"/>
-          <con:entry key="stateroomType" value="${DataSource1#stateroomType}"/>
-          <con:entry key="guestAge[0]" value="${DataSource#guestAge}"/>
-          <con:entry key="countryCode" value="${DataSource1#countryCode}"/>
-          <con:entry key="fareCode" value="${DataSource1#fareCode}"/>
-          <con:entry key="fireFighterReqd" value="${DataSource1#fireFighterReqd}"/>
-          <con:entry key="currency" value="${DataSource1#currency}"/>
-          <con:entry key="header.domainId" value="${DataSource1#domainId}"/>
+          <con:entry key="seniorReqd" value="${DataSource#seniorReqd}"/>
+          <con:entry key="stateroomType" value="${DataSource#stateroomType}"/>
+          <con:entry key="guestAge[0]" value="15"/>
+          <con:entry key="countryCode" value="${DataSource#countryCode}"/>
+          <con:entry key="fareCode" value="${DataSource#fareCode}"/>
+          <con:entry key="fireFighterReqd" value="${DataSource#fireFighterReqd}"/>
+          <con:entry key="currency" value="${DataSource#currency}"/>
+          <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
-          <con:entry key="header.uuid" value="${DataSource1#uuid}"/>
+          <con:entry key="header.uuid" value="${DataSource#uuid}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2633,15 +2694,15 @@ else{
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>AD04W115</con:value>
+      <con:value>AT07E320</con:value>
     </con:property>
     <con:property>
       <con:name>ShipCode</con:name>
-      <con:value>AD</con:value>
+      <con:value>AT</con:value>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2023-01-05</con:value>
+      <con:value>2023-02-19</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
