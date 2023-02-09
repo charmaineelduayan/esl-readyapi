@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="10bee948-680b-498d-914d-353dc4559082" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="retrieveStateroomOffers-validate Refundable no couponCode applied" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="10bee948-680b-498d-914d-353dc4559082fileName">retrieveStateroomOffers-validate-Refundable-no-couponCode-applied</con:setting>
+  </con:settings>
+  <con:testStep type="restrequest" name="Sheet-specificSailing" id="ff4b1225-81c1-432e-b9f4-ab332e9cfa11">
+    <con:settings/>
+    <con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Sheet-specificSailing" id="b57c838f-3da7-4150-8496-95c63fa6baaa" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="96c596d9-b1d2-4356-8983-c444fdf3f29b" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="sheet" value="specificSailing"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>sheet</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="1e8db791-2cca-4d3a-9451-5c9a433740b4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Get Specific Sailing" id="d2159475-4e91-4943-9e1a-3d1e19313330">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("Sheet-specificSailing");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def shipCode = res.e.Ship[0].text();
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("Ship",shipCode);
+
+def sailDate = res.e.SailDate[0].text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("SailDate",sailDate);
+
+def packageCode= res.e.PackageCode[0].text();
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("PackageCode",packageCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomOffers" id="b181caff-a883-4043-b416-f8a149b1a749">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomOffers" methodName="retrieveStateroomOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomOffers" id="c0911431-1d0b-463a-9026-f8c123679434" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="eb1ba0ce-51bc-43ac-add2-a411e1b86528" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="packageId" value="${#TestCase#PackageCode}"/>
+          <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="shipCode" value="${#TestCase#Ship}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>guestAge[0]</con:entry>
+          <con:entry>accessibleReqd</con:entry>
+          <con:entry>seniorReqd</con:entry>
+          <con:entry>militaryReqd</con:entry>
+          <con:entry>policeReqd</con:entry>
+          <con:entry>fireFighterReqd</con:entry>
+          <con:entry>stateCode</con:entry>
+          <con:entry>loyaltyId</con:entry>
+          <con:entry>couponCodes</con:entry>
+          <con:entry>includeNonRefundablePromos</con:entry>
+          <con:entry>includePromoBreakdown</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation" id="59f13299-0f39-4b45-9378-974f5fe11fd5">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.JsonSlurper
+import com.eviware.soapui.settings.SSLSettings
+import com.eviware.soapui.SoapUI 
+
+
+def ts = testRunner.testCase.getTestStepByName("retrieveStateroomOffers");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+int countstateroomOffers = res.stateroomOffers.e.size()
+
+
+for(i=0; i&lt;=countstateroomOffers-1; i++){
+	def getStateroomOffers = res.stateroomOffers.e[i].stateroomType.text()
+	log.info('stateroomType: ' +getStateroomOffers)
+
+	def getBestFarecode = res.stateroomOffers.e[i].bestFareCode.text()
+	log.info('bestFareCode: ' +getBestFarecode)
+
+	def getBestSelectedFarecode = res.stateroomOffers.e[i].bestSelectedFareCode.text()
+	log.info('bestSelectedFareCode: ' +getBestSelectedFarecode)
+
+	def getBestStateroomPrice = (res.stateroomOffers.e[i].bestStateroomPrice.text()).toDouble()
+	log.info('bestStateroomPrice: ' +getBestStateroomPrice)
+
+	int  stateroomPrice= res.stateroomOffers.e[i].stateroomOffers.e.originalPrice.size()
+
+	for(x=0; x&lt;=stateroomPrice-1; x++){
+
+		def getOriginalPrice = (res.stateroomOffers.e[i].stateroomOffers.e[x].originalPrice.text()).toDouble()
+		log.info('originalPrice: ' +getOriginalPrice)
+
+		def getDiscountedPrice = (res.stateroomOffers.e[i].stateroomOffers.e[x].discountedPrice.text()).toDouble()
+		log.info('discountedPrice: ' +getDiscountedPrice)
+
+		def getCategoryCode = res.stateroomOffers.e[i].stateroomOffers.e[x].categoryCode.text()
+		log.info('categoryCode: ' +getCategoryCode)
+
+			int offers = res.stateroomOffers.e[i].stateroomOffers.e[x].discounts.offers.e.name.size()
+
+
+				for(y=0; y&lt;=offers-1; y++){
+
+					def getOffers = res.stateroomOffers.e[i].stateroomOffers.e[x].discounts.offers.e.name[y].text()
+					log.info('List of offers: ' +getOffers +', ')
+
+			
+		
+				}
+		
+		def getStateroomPrice = (res.stateroomOffers.e[i].stateroomOffers.e[x].stateroomPrice.text()).toDouble()
+		def getSelectedFareCode = res.stateroomOffers.e[i].stateroomOffers.e[x].selectedFareCode.text()
+		def getTotalDiscount = (res.stateroomOffers.e[i].stateroomOffers.e[x].discounts.totalDiscount.text()).toDouble()
+		//log.info('totalDiscount: ' +getTotalDiscount)
+
+		def discountedAmount = (getOriginalPrice - getStateroomPrice)
+		log.info('discountedAmount : '+discountedAmount)
+
+		assert discountedAmount == getTotalDiscount
+		log.info('Discounted Amount is matched')
+
+		assert getStateroomPrice == getBestStateroomPrice
+		log.info('Stateroom Price is matched')
+
+		assert getSelectedFareCode == getBestSelectedFarecode
+		log.info('Farecode is matched')
+
+		
+
+		//assert discountedStateroomPrice == getStateroomPrice
+
+		
+		
+		def refundability = getOffers = res.stateroomOffers.e[i].stateroomOffers.e[x].refundability.text()	
+		//log.info('refundabililty: ' +refundability)
+
+		if (refundability.contains('NOT')) {	
+		log.info('PASSED: Non Refundable Promo (' +refundability +')')
+	} else {
+		log.info('The promo is Refundable (' +refundability +')')
+		}
+	}
+	
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>Ship</con:name>
+      <con:value>AX</con:value>
+    </con:property>
+    <con:property>
+      <con:name>PackageCode</con:name>
+      <con:value>AX07W462</con:value>
+    </con:property>
+    <con:property>
+      <con:name>SailDate</con:name>
+      <con:value>2023-04-22</con:value>
+    </con:property>
+    <con:property>
+      <con:name>CouponCode</con:name>
+      <con:value>BACKNOWNRD</con:value>
+    </con:property>
+  </con:properties>
+  <con:reportParameters/>
+</con:testCase>
