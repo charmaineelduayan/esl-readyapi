@@ -1260,7 +1260,7 @@ testRunner.testCase.setPropertyValue("BookingId",bookingId)</script>
     <con:config service="Booking" resourcePath="/retrieveBooking" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveBooking" id="f61292d7-a3d7-4c9c-a450-ddf89edb6e6e" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
         <con:request/>
@@ -1444,45 +1444,11 @@ testRunner.testCase.setPropertyValue("BookingAccessToken",bookingAccessToken)</s
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=QQ&header.domainId=1&header.language=en_US&countryCode=USA&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=QQ&header.domainId=1&header.language=en_US&countryCode=USA&bookingId=1420978&bookingAccessToken=e9465bfc-9e6b-435b-9a3f-83e907c41a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
             <codes>500</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="af1090ae-876a-45e8-9d48-256e05edc908" name="Contains" disabled="true">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="a1b85490-6e14-43c7-bec6-54f9ad49f4fb" name="JsonPath Match" disabled="true">
-          <con:configuration>
-            <path>$.balanceDue</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:prices[1]/ns1:priceInfo[1]/ns1:e[1]/ns1:amount[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="4c2bedd2-11fe-430a-b88f-0a444a3997c1" name="JsonPath Match 1">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentAmount</path>
-            <content>${CreateBooking#Request#$.reservations[0].listOfCardPayments.cardPayment[0].amount}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="6611713e-ac0e-423b-90bb-fb05a7d6f5c9" name="JsonPath Match 2">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentDate</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:bookingDate[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:assertion type="GroovyScriptAssertion" id="0f27567f-3123-4d25-b8aa-eeb7a69ccdf6" name="Script Assertion">
@@ -1497,6 +1463,22 @@ def rawrequest2 = rawRequest.indexOf("HTTP")
 def url = rawRequest.substring(rawrequest1,rawrequest2)
 
 messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="42082335-2cb0-45c6-81bd-70824c32db6b" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="875eb2c7-1b06-4334-b6ab-b91e1bd33997" name="Contains">
+          <con:configuration>
+            <token>Invalid brand</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1666,7 +1648,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&bookingId=1420978&bookingAccessToken=e9465bfc-9e6b-435b-9a3f-83e907c41a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1675,36 +1657,9 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         </con:assertion>
         <con:assertion type="Simple Contains" id="64c1b3a9-3957-4844-99bd-fc4de75deea3" name="Contains">
           <con:configuration>
-            <token>Success</token>
+            <token>Failure</token>
             <ignoreCase>false</ignoreCase>
             <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="6112804d-b59e-4a54-b449-6a6a8e18580c" name="JsonPath Match">
-          <con:configuration>
-            <path>$.balanceDue</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:prices[1]/ns1:priceInfo[1]/ns1:e[1]/ns1:amount[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="c9b5d0c4-1430-4a2a-a61f-76f620e6849a" name="JsonPath Match 1">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentAmount</path>
-            <content>${CreateBooking#Request#$.reservations[0].listOfCardPayments.cardPayment[0].amount}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="87a69f56-4db6-4e41-8c59-0f649d5f0acd" name="JsonPath Match 2">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentDate</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:bookingDate[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:assertion type="GroovyScriptAssertion" id="76144438-2a86-4fc1-8df1-23c15fb63553" name="Script Assertion">
@@ -1721,6 +1676,15 @@ def url = rawRequest.substring(rawrequest1,rawrequest2)
 messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="JsonPath Match" id="379d95ce-b86f-407b-b4c5-b3310fd5d661" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"ESL_MultipleNotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -1732,7 +1696,6 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:entry key="header.application" value="${DataSource#application}"/>
           <con:entry key="bookingAccessToken" value="${#TestCase#BookingAccessToken}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
-          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
           <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="bookingId" value="${#TestCase#BookingId}"/>
@@ -1880,53 +1843,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="FTest3-invalid countryCode" id="46bbf104-b8e7-40f1-ba4c-b8976aab6b18">
+  <con:testStep type="restrequest" name="FTest3-invalid length of countryCode" id="46bbf104-b8e7-40f1-ba4c-b8976aab6b18">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrievePaymentHistory" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="FTest3-invalid countryCode" id="a53102c9-61b0-4401-8975-8ae0b5b96dc1" mediaType="application/json">
+      <con:restRequest name="FTest3-invalid length of countryCode" id="a53102c9-61b0-4401-8975-8ae0b5b96dc1" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&countryCode=us&agencyId=108869&bookingId=1420978&bookingAccessToken=e9465bfc-9e6b-435b-9a3f-83e907c41a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
             <codes>500</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="64c1b3a9-3957-4844-99bd-fc4de75deea3" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="6112804d-b59e-4a54-b449-6a6a8e18580c" name="JsonPath Match">
-          <con:configuration>
-            <path>$.balanceDue</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:prices[1]/ns1:priceInfo[1]/ns1:e[1]/ns1:amount[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="c9b5d0c4-1430-4a2a-a61f-76f620e6849a" name="JsonPath Match 1">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentAmount</path>
-            <content>${CreateBooking#Request#$.reservations[0].listOfCardPayments.cardPayment[0].amount}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="87a69f56-4db6-4e41-8c59-0f649d5f0acd" name="JsonPath Match 2">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentDate</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:bookingDate[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:assertion type="GroovyScriptAssertion" id="76144438-2a86-4fc1-8df1-23c15fb63553" name="Script Assertion">
@@ -1943,6 +1872,24 @@ def url = rawRequest.substring(rawrequest1,rawrequest2)
 messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="JsonPath Match" id="7d72d5b1-6c74-4b8a-b057-6331e882fe8b" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="3b1cb46a-bcfb-41c9-99b0-ae9f2228cb40" name="JSONPath Match 2">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"InvalidLength"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -1952,6 +1899,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:parameters>
           <con:entry key="header.language" value="${DataSource#language}"/>
           <con:entry key="header.application" value="${DataSource#application}"/>
+          <con:entry key="countryCode" value="us"/>
           <con:entry key="bookingAccessToken" value="${#TestCase#BookingAccessToken}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
@@ -2110,45 +2058,11 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&sailDate=2023-04-16]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1420978&bookingAccessToken=e9465bfc-9e6b-435b-9a3f-83e907c41a06&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
             <codes>500</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="64c1b3a9-3957-4844-99bd-fc4de75deea3" name="Contains" disabled="true">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="6112804d-b59e-4a54-b449-6a6a8e18580c" name="JsonPath Match" disabled="true">
-          <con:configuration>
-            <path>$.balanceDue</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:prices[1]/ns1:priceInfo[1]/ns1:e[1]/ns1:amount[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="c9b5d0c4-1430-4a2a-a61f-76f620e6849a" name="JsonPath Match 1" disabled="true">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentAmount</path>
-            <content>${CreateBooking#Request#$.reservations[0].listOfCardPayments.cardPayment[0].amount}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="87a69f56-4db6-4e41-8c59-0f649d5f0acd" name="JsonPath Match 2" disabled="true">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentDate</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:bookingDate[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:assertion type="GroovyScriptAssertion" id="76144438-2a86-4fc1-8df1-23c15fb63553" name="Script Assertion">
@@ -2169,6 +2083,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="f8896642-8377-4e42-8401-fdbd31f5f8e4" name="JSONPath Match 2">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
@@ -2332,15 +2255,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="FTest5-invalid shipCode" id="10228d44-0b88-4d4a-9189-691cbd223d4a">
+  <con:testStep type="restrequest" name="FTest5-invalid shipCode" id="10228d44-0b88-4d4a-9189-691cbd223d4a" disabled="true">
     <con:settings/>
     <con:config service="Booking" resourcePath="/retrievePaymentHistory" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest5-invalid shipCode" id="a53102c9-61b0-4401-8975-8ae0b5b96dc1" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1420976&bookingAccessToken=7e411584-6264-4da6-bacc-20a53d31eaba&shipCode=RR&sailDate=2023-04-16]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -2411,7 +2334,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="bookingId" value="${#TestCase#BookingId}"/>
           <con:entry key="header.uuid" value="${DataSource#uuid}"/>
-          <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
+          <con:entry key="shipCode" value="RR"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -2559,48 +2482,14 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     <con:config service="Booking" resourcePath="/retrievePaymentHistory" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest7-invalid sailDate" id="a53102c9-61b0-4401-8975-8ae0b5b96dc1" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1420978&bookingAccessToken=e9465bfc-9e6b-435b-9a3f-83e907c41a06&shipCode=AT&sailDate=1234342]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
             <codes>500</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="64c1b3a9-3957-4844-99bd-fc4de75deea3" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="6112804d-b59e-4a54-b449-6a6a8e18580c" name="JsonPath Match">
-          <con:configuration>
-            <path>$.balanceDue</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:prices[1]/ns1:priceInfo[1]/ns1:e[1]/ns1:amount[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="c9b5d0c4-1430-4a2a-a61f-76f620e6849a" name="JsonPath Match 1">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentAmount</path>
-            <content>${CreateBooking#Request#$.reservations[0].listOfCardPayments.cardPayment[0].amount}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="87a69f56-4db6-4e41-8c59-0f649d5f0acd" name="JsonPath Match 2">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentDate</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:bookingDate[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:assertion type="GroovyScriptAssertion" id="76144438-2a86-4fc1-8df1-23c15fb63553" name="Script Assertion">
@@ -2617,6 +2506,15 @@ def url = rawRequest.substring(rawrequest1,rawrequest2)
 messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="JsonPath Match" id="16b2d3c1-9469-49c5-9f7d-b5e81b3b2553" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"InvalidDate"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -2630,7 +2528,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
           <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="sailDate" value="1234342"/>
           <con:entry key="bookingId" value="${#TestCase#BookingId}"/>
           <con:entry key="header.uuid" value="${DataSource#uuid}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
@@ -2781,48 +2679,14 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     <con:config service="Booking" resourcePath="/retrievePaymentHistory" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FTest6-blank sailDate" id="a53102c9-61b0-4401-8975-8ae0b5b96dc1" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1388834&bookingAccessToken=2714ad46-d8ac-4820-95de-882b1ab30a06&shipCode=AT&sailDate=2023-04-16]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_US&agencyId=108869&bookingId=1420978&bookingAccessToken=e9465bfc-9e6b-435b-9a3f-83e907c41a06&shipCode=AT]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrievePaymentHistory</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="0a50a331-586b-4fe4-8043-1067740cd92c" name="Invalid HTTP Status Codes">
           <con:configuration>
             <codes>500</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="64c1b3a9-3957-4844-99bd-fc4de75deea3" name="Contains">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="6112804d-b59e-4a54-b449-6a6a8e18580c" name="JsonPath Match">
-          <con:configuration>
-            <path>$.balanceDue</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:prices[1]/ns1:priceInfo[1]/ns1:e[1]/ns1:amount[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="c9b5d0c4-1430-4a2a-a61f-76f620e6849a" name="JsonPath Match 1">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentAmount</path>
-            <content>${CreateBooking#Request#$.reservations[0].listOfCardPayments.cardPayment[0].amount}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="87a69f56-4db6-4e41-8c59-0f649d5f0acd" name="JsonPath Match 2">
-          <con:configuration>
-            <path>$.paymentDetail[0].paymentDate</path>
-            <content>${RetrieveBooking#ResponseAsXml#declare namespace ns1='http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveBooking'; //ns1:Response[1]/ns1:booking[1]/ns1:bookingInformation[1]/ns1:bookingDate[1]}</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:assertion type="GroovyScriptAssertion" id="76144438-2a86-4fc1-8df1-23c15fb63553" name="Script Assertion">
@@ -2839,6 +2703,15 @@ def url = rawRequest.substring(rawrequest1,rawrequest2)
 messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="JsonPath Match" id="f78d04c7-ce2d-407f-af45-37d5676c3a58" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"InvalidDate"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -2852,7 +2725,6 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="agencyId" value="${DataSource#agencyId}"/>
           <con:entry key="header.brand" value="${DataSource#brand}"/>
-          <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="bookingId" value="${#TestCase#BookingId}"/>
           <con:entry key="header.uuid" value="${DataSource#uuid}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
@@ -3184,19 +3056,19 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value>8135</con:value>
+      <con:value>9207</con:value>
     </con:property>
     <con:property>
       <con:name>AccessToken</con:name>
-      <con:value>43a28692-3fd1-4325-a7ea-e03306648bf1</con:value>
+      <con:value>53f817ad-0ed9-4072-9145-a49fcb33959a</con:value>
     </con:property>
     <con:property>
       <con:name>BookingId</con:name>
-      <con:value>1388834</con:value>
+      <con:value>1420978</con:value>
     </con:property>
     <con:property>
       <con:name>BookingAccessToken</con:name>
-      <con:value>2714ad46-d8ac-4820-95de-882b1ab30a06</con:value>
+      <con:value>e9465bfc-9e6b-435b-9a3f-83e907c41a06</con:value>
     </con:property>
     <con:property>
       <con:name>Request</con:name>

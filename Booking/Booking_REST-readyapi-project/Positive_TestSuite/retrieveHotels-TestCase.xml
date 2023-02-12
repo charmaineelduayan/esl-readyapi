@@ -109,6 +109,7 @@
           <con:entry key="header.brand" value="${DataSource#Orchestration_brand}"/>
           <con:entry key="resultsPreference.includePrices" value="${DataSource#Orchestration_Prices}"/>
           <con:entry key="criteria.bookingType" value="${DataSource#Orchestration_bookingType}"/>
+          <con:entry key="criteria.port.value" value="LAX"/>
           <con:entry key="resultsPreference.pagination.count" value="${DataSource#Orchestration_pagination}"/>
           <con:entry key="resultsPreference.includeFacets" value="${DataSource#Orchestration_Facets}"/>
           <con:entry key="criteria.country" value="${DataSource#Orchestration_countryCode}"/>
@@ -335,7 +336,7 @@ testRunner.testCase.setPropertyValue("SailDate",sailDate)</script>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AL&sailing.sailDate=2023-02-15&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=WC&sailing.sailDate=2023-03-10&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.airportCityName=LAX&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f10cab55-c43f-4a3b-ad83-eca5543d9729" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -386,12 +387,12 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="guests.guest[0].transportation.airportCityCode" value="${DataSource#airportCityCode}"/>
+          <con:entry key="guests.guest[0].transportation.airportCityCode" value="C/O"/>
           <con:entry key="header.language" value="${DataSource#language}"/>
           <con:entry key="header.application" value="${DataSource#Orchestration_application}"/>
           <con:entry key="countryCode" value="${DataSource#Orchestration_countryCode}"/>
-          <con:entry key="guests.guest[0].transportation.status" value="${DataSource#airportstatus}"/>
-          <con:entry key="guests.guest[0].transportation.airportCityName" value="${DataSource#airportCityName}"/>
+          <con:entry key="guests.guest[0].transportation.status" value="CONFIRMED_TICKET_NOT_ISSUED"/>
+          <con:entry key="guests.guest[0].transportation.airportCityName" value="LAX"/>
           <con:entry key="sailing.sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="header.brand" value="${DataSource#Orchestration_brand}"/>
@@ -549,10 +550,10 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     <con:config service="Booking" resourcePath="/hotels" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="FunctionalTest2_International countryCode" id="51cab20e-cd30-48ba-b585-cb79e23a1ea4" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AL&sailing.sailDate=2023-02-15&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=WC&sailing.sailDate=2023-03-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -761,7 +762,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AL&sailing.sailDate=2023-02-15&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=WC&sailing.sailDate=2023-03-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -957,7 +958,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=AL&sailing.sailDate=2023-02-15&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/hotels?header.application=royalcaribbean.com&header.brand=R&header.domainId=1&header.language=en_US&countryCode=USA&sailing.shipCode=WC&sailing.sailDate=2023-03-10&guests.guest%5B0%5D.age=24&guests.guest%5B0%5D.transportation.airportCityCode=C%2FO&guests.guest%5B0%5D.transportation.status=CONFIRMED_TICKET_NOT_ISSUED]]></con:request>
         <con:originalUri>http://eslbservicestst01.rccl.com/esl/booking/rest/v3/hotels</con:originalUri>
         <con:assertion type="Invalid HTTP Status Codes" id="f18d4710-6176-4604-86e3-d090ff5e7bed" name="Invalid HTTP Status Codes">
           <con:configuration>
@@ -1347,11 +1348,11 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
   <con:properties>
     <con:property>
       <con:name>ShipCode</con:name>
-      <con:value>AL</con:value>
+      <con:value>WC</con:value>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2023-02-15</con:value>
+      <con:value>2023-03-10</con:value>
     </con:property>
     <con:property>
       <con:name>Request</con:name>
