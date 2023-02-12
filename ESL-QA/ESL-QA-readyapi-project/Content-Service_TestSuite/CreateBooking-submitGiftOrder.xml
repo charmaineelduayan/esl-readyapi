@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="558e95f3-977e-42f9-8ea1-db09d9fdf4e7" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="retrieveBookingPrice" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="f6668110-8493-468e-8066-dc989d07ce03" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="CreateBooking-submitGiftOrder" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="558e95f3-977e-42f9-8ea1-db09d9fdf4e7fileName">retrieveBookingPrice</con:setting>
+    <con:setting id="f6668110-8493-468e-8066-dc989d07ce03fileName">CreateBooking-submitGiftOrder</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch" id="23192e27-f00c-4d20-bbd5-244bb495e774">
+  <con:testStep type="restrequest" name="cruiseSearch" id="1d98e1a7-9025-4448-902b-0ea3caca81d6">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
@@ -71,7 +71,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="dae26d66-c8d5-4531-afe6-1fa5d0104a3c">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="085a8ae8-495f-4851-a114-b2a144f74152">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -100,7 +100,7 @@ log.info(currency)
 testRunner.testCase.setPropertyValue("currency",currency);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="0cd05c42-82ad-4b5f-b3e2-452a6ef09f09">
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="a16dd603-e42e-4a74-8b16-5212e732a2e9">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -143,7 +143,7 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveStateroomCategories" id="83d82894-8b52-4a3a-ae0a-e4db47f4e20f">
+  <con:testStep type="restrequest" name="retrieveStateroomCategories" id="d1b52133-dd92-4965-96c5-16cf30f2c4b6">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomCategories" methodName="retrieveStateroomCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveStateroomCategories" id="747c2a9f-ae3a-46c4-9677-5fd3a653ba6b" mediaType="application/json">
@@ -202,7 +202,7 @@ if (celebrityShips.contains(shipCode)) {
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_categoryCode/fareCode/cruiseTotal" id="bebff6d4-e9e9-4fc8-985d-2170370770f2">
+  <con:testStep type="groovy" name="Fetch_RES_categoryCode/fareCode/cruiseTotal" id="40f60906-e6d4-45c2-bbae-7fa5e73f4ae0">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -239,146 +239,7 @@ log.info(categoryCode)
 testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBookingPrice-no bookingID" id="eb766581-7663-4890-896b-d44f95af1a9d">
-    <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/retrieveBookingPrice" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBookingPrice-no bookingID" id="63e888e6-9ec0-4106-9eb5-48888f8e0b76" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingPrice</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="a976dd0e-e4e2-4e06-a947-6c4179096925" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="2c56c57d-8c05-49a1-a253-20f7ec6f306d" name="Validate no booking ID">
-          <con:configuration>
-            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
-
-
-def jsonSlurper = new groovy.json.JsonSlurper();
-def parse = jsonSlurper.parseText(jsonRes)
-
-
-def reservationId = parse.bookingPrice.reservationId.toInteger()
-log.info reservationId
-assert reservationId==0</scriptText>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="aaab85d9-ce30-4592-8038-4936719ab426" name="Success">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="32463bfe-4594-47bb-b01d-29120ec37ac1" name="priceInfo">
-          <con:configuration>
-            <token>priceInfo</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.birthDate" value="1993-01-01"/>
-          <con:entry key="bookingInfo.cabin.berthedCategoryCode" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="adultCount" value="2"/>
-          <con:entry key="bookingInfo.cabin.pricedCategoryCode" value="${#TestCase#categoryCode}"/>
-          <con:entry key="sailingInfo.currencyCode" value="${#TestCase#currency}"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.age" value="30"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.gender" value="F"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailingInfo.shipCode" value="${#TestCase#shipCode}"/>
-          <con:entry key="bookingInfo.fareQualifiers.seniorReqd" value="false"/>
-          <con:entry key="includePenaltySchedule" value="true"/>
-          <con:entry key="bookingInfo.fareQualifiers.policeReqd" value="false"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.gender" value="M"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.birthDate" value="1993-01-01"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.firstName" value="ESL Two"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.firstName" value="ESL One"/>
-          <con:entry key="bookingInfo.insurance.optionIndicator" value="false"/>
-          <con:entry key="bookingInfo.cabin.fareCode" value="${#TestCase#fareCode}"/>
-          <con:entry key="bookingInfo.reservationIdType.lastModifyDateTime" value="2023-01-01T12:28:26Z"/>
-          <con:entry key="sailingInfo.sailDate" value="${#TestCase#sailDate}"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.lastName" value="Tester"/>
-          <con:entry key="header.language" value="en_US"/>
-          <con:entry key="bookingInfo.fareQualifiers.militaryReqd" value="false"/>
-          <con:entry key="bookingInfo.cabin.waitListed" value="false"/>
-          <con:entry key="includePricingAddOns" value="true"/>
-          <con:entry key="bookingInfo.reservationIdType.id" value="0000000"/>
-          <con:entry key="bookingInfo.gratuitiesPrepaid" value="false"/>
-          <con:entry key="includePricing" value="true"/>
-          <con:entry key="bookingInfo.insurance.defaultIndicator" value="false"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.title" value="MS"/>
-          <con:entry key="stateCode" value="FL"/>
-          <con:entry key="bookingInfo.selectedPromotions" value="${#TestCase#fareCode}"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.title" value="MR"/>
-          <con:entry key="sailingInfo.packageCode" value="${#TestCase#packageCode}"/>
-          <con:entry key="bookingInfo.fareQualifiers.fireFighterReqd" value="false"/>
-          <con:entry key="bookingInfo.includeNonRefundablePromos" value="true"/>
-          <con:entry key="bookingInfo.cabin.accessible" value="false"/>
-          <con:entry key="bookingInfo.reservationIdType.status" value="OFFERED"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.age" value="30"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.lastName" value="Tester"/>
-        </con:parameters>
-        <con:parameterOrder>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.language</con:entry>
-          <con:entry>sailingInfo.shipCode</con:entry>
-          <con:entry>sailingInfo.sailDate</con:entry>
-          <con:entry>countryCode</con:entry>
-          <con:entry>sailingInfo.currencyCode</con:entry>
-          <con:entry>sailingInfo.packageCode</con:entry>
-          <con:entry>bookingInfo.cabin.berthedCategoryCode</con:entry>
-          <con:entry>bookingInfo.cabin.pricedCategoryCode</con:entry>
-          <con:entry>bookingInfo.cabin.fareCode</con:entry>
-          <con:entry>bookingInfo.selectedPromotions</con:entry>
-          <con:entry>bookingInfo.cabin.waitListed</con:entry>
-          <con:entry>bookingInfo.cabin.accessible</con:entry>
-          <con:entry>bookingInfo.gratuitiesPrepaid</con:entry>
-          <con:entry>bookingInfo.insurance.optionIndicator</con:entry>
-          <con:entry>bookingInfo.insurance.defaultIndicator</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.seniorReqd</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.militaryReqd</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.policeReqd</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.fireFighterReqd</con:entry>
-          <con:entry>bookingInfo.reservationIdType.id</con:entry>
-          <con:entry>bookingInfo.reservationIdType.lastModifyDateTime</con:entry>
-          <con:entry>bookingInfo.reservationIdType.status</con:entry>
-          <con:entry>bookingInfo.includeNonRefundablePromos</con:entry>
-          <con:entry>includePenaltySchedule</con:entry>
-          <con:entry>includePricingAddOns</con:entry>
-          <con:entry>includePricing</con:entry>
-          <con:entry>stateCode</con:entry>
-          <con:entry>adultCount</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.lastName</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.title</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.age</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.gender</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.birthDate</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.lastName</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.title</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.age</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.gender</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.birthDate</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.firstName</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.firstName</con:entry>
-        </con:parameterOrder>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveStateroomsForCategory" id="0e1b2794-f796-48ba-b59b-e2655bacda4e">
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory" id="157bed34-f97f-4e95-949b-0c5176f148b2">
     <con:settings/>
     <con:config service="Booking" methodName="retrieveStateroomsForCategory" resourcePath="/rest/v3/retrieveStateroomsForCategory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveStateroomsForCategory" id="0b4bcbf3-a807-4e6f-b760-0776798d5c9b" mediaType="application/json">
@@ -427,7 +288,7 @@ assert reservationId==0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_cabinNumber" id="057f93b3-851c-4a1e-9945-f53f53765fb2">
+  <con:testStep type="groovy" name="Fetch_RES_cabinNumber" id="8d3022e2-efb9-4af5-b1af-f555953b84c1">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -452,7 +313,7 @@ def cabinNumber = res.cabin.e[0].cabinNumber.text()
 		}</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="bookingAddOns" id="09ba98dd-fe26-4659-8422-572c649b0a37">
+  <con:testStep type="restrequest" name="bookingAddOns" id="605c5477-611b-4e50-8a60-5371f86a2aea">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/bookingAddOns" methodName="bookingAddOns" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="bookingAddOns" id="4db884f5-b639-481e-95b7-29c7bb3c9b76" mediaType="application/json">
@@ -506,7 +367,7 @@ def cabinNumber = res.cabin.e[0].cabinNumber.text()
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_dining" id="0b6a8ca8-5317-4200-85bf-8fe738e8fe84">
+  <con:testStep type="groovy" name="Fetch_RES_dining" id="c677663c-fc1e-4459-89f3-a726567b7690">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -531,7 +392,7 @@ log.info(seatingTime)
 testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="createBooking" id="741bbcb6-edeb-4463-8445-ab17f43b61e1">
+  <con:testStep type="restrequest" name="createBooking" id="14fbfda6-10c2-467d-a1e1-167e6961f246">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/createBooking" methodName="createBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="createBooking" id="b409c4e8-2bd6-458c-a445-0c60531f6a15" mediaType="application/json" postQueryString="false">
@@ -675,7 +536,7 @@ assert bookingId!=null</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_lastname/booking" id="29d6f1fa-2b33-4250-9809-dd5c3f5eb265">
+  <con:testStep type="groovy" name="Fetch_RES_lastname/booking" id="15b7d34e-f080-49fb-9be2-20462eb01387" disabled="true">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -707,163 +568,13 @@ log.info(lastname)
 testRunner.testCase.setPropertyValue("lastname",lastname);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="delay" name="Delay" id="e25a7c39-9d98-467e-b81d-c12106ba1789">
+  <con:testStep type="delay" name="Delay" id="320889a3-049a-4039-b69f-a262d9bfd0fa" disabled="true">
     <con:settings/>
     <con:config>
       <delay>2000</delay>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBookingPrice-with bookingID" id="6ed41013-b7fd-4cb3-8639-8f3c1745e68a">
-    <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/retrieveBookingPrice" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBookingPrice-with bookingID" id="63e888e6-9ec0-4106-9eb5-48888f8e0b76" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingPrice</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="a976dd0e-e4e2-4e06-a947-6c4179096925" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="2c56c57d-8c05-49a1-a253-20f7ec6f306d" name="With BookingID">
-          <con:configuration>
-            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
-
-
-def jsonSlurper = new groovy.json.JsonSlurper();
-def parse = jsonSlurper.parseText(jsonRes)
-
-
-def reservationId = parse.bookingPrice.reservationId.toInteger()
-log.info reservationId
-
-//get the value from other steps within the test case
-def bookingID = messageExchange.modelItem.testStep.testCase.getPropertyValue("bookingID").toInteger()
-
-
-assert reservationId==bookingID</scriptText>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="aaab85d9-ce30-4592-8038-4936719ab426" name="Success">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="32463bfe-4594-47bb-b01d-29120ec37ac1" name="priceInfo">
-          <con:configuration>
-            <token>priceInfo</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.birthDate" value="1993-01-01"/>
-          <con:entry key="bookingInfo.cabin.berthedCategoryCode" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="adultCount" value="2"/>
-          <con:entry key="bookingInfo.cabin.pricedCategoryCode" value="${#TestCase#categoryCode}"/>
-          <con:entry key="sailingInfo.currencyCode" value="${#TestCase#currency}"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.age" value="30"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.gender" value="F"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailingInfo.shipCode" value="${#TestCase#shipCode}"/>
-          <con:entry key="bookingInfo.fareQualifiers.seniorReqd" value="false"/>
-          <con:entry key="includePenaltySchedule" value="true"/>
-          <con:entry key="bookingInfo.fareQualifiers.policeReqd" value="false"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.gender" value="M"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.birthDate" value="1993-01-01"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.firstName" value="ESL Two"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.firstName" value="ESL One"/>
-          <con:entry key="bookingInfo.insurance.optionIndicator" value="false"/>
-          <con:entry key="bookingInfo.cabin.fareCode" value="${#TestCase#fareCode}"/>
-          <con:entry key="bookingInfo.reservationIdType.lastModifyDateTime" value="2023-01-01T12:28:26Z"/>
-          <con:entry key="sailingInfo.sailDate" value="${#TestCase#sailDate}"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.lastName" value="Tester"/>
-          <con:entry key="header.language" value="en_US"/>
-          <con:entry key="bookingInfo.fareQualifiers.militaryReqd" value="false"/>
-          <con:entry key="bookingInfo.cabin.waitListed" value="false"/>
-          <con:entry key="includePricingAddOns" value="true"/>
-          <con:entry key="bookingInfo.reservationIdType.id" value="${#TestCase#bookingId}"/>
-          <con:entry key="bookingInfo.gratuitiesPrepaid" value="false"/>
-          <con:entry key="includePricing" value="true"/>
-          <con:entry key="bookingInfo.insurance.defaultIndicator" value="false"/>
-          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.title" value="MS"/>
-          <con:entry key="stateCode" value="FL"/>
-          <con:entry key="bookingInfo.selectedPromotions" value="${#TestCase#fareCode}"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.title" value="MR"/>
-          <con:entry key="sailingInfo.packageCode" value="${#TestCase#packageCode}"/>
-          <con:entry key="bookingInfo.fareQualifiers.fireFighterReqd" value="false"/>
-          <con:entry key="bookingInfo.includeNonRefundablePromos" value="true"/>
-          <con:entry key="bookingInfo.cabin.accessible" value="false"/>
-          <con:entry key="bookingInfo.reservationIdType.status" value="OFFERED"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.age" value="30"/>
-          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.lastName" value="Tester"/>
-        </con:parameters>
-        <con:parameterOrder>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.language</con:entry>
-          <con:entry>sailingInfo.shipCode</con:entry>
-          <con:entry>sailingInfo.sailDate</con:entry>
-          <con:entry>countryCode</con:entry>
-          <con:entry>sailingInfo.currencyCode</con:entry>
-          <con:entry>sailingInfo.packageCode</con:entry>
-          <con:entry>bookingInfo.cabin.berthedCategoryCode</con:entry>
-          <con:entry>bookingInfo.cabin.pricedCategoryCode</con:entry>
-          <con:entry>bookingInfo.cabin.fareCode</con:entry>
-          <con:entry>bookingInfo.selectedPromotions</con:entry>
-          <con:entry>bookingInfo.cabin.waitListed</con:entry>
-          <con:entry>bookingInfo.cabin.accessible</con:entry>
-          <con:entry>bookingInfo.gratuitiesPrepaid</con:entry>
-          <con:entry>bookingInfo.insurance.optionIndicator</con:entry>
-          <con:entry>bookingInfo.insurance.defaultIndicator</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.seniorReqd</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.militaryReqd</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.policeReqd</con:entry>
-          <con:entry>bookingInfo.fareQualifiers.fireFighterReqd</con:entry>
-          <con:entry>bookingInfo.reservationIdType.id</con:entry>
-          <con:entry>bookingInfo.reservationIdType.lastModifyDateTime</con:entry>
-          <con:entry>bookingInfo.reservationIdType.status</con:entry>
-          <con:entry>bookingInfo.includeNonRefundablePromos</con:entry>
-          <con:entry>includePenaltySchedule</con:entry>
-          <con:entry>includePricingAddOns</con:entry>
-          <con:entry>includePricing</con:entry>
-          <con:entry>stateCode</con:entry>
-          <con:entry>adultCount</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.lastName</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.title</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.age</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.gender</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.birthDate</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.lastName</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.title</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.age</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.gender</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.birthDate</con:entry>
-          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.firstName</con:entry>
-          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.firstName</con:entry>
-        </con:parameterOrder>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="delay" name="Delay 2" id="28b8fd58-d916-4967-b49d-555dccd1dc2c">
-    <con:settings/>
-    <con:config>
-      <delay>2000</delay>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking" id="987a80b7-7da8-437d-8487-8b08a565513e">
+  <con:testStep type="restrequest" name="retrieveBooking" id="6a5555db-83be-431c-9563-13e8c05a8e5a" disabled="true">
     <con:settings/>
     <con:config service="Booking" methodName="retrieveBooking" resourcePath="/rest/v3/retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveBooking" id="5233383c-3985-4305-ab02-2225af0d0e20" mediaType="application/json">
@@ -931,7 +642,7 @@ assert token!=null</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken" id="b418fd9b-4f90-4b5e-a209-b3e701434d51">
+  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken" id="ed7d4ae3-aff6-4bde-a524-814a1669300c" disabled="true">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -954,7 +665,7 @@ log.info(bookingAccessToken)
 testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="cancelBooking" id="57b59064-e316-4ea9-8abe-f08fbbd5e9ce">
+  <con:testStep type="restrequest" name="cancelBooking" id="a60bc3f3-e723-49c9-8383-bd88eeab4ba7" disabled="true">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/cancelBooking" methodName="cancelBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cancelBooking" id="f837f382-acaf-4ca4-9a9d-cf578dea2250" mediaType="application/json" postQueryString="false">
@@ -1019,7 +730,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2023-03-11</con:value>
+      <con:value>2023-02-11</con:value>
     </con:property>
     <con:property>
       <con:name>brand</con:name>
@@ -1031,11 +742,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>11</con:value>
+      <con:value>09</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2120</con:value>
+      <con:value>9143</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -1059,7 +770,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1422306</con:value>
+      <con:value>1414783</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -1067,7 +778,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>3f11e2d8-0f55-4632-b6cb-e69dc8f267ee</con:value>
+      <con:value>38b3f7e7-7719-4df5-a8b3-b3b98d7f3ff7</con:value>
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
