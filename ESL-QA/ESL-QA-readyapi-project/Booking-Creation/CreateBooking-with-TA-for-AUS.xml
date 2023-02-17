@@ -45,7 +45,8 @@ assert totalHits!=0</scriptText>
           <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
           <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
           <con:entry key="resultsPreference.includeResults" value="true"/>
-          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="criteria.currency" value="AUD"/>
+          <con:entry key="criteria.office" value="AUS"/>
           <con:entry key="resultsPreference.strictSearch" value="true"/>
           <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
           <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
@@ -54,6 +55,7 @@ assert totalHits!=0</scriptText>
           <con:entry key="criteria.bookingType" value="FIT"/>
           <con:entry key="resultsPreference.pagination.count" value="100"/>
           <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.country" value="AUS"/>
           <con:entry key="criteria.occupancy.adult" value="2"/>
           <con:entry key="resultsPreference.sortBy" value="DURATION"/>
         </con:parameters>
@@ -392,6 +394,62 @@ log.info(seatingTime)
 testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="travelAgencies-AUS" id="8b656171-d05a-45a4-9f4f-6ac3df2c2a9a">
+    <con:settings/>
+    <con:config service="Content" resourcePath="/rest/v3/travelAgencies" methodName="travelAgencies" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="travelAgencies-AUS" id="708b17aa-d737-4a52-8f23-ea860aa75d49" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/travelAgencies</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="b90ca525-6d4f-4556-99a2-341c2fcaa283" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="city" value="SYDNEY"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>city</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_agencyID" id="ea4ba993-9832-4394-b2e0-241e7324ce56">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+
+def ts = testRunner.testCase.getTestStepByName("travelAgencies-AUS");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+
+//Set Test Case agencyId
+def agencyId  = res.travelAgencies.e[0].agencyId.text()
+log.info(agencyId)
+testRunner.testCase.setPropertyValue("agencyId",agencyId);</script>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="1ab3fd01-471f-429e-95ac-f5028c0c1798">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/createBooking" methodName="createBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -407,6 +465,7 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
     "language": "en_US"
   },
   "countryCode": "${#TestCase#country}",
+  "agencyId" : "333727",
   "sailingInfo": {
     "shipCode": "${#TestCase#shipCode}",
     "sailDate": "${#TestCase#sailDate}",
@@ -490,31 +549,7 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
             "email": "eslqa@rccl.com"
           }
         }
-      ],
-      "listOfCardPayments": {
-				"cardPayment": [
-					{
-						"cardType": "VA",
-						"cardToken": "4387751111111111",
-						"expireDate": "1230",
-						"amount": "${#TestCase#totalCruiseAmount}",
-						"currency": "USD",
-						"extendPayments": "false",
-						"contact": {
-							"firstName": "ESL QA",
-							"lastName": "Tester",
-							"address": {
-								"address1": "ADDRESS",
-								"city": "CITY",
-								"stateCode": "FLL",
-								"postalCode": "33019",
-								"countryCode": "USA",
-								"countryName": "USA"
-							}
-						}
-					}
-				]
-			}
+      ]
     }
   ],
   "courtesyHold": "true"
@@ -675,6 +710,20 @@ log.info token
 assert token!=null</scriptText>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="a02bea0c-1df5-4e93-bc7a-57a74dbf514e" name="Validate TA booking created">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def type = parse.booking.bookingInformation.type
+log.info type
+assert type=="TA"</scriptText>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
@@ -755,9 +804,9 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="1aefdb8c-de73-41fb-b51d-62174fdac705" name="Contains">
+        <con:assertion type="Simple Contains" id="1aefdb8c-de73-41fb-b51d-62174fdac705" name="TA cannot be cancel">
           <con:configuration>
-            <token>Success</token>
+            <token>ACCESS TO BOOKING ID IS DENIED. SECURED BOOKING</token>
             <ignoreCase>false</ignoreCase>
             <useRegEx>false</useRegEx>
           </con:configuration>
@@ -810,7 +859,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2050</con:value>
+      <con:value>2028</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -826,15 +875,15 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>country</con:name>
-      <con:value>USA</con:value>
+      <con:value>AUS</con:value>
     </con:property>
     <con:property>
       <con:name>currency</con:name>
-      <con:value>USD</con:value>
+      <con:value>AUD</con:value>
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1431909</con:value>
+      <con:value>1433907</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -842,7 +891,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>7f902f7d-002a-49d1-89f0-39a1c9cecb63</con:value>
+      <con:value>f729d481-54a1-481c-aa74-cdd280541212</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -855,6 +904,10 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     <con:property>
       <con:name>totalCruiseAmount</con:name>
       <con:value>500</con:value>
+    </con:property>
+    <con:property>
+      <con:name>agencyId</con:name>
+      <con:value>238176</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
