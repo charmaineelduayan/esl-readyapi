@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="updateStateroomLock" path="/rest/v3/updateStateroomLock" id="004a26a2-7a4c-480d-a018-0aa57fa0171c" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="004a26a2-7a4c-480d-a018-0aa57fa0171cfileName">updateStateroomLock</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="updateStateroomLock" id="d35f246a-b576-42bf-8db1-5ad8e1ffa0ce" method="POST">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="updateStateroomLock_fetchData" id="f995467f-184d-40a3-a549-5da4765f9eed" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request>{
+    "header": {
+        "application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}"
+    },
+    "countryCode": "${#TestCase#country}",
+    "shipCode": "${#TestCase#shipCode}",
+    "sailDate": "${#TestCase#sailDate}",
+    "lockStaterooms":{
+      "fareCode":"${#TestCase#fareCode}",
+      "stateroomCategoryCode":"${#TestCase#categoryCode}",
+      "guestCount":"${#TestCase#guestCount}",
+      "stateroomNumber":["${#TestCase#cabinNumber}"]
+    }
+}</con:request>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+    <con:request name="updateStateroomUnlock_fetchData" id="e9112327-f323-4fd1-8337-4111f57fb431" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request>{
+    "header": {
+        "application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}"
+    },
+    "countryCode": "${#TestCase#country}",
+    "bookingAccessToken": "${#TestCase#bookingAccessToken}",
+    "shipCode": "${#TestCase#shipCode}",
+    "sailDate": "${#TestCase#sailDate}",
+    "unlockStaterooms":{
+      "stateroomNumber":["${#TestCase#cabinNumber}"]
+    }
+}</con:request>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+  </con:method>
+</con:resource>
