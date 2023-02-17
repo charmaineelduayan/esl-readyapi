@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="d03498ee-6856-4076-a41f-7d486cfbd18b" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="CreateBooking with TA for Iraq(Int Rep)-BK under RepAgency" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="d03498ee-6856-4076-a41f-7d486cfbd18b" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="CreateBooking-CourtesyHold-IRAQ (RepAgency)" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="d03498ee-6856-4076-a41f-7d486cfbd18bfileName">CreateBooking-with-TA-for-Iraq%28Int-Rep%29-BK-under-RepAgency</con:setting>
+    <con:setting id="d03498ee-6856-4076-a41f-7d486cfbd18bfileName">CreateBooking-CourtesyHold-IRAQ-%28RepAgency%29</con:setting>
   </con:settings>
   <con:testStep type="restrequest" name="cruiseSearch" id="9bc3e6b9-8240-4e42-aeb3-2f4a5618dc29">
     <con:settings/>
@@ -45,7 +45,7 @@ assert totalHits!=0</scriptText>
           <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
           <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
           <con:entry key="resultsPreference.includeResults" value="true"/>
-          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="criteria.office" value="IBR"/>
           <con:entry key="resultsPreference.strictSearch" value="true"/>
           <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
           <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
@@ -54,6 +54,7 @@ assert totalHits!=0</scriptText>
           <con:entry key="criteria.bookingType" value="FIT"/>
           <con:entry key="resultsPreference.pagination.count" value="100"/>
           <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.country" value="IRQ"/>
           <con:entry key="criteria.occupancy.adult" value="2"/>
           <con:entry key="resultsPreference.sortBy" value="DURATION"/>
         </con:parameters>
@@ -392,6 +393,61 @@ log.info(seatingTime)
 testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="travelAgencies-IRAQ" id="0ee3fd65-673e-413d-9e38-d35286ede24d">
+    <con:settings/>
+    <con:config service="Content" resourcePath="/rest/v3/travelAgencies" methodName="travelAgencies" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="travelAgencies-IRAQ" id="708b17aa-d737-4a52-8f23-ea860aa75d49" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/travelAgencies</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="f6f1334d-98b0-4003-a8ab-997ee4c9154b" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>city</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_agencyID" id="bc8269b5-b421-4b8c-b3bf-af9c988d9ab1">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+
+def ts = testRunner.testCase.getTestStepByName("travelAgencies-IRAQ");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+
+//Set Test Case agencyId
+def agencyId  = res.travelAgencies.e[0].agencyId.text()
+log.info(agencyId)
+testRunner.testCase.setPropertyValue("agencyId",agencyId);</script>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="2fbb0f88-2dfa-433a-885a-bcf03520f1d7">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/createBooking" methodName="createBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -407,6 +463,7 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
     "language": "en_US"
   },
   "countryCode": "${#TestCase#country}",
+  "agencyId" : "${#TestCase#agencyId}",
   "sailingInfo": {
     "shipCode": "${#TestCase#shipCode}",
     "sailDate": "${#TestCase#sailDate}",
@@ -490,31 +547,7 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
             "email": "eslqa@rccl.com"
           }
         }
-      ],
-      "listOfCardPayments": {
-				"cardPayment": [
-					{
-						"cardType": "VA",
-						"cardToken": "4387751111111111",
-						"expireDate": "1230",
-						"amount": "${#TestCase#totalCruiseAmount}",
-						"currency": "USD",
-						"extendPayments": "false",
-						"contact": {
-							"firstName": "ESL QA",
-							"lastName": "Tester",
-							"address": {
-								"address1": "ADDRESS",
-								"city": "CITY",
-								"stateCode": "FLL",
-								"postalCode": "33019",
-								"countryCode": "USA",
-								"countryName": "USA"
-							}
-						}
-					}
-				]
-			}
+      ]
     }
   ],
   "courtesyHold": "true"
@@ -810,7 +843,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2050</con:value>
+      <con:value>2028</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -826,7 +859,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>country</con:name>
-      <con:value>USA</con:value>
+      <con:value>IRQ</con:value>
     </con:property>
     <con:property>
       <con:name>currency</con:name>
@@ -834,7 +867,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1431909</con:value>
+      <con:value>1433878</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -842,7 +875,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>7f902f7d-002a-49d1-89f0-39a1c9cecb63</con:value>
+      <con:value>7dd334cf-e685-452b-873f-6746a151430d</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -855,6 +888,10 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     <con:property>
       <con:name>totalCruiseAmount</con:name>
       <con:value>500</con:value>
+    </con:property>
+    <con:property>
+      <con:name>agencyId</con:name>
+      <con:value>310879</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
