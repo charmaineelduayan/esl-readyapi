@@ -721,7 +721,6 @@ assert token!=null</scriptText>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="countryCode" value="${#TestCase#country}"/>
           <con:entry key="header.domainId" value="1"/>
-          <con:entry key="summaryRequested" value="FALSE"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
           <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
@@ -769,129 +768,40 @@ log.info(bookingStatus)
 testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="updateBooking-firstName,address" id="60e827f4-3c95-423c-ba7e-09033f648854">
+  <con:testStep type="restrequest" name="retrievePaymentHistory-invalid brand" id="aef6355d-75b6-4c07-a66f-7c23c21853d2">
     <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="updateBooking-firstName,address" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
+    <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrievePaymentHistory-invalid brand" id="6d030ab9-443b-40f4-9569-df98b15dd373" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
-        <con:request>{
-  "header": {
-	"application": "${#TestCase#application}",
-	"brand": "${#TestCase#brand}",
-	"domainId": 6,
-	"uuid": "cd0b2b068b004b:825c530dded2244e",
-	"language": "en_us"
-  },
-  "countryCode": "${#TestCase#country}",
-  "bookingId" : "${#TestCase#bookingId}",
-  "bookingAccessToken" : "${#TestCase#bookingAccessToken}",
-  "sailingInfo": {
-    "shipCode": "${#TestCase#shipCode}",
-    "sailDate": "${#TestCase#sailDate}",
-    "packageCode": "${#TestCase#packageCode}",
-    "currencyCode": "${#TestCase#currency}",
-    "vendorCode": "CEL"
-  },
-  "reservation": 
-    {
-      "cabin": {
-        "berthedCategoryCode": "${#TestCase#categoryCode}",
-        "fareCode": "${#TestCase#fareCode}",
-        "pricedCategoryCode": "${#TestCase#categoryCode}",
-        "waitListed": "false",
-        "accessible": "false",
-        "number": "${#TestCase#cabinNumber}",
-        "bedConfigCode":"O"
-        
-      },
-      "dining": [
-        {
-          "sitting": "${#TestCase#seatingCd}",
-          "sittingType": "OPEN",
-          "sittingInstance": "${#TestCase#seatingTime}"
-        }
-      ],
-      "gratuitiesPrepaid": "false",
-      "insurance": {
-        "code": "CRCR",
-        "optionIndicator": "false"
-      },
-      "fareQualifiers": {
-        "seniorReqd": "false",
-        "militaryReqd": "false",
-        "policeReqd": "false",
-        "fireFighterReqd": "false"
-      },
-       "reservationIdType" : {
-         "id" : "${#TestCase#bookingId}",
-         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
-         "status" : "${#TestCase#Status}"
-      },
-      "guestDetails": [
-        {
-          "guestContact": {
-            "guestRefNumber": "0",
-            "personalInfo": {
-              "name": {
-                "title": "MS",
-                "firstName": "ESL",
-                "lastName": "Tester"
-              },
-              "age": "55",
-              "birthDate": "1960-05-13",
-              "gender": "F",
-              "nationality": "USA"
-            },
-            "address": {
-              "address1": "123 Address",
-              "city": "Miramar",
-              "stateCode": "FL",
-              "postalCode": "33029",
-              "countryName": "USA"
-            },
-            "email": "eslqa@rccl.com"
-          }
-        },
-        {
-          "guestContact": {
-            "guestRefNumber": "0",
-            "personalInfo": {
-              "name": {
-                "title": "MR",
-                "firstName": "ESL Two",
-                "lastName": "Tester"
-              },
-              "age": "55",
-              "birthDate": "1960-05-13",
-              "gender": "M",
-              "nationality": "USA"
-            },
-            "address": {
-              "address1": "addr1",
-              "city": "Miramar",
-              "stateCode": "NA",
-              "postalCode": "33029",
-              "countryName": "USA"
-            },
-            "email": "eslqa@rccl.com"
-          }
-        }
-      ]
-    }
-  
-}</con:request>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="697cd8a2-c94b-4192-aa66-0686884db064" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="5805a02a-afb5-4c9b-bbf8-f92f6d969f3e" name="Contains">
+        <con:assertion type="Simple Contains" id="23e5bad9-1518-47bd-bbc4-cbc436325f02" name="status Failure">
           <con:configuration>
-            <token>Success</token>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="3d8d656a-e6b0-40a7-afaa-6e73c94a9f5f" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="632271c0-8324-4acd-8798-bf533c0e8cef" name="Contains">
+          <con:configuration>
+            <token>Invalid brand</token>
             <ignoreCase>false</ignoreCase>
             <useRegEx>false</useRegEx>
           </con:configuration>
@@ -901,8 +811,19 @@ testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="header.brand" value="RR"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
         <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
           <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
             <con:authProfile>Inherit From Parent</con:authProfile>
           </con:entry>
@@ -913,44 +834,340 @@ testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Validation of Update Booking" id="89cdb8b8-7c48-413b-b397-a17af2983a29">
+  <con:testStep type="restrequest" name="retrievePaymentHistory-blank country code, agencyId" id="98074629-6511-44fa-a674-4414da97860e">
     <con:settings/>
-    <con:config>
-      <script>import java.io.*;
-import java.util.*;
-import com.eviware.soapui.model.testsuite.*;
-import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
-import groovy.json.*
-import groovy.util.*
-
-def ts = testRunner.testCase.getTestStepByName("retrieveBooking");
-def retxml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
-
-def ts2 = testRunner.testCase.getTestStepByName("updateBooking-firstName,address");
-def updxml2 = new XmlSlurper().parseText(ts2.getPropertyValue("ResponseAsXml"));
-
-//Get FirstName in retrieveBooking
-def retFirstName  = retxml.booking.guests.guest[0].e.name.firstName[0].text()
-log.info('First Name before Update: ' + retFirstName)
-
-//Get FirstName in updateBooking
-def updFirstName  = updxml2.booking.guests.guest[0].e.name.firstName[0].text()
-log.info('First Name after Update: ' + updFirstName)
-
-assert retFirstName != updFirstName
-log.info('First Name is now updated from ' + retFirstName + ' to ' + updFirstName + ' ')
-
-
-//Get Address of 1st Guest in retrieveBooking
-def retAddress = retxml.booking.guests.guest[0].e.addresses.address.e.address1.text()
-log.info('Address before Update: ' + retAddress)
-
-//Get Address of 2nd Guest in UpdateBooking
-def updAddress = updxml2.booking.guests.guest[0].e.addresses.address.e.address1.text()
-log.info('Address after Update: ' + updAddress)
-
-assert retAddress != updAddress
-log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' ')</script>
+    <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrievePaymentHistory-blank country code, agencyId" id="6d030ab9-443b-40f4-9569-df98b15dd373" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="697cd8a2-c94b-4192-aa66-0686884db064" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="c1ad2bc4-d9a5-47d5-9b25-1e0a7baf11c4" name="status Failure">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="54dbf32d-c578-4c53-a7bd-9aa68f76d093" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"ESL_MultipleNotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value=""/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrievePaymentHistory-incalid length of countryCode" id="030fe3b9-60d1-4c33-938c-8ffb58bbc4fd">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrievePaymentHistory-incalid length of countryCode" id="6d030ab9-443b-40f4-9569-df98b15dd373" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="697cd8a2-c94b-4192-aa66-0686884db064" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="ea7fb98e-4a52-4831-a44a-bf3932a85003" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"InvalidLength"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="4e806e6b-c12b-4d1a-bfdc-8036ffd629d5" name="status - Failure">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="eaf6a6e2-38c0-457a-bf04-9965db243d0f" name="description">
+          <con:configuration>
+            <token>must be 3 long</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="US"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrievePaymentHistory-blank shipCode" id="54c15d95-119e-4135-b718-390aa3bf2e43">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrievePaymentHistory-blank shipCode" id="6d030ab9-443b-40f4-9569-df98b15dd373" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="697cd8a2-c94b-4192-aa66-0686884db064" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="8f433b80-0300-4bfd-8b9f-e5ced695cd4a" name="status-Failure">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="7322d8c1-186d-485f-9c4e-58eb430e4b4b" name="error-notblank">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="f67772d3-ce6b-4f17-b759-af89702292ff" name="description">
+          <con:configuration>
+            <token>may not be empty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value=""/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrievePaymentHistory-invalid ShipCode" id="bbacc075-7ed3-4d34-a704-896592ca1390" disabled="true">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrievePaymentHistory-invalid ShipCode" id="6d030ab9-443b-40f4-9569-df98b15dd373" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="697cd8a2-c94b-4192-aa66-0686884db064" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="RR"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrievePaymentHistory-invalid sailDate" id="684c2e66-376a-4a90-906d-e2b12255e1b8" disabled="true">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrievePaymentHistory-invalid sailDate" id="6d030ab9-443b-40f4-9569-df98b15dd373" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="697cd8a2-c94b-4192-aa66-0686884db064" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="sailDate" value="2021-12-32"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrievePaymentHistory-blank sailDate" id="454717a3-2713-4fe9-bf42-1600c3699443">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrievePaymentHistory-blank sailDate" id="6d030ab9-443b-40f4-9569-df98b15dd373" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrievePaymentHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="697cd8a2-c94b-4192-aa66-0686884db064" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="3781ba69-3b0a-4ba4-9c0f-96fb395509f5" name="status-Failure">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="3b71aa2b-d0f3-455b-a686-6f7631351f6a" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"InvalidDate"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value=""/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="cancelBooking" id="19adbed0-7cf4-4045-9301-2ab7137ef65d">
@@ -1034,7 +1251,7 @@ log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' 
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>7038</con:value>
+      <con:value>1121</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -1058,7 +1275,7 @@ log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' 
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1438620</con:value>
+      <con:value>1438815</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -1066,7 +1283,7 @@ log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' 
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>5eb4da82-de73-48f3-be55-5eb3f0af2893</con:value>
+      <con:value>076921e0-6834-47dc-9505-4cbdf74195a1</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
