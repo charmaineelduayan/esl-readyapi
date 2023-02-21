@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="4a433673-71cb-40f9-ba8a-be04bd059d5c" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="releaseBooking" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="dd6f0a66-5965-4270-a17a-de76baacc590" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="updateBooking-Invalid/Empty Fields./NegTS" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="4a433673-71cb-40f9-ba8a-be04bd059d5cfileName">releaseBooking</con:setting>
+    <con:setting id="dd6f0a66-5965-4270-a17a-de76baacc590fileName">updateBooking-Invalid%2FEmpty-Fields.%2FNegTS</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch" id="31bb045e-fa93-476d-92fd-c067f1cc1cd4">
+  <con:testStep type="restrequest" name="cruiseSearch" id="e7f242a5-8fd3-4d65-987a-07db7031d620">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
@@ -106,7 +106,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="0da51c80-5c70-4f88-8ad4-3e12a3510811">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="0ffb2f4c-7137-4412-b750-82fe26c31e26">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -135,7 +135,7 @@ log.info(currency)
 testRunner.testCase.setPropertyValue("currency",currency);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="10b123f1-4fdb-4f05-a52e-98e39974fe77">
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="627c9582-3f45-4da5-bda8-ede6fde502d3">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -178,7 +178,7 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveStateroomCategories" id="f9c61d15-5d7e-4868-b4cd-6a29a216c747">
+  <con:testStep type="restrequest" name="retrieveStateroomCategories" id="80ff7aad-c2bb-4424-a177-cdfa68be731c">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomCategories" methodName="retrieveStateroomCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveStateroomCategories" id="747c2a9f-ae3a-46c4-9677-5fd3a653ba6b" mediaType="application/json">
@@ -237,7 +237,7 @@ if (celebrityShips.contains(shipCode)) {
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_categoryCode/fareCode/cruiseTotal" id="456dd74c-260e-4e63-acfd-586e1992abaf">
+  <con:testStep type="groovy" name="Fetch_RES_categoryCode/fareCode/cruiseTotal" id="b4f2da7d-0fd8-4b29-916c-13936ca55fe3">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -274,7 +274,7 @@ log.info(categoryCode)
 testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveStateroomsForCategory" id="28a5d92b-80b9-4b01-b670-755feb7401d7">
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory" id="838f2607-5fe4-4472-9591-61fc40798deb">
     <con:settings/>
     <con:config service="Booking" methodName="retrieveStateroomsForCategory" resourcePath="/rest/v3/retrieveStateroomsForCategory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveStateroomsForCategory" id="0b4bcbf3-a807-4e6f-b760-0776798d5c9b" mediaType="application/json">
@@ -323,7 +323,7 @@ testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_cabinNumber" id="37589a8f-951e-4e6c-b814-30af588537ea">
+  <con:testStep type="groovy" name="Fetch_RES_cabinNumber" id="6a5011a1-bf0e-435e-80d3-8ae3536bbdf1">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -348,7 +348,7 @@ def cabinNumber = res.cabin.e[0].cabinNumber.text()
 		}</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="bookingAddOns" id="bffb75fc-7f43-4f1d-8211-5656b94a12de">
+  <con:testStep type="restrequest" name="bookingAddOns" id="333477d6-4d97-47d2-856c-26622f3c9f65">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/bookingAddOns" methodName="bookingAddOns" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="bookingAddOns" id="4db884f5-b639-481e-95b7-29c7bb3c9b76" mediaType="application/json">
@@ -402,7 +402,7 @@ def cabinNumber = res.cabin.e[0].cabinNumber.text()
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_dining" id="197aee70-ecc1-4faa-9b53-fb5eecfba735">
+  <con:testStep type="groovy" name="Fetch_RES_dining" id="4745af69-5f5a-4047-abfa-9939e40fe467">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -427,7 +427,7 @@ log.info(seatingTime)
 testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="createBooking" id="79b301f9-acfc-4c21-b43a-453bf778aec1">
+  <con:testStep type="restrequest" name="createBooking" id="3c342d0c-3520-4881-9a12-1f911082e4ce">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/createBooking" methodName="createBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="createBooking" id="b409c4e8-2bd6-458c-a445-0c60531f6a15" mediaType="application/json" postQueryString="false">
@@ -635,7 +635,7 @@ for ( i=0;  i &lt;=count-1; i++){
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_lastname/booking" id="5538ce59-1a6e-4bde-ade0-24f49b36cf3e">
+  <con:testStep type="groovy" name="Fetch_RES_lastname/booking" id="ff9afe6b-24d5-4381-be14-ed88e0d90cc1">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -667,13 +667,13 @@ log.info(lastname)
 testRunner.testCase.setPropertyValue("lastname",lastname);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="delay" name="Delay" id="d61c372a-60ca-4cea-b3af-5903e64e305f">
+  <con:testStep type="delay" name="Delay" id="00dbde7f-f1b8-40d7-8579-c8286c2cab6d">
     <con:settings/>
     <con:config>
       <delay>5000</delay>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking" id="1f1ff5a7-5998-44e9-9203-fdac9707856a">
+  <con:testStep type="restrequest" name="retrieveBooking" id="47d3db25-2452-400a-b4d5-3d5da0a73fd2">
     <con:settings/>
     <con:config service="Booking" methodName="retrieveBooking" resourcePath="/rest/v3/retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveBooking" id="5233383c-3985-4305-ab02-2225af0d0e20" mediaType="application/json">
@@ -741,7 +741,7 @@ assert token!=null</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken" id="7357e428-4648-4fe3-b5bc-337d31413fa2">
+  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken" id="07ad5a84-a28c-4044-a8d2-690506da758e">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -761,28 +761,463 @@ log.info(xml)
 //Set Test Case bookingAccessToken
 def bookingAccessToken  = xml.bookingAccessToken.text()
 log.info(bookingAccessToken)
-testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
+testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);
+
+//Set Test Case bookingStatus
+def bookingStatus  = xml.booking.bookingInformation.status.text()
+log.info(bookingStatus)
+testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="releaseBooking" id="3b1a3595-07cf-420b-9df6-908f3ddfbcec">
+  <con:testStep type="restrequest" name="updateBooking-no Access Token" id="522518f1-df94-4df6-bc24-0f7189438d3e">
     <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/releaseBooking" methodName="releaseBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="releaseBooking" id="e0135d9d-6b24-4332-996d-3f8c56b32255" mediaType="application/json">
+    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="updateBooking-no Access Token" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="402ab6b4-3e81-40e7-857a-f2aa71178d36" name="Valid HTTP Status Codes">
+        <con:request>{
+  "header": {
+	"application": "${#TestCase#application}",
+	"brand": "${#TestCase#brand}",
+	"domainId": 6,
+	"uuid": "cd0b2b068b004b:825c530dded2244e",
+	"language": "en_us"
+  },
+  "countryCode": "${#TestCase#country}",
+  "bookingId" : "${#TestCase#bookingId}",
+  "bookingAccessToken" : "",
+  "sailingInfo": {
+    "shipCode": "${#TestCase#shipCode}",
+    "sailDate": "${#TestCase#sailDate}",
+    "packageCode": "${#TestCase#packageCode}",
+    "currencyCode": "${#TestCase#currency}",
+    "vendorCode": "CEL"
+  },
+  "reservation": 
+    {
+      "cabin": {
+        "berthedCategoryCode": "${#TestCase#categoryCode}",
+        "fareCode": "${#TestCase#fareCode}",
+        "pricedCategoryCode": "${#TestCase#categoryCode}",
+        "waitListed": "false",
+        "accessible": "false",
+        "number": "${#TestCase#cabinNumber}",
+        "bedConfigCode":"O"
+        
+      },
+      "dining": [
+        {
+          "sitting": "${#TestCase#seatingCd}",
+          "sittingType": "OPEN",
+          "sittingInstance": "${#TestCase#seatingTime}"
+        }
+      ],
+      "gratuitiesPrepaid": "false",
+      "insurance": {
+        "code": "CRCR",
+        "optionIndicator": "false"
+      },
+      "fareQualifiers": {
+        "seniorReqd": "false",
+        "militaryReqd": "false",
+        "policeReqd": "false",
+        "fireFighterReqd": "false"
+      },
+       "reservationIdType" : {
+         "id" : "${#TestCase#bookingId}",
+         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
+         "status" : "${#TestCase#Status}"
+      },
+      "guestDetails": [
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MS",
+                "firstName": "ESL",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "F",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "123 Address",
+              "city": "Miramar",
+              "stateCode": "FL",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        },
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MR",
+                "firstName": "ESL Two",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "M",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "addr1",
+              "city": "Miramar",
+              "stateCode": "NA",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        }
+      ]
+    }
+  
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="6d842026-b6d2-4f45-ac06-94fdb162151d" name="status is Success">
+        <con:assertion type="Simple Contains" name="status-Failure" id="2f72c379-c3a8-4bdb-9240-d4fe7b000810">
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Success"</content>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="updateBooking-invalidBrand" id="1a263566-5fc0-438e-849a-f01e2b7b3a3c">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="updateBooking-invalidBrand" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
+  "header": {
+	"application": "${#TestCase#application}",
+	"brand": "RR",
+	"domainId": 6,
+	"uuid": "cd0b2b068b004b:825c530dded2244e",
+	"language": "en_us"
+  },
+  "countryCode": "${#TestCase#country}",
+  "bookingId" : "${#TestCase#bookingId}",
+  "bookingAccessToken" : "${#TestCase#bookingAccessToken}",
+  "sailingInfo": {
+    "shipCode": "${#TestCase#shipCode}",
+    "sailDate": "${#TestCase#sailDate}",
+    "packageCode": "${#TestCase#packageCode}",
+    "currencyCode": "${#TestCase#currency}",
+    "vendorCode": "CEL"
+  },
+  "reservation": 
+    {
+      "cabin": {
+        "berthedCategoryCode": "${#TestCase#categoryCode}",
+        "fareCode": "${#TestCase#fareCode}",
+        "pricedCategoryCode": "${#TestCase#categoryCode}",
+        "waitListed": "false",
+        "accessible": "false",
+        "number": "${#TestCase#cabinNumber}",
+        "bedConfigCode":"O"
+        
+      },
+      "dining": [
+        {
+          "sitting": "${#TestCase#seatingCd}",
+          "sittingType": "OPEN",
+          "sittingInstance": "${#TestCase#seatingTime}"
+        }
+      ],
+      "gratuitiesPrepaid": "false",
+      "insurance": {
+        "code": "CRCR",
+        "optionIndicator": "false"
+      },
+      "fareQualifiers": {
+        "seniorReqd": "false",
+        "militaryReqd": "false",
+        "policeReqd": "false",
+        "fireFighterReqd": "false"
+      },
+       "reservationIdType" : {
+         "id" : "${#TestCase#bookingId}",
+         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
+         "status" : "${#TestCase#Status}"
+      },
+      "guestDetails": [
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MS",
+                "firstName": "ESL",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "F",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "123 Address",
+              "city": "Miramar",
+              "stateCode": "FL",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        },
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MR",
+                "firstName": "ESL Two",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "M",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "addr1",
+              "city": "Miramar",
+              "stateCode": "NA",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        }
+      ]
+    }
+  
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="5805a02a-afb5-4c9b-bbf8-f92f6d969f3e" name="status-Failure">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="b4302767-46ea-4540-a7f5-a67bda30c4eb" name="errorcode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="d0db809f-8e64-418d-94b9-6d437a23f6a7" name="desc-Invalid brand">
+          <con:configuration>
+            <token>Invalid brand</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="status-Failure 2" id="1534e2da-7d4e-41b0-8f3c-b546d74f1781">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="updateBooking-invalid AccessToken" id="6b945778-6b80-4fe7-b21b-1b9b6b1061ed">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="updateBooking-invalid AccessToken" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
+  "header": {
+	"application": "${#TestCase#application}",
+	"brand": "${#TestCase#brand}",
+	"domainId": 6,
+	"uuid": "cd0b2b068b004b:825c530dded2244e",
+	"language": "en_us"
+  },
+  "countryCode": "${#TestCase#country}",
+  "bookingId" : "${#TestCase#bookingId}",
+  "bookingAccessToken" : "123ascsd",
+  "sailingInfo": {
+    "shipCode": "${#TestCase#shipCode}",
+    "sailDate": "${#TestCase#sailDate}",
+    "packageCode": "${#TestCase#packageCode}",
+    "currencyCode": "${#TestCase#currency}",
+    "vendorCode": "CEL"
+  },
+  "reservation": 
+    {
+      "cabin": {
+        "berthedCategoryCode": "${#TestCase#categoryCode}",
+        "fareCode": "${#TestCase#fareCode}",
+        "pricedCategoryCode": "${#TestCase#categoryCode}",
+        "waitListed": "false",
+        "accessible": "false",
+        "number": "${#TestCase#cabinNumber}",
+        "bedConfigCode":"O"
+        
+      },
+      "dining": [
+        {
+          "sitting": "${#TestCase#seatingCd}",
+          "sittingType": "OPEN",
+          "sittingInstance": "${#TestCase#seatingTime}"
+        }
+      ],
+      "gratuitiesPrepaid": "false",
+      "insurance": {
+        "code": "CRCR",
+        "optionIndicator": "false"
+      },
+      "fareQualifiers": {
+        "seniorReqd": "false",
+        "militaryReqd": "false",
+        "policeReqd": "false",
+        "fireFighterReqd": "false"
+      },
+       "reservationIdType" : {
+         "id" : "${#TestCase#bookingId}",
+         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
+         "status" : "${#TestCase#Status}"
+      },
+      "guestDetails": [
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MS",
+                "firstName": "ESL",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "F",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "123 Address",
+              "city": "Miramar",
+              "stateCode": "FL",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        },
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MR",
+                "firstName": "ESL Two",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "M",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "addr1",
+              "city": "Miramar",
+              "stateCode": "NA",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        }
+      ]
+    }
+  
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="5805a02a-afb5-4c9b-bbf8-f92f6d969f3e" name="Contains">
+          <con:configuration>
+            <token>Access token is invalid</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="status-Failure" id="1d176016-5efe-4536-acaf-0d4331b2e353">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="41268edb-974c-4b5c-9269-bcab61b4c844" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"BKNG-0019"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
@@ -793,17 +1228,8 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
-        </con:parameters>
+        <con:parameters/>
         <con:environmentSpec>
-          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
           <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
             <con:authProfile>Inherit From Parent</con:authProfile>
           </con:entry>
@@ -814,47 +1240,147 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="delay" name="Delay 2" id="723afe95-257b-487b-8826-293e4ee04a33">
+  <con:testStep type="restrequest" name="updateBooking-no ShipCode" id="e9647da1-0d3c-4220-8231-5522c8128bd8">
     <con:settings/>
-    <con:config>
-      <delay>1000</delay>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking-2" id="7586049e-1099-49d2-a98e-9d152c9f2b40">
-    <con:settings/>
-    <con:config service="Booking" methodName="retrieveBooking" resourcePath="/rest/v3/retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBooking-2" id="5233383c-3985-4305-ab02-2225af0d0e20" mediaType="application/json">
+    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="updateBooking-no ShipCode" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
-        <con:encoding>UTF-8</con:encoding>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="aa751c95-8f3c-46fc-b1a0-39d195e9727d" name="Valid HTTP Status Codes">
+        <con:request>{
+  "header": {
+	"application": "${#TestCase#application}",
+	"brand": "${#TestCase#brand}",
+	"domainId": 6,
+	"uuid": "cd0b2b068b004b:825c530dded2244e",
+	"language": "en_us"
+  },
+  "countryCode": "${#TestCase#country}",
+  "bookingId" : "${#TestCase#bookingId}",
+  "bookingAccessToken" : "${#TestCase#bookingAccessToken}",
+  "sailingInfo": {
+    "shipCode": "",
+    "sailDate": "${#TestCase#sailDate}",
+    "packageCode": "${#TestCase#packageCode}",
+    "currencyCode": "${#TestCase#currency}",
+    "vendorCode": "CEL"
+  },
+  "reservation": 
+    {
+      "cabin": {
+        "berthedCategoryCode": "${#TestCase#categoryCode}",
+        "fareCode": "${#TestCase#fareCode}",
+        "pricedCategoryCode": "${#TestCase#categoryCode}",
+        "waitListed": "false",
+        "accessible": "false",
+        "number": "${#TestCase#cabinNumber}",
+        "bedConfigCode":"O"
+        
+      },
+      "dining": [
+        {
+          "sitting": "${#TestCase#seatingCd}",
+          "sittingType": "OPEN",
+          "sittingInstance": "${#TestCase#seatingTime}"
+        }
+      ],
+      "gratuitiesPrepaid": "false",
+      "insurance": {
+        "code": "CRCR",
+        "optionIndicator": "false"
+      },
+      "fareQualifiers": {
+        "seniorReqd": "false",
+        "militaryReqd": "false",
+        "policeReqd": "false",
+        "fireFighterReqd": "false"
+      },
+       "reservationIdType" : {
+         "id" : "${#TestCase#bookingId}",
+         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
+         "status" : "${#TestCase#Status}"
+      },
+      "guestDetails": [
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MS",
+                "firstName": "ESL",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "F",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "123 Address",
+              "city": "Miramar",
+              "stateCode": "FL",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        },
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MR",
+                "firstName": "ESL Two",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "M",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "addr1",
+              "city": "Miramar",
+              "stateCode": "NA",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        }
+      ]
+    }
+  
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" name="Contains" id="836cc23a-febd-410e-a3d5-c136bb4303e9">
+        <con:assertion type="Simple Contains" id="5805a02a-afb5-4c9b-bbf8-f92f6d969f3e" name="Contains">
           <con:configuration>
-            <token>Success</token>
+            <token>Ship Code is required</token>
             <ignoreCase>false</ignoreCase>
             <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="8d2c2110-d9ab-4d1b-9a6e-cbe94da21f3a" name="Validate accessToken is not null">
+        <con:assertion type="Simple Contains" name="status-Failure" id="357ae043-be7c-4d9f-a512-d9359ff315b2">
           <con:configuration>
-            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
-
-
-def jsonSlurper = new groovy.json.JsonSlurper();
-def parse = jsonSlurper.parseText(jsonRes)
-
-
-def token = parse.bookingAccessToken
-log.info token
-assert token!=null</scriptText>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="ef0d5226-c484-4da8-a9fc-e6bf8c7736de" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"shipCode"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -862,22 +1388,8 @@ assert token!=null</scriptText>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="lastName" value="${#TestCase#lastname}"/>
-          <con:entry key="header.language" value="en_US"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="summaryRequested" value="FALSE"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
-          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
-          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
-        </con:parameters>
+        <con:parameters/>
         <con:environmentSpec>
-          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
           <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
             <con:authProfile>Inherit From Parent</con:authProfile>
           </con:entry>
@@ -888,30 +1400,320 @@ assert token!=null</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken-2" id="a920fb07-4487-4c75-8e1b-468a3881076a">
+  <con:testStep type="restrequest" name="updateBooking-no packageCode" id="2b2bfa10-e5f1-42f7-9185-49467e99ac95">
     <con:settings/>
-    <con:config>
-      <script>import java.io.*;
-import java.util.*;
-import com.eviware.soapui.model.testsuite.*;
-import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
-import groovy.json.*
-import groovy.util.*
-
-
-def ts = testRunner.testCase.getTestStepByName("retrieveBooking-2");
-
-def xml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
-log.info(xml)
-
-
-//Set Test Case bookingAccessToken
-def bookingAccessToken  = xml.bookingAccessToken.text()
-log.info(bookingAccessToken)
-testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
+    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="updateBooking-no packageCode" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
+  "header": {
+	"application": "${#TestCase#application}",
+	"brand": "${#TestCase#brand}",
+	"domainId": 6,
+	"uuid": "cd0b2b068b004b:825c530dded2244e",
+	"language": "en_us"
+  },
+  "countryCode": "${#TestCase#country}",
+  "bookingId" : "${#TestCase#bookingId}",
+  "bookingAccessToken" : "${#TestCase#bookingAccessToken}",
+  "sailingInfo": {
+    "shipCode": "${#TestCase#shipCode}",
+    "sailDate": "${#TestCase#sailDate}",
+    "packageCode": "",
+    "currencyCode": "${#TestCase#currency}",
+    "vendorCode": "CEL"
+  },
+  "reservation": 
+    {
+      "cabin": {
+        "berthedCategoryCode": "${#TestCase#categoryCode}",
+        "fareCode": "${#TestCase#fareCode}",
+        "pricedCategoryCode": "${#TestCase#categoryCode}",
+        "waitListed": "false",
+        "accessible": "false",
+        "number": "${#TestCase#cabinNumber}",
+        "bedConfigCode":"O"
+        
+      },
+      "dining": [
+        {
+          "sitting": "${#TestCase#seatingCd}",
+          "sittingType": "OPEN",
+          "sittingInstance": "${#TestCase#seatingTime}"
+        }
+      ],
+      "gratuitiesPrepaid": "false",
+      "insurance": {
+        "code": "CRCR",
+        "optionIndicator": "false"
+      },
+      "fareQualifiers": {
+        "seniorReqd": "false",
+        "militaryReqd": "false",
+        "policeReqd": "false",
+        "fireFighterReqd": "false"
+      },
+       "reservationIdType" : {
+         "id" : "${#TestCase#bookingId}",
+         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
+         "status" : "${#TestCase#Status}"
+      },
+      "guestDetails": [
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MS",
+                "firstName": "ESL",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "F",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "123 Address",
+              "city": "Miramar",
+              "stateCode": "FL",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        },
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MR",
+                "firstName": "ESL Two",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "M",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "addr1",
+              "city": "Miramar",
+              "stateCode": "NA",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        }
+      ]
+    }
+  
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="status-Failure" id="15369037-b0de-4a02-9ff7-3a464d268312">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="ca3f84a8-968e-4455-83f5-74078ea07bee" name="JSONPath Match">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="cancelBooking" id="682b2e41-6f93-47d4-bd93-f0acb5c4fbd1">
+  <con:testStep type="restrequest" name="updateBooking-no GuestName Info" id="972cc22c-54ee-4a2e-a258-9ba4db076e8a">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="updateBooking-no GuestName Info" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
+  "header": {
+	"application": "${#TestCase#application}",
+	"brand": "${#TestCase#brand}",
+	"domainId": 6,
+	"uuid": "cd0b2b068b004b:825c530dded2244e",
+	"language": "en_us"
+  },
+  "countryCode": "${#TestCase#country}",
+  "bookingId" : "${#TestCase#bookingId}",
+  "bookingAccessToken" : "${#TestCase#bookingAccessToken}",
+  "sailingInfo": {
+    "shipCode": "${#TestCase#shipCode}",
+    "sailDate": "${#TestCase#sailDate}",
+    "packageCode": "${#TestCase#packageCode}",
+    "currencyCode": "${#TestCase#currency}",
+    "vendorCode": "CEL"
+  },
+  "reservation": 
+    {
+      "cabin": {
+        "berthedCategoryCode": "${#TestCase#categoryCode}",
+        "fareCode": "${#TestCase#fareCode}",
+        "pricedCategoryCode": "${#TestCase#categoryCode}",
+        "waitListed": "false",
+        "accessible": "false",
+        "number": "${#TestCase#cabinNumber}",
+        "bedConfigCode":"O"
+        
+      },
+      "dining": [
+        {
+          "sitting": "${#TestCase#seatingCd}",
+          "sittingType": "OPEN",
+          "sittingInstance": "${#TestCase#seatingTime}"
+        }
+      ],
+      "gratuitiesPrepaid": "false",
+      "insurance": {
+        "code": "CRCR",
+        "optionIndicator": "false"
+      },
+      "fareQualifiers": {
+        "seniorReqd": "false",
+        "militaryReqd": "false",
+        "policeReqd": "false",
+        "fireFighterReqd": "false"
+      },
+       "reservationIdType" : {
+         "id" : "${#TestCase#bookingId}",
+         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
+         "status" : "${#TestCase#Status}"
+      },
+      "guestDetails": [
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MS",
+                "firstName": "ESL",
+                "lastName": "Tester"
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "F",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "123 Address",
+              "city": "Miramar",
+              "stateCode": "FL",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        },
+        {
+          "guestContact": {
+            "guestRefNumber": "0",
+            "personalInfo": {
+              "name": {
+                "title": "MR",
+                "firstName": "ESL Two",
+                "lastName": ""
+              },
+              "age": "55",
+              "birthDate": "1960-05-13",
+              "gender": "M",
+              "nationality": "USA"
+            },
+            "address": {
+              "address1": "addr1",
+              "city": "Miramar",
+              "stateCode": "NA",
+              "postalCode": "33029",
+              "countryName": "USA"
+            },
+            "email": "eslqa@rccl.com"
+          }
+        }
+      ]
+    }
+  
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="5805a02a-afb5-4c9b-bbf8-f92f6d969f3e" name="desc-may not be empty">
+          <con:configuration>
+            <token>may not be empty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="status-Failure" id="8caa04c8-12de-4128-bd7e-e6132de8f3c8">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="a1b2ab7b-3b87-4962-8637-c1e44735b20b" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="cancelBooking" id="fde58c0e-cbb4-47d8-b292-87ae4462d23d">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/cancelBooking" methodName="cancelBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cancelBooking" id="f837f382-acaf-4ca4-9a9d-cf578dea2250" mediaType="application/json" postQueryString="false">
@@ -1016,7 +1818,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1439379</con:value>
+      <con:value>1439381</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -1024,7 +1826,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>7b9059f9-dbab-4c93-a67d-da72448a0d78</con:value>
+      <con:value>68c8dcc4-b321-4d32-a149-e18b9a6c00a4</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -1037,6 +1839,10 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     <con:property>
       <con:name>totalCruiseAmount</con:name>
       <con:value>500</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Status</con:name>
+      <con:value>BOOKED</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
