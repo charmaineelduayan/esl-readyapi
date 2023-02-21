@@ -148,7 +148,7 @@ def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Package Code
-def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[1].packageReference.@code.text()
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
 log.info(packageCode)
 testRunner.testCase.setPropertyValue("packageCode",packageCode);
 
@@ -159,7 +159,7 @@ log.info(shipCode)
 testRunner.testCase.setPropertyValue("shipCode",shipCode);
 
 //Set Test Case Sail Date
-def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[1].cabinClassPriceBySailing[1].sailingRef.@saildate.text()
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
 log.info(sailDate)
 testRunner.testCase.setPropertyValue("sailDate",sailDate);
 
@@ -645,7 +645,7 @@ assert cabin!=null</scriptText>
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>IN10M329</con:value>
+      <con:value>IN11M267</con:value>
     </con:property>
     <con:property>
       <con:name>TestShip</con:name>
@@ -657,7 +657,7 @@ assert cabin!=null</scriptText>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value/>
+      <con:value>2024-02-12</con:value>
     </con:property>
     <con:property>
       <con:name>brand</con:name>
@@ -665,15 +665,15 @@ assert cabin!=null</scriptText>
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
-      <con:value/>
+      <con:value>I1794952</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value/>
+      <con:value>I1</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>GTY</con:value>
+      <con:value>6901</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -725,7 +725,7 @@ assert cabin!=null</scriptText>
     </con:property>
     <con:property>
       <con:name>deckCode</con:name>
-      <con:value/>
+      <con:value>PH</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
