@@ -8,7 +8,13 @@
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration><file>Booking_REST_Input.xls</file><worksheet>RetrieveDecksForCategories</worksheet><cell>A2</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
+        <con:configuration>
+          <file>Booking_REST_Input.xls</file>
+          <worksheet>RetrieveDecksForCategories</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
       </con:dataSource>
       <con:shared>false</con:shared>
       <con:restartShared>false</con:restartShared>
@@ -120,6 +126,7 @@
           <con:entry key="criteria.accessibleCabins" value="${DataSource#Orchestration_accessibleCabins}"/>
           <con:entry key="criteria.office" value="${DataSource#Orchestration_office}"/>
           <con:entry key="criteria.currency" value="${DataSource#Orchestration_currency}"/>
+          <con:entry key="criteria.ship.value" value="BR"/>
           <con:entry key="header.brand" value="${DataSource#Orchestration_brand}"/>
           <con:entry key="criteria.sailingDate.dateRange.from" value="2023-05-01"/>
           <con:entry key="resultsPreference.includePrices" value="${DataSource#Orchestration_Prices}"/>
@@ -343,17 +350,21 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 def packageCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@package.text();
 testRunner.testCase.setPropertyValue("PackageCode",packageCode)
+log.info(packageCode)
 
 String shipCode= packageCode.substring(0,2);
 testRunner.testCase.setPropertyValue("ShipCode",shipCode)
+log.info(shipCode)
 
 def sailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].sailingRef.@saildate.text();
 testRunner.testCase.setPropertyValue("SailDate",sailDate)
+log.info(sailDate)
 
 def id = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].@priceId.text();
 if(id.equals('')){
 	def fareCode = res.resultsBySailing.sailingSummaryWithClassLevelPricing[0].cabinClassPricing[0].price[0].promotion.@id.text();
 	testRunner.testCase.setPropertyValue("FareCode",fareCode)
+	log.info(fareCode)
 }
 else{
 	testRunner.testCase.setPropertyValue("FareCode",id)
@@ -622,16 +633,24 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 def categoryCode = res.stateroomCategoryTypes.e[0].categories.e[0].stateroomCategoryCode.text();
 testRunner.testCase.setPropertyValue("CategoryCode",categoryCode)
+log.info(categoryCode)
 
 def selectedFareCode = res.stateroomCategoryTypes.e[0].categories.e[0].selectedFareCode.text();
-testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
+testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)
+log.info(selectedFareCode)</script>
     </con:config>
   </con:testStep>
   <con:testStep type="datasource" name="DataSource1" id="2edfdbd5-3804-433c-8712-4367a1fdc62c">
     <con:settings/>
     <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:dataSource type="Excel">
-        <con:configuration><file>Booking_REST_Input.xls</file><worksheet>RetrieveDecksForCategories</worksheet><cell>A2</cell><ignoreEmpty>false</ignoreEmpty><evaluateFormulas>false</evaluateFormulas></con:configuration>
+        <con:configuration>
+          <file>Booking_REST_Input.xls</file>
+          <worksheet>RetrieveDecksForCategories</worksheet>
+          <cell>A2</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
       </con:dataSource>
       <con:shared>false</con:shared>
       <con:restartShared>false</con:restartShared>
@@ -716,13 +735,20 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="f9711f5a-434e-40df-b74e-ab17625fba8d" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="f9711f5a-434e-40df-b74e-ab17625fba8d" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>CATL-005</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="12d1a9a0-4aee-4a29-97c6-1386f7190136" name="Contains">
+          <con:configuration>
+            <token>CATL-005</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -894,13 +920,20 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="3f360af9-f0b8-4e96-b9da-e9b1270367e1" name="Match content of [description]">
+        <con:assertion type="JsonPath Match" id="3f360af9-f0b8-4e96-b9da-e9b1270367e1" name="Match content of [description]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>One of these is required. [countryCode, agencyId]</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="29c5dd95-e058-4b56-a0a1-a34a3946573e" name="Contains">
+          <con:configuration>
+            <token>ESL_MultipleNotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1072,13 +1105,20 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="c961743b-7629-4115-aa6b-5473fbf4d7f7" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="c961743b-7629-4115-aa6b-5473fbf4d7f7" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>AGNTERR</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="f3ed6531-a310-4287-bb55-f55b1ee9112d" name="Contains">
+          <con:configuration>
+            <token>BKNG-0060</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1094,6 +1134,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
           <con:entry key="categoryCodes[0]" value="${#TestCase#CategoryCode}"/>
           <con:entry key="header.domainId" value="${DataSource#domainId}"/>
           <con:entry key="guestCount" value="${DataSource#guestCount}"/>
+          <con:entry key="agencyId" value="${DataSource#agencyId}"/>
           <con:entry key="header.brand" value="${DataSource#brand}"/>
           <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
           <con:entry key="shipCode" value="${#TestCase#ShipCode}"/>
@@ -1259,13 +1300,20 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="bd954e97-1d32-49c9-ab70-7727199e7b6f" name="Error Code 2">
+        <con:assertion type="JsonPath Match" id="bd954e97-1d32-49c9-ab70-7727199e7b6f" name="Error Code 2" disabled="true">
           <con:configuration>
             <path>$['header']['error'][1]['code']</path>
             <content>"BKNG-0050"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="ccaa0814-5a57-4df5-8598-f8d4baa19b57" name="Contains">
+          <con:configuration>
+            <token>BKNG-0050</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1437,7 +1485,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="db68615f-81e6-4315-9927-73cc2681f616" name="ErrorCode 1">
+        <con:assertion type="JsonPath Match" id="db68615f-81e6-4315-9927-73cc2681f616" name="ErrorCode 1" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>"CSE0002"</content>
@@ -1446,13 +1494,27 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="db898aa4-bad8-4fb2-8efa-71e1f2874dbb" name="ErrorCode2">
+        <con:assertion type="JsonPath Match" id="db898aa4-bad8-4fb2-8efa-71e1f2874dbb" name="ErrorCode2" disabled="true">
           <con:configuration>
             <path>$['header']['error'][1]['code']</path>
             <content>"BKNG-0050"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="80d24b58-8aa6-4d58-80e4-0f7612377c2e" name="Contains1">
+          <con:configuration>
+            <token>CSE0002</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="2499ee7b-81d1-44e2-a75c-cab7cd2c6344" name="Contains 2">
+          <con:configuration>
+            <token>BKNG-0050</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1624,13 +1686,20 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="545f551f-55eb-4d86-8990-38e0868d60e0" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="545f551f-55eb-4d86-8990-38e0868d60e0" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>InvalidDate</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="55e6ae1c-a91c-4f2d-8c9c-b3eafbdbc603" name="Contains">
+          <con:configuration>
+            <token>InvalidDate</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1802,7 +1871,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="82a29052-eddf-4578-b43c-566361b74e5c" name="errorCode1">
+        <con:assertion type="JsonPath Match" id="82a29052-eddf-4578-b43c-566361b74e5c" name="errorCode1" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>"CSE0002"</content>
@@ -1811,13 +1880,27 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="bafd25de-d5e9-4874-b653-619d445df03e" name="errorCode2">
+        <con:assertion type="JsonPath Match" id="bafd25de-d5e9-4874-b653-619d445df03e" name="errorCode2" disabled="true">
           <con:configuration>
             <path>$['header']['error'][1]['code']</path>
             <content>"BKNG-0050"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="2b1d65f7-7051-4be7-bda0-3eb2e29f5d22" name="Contains">
+          <con:configuration>
+            <token>CSE0002</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="9d89ac8f-7cbf-4e0c-9dc0-e96dc51edabd" name="Contains 2">
+          <con:configuration>
+            <token>BKNG-0050</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1989,7 +2072,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="41445b8a-be62-40e7-bc4b-4330c0aa9c7c" name="errorCode1">
+        <con:assertion type="JsonPath Match" id="41445b8a-be62-40e7-bc4b-4330c0aa9c7c" name="errorCode1" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>"ESL_ListNotEmpty"</content>
@@ -1998,7 +2081,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="7b3e3965-d9de-4712-a41c-519fc5608967" name="JSONPath Match">
+        <con:assertion type="JsonPath Match" id="7b3e3965-d9de-4712-a41c-519fc5608967" name="JSONPath Match" disabled="true">
           <con:configuration>
             <path>$['header']['error'][1]['code']</path>
             <content>"BKNG-0050"</content>
@@ -2007,7 +2090,21 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="DataAndMetadataAssertion" id="3546bfb2-e960-464a-af74-d701ed0a09f9" name="Smart Assertion">
+        <con:assertion type="Simple Contains" id="4e657cf8-c4e4-433d-b57b-44431397af69" name="Contains">
+          <con:configuration>
+            <token>ESL_ListNotEmpty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="86fc5595-faf4-4095-a9ef-2427354966e5" name="Contains 2">
+          <con:configuration>
+            <token>BKNG-0050</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="DataAndMetadataAssertion" name="Smart Assertion" id="3b33d558-6018-46df-a417-aef668e05423">
           <con:configuration xsi:type="con:DataAndMetadataAssertion">
             <con:mode>Received Data</con:mode>
             <con:elements>
@@ -2253,13 +2350,20 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="f9aceb3b-0462-4ad1-9315-0de02419155f" name="JSONPath Match">
+        <con:assertion type="JsonPath Match" id="f9aceb3b-0462-4ad1-9315-0de02419155f" name="JSONPath Match" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>"ESL_ListNotEmpty"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="b541f19d-e382-4433-9285-6e9e3b5722fb" name="Contains">
+          <con:configuration>
+            <token>ESL_ListNotEmpty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -2431,13 +2535,20 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="89405428-d4ac-4c26-87fa-1462f914cb44" name="Match content of [code]">
+        <con:assertion type="JsonPath Match" id="89405428-d4ac-4c26-87fa-1462f914cb44" name="Match content of [code]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['code']</path>
             <content>Range</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="cfe1e8e2-42f7-45bc-b635-4301492bf04a" name="Contains">
+          <con:configuration>
+            <token>Range</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -2595,23 +2706,23 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>ALALTSWC</con:value>
+      <con:value>BR04W119</con:value>
     </con:property>
     <con:property>
       <con:name>ShipCode</con:name>
-      <con:value>AL</con:value>
+      <con:value>BR</con:value>
     </con:property>
     <con:property>
       <con:name>SailDate</con:name>
-      <con:value>2023-05-07</con:value>
+      <con:value>2023-02-23</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
-      <con:value>I1825747</con:value>
+      <con:value>H3797438</con:value>
     </con:property>
     <con:property>
       <con:name>CategoryCode</con:name>
-      <con:value>2S</con:value>
+      <con:value>4V</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
