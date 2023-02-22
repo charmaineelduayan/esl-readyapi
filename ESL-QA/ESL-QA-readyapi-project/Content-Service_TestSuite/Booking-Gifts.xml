@@ -600,13 +600,235 @@ testRunner.testCase.setPropertyValue("bookingId",booking);
 //Set Test Case lastName
 def lastname = json.reservations[0].guestDetails[0].guestContact.personalInfo.name.lastName
 log.info(lastname)
-testRunner.testCase.setPropertyValue("lastname",lastname);</script>
+testRunner.testCase.setPropertyValue("lastname",lastname);
+
+
+
+//Set Test Case firstName
+def firstName = json.reservations[0].guestDetails[0].guestContact.personalInfo.name.firstName
+log.info(firstName)
+testRunner.testCase.setPropertyValue("firstName",firstName);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="delay" name="Delay" id="ac398d6c-7f84-40df-9165-4589e0fa259b">
     <con:settings/>
     <con:config>
       <delay>2000</delay>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="giftCategoriesSummary" id="83c344fb-5cbd-486c-a020-ca4b0426d15e">
+    <con:settings/>
+    <con:config service="Content" resourcePath="/rest/v3/giftCategoriesSummary" methodName="giftCategoriesSummary" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="giftCategoriesSummary" id="5194f719-cac8-41c4-aae5-485ba991d7ee" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/giftCategoriesSummary</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="addeb65d-54b6-4222-aa8b-d7bdf5f6a322" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_categoryId" id="1de34353-9d0b-4923-a64a-f74a2dcd5785">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.*
+import groovy.util.*
+
+
+def ts = testRunner.testCase.getTestStepByName("giftCategoriesSummary");
+
+def xml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+log.info(xml)
+
+//Set Test Case categoryId
+def categoryId  = xml.items.e[0].categoryId.text()
+log.info(categoryId)
+testRunner.testCase.setPropertyValue("categoryId",categoryId);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="giftItems" id="7c7eb3dd-5c54-4094-8923-5d61179b06f4">
+    <con:settings/>
+    <con:config service="Content" resourcePath="/rest/v3/giftItems" methodName="giftItems" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="giftItems" id="e91d3427-c059-47a2-bad8-228f747cb761" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/giftItems</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="be2336e2-5915-43ff-abff-81e11ad85cfb" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="categoryId" value="${#TestCase#categoryId}"/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_id/price" id="c0733d34-7953-4d05-b67b-1c52349cd15c">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.*
+import groovy.util.*
+
+
+def ts = testRunner.testCase.getTestStepByName("giftItems");
+
+def xml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+//log.info(xml)
+
+//Set Test Case itemCode
+def itemCode  = xml.items.e[0].id.text()
+log.info(itemCode)
+testRunner.testCase.setPropertyValue("itemCode",itemCode);
+
+//Set Test Case unitPrice
+def unitPrice  = xml.items.e[0].price.text()
+log.info(unitPrice)
+testRunner.testCase.setPropertyValue("unitPrice",unitPrice);
+
+//Set Test Case quantity
+def quantity  = 2
+log.info(quantity)
+testRunner.testCase.setPropertyValue("quantity",quantity as String);
+
+
+//Set Test Case quantity
+def unitPriceTotal  = (quantity * unitPrice.toDouble())
+log.info(unitPriceTotal)
+testRunner.testCase.setPropertyValue("unitPriceTotal",unitPriceTotal as String);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="submitGiftOrder" id="546572ac-590b-4168-b983-30f407cfaf59">
+    <con:settings/>
+    <con:config service="Content" resourcePath="/rest/v3/submitGiftOrder" methodName="submitGiftOrder" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="submitGiftOrder" id="8937f3fb-e4bb-42b9-b24c-dc9dfb1ab29e" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US",
+		"uuid": ""
+	},
+	"reservationNumber": "${#TestCase#bookingId}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"consumerInformation": {
+		"consumerType": "ANON_SHOP",
+		"travelAgencyId": "156393",
+		"firstName": "${#TestCase#firstName}",
+		"lastName": "${#TestCase#lastName}",
+		"email": "theresagamit@rcclapac.com"
+	},
+	"giftOrderItems": [
+		{
+			"itemCode": "${#TestCase#itemCode}",
+			"subItemCode": "",
+			"quantity": "${#TestCase#quantity}",
+			"unitPrice": "${#TestCase#unitPrice}",
+			"deliveryLocation": "C",
+			"deliveryDate": "${#TestCase#sailDate}",
+			"recipentName": "ESL Two Tester",
+			"senderName": "ESL One Tester",
+			"messageText": "Test Only"
+		}
+	],
+	"paymentInformation": {
+		"cardHolderName": "ESL One Tester",
+		"cardType": "VA",
+		"paymentAmount": "${#TestCase#unitPriceTotal}",
+		"currencyCode": "USD",
+		"expireMonth": "12",
+		"expireYear": "2030",
+		"securityCode": "123",
+		"extendedPayment": false,
+		"tokenizedCC": "4387751111111111"
+	},
+	"address": {
+		"type": "BILLING",
+		"address1": "asd 123",
+		"city": "VALLEY VILLAGE",
+		"stateCode": "CA",
+		"postalCode": "91607",
+		"countryCode": "USA"
+	},
+	"contactInformation": {
+		"telephoneNumber": "8888888888",
+		"telephoneType": "HOME",
+		"contactType": "REGULAR"
+	}
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/submitGiftOrder</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="141ccc13-9070-4d43-ad07-5d0457da970b" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="4f9ed856-341e-4bb8-8ce9-8c38117802af" name="Success">
+          <con:configuration>
+            <token>Success</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="43654925-51e5-4749-a9f3-72de5025ad9c" name="giftOrderId">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def giftOrderId = parse.giftOrderId
+log.info giftOrderId
+assert giftOrderId!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="retrieveBooking" id="bc2a2de9-ccff-4ef8-b4a1-e6b03d151f8b">
@@ -781,7 +1003,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>7056</con:value>
+      <con:value>7903</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -805,7 +1027,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1438571</con:value>
+      <con:value>1441112</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -813,11 +1035,39 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>420da781-3456-45be-9b8c-2fa4417056b1</con:value>
+      <con:value>a60b7fa6-8beb-49c5-b670-1fea6d7e39f3</con:value>
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
       <con:value>6036.76</con:value>
+    </con:property>
+    <con:property>
+      <con:name>categoryId</con:name>
+      <con:value>APAREL</con:value>
+    </con:property>
+    <con:property>
+      <con:name>id</con:name>
+      <con:value>C224</con:value>
+    </con:property>
+    <con:property>
+      <con:name>itemCode</con:name>
+      <con:value>C223</con:value>
+    </con:property>
+    <con:property>
+      <con:name>unitPrice</con:name>
+      <con:value>13.00</con:value>
+    </con:property>
+    <con:property>
+      <con:name>firstName</con:name>
+      <con:value>ESL One</con:value>
+    </con:property>
+    <con:property>
+      <con:name>quantity</con:name>
+      <con:value>2</con:value>
+    </con:property>
+    <con:property>
+      <con:name>unitPriceTotal</con:name>
+      <con:value>26.0</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
