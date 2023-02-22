@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="submitGiftOrder" path="/rest/v3/submitGiftOrder" id="7ca839b3-f421-4009-9aed-cd06d2ea6580" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="7ca839b3-f421-4009-9aed-cd06d2ea6580fileName">submitGiftOrder</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="submitGiftOrder" id="e0039ff3-bc8d-4977-b66a-c9fc6e4ae2d9" method="POST">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="submitGiftOrder" id="8937f3fb-e4bb-42b9-b24c-dc9dfb1ab29e" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US"
+		"uuid": ""
+	},
+	"reservationNumber": "${#TestCase#bookingId}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"consumerInformation": {
+		"consumerType": "ANON_SHOP",
+		"travelAgencyId": "156393",
+		"firstName": "${#TestCase#firstName}",
+		"lastName": "${#TestCase#lastName}",
+		"email": "${#TestCase#email}"
+	},
+	"giftOrderItems": [
+		{
+			"itemCode": "${#TestCase#itemCode}",
+			"subItemCode": "",
+			"quantity": 1,
+			"unitPrice": "${#TestCase#unitPrice}",
+			"deliveryLocation": "C",
+			"deliveryDate": "${#TestCase#sailDate}",
+			"recipentName": "ESL Two Tester",
+			"senderName": "ESL One Tester",
+			"messageText": "Test Only"
+		}
+	],
+	"paymentInformation": {
+		"cardHolderName": "ESL One Tester",
+		"cardType": "VA",
+		"paymentAmount": "${#TestCase#unitPriceTotal}",
+		"currencyCode": "USD",
+		"expireMonth": "12",
+		"expireYear": "2030",
+		"securityCode": "123",
+		"extendedPayment": false,
+		"tokenizedCC": "4387751111111111"
+	},
+	"address": {
+		"type": "BILLING",
+		"address1": "asd 123",
+		"city": "VALLEY VILLAGE",
+		"stateCode": "CA",
+		"postalCode": "91607",
+		"countryCode": "USA"
+	},
+	"contactInformation": {
+		"telephoneNumber": "8888888888",
+		"telephoneType": "HOME",
+		"contactType": "REGULAR"
+	}
+}</con:request>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+  </con:method>
+</con:resource>
