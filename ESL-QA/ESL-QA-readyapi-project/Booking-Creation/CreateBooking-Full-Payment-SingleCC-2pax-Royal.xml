@@ -428,6 +428,149 @@ log.info(seatingTime)
 testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="retrieveBookingPrice" id="5a1fbbf2-9c07-42e3-9c61-c852dfb21a92">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveBookingPrice" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveBookingPrice" id="63e888e6-9ec0-4106-9eb5-48888f8e0b76" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingPrice</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="6093c35f-8ccd-4c7d-96ed-aabd410c1a5f" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.birthDate" value="1993-01-01"/>
+          <con:entry key="bookingInfo.cabin.berthedCategoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="adultCount" value="2"/>
+          <con:entry key="bookingInfo.cabin.pricedCategoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="sailingInfo.currencyCode" value="${#TestCase#currency}"/>
+          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.age" value="30"/>
+          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.gender" value="F"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailingInfo.shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="bookingInfo.fareQualifiers.seniorReqd" value="false"/>
+          <con:entry key="includePenaltySchedule" value="true"/>
+          <con:entry key="bookingInfo.fareQualifiers.policeReqd" value="false"/>
+          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.gender" value="M"/>
+          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.birthDate" value="1993-01-01"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.firstName" value="ESL Two"/>
+          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.firstName" value="ESL One"/>
+          <con:entry key="bookingInfo.insurance.optionIndicator" value="false"/>
+          <con:entry key="bookingInfo.cabin.fareCode" value="${#TestCase#fareCode}"/>
+          <con:entry key="bookingInfo.reservationIdType.lastModifyDateTime" value="2023-01-01T12:28:26Z"/>
+          <con:entry key="sailingInfo.sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.lastName" value="Tester"/>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="bookingInfo.fareQualifiers.militaryReqd" value="false"/>
+          <con:entry key="bookingInfo.cabin.waitListed" value="false"/>
+          <con:entry key="includePricingAddOns" value="true"/>
+          <con:entry key="bookingInfo.reservationIdType.id" value="0000000"/>
+          <con:entry key="bookingInfo.gratuitiesPrepaid" value="true"/>
+          <con:entry key="includePricing" value="true"/>
+          <con:entry key="bookingInfo.insurance.defaultIndicator" value="false"/>
+          <con:entry key="bookingInfo.guestDetails[1].guestContact.personalInfo.name.title" value="MS"/>
+          <con:entry key="stateCode" value="FL"/>
+          <con:entry key="bookingInfo.selectedPromotions" value="${#TestCase#fareCode}"/>
+          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.title" value="MR"/>
+          <con:entry key="sailingInfo.packageCode" value="${#TestCase#packageCode}"/>
+          <con:entry key="bookingInfo.fareQualifiers.fireFighterReqd" value="false"/>
+          <con:entry key="bookingInfo.includeNonRefundablePromos" value="true"/>
+          <con:entry key="bookingInfo.cabin.accessible" value="false"/>
+          <con:entry key="bookingInfo.reservationIdType.status" value="OFFERED"/>
+          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.age" value="30"/>
+          <con:entry key="bookingInfo.guestDetails[0].guestContact.personalInfo.name.lastName" value="Tester"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>sailingInfo.shipCode</con:entry>
+          <con:entry>sailingInfo.sailDate</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>sailingInfo.currencyCode</con:entry>
+          <con:entry>sailingInfo.packageCode</con:entry>
+          <con:entry>bookingInfo.cabin.berthedCategoryCode</con:entry>
+          <con:entry>bookingInfo.cabin.pricedCategoryCode</con:entry>
+          <con:entry>bookingInfo.cabin.fareCode</con:entry>
+          <con:entry>bookingInfo.selectedPromotions</con:entry>
+          <con:entry>bookingInfo.cabin.waitListed</con:entry>
+          <con:entry>bookingInfo.cabin.accessible</con:entry>
+          <con:entry>bookingInfo.gratuitiesPrepaid</con:entry>
+          <con:entry>bookingInfo.insurance.optionIndicator</con:entry>
+          <con:entry>bookingInfo.insurance.defaultIndicator</con:entry>
+          <con:entry>bookingInfo.fareQualifiers.seniorReqd</con:entry>
+          <con:entry>bookingInfo.fareQualifiers.militaryReqd</con:entry>
+          <con:entry>bookingInfo.fareQualifiers.policeReqd</con:entry>
+          <con:entry>bookingInfo.fareQualifiers.fireFighterReqd</con:entry>
+          <con:entry>bookingInfo.reservationIdType.id</con:entry>
+          <con:entry>bookingInfo.reservationIdType.lastModifyDateTime</con:entry>
+          <con:entry>bookingInfo.reservationIdType.status</con:entry>
+          <con:entry>bookingInfo.includeNonRefundablePromos</con:entry>
+          <con:entry>includePenaltySchedule</con:entry>
+          <con:entry>includePricingAddOns</con:entry>
+          <con:entry>includePricing</con:entry>
+          <con:entry>stateCode</con:entry>
+          <con:entry>adultCount</con:entry>
+          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.lastName</con:entry>
+          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.title</con:entry>
+          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.age</con:entry>
+          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.gender</con:entry>
+          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.birthDate</con:entry>
+          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.lastName</con:entry>
+          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.title</con:entry>
+          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.age</con:entry>
+          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.gender</con:entry>
+          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.birthDate</con:entry>
+          <con:entry>bookingInfo.guestDetails[0].guestContact.personalInfo.name.firstName</con:entry>
+          <con:entry>bookingInfo.guestDetails[1].guestContact.personalInfo.name.firstName</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_gratsPrice" id="877cc8a7-1256-4a95-abf0-6587d179829c">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+
+def ts = testRunner.testCase.getTestStepByName("retrieveBookingPrice");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Seating Code
+def countObject  = res.bookingPrice.bookingPayment.prices.priceInfo.e.size()
+log.info(countObject)
+
+int grossTotal = 0
+for (i=0; i&lt;=countObject-1; i++){
+		def label = res.bookingPrice.bookingPayment.prices.priceInfo.e[i].priceTypeCode.text()
+		//log.info(label)
+		if (label=="GROSS_TOTALS"){
+				def grossAmountLabel = res.bookingPrice.bookingPayment.prices.priceInfo.e[i].amount.text()
+				double grossAmount = (grossAmountLabel as Double)
+				grossTotal = grossTotal + grossAmount
+				log.info(grossTotal)
+				break		
+			}
+	}
+testRunner.testCase.setPropertyValue("grossTotal",grossTotal as String);</script>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="da564c76-e470-4a0b-8ca8-c70ee5ac727b">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/createBooking" methodName="createBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -466,7 +609,7 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
           "sittingInstance": "${#TestCase#seatingTime}"
         }
       ],
-      "gratuitiesPrepaid": "false",
+      "gratuitiesPrepaid": "true",
       "insurance": {
         "code": "CRCR",
         "optionIndicator": "false"
@@ -533,7 +676,7 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
 						"cardType": "VA",
 						"cardToken": "4387751111111111",
 						"expireDate": "1230",
-						"amount": "${#TestCase#totalCruiseAmount}",
+						"amount": "${#TestCase#grossTotal}",
 						"currency": "USD",
 						"extendPayments": "false",
 						"contact": {
@@ -835,11 +978,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>1R</con:value>
+      <con:value>2S</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>11149</con:value>
+      <con:value>9649</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -863,7 +1006,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1438590</con:value>
+      <con:value>1449477</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -871,7 +1014,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>8ebe7e94-217b-4b01-918b-863c9aba47ce</con:value>
+      <con:value>c1f9e05e-e9b1-4331-98c0-8338edcdd077</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -883,7 +1026,15 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
-      <con:value>2192.0</con:value>
+      <con:value>2078.0</con:value>
+    </con:property>
+    <con:property>
+      <con:name>grossAmount</con:name>
+      <con:value>2542.0</con:value>
+    </con:property>
+    <con:property>
+      <con:name>grossTotal</con:name>
+      <con:value>2542</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
