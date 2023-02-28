@@ -484,7 +484,7 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
               "name": {
                 "title": "MS",
                 "firstName": "ESL One",
-                "lastName": "Tester"
+                "lastName": "Test"
               },
               "age": "55",
               "birthDate": "1960-05-13",
@@ -769,127 +769,84 @@ log.info(bookingStatus)
 testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="updateBooking-firstName,address" id="d5b19d90-bd5e-4dc8-a528-c313ac3a4137">
+  <con:testStep type="properties" name="Properties - Booking" id="bc7b351d-456c-44d4-9cb4-0142582b8f20">
     <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/updateBooking" methodName="updateBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="updateBooking-firstName,address" id="8d7baab0-115d-4594-8799-c72529dd60a8" mediaType="application/json" postQueryString="false">
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>Shopper_Profile - ID</con:name>
+          <con:value>TEST1</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request" id="33a15d56-c9af-41af-b9eb-7d480271d2f9">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dbConnectionName>Test_WebShopper</con:dbConnectionName>
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLTDB02.TSTNA.TSTRCCL.com:58369;databaseName=WebShopper;user=b2c_user ;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
+      <con:connectionProperties/>
+      <con:query>Select Top 10 a.shopper_id as a_shopper_id, a.login_user_name as a_login_user_name, a.brand_code as a_brand_code, b.shopper_first_name, b.shopper_last_name,
+a.login_hint_question_text as a_login_hint_question_text, a.reservation_user_id as a_reservation_user_id, b.creation_user_id as b_creation_user_id,
+b.consumer_id as b_consumer_id, b.loyalty_nbr as b_loyalty_nbr
+From SHOPPER_LOGIN a Inner Join
+SHOPPER b On a.shopper_id = b.shopper_id And b.logical_delete_flag = 0 And
+a.brand_code = '${#TestCase#brand}'
+ --a.brand_cod= '${DataSource#brand}'
+Order By a.creation_dtm</con:query>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="Property Transfer" id="4a861d31-2ac5-4a43-b4dd-7fed671e30af">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>A_LOGIN_USER_NAME</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/A_LOGIN_USER_NAME[1]</con:sourcePath>
+        <con:targetType>Shopper_Profile - ID</con:targetType>
+        <con:targetStep>Properties - Booking</con:targetStep>
+        <con:targetPath/>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="associateBookingToProfile" id="4423ad04-ad21-4ca0-b02d-470d4e5864f9">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/associateBookingToProfile" methodName="associateBookingToProfile" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="associateBookingToProfile" id="4cf47d90-2ff1-4238-acd2-a64622e25dcd" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request>{
-  "header": {
-	"application": "${#TestCase#application}",
-	"brand": "${#TestCase#brand}",
-	"domainId": 6,
-	"uuid": "cd0b2b068b004b:825c530dded2244e",
-	"language": "en_us"
-  },
-  "countryCode": "${#TestCase#country}",
-  "bookingId" : "${#TestCase#bookingId}",
-  "bookingAccessToken" : "${#TestCase#bookingAccessToken}",
-  "sailingInfo": {
-    "shipCode": "${#TestCase#shipCode}",
-    "sailDate": "${#TestCase#sailDate}",
-    "packageCode": "${#TestCase#packageCode}",
-    "currencyCode": "${#TestCase#currency}",
-    "vendorCode": "CEL"
-  },
-  "reservation": 
-    {
-      "cabin": {
-        "berthedCategoryCode": "${#TestCase#categoryCode}",
-        "fareCode": "${#TestCase#fareCode}",
-        "pricedCategoryCode": "${#TestCase#categoryCode}",
-        "waitListed": "false",
-        "accessible": "false",
-        "number": "${#TestCase#cabinNumber}",
-        "bedConfigCode":"O"
-        
-      },
-      "dining": [
-        {
-          "sitting": "${#TestCase#seatingCd}",
-          "sittingType": "OPEN",
-          "sittingInstance": "${#TestCase#seatingTime}"
-        }
-      ],
-      "gratuitiesPrepaid": "false",
-      "insurance": {
-        "code": "CRCR",
-        "optionIndicator": "false"
-      },
-      "fareQualifiers": {
-        "seniorReqd": "false",
-        "militaryReqd": "false",
-        "policeReqd": "false",
-        "fireFighterReqd": "false"
-      },
-       "reservationIdType" : {
-         "id" : "${#TestCase#bookingId}",
-         "lastModifyDateTime" : "2023-01-01T17:44:03Z",
-         "status" : "${#TestCase#Status}"
-      },
-      "guestDetails": [
-        {
-          "guestContact": {
-            "guestRefNumber": "0",
-            "personalInfo": {
-              "name": {
-                "title": "MS",
-                "firstName": "ESL",
-                "lastName": "Tester"
-              },
-              "age": "55",
-              "birthDate": "1960-05-13",
-              "gender": "F",
-              "nationality": "USA"
-            },
-            "address": {
-              "address1": "123 Address",
-              "city": "Miramar",
-              "stateCode": "FL",
-              "postalCode": "33029",
-              "countryName": "USA"
-            },
-            "email": "eslqa@rccl.com"
-          }
-        },
-        {
-          "guestContact": {
-            "guestRefNumber": "0",
-            "personalInfo": {
-              "name": {
-                "title": "MR",
-                "firstName": "ESL Two",
-                "lastName": "Tester"
-              },
-              "age": "55",
-              "birthDate": "1960-05-13",
-              "gender": "M",
-              "nationality": "USA"
-            },
-            "address": {
-              "address1": "addr1",
-              "city": "Miramar",
-              "stateCode": "NA",
-              "postalCode": "33029",
-              "countryName": "USA"
-            },
-            "email": "eslqa@rccl.com"
-          }
-        }
-      ]
-    }
-  
+   "header":{
+      "application": "${#TestCase#application}",
+      "brand": "${#TestCase#brand}",
+      "domainId": "1",
+      "language": "en_US"
+   },
+   "countryCode":"${#TestCase#country}",
+   "bookingId":"${#TestCase#bookingId}",
+   "bookingAccessToken":"${#TestCase#bookingAccessToken}",
+   "lastName":"${#TestCase#lastname}",
+   "sailDate":"${#TestCase#sailDate}",
+   "shipCode":"${#TestCase#shipCode}",
+   "profileID":"${Properties - Booking#Shopper_Profile - ID}",
+   "associateAsOwner":"true"
 }</con:request>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/updateBooking</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="e2bb48cb-72ed-4b89-8c21-ff5e0a7d41b0" name="Valid HTTP Status Codes">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/associateBookingToProfile</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="b7a97327-c9fe-4e1a-8438-eec7e43e459a" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="5805a02a-afb5-4c9b-bbf8-f92f6d969f3e" name="Contains">
+        <con:assertion type="Simple Contains" id="a48a61ae-6f99-45cd-bed1-8919201ddcdc" name="Contains">
           <con:configuration>
             <token>Success</token>
             <ignoreCase>false</ignoreCase>
@@ -902,7 +859,40 @@ testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="releaseBooking" id="d0056987-9377-4b12-a1e4-660a4dbec6b7">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/releaseBooking" methodName="releaseBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="releaseBooking" id="e0135d9d-6b24-4332-996d-3f8c56b32255" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="3c0b1166-f6fd-4e20-a545-8dbc57e36386" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+        </con:parameters>
         <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
           <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
             <con:authProfile>Inherit From Parent</con:authProfile>
           </con:entry>
@@ -913,7 +903,81 @@ testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Validation of Update Booking" id="07e52d19-c5ba-4e84-863a-b5d2689fad90">
+  <con:testStep type="delay" name="Delay 2" id="5b6dc9a8-222b-4049-b1e9-a82455f1f73d">
+    <con:settings/>
+    <con:config>
+      <delay>500</delay>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveBooking 2" id="0085454b-7eca-43f8-8647-1b8870aa74b4">
+    <con:settings/>
+    <con:config service="Booking" methodName="retrieveBooking" resourcePath="/rest/v3/retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveBooking 2" id="5233383c-3985-4305-ab02-2225af0d0e20" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aa751c95-8f3c-46fc-b1a0-39d195e9727d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains" id="836cc23a-febd-410e-a3d5-c136bb4303e9">
+          <con:configuration>
+            <token>Success</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="8d2c2110-d9ab-4d1b-9a6e-cbe94da21f3a" name="Validate accessToken is not null">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def token = parse.bookingAccessToken
+log.info token
+assert token!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="lastName" value="${#TestCase#lastname}"/>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="summaryRequested" value="FALSE"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken 2" id="9b84de84-f53a-4c2c-a905-c751f8be4999">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -923,34 +987,22 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import groovy.json.*
 import groovy.util.*
 
-def ts = testRunner.testCase.getTestStepByName("retrieveBooking");
-def retxml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-def ts2 = testRunner.testCase.getTestStepByName("updateBooking-firstName,address");
-def updxml2 = new XmlSlurper().parseText(ts2.getPropertyValue("ResponseAsXml"));
+def ts = testRunner.testCase.getTestStepByName("retrieveBooking 2");
 
-//Get FirstName in retrieveBooking
-def retFirstName  = retxml.booking.guests.guest[0].e.name.firstName[0].text()
-log.info('First Name before Update: ' + retFirstName)
-
-//Get FirstName in updateBooking
-def updFirstName  = updxml2.booking.guests.guest[0].e.name.firstName[0].text()
-log.info('First Name after Update: ' + updFirstName)
-
-assert retFirstName != updFirstName
-log.info('First Name is now updated from ' + retFirstName + ' to ' + updFirstName + ' ')
+def xml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+log.info(xml)
 
 
-//Get Address of 1st Guest in retrieveBooking
-def retAddress = retxml.booking.guests.guest[0].e.addresses.address.e.address1.text()
-log.info('Address before Update: ' + retAddress)
+//Set Test Case bookingAccessToken
+def bookingAccessToken  = xml.bookingAccessToken.text()
+log.info(bookingAccessToken)
+testRunner.testCase.setPropertyValue("bookingAccessToken 2",bookingAccessToken);
 
-//Get Address of 2nd Guest in UpdateBooking
-def updAddress = updxml2.booking.guests.guest[0].e.addresses.address.e.address1.text()
-log.info('Address after Update: ' + updAddress)
-
-assert retAddress != updAddress
-log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' ')</script>
+//Set Test Case bookingStatus
+def bookingStatus  = xml.booking.bookingInformation.status.text()
+log.info(bookingStatus)
+testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="cancelBooking" id="efc868b0-a00a-4e0e-9073-12b50e6b510b">
@@ -969,7 +1021,7 @@ log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' 
 	},
 	"countryCode":"${#TestCase#country}",
 	"bookingId": "${#TestCase#bookingId}",
-	"bookingAccessToken": "${#TestCase#bookingAccessToken}",
+	"bookingAccessToken": "${#TestCase#bookingAccessToken 2}",
 	"lockBooking": "true"
 }</con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cancelBooking</con:originalUri>
@@ -1034,7 +1086,7 @@ log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' 
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>7044</con:value>
+      <con:value>7028</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -1058,15 +1110,15 @@ log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' 
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1438604</con:value>
+      <con:value>1449363</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
-      <con:value>Tester</con:value>
+      <con:value>Test</con:value>
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>0cd48c20-e17d-4e3c-b97a-3279cbea4018</con:value>
+      <con:value>f1d1fdc5-3fe7-4bb3-812c-87e816631ce2</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -1083,6 +1135,10 @@ log.info('Address1 is now updated from ' + retAddress + ' to ' + updAddress + ' 
     <con:property>
       <con:name>Status</con:name>
       <con:value>BOOKED</con:value>
+    </con:property>
+    <con:property>
+      <con:name>bookingAccessToken 2</con:name>
+      <con:value>f6e90304-3500-4fb7-8c35-2cf3c3c84a32</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
