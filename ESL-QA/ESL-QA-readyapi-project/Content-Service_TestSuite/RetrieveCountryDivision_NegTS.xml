@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="23d7ad54-3b65-445f-8514-b689af814f9b" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="RetrieveCountryDivision" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="5af8ca4a-ec10-46fe-a9f7-a8042dfb021a" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="RetrieveCountryDivision_NegTS" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="23d7ad54-3b65-445f-8514-b689af814f9bfileName">RetrieveCountryDivision</con:setting>
+    <con:setting id="5af8ca4a-ec10-46fe-a9f7-a8042dfb021afileName">RetrieveCountryDivision_NegTS</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch" id="dce36fa8-0eed-4bf7-a238-1060d3fc05f5">
+  <con:testStep type="restrequest" name="cruiseSearch" id="1885aeac-ffb3-4f77-8697-2ca81350f328">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch" id="fdd8cc76-fa98-4448-973e-6569d32964ef" mediaType="application/json">
@@ -54,7 +54,7 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/brand/country/language/currency" id="cfdd94ee-31d1-4242-b87a-236576a2cea7">
+  <con:testStep type="groovy" name="Fetch_REQ_app/brand/country/language/currency" id="9a09525d-883b-41da-ba95-3f74b3a5e54f">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -91,29 +91,36 @@ log.info(language)
 testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveCountryDivision" id="f32e4a82-cf6d-4d19-86b0-16faf4a74ee6">
+  <con:testStep type="restrequest" name="RCD_blank-CountryCode" id="c0e130fe-fc12-4f60-98cb-fc725d5e2eba">
     <con:settings/>
     <con:config service="Content" resourcePath="/rest/v3//countryDivision" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveCountryDivision" id="b36a50fb-6f18-41ce-b78c-8ee98d45dd0f" mediaType="application/json">
+      <con:restRequest name="RCD_blank-CountryCode" id="b36a50fb-6f18-41ce-b78c-8ee98d45dd0f" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>http://stg1.mesos.rccl.com</con:endpoint>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/countryDivision</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="e2a71190-8cb3-45c3-b53c-2fcda4487c56" name="Valid HTTP Status Codes">
+        <con:assertion type="Valid HTTP Status Codes" id="7fbb4d20-6ecc-4dc2-9a5e-39e35ffc9507" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8d16c54f-d6b5-4f07-99be-fbf53171eb3c" name="Match content of [status]">
+        <con:assertion type="JsonPath Match" id="d86cd3d6-44d5-40af-b8ad-c595375dcfdb" name="Match content of [status]">
           <con:configuration>
             <path>$['header']['status']</path>
-            <content>"Success"</content>
+            <content>"Failure"</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="925e94c9-27e4-4b45-b568-ddc123d2bf0f" name="Match content of [code]">
+          <con:configuration>
+            <token>NotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -124,7 +131,8 @@ testRunner.testCase.setPropertyValue("language",language);</script>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="targetEnvironment" value="preview"/>
+          <con:entry key="project" value="cms1"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
