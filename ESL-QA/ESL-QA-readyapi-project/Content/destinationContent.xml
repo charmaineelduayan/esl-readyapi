@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="destinationContent" path="/rest/v3/destinationContent" id="d1bcc4a3-8f75-4635-806f-2cc2185ff676" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="d1bcc4a3-8f75-4635-806f-2cc2185ff676fileName">destinationContent</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="destinationContent" id="ac11f6a4-05cc-4010-afc8-c529443fded7" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter>
+        <con:name>header.language</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>code</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+    </con:parameters>
+    <con:request name="destinationContent" id="50fdf8a0-9405-4976-8588-f17b32e02b46" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="en_US"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>code</con:entry>
+      </con:parameterOrder>
+    </con:request>
+  </con:method>
+</con:resource>
