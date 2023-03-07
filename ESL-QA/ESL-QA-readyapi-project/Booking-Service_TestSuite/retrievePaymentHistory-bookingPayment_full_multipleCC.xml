@@ -788,6 +788,66 @@ log.info(bookingAccessToken)
 testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="bookingPayment" id="fca9f500-32c5-4477-baec-0c831b51c7ac">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/bookingPayment" methodName="bookingPayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="bookingPayment" id="d2be06a4-8d6d-4d9e-8c52-3355433c2a16" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US"
+	},
+	"countryCode": "${#TestCase#country}",
+	"bookingId": "${#TestCase#bookingId}",
+	"lastName": "${#TestCase#lastname}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"lockBooking": false,
+	"listOfCardPayments": {
+		"cardPayment": [
+			{
+				"cardType": "VA",
+				"cardToken": "4387751111111111",
+				"expireDate": "1030",
+				"cvv": "123",
+				"amount": 500,
+				"currency": "${#TestCase#currency}",
+				"contact": {
+					"firstName": "ESL One",
+					"lastName": "${#TestCase#lastname}"
+				}
+			}
+		]
+	}
+}</con:request>
+        <con:assertion type="Valid HTTP Status Codes" id="6e54e267-d55d-4e6a-8c22-147560fb4b91" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="retrievePaymentHistory" id="bca8f062-a207-43e9-8145-79ce2ccf2493">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/retrievePaymentHistory" methodName="retrievePaymentHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -943,7 +1003,7 @@ assert balanceDue==difference]]></scriptText>
   <con:properties>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>bdf05fa5-bd04-42e8-9296-fcc7a235e384</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>application</con:name>
@@ -963,7 +1023,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>bookingId</con:name>
-      <con:value>1441232</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
@@ -995,7 +1055,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>9011</con:value>
+      <con:value>7101</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
