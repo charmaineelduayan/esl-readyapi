@@ -549,29 +549,10 @@ testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
 								"countryName": "USA"
 							}
 						}
-					},
-					{
-						"cardType": "VA",
-						"cardToken": "4387751111111111",
-						"expireDate": "1230",
-						"amount": "${#TestCase#SecondCCPayment}",
-						"currency": "USD",
-						"extendPayments": "false",
-						"contact": {
-							"firstName": "ESL QA",
-							"lastName": "Tester",
-							"address": {
-								"address1": "ADDRESS",
-								"city": "CITY",
-								"stateCode": "FLL",
-								"postalCode": "33019",
-								"countryCode": "USA",
-								"countryName": "USA"
-							}
-						}
 					}
-				]
+			]
 			}
+			
     }
   ],
   "courtesyHold": "true"
@@ -788,6 +769,94 @@ log.info(bookingAccessToken)
 testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_balanceDue/grossTotal" id="d5f65ce0-d632-4c74-9c40-914e1e31a8f1">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.*
+import groovy.util.*
+
+
+def ts = testRunner.testCase.getTestStepByName("retrieveBooking");
+
+def xml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+log.info(xml)
+
+//Get BalanceDue in retrieveBooking
+def retBalDue  = xml.booking.bookingInformation.prices.priceInfo[0].e.amount[0].toDouble()
+log.info(retBalDue)
+
+def retGrossTotal  = xml.booking.bookingInformation.prices.priceInfo[0].e.amount[2].toDouble()
+log.info(retGrossTotal)
+
+
+def FirstPayment = 200
+log.info(FirstPayment)
+testRunner.testCase.setPropertyValue("FirstPayment",FirstPayment.toString());
+def SecondPayment = (retBalDue-FirstPayment).round(2)
+log.info(SecondPayment)
+testRunner.testCase.setPropertyValue("SecondPayment",SecondPayment.toString());</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="releaseBooking" id="468b30ba-bca1-4af8-a50d-efa4ae72fa52">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/releaseBooking" methodName="releaseBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="releaseBooking" id="e0135d9d-6b24-4332-996d-3f8c56b32255" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="402ab6b4-3e81-40e7-857a-f2aa71178d36" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="6d842026-b6d2-4f45-ac06-94fdb162151d" name="status is Success">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Success"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="delay" name="Delay 3" id="4f8d7d46-45bb-4118-a9c1-0507fde9b4c6">
+    <con:settings/>
+    <con:config>
+      <delay>2000</delay>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="bookingPayment" id="fca9f500-32c5-4477-baec-0c831b51c7ac">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/bookingPayment" methodName="bookingPayment" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -813,22 +882,73 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
 			{
 				"cardType": "VA",
 				"cardToken": "4387751111111111",
-				"expireDate": "1030",
+				"expireDate": "1230",
 				"cvv": "123",
-				"amount": 500,
+				"amount": "${#TestCase#FirstPayment}",
 				"currency": "${#TestCase#currency}",
 				"contact": {
 					"firstName": "ESL One",
 					"lastName": "${#TestCase#lastname}"
 				}
-			}
-		]
-	}
-}</con:request>
+			},
+					{
+						"cardType": "VA",
+						"cardToken": "4387751111111111",
+						"expireDate": "1230",
+						"cvv": "123",
+						"amount": "${#TestCase#SecondPayment}",
+						"currency": "USD",
+						"extendPayments": "false",
+						"contact": {
+							"firstName": "ESL QA",
+							"lastName": "${#TestCase#lastname}"
+							}
+						}					
+					]
+				}
+			}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/bookingPayment</con:originalUri>
         <con:assertion type="Valid HTTP Status Codes" id="6e54e267-d55d-4e6a-8c22-147560fb4b91" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="db423cb6-b52c-4dcf-9590-721a554e2c66" name="status Success">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Success"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="60f5c728-3044-4e60-99dc-eadef7e492d1" name="Script Assertion">
+          <con:configuration>
+            <scriptText><![CDATA[def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+log.info parse
+
+//Get number of payments
+def count = parse.bookingConfirmation.paymentResult.size()
+log.info count
+
+for ( i=0; i<=count-1;i++){
+		//Check visibility of payment result
+		def cardId = parse.bookingConfirmation.paymentResult[i].cardId
+		assert (cardId != null) && (cardId != "") && (cardId != []); 
+		log.info cardId
+
+		def amount = parse.bookingConfirmation.paymentResult[i].amount
+		assert (amount != null) && (amount != "") && (amount != []); 
+		log.info amount
+		
+}
+
+def balanceDue = parse.bookingConfirmation.balanceDue
+		assert balanceDue!=null
+		log.info balanceDue]]></scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -846,6 +966,109 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="delay" name="Delay 3 2" id="4193678c-e3a6-494a-a506-e1470079d30d">
+    <con:settings/>
+    <con:config>
+      <delay>2000</delay>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveBooking 2" id="a9d28ddb-44a0-47a9-9465-4162bd5844e5">
+    <con:settings/>
+    <con:config service="Booking" methodName="retrieveBooking" resourcePath="/rest/v3/retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveBooking 2" id="5233383c-3985-4305-ab02-2225af0d0e20" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aa751c95-8f3c-46fc-b1a0-39d195e9727d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains" id="836cc23a-febd-410e-a3d5-c136bb4303e9">
+          <con:configuration>
+            <token>Success</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="8d2c2110-d9ab-4d1b-9a6e-cbe94da21f3a" name="Validate accessToken is not null">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def token = parse.bookingAccessToken
+log.info token
+assert token!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="lastName" value="${#TestCase#lastname}"/>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="summaryRequested" value="FALSE"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken 2" id="048afb6c-8cc5-4177-8ca5-efc770ed3136">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.*
+import groovy.util.*
+
+
+def ts = testRunner.testCase.getTestStepByName("retrieveBooking 2");
+
+def xml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+log.info(xml)
+
+
+//Set Test Case bookingAccessToken
+def bookingAccessToken  = xml.bookingAccessToken.text()
+log.info(bookingAccessToken)
+testRunner.testCase.setPropertyValue("bookingAccessToken 2",bookingAccessToken);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="delay" name="Delay 2" id="c87fa2e6-9aaf-4a02-a566-4066958f8fc4">
+    <con:settings/>
+    <con:config>
+      <delay>2000</delay>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="retrievePaymentHistory" id="bca8f062-a207-43e9-8145-79ce2ccf2493">
@@ -937,7 +1160,7 @@ assert balanceDue==difference]]></scriptText>
         <con:parameters>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken 2}"/>
           <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
@@ -973,7 +1196,7 @@ assert balanceDue==difference]]></scriptText>
 	},
 	"countryCode":"${#TestCase#country}",
 	"bookingId": "${#TestCase#bookingId}",
-	"bookingAccessToken": "${#TestCase#bookingAccessToken}",
+	"bookingAccessToken": "${#TestCase#bookingAccessToken 2}",
 	"lockBooking": "true"
 }</con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst1/rest/v3/cancelBooking</con:originalUri>
@@ -1003,7 +1226,7 @@ assert balanceDue==difference]]></scriptText>
   <con:properties>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value/>
+      <con:value>aa6c48e6-0f44-4abc-a809-9bfa3d19bab7</con:value>
     </con:property>
     <con:property>
       <con:name>application</con:name>
@@ -1023,7 +1246,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>bookingId</con:name>
-      <con:value/>
+      <con:value>1469583</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
@@ -1055,7 +1278,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>7101</con:value>
+      <con:value>9155</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -1068,6 +1291,18 @@ assert balanceDue==difference]]></scriptText>
     <con:property>
       <con:name>lastname</con:name>
       <con:value>Tester</con:value>
+    </con:property>
+    <con:property>
+      <con:name>FirstPayment</con:name>
+      <con:value>200</con:value>
+    </con:property>
+    <con:property>
+      <con:name>SecondPayment</con:name>
+      <con:value>5336.76</con:value>
+    </con:property>
+    <con:property>
+      <con:name>bookingAccessToken 2</con:name>
+      <con:value>b60383ae-eb3b-4359-bc09-7d43b73ebc58</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
