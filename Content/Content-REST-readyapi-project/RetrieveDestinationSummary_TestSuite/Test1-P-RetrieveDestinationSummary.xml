@@ -133,7 +133,11 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="81f01b5a-c4d0-439a-8cbf-4287fc064611">
@@ -227,7 +231,7 @@ assert desCode!=null</scriptText>
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -446,7 +450,7 @@ assert desCode!=null</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="destinationCode" value="${#TestCase#destinationCode}"/>
-          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -762,7 +766,12 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package 2" id="df131289-17d7-48af-8b6b-b6be45a8a56b">
@@ -846,7 +855,7 @@ assert desCode!=null</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -1055,7 +1064,7 @@ assert desCode!=null</scriptText>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value="${#TestCase#destinationCode}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
@@ -1273,6 +1282,10 @@ log.info('DestinationCode from the request ' +destCode+ ' is match to the destin
     <con:property>
       <con:name>destinationCode</con:name>
       <con:value>FAR.E</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
