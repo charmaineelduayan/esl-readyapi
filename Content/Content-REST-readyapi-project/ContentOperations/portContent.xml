@@ -50,9 +50,15 @@
       <con:params/>
       <con:element>html</con:element>
     </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType xsi:nil="true"/>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element>data</con:element>
+    </con:representation>
     <con:request name="GET Request" id="88a5ef0b-0d54-4ceb-b9e7-048f5dddd971" mediaType="application/json">
       <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
       </con:settings>
       <con:request/>
       <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/portContent</con:originalUri>
@@ -63,7 +69,9 @@
       <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
       <con:jmsPropertyConfig/>
       <con:parameters>
-        <entry key="portCode" value="SAN" xmlns="http://eviware.com/soapui/config"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="portCode" value="SAN"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
       </con:parameters>
       <con:environmentSpec>
         <con:entry environmentId="e7f50ce2-dd90-4e64-9a15-63478880e468">
