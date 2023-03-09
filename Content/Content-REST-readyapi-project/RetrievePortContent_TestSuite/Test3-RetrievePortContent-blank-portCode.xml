@@ -135,7 +135,11 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="c89b1a01-ea50-4a63-a58e-4447210d924a">
@@ -221,6 +225,7 @@ if (celebrityShips.contains(shipCode)) {
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="portCode" value=""/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
@@ -408,6 +413,7 @@ if (celebrityShips.contains(shipCode)) {
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="portCode" value="XYZ"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
@@ -583,6 +589,10 @@ if (celebrityShips.contains(shipCode)) {
     <con:property>
       <con:name>brand</con:name>
       <con:value>R</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>

@@ -133,7 +133,12 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="a82b42e2-7c53-4269-b316-7de5c6cb2e2a">
@@ -217,6 +222,7 @@ assert portCode==null</scriptText>
         <con:parameters>
           <con:entry key="portType" value=""/>
           <con:entry key="destinationCode" value="AAA"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
@@ -416,6 +422,7 @@ assert portCode==null</scriptText>
         <con:parameters>
           <con:entry key="portType" value=""/>
           <con:entry key="destinationCode" value=""/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value="AAA"/>
@@ -605,6 +612,10 @@ assert portCode==null</scriptText>
     <con:property>
       <con:name>brand</con:name>
       <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>

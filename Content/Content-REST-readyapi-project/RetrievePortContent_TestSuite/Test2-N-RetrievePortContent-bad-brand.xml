@@ -135,7 +135,11 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="RetrievePortContent-invalid brand" id="4cb061c9-deca-4909-8f1b-c80743d0c50f">
@@ -187,6 +191,7 @@ testRunner.testCase.setPropertyValue("currency",currency);</script>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="portCode" value="SAN"/>
           <con:entry key="header.brand" value="RR"/>
@@ -346,6 +351,10 @@ testRunner.testCase.setPropertyValue("currency",currency);</script>
     <con:property>
       <con:name>currency</con:name>
       <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
