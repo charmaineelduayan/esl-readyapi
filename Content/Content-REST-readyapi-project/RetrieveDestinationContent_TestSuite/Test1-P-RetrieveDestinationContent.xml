@@ -133,7 +133,11 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="d7d38f61-60bd-42c2-937a-f554550894e1">
@@ -204,6 +208,7 @@ if (celebrityShips.contains(shipCode)) {
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -381,6 +386,7 @@ if (celebrityShips.contains(shipCode)) {
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -735,6 +741,7 @@ if (celebrityShips.contains(shipCode)) {
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -912,6 +919,7 @@ if (celebrityShips.contains(shipCode)) {
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -1092,6 +1100,10 @@ if (celebrityShips.contains(shipCode)) {
     <con:property>
       <con:name>brand</con:name>
       <con:value>R</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>

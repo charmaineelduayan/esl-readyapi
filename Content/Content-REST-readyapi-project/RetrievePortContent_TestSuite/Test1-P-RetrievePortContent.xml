@@ -135,7 +135,11 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package 2" id="4e588b44-e5f0-47ac-8ec3-f779bf04b4e4">
@@ -219,6 +223,7 @@ assert portCode!=null</scriptText>
         <con:parameters>
           <con:entry key="portType" value=""/>
           <con:entry key="destinationCode" value=""/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
@@ -438,6 +443,7 @@ assert portCode!=null</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="portCode" value="${#TestCase#portCode}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
@@ -714,7 +720,11 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="fb991a4f-985b-4a4c-8836-876bc97a3549">
@@ -798,6 +808,7 @@ assert portCode!=null</scriptText>
         <con:parameters>
           <con:entry key="portType" value=""/>
           <con:entry key="destinationCode" value=""/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
@@ -1013,6 +1024,7 @@ assert portCode!=null</scriptText>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
@@ -1203,6 +1215,10 @@ assert portCode!=null</scriptText>
     <con:property>
       <con:name>portType</con:name>
       <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
