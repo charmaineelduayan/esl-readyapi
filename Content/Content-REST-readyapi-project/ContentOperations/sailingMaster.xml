@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="sailingMaster" path="/sailingMaster" id="1c6cc488-dadb-4d9a-929b-2df5ca0ac4ed" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="1c6cc488-dadb-4d9a-929b-2df5ca0ac4edfileName">sailingMaster</con:setting>
+  </con:settings>
+  <con:parameters>
+    <con:parameter required="true">
+      <con:name>header.brand</con:name>
+      <con:value>R</con:value>
+      <con:style>QUERY</con:style>
+      <con:default>R</con:default>
+    </con:parameter>
+    <con:parameter required="true">
+      <con:name>header.application</con:name>
+      <con:value>royalcaribbean.com</con:value>
+      <con:style>QUERY</con:style>
+      <con:default>royalcaribbean.com</con:default>
+    </con:parameter>
+    <con:parameter required="true">
+      <con:name>header.language</con:name>
+      <con:value>en_US</con:value>
+      <con:style>QUERY</con:style>
+      <con:default>en_US</con:default>
+    </con:parameter>
+    <con:parameter required="true">
+      <con:name>header.domainId</con:name>
+      <con:value>6</con:value>
+      <con:style>QUERY</con:style>
+      <con:default>6</con:default>
+    </con:parameter>
+    <con:parameter required="true">
+      <con:name>startSailDate</con:name>
+      <con:value>2023-01-01</con:value>
+      <con:style>QUERY</con:style>
+      <con:default>2023-01-01</con:default>
+    </con:parameter>
+    <con:parameter required="true">
+      <con:name>endSailDate</con:name>
+      <con:value>2023-03-03</con:value>
+      <con:style>QUERY</con:style>
+      <con:default>2023-03-03</con:default>
+    </con:parameter>
+  </con:parameters>
+  <con:method name="Method 1" id="56023651-5eac-477b-924b-625f0d689095" method="GET">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="Request 1" id="e8347760-2229-4213-a726-ec7ced99befa" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+      </con:parameters>
+    </con:request>
+  </con:method>
+</con:resource>
