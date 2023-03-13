@@ -4,68 +4,191 @@
     <con:setting id="faf5a77a-0b62-42b1-aed3-33e48b961996fileName">Test1-P-RetrieveItineraryContent</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="properties" name="packageId" id="00146972-e508-4d21-a5f8-cbfba7d478e2">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <con:testStep type="properties" name="packageId" id="68033476-fc44-48b7-b23d-85ec6d16490f">
     <con:settings/>
     <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:properties>
         <con:property>
           <con:name>PACKAGE_ID</con:name>
-          <con:value>EN04W066</con:value>
+          <con:value>EN09Y040</con:value>
         </con:property>
         <con:property>
           <con:name>package_Id for brand c</con:name>
-          <con:value>EG11M201</con:value>
+          <con:value>XO07G027</con:value>
         </con:property>
-      </con:properties>
+      <con:property><con:name>Effective_Date_R</con:name><con:value>1220630</con:value></con:property><con:property><con:name>Effective_Date_C</con:name><con:value>1200411</con:value></con:property></con:properties>
     </con:config>
-  </con:testStep>
-  <con:testStep type="datasource" name="ContentDS" id="c6d15a81-f6d7-4079-b1f4-42bc77a81c44">
+  </con:testStep><con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="5480d13d-ef1b-4ec3-b5ce-8045ed270f6f">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveItineraryContent</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>packageId</con:property>
-      <con:property>effectiveDate</con:property>
-      <con:property>includeDetails</con:property>
-      <con:startRow>0</con:startRow>
-      <con:endRow>0</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aeea0b73-a636-43f8-9e7e-592c253cb5c6" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="970f9f2a-b98c-4157-a7d0-bdb110cadbb3" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters><con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/><con:entry key="header.language" value="en_us"/><con:entry key="criteria.brand.value" value="R"/><con:entry key="header.application" value="royalcaribbean.com"/><con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/><con:entry key="criteria.channel" value="VP"/><con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/><con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/><con:entry key="resultsPreference.includeResults" value="true"/><con:entry key="criteria.currency" value="USD"/><con:entry key="resultsPreference.strictSearch" value="true"/><con:entry key="criteria.ship.value" value="${#Global#royalShip}"/><con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/><con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/><con:entry key="criteria.sailingDate.date" value=""/><con:entry key="resultsPreference.sortOrder" value="DESCENDING"/><con:entry key="resultsPreference.includePrices" value="true"/><con:entry key="resultsPreference.groupBy" value="PACKAGE"/><con:entry key="criteria.bookingType" value="FIT"/><con:entry key="resultsPreference.pagination.count" value="100"/><con:entry key="header.domainId" value="1"/><con:entry key="criteria.occupancy.adult" value="2"/><con:entry key="resultsPreference.sortBy" value="DURATION"/><con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/></con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
     </con:config>
-  </con:testStep>
-  <con:testStep type="jdbc" name="JDBC Request with brand r" id="48dca876-ff0d-470f-b780-022636930a01">
+  </con:testStep><con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="32b2c8fd-b7d1-43e8-843b-0990e506e87c">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);
+
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
+    </con:config>
+  </con:testStep><con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="dcd52164-b8c4-4e9a-ac2e-6de97991599c">
+    <con:settings/>
+    <con:config><script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Package Code
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+
+//Set Test Case Ship Code
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+//Set Test Case Sail Date
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+//Set Test Case Brand
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script></con:config>
+  </con:testStep><con:testStep type="jdbc" name="JDBC Request with brand r" id="34d07e8f-0031-4041-9c37-da83fa1ea2c9">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
     <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
-      <con:connectionString>jdbc:sqlserver://10.14.31.120:14729;databaseName=WebRemoteDataAccess_PBND;user=b2c_ven_user;password=PASS_VALUE</con:connectionString>
-      <con:password>BRhPu1nsx</con:password>
+      <con:dbConnectionName>Test_WebRemoteDataAccess_PBND</con:dbConnectionName><con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLDDB01.TSTNA.TSTRCCL.COM:14725;databaseName=WebRemoteDataAccess_PBND ;user=b2c_user ;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
       <con:connectionProperties/>
       <con:query>EXEC dbo.USP_VP_PACKAGE_GET 'R',NULL,1190808,'Y','Y';</con:query>
       <con:storedProcedure>false</con:storedProcedure>
@@ -80,11 +203,10 @@
       </con:assertion>
       <con:properties/>
     </con:config>
-  </con:testStep>
-  <con:testStep type="transfer" name="PropertyTransfer 1" id="cc2052f9-1150-4105-960f-39a696027cd7">
+  </con:testStep><con:testStep type="transfer" name="PropertyTransfer 1" id="5d43cde6-b649-426f-8ca9-060b3a1a4a0c">
     <con:settings/>
     <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
         <con:name>PACKAGE_ID</con:name>
         <con:sourceType>ResponseAsXml</con:sourceType>
         <con:sourceStep>JDBC Request with brand r</con:sourceStep>
@@ -95,17 +217,13 @@
         <con:type>XPATH</con:type>
         <con:upgraded>true</con:upgraded>
       </con:transfers>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveItineraryContent" id="b24b664c-ad7f-4d4b-88be-5e7896cfa799">
+    <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>Effective_date</con:name><con:sourceType>ResponseAsXml</con:sourceType><con:sourceStep>JDBC Request with brand r</con:sourceStep><con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/ITINERARY_EFFECTIVE_DATE[1]</con:sourcePath><con:targetType>Effective_Date_R</con:targetType><con:targetStep>packageId</con:targetStep><con:upgraded>true</con:upgraded></con:transfers></con:config>
+  </con:testStep><con:testStep type="restrequest" name="RetrieveItineraryContent" id="32133a9a-f73a-475c-b6cd-8534bc2af802">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/itineraryContent" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveItineraryContent" id="e8bfa49e-5ac1-475b-92b6-dffbe3ad5ec8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/itineraryContent</con:originalUri>
@@ -124,14 +242,7 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
-        <con:parameters>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="packageId" value="${packageId#PACKAGE_ID}"/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
-          <con:entry key="includeDetails" value="${ContentDS#includeDetails}"/>
-          <con:entry key="effectiveDate" value=""/>
-        </con:parameters>
+        <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="packageId" value="${packageId#PACKAGE_ID}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="includeDetails" value="false"/></con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
           <con:entry>header.application</con:entry>
@@ -276,16 +387,12 @@
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveItineraryContent with effectiveDate" id="8bf24d1f-ba9e-412d-97a5-bd31c1d79b73" disabled="true">
+  </con:testStep><con:testStep type="restrequest" name="RetrieveItineraryContent with effectiveDate" id="2f1921fd-6d21-408b-a5e7-376e6cb5887a">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/itineraryContent" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveItineraryContent with effectiveDate" id="e8bfa49e-5ac1-475b-92b6-dffbe3ad5ec8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/itineraryContent</con:originalUri>
@@ -303,14 +410,7 @@
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="packageId" value="${ContentDS#packageId}"/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
-          <con:entry key="includeDetails" value="${ContentDS#includeDetails}"/>
-          <con:entry key="effectiveDate" value="${ContentDS#effectiveDate}"/>
-        </con:parameters>
+        <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="packageId" value="${packageId#PACKAGE_ID}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="includeDetails" value="false"/><con:entry key="effectiveDate" value="${packageId#Effective_Date_R}"/></con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
           <con:entry>header.application</con:entry>
@@ -455,47 +555,180 @@
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep>
-  <con:testStep type="datasource" name="ContentDS1" id="0a53bd72-9d12-4de9-8c8c-99279ffef5d2">
+  </con:testStep><con:testStep type="restrequest" name="cruiseSearch-C" id="c8812b0f-f724-4035-9c25-19999d396d14">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveItineraryContent</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>packageId</con:property>
-      <con:property>effectiveDate</con:property>
-      <con:property>includeDetails</con:property>
-      <con:startRow>1</con:startRow>
-      <con:endRow>1</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-C" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aeea0b73-a636-43f8-9e7e-592c253cb5c6" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="970f9f2a-b98c-4157-a7d0-bdb110cadbb3" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.date" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        <con:entry environmentId="13da8a57-679f-4583-a559-874976b131bc"><con:authProfile>Inherit From Parent</con:authProfile></con:entry></con:environmentSpec>
+      </con:restRequest>
     </con:config>
-  </con:testStep>
-  <con:testStep type="jdbc" name="JDBC Request with brand c" id="8dc04de4-919b-473a-bd80-0bf98b0b7480">
+  </con:testStep><con:testStep type="groovy" name="Fetch_REQ_app/country/currency 2" id="8b50af49-d542-445d-9ced-a37156d5e89d">
+    <con:settings/>
+    <con:config><script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-C");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);
+
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script></con:config>
+  </con:testStep><con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package 2" id="c9516085-7dd1-4061-a7db-0218ce7efaed">
+    <con:settings/>
+    <con:config><script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-C");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Package Code
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+
+//Set Test Case Ship Code
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+//Set Test Case Sail Date
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+//Set Test Case Brand
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script></con:config>
+  </con:testStep><con:testStep type="jdbc" name="JDBC Request with brand c" id="3c0c5619-6372-4681-b0c7-76ef4fcf912b">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -517,11 +750,10 @@
       </con:assertion>
       <con:properties/>
     </con:config>
-  </con:testStep>
-  <con:testStep type="transfer" name="PropertyTransfer 2" id="9adac3a4-dc40-4105-92d5-f6ffdbe9c864">
+  </con:testStep><con:testStep type="transfer" name="PropertyTransfer 2" id="99fc1306-f720-46de-85af-f96504875df4">
     <con:settings/>
     <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
         <con:name>package_Id for brand c</con:name>
         <con:sourceType>ResponseAsXml</con:sourceType>
         <con:sourceStep>JDBC Request with brand c</con:sourceStep>
@@ -532,17 +764,13 @@
         <con:type>XPATH</con:type>
         <con:upgraded>true</con:upgraded>
       </con:transfers>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveItineraryContent with brand c, packageId, includeDetails= true" id="2db106e5-cdd6-47c9-a6b6-f1386ccd375a">
+    <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>Effective_Date</con:name><con:sourceType>ResponseAsXml</con:sourceType><con:sourceStep>JDBC Request with brand c</con:sourceStep><con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/ITINERARY_EFFECTIVE_DATE[1]</con:sourcePath><con:targetType>Effective_Date_C</con:targetType><con:targetStep>packageId</con:targetStep><con:upgraded>true</con:upgraded></con:transfers></con:config>
+  </con:testStep><con:testStep type="restrequest" name="RetrieveItineraryContent with brand c, packageId, includeDetails= true" id="64149053-f49e-4d51-93bf-0a5f35c61f17">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/itineraryContent" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveItineraryContent with brand c, packageId, includeDetails= true" id="e8bfa49e-5ac1-475b-92b6-dffbe3ad5ec8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/itineraryContent</con:originalUri>
@@ -561,14 +789,7 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
-        <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="packageId" value="${packageId#package_Id for brand c}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
-          <con:entry key="includeDetails" value="${ContentDS1#includeDetails}"/>
-          <con:entry key="effectiveDate" value=""/>
-        </con:parameters>
+        <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="packageId" value="${packageId#package_Id for brand c}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="includeDetails" value="true"/><con:entry key="effectiveDate" value=""/></con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
           <con:entry>header.application</con:entry>
@@ -713,16 +934,12 @@
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveItineraryContent with brand c, effectiveDate" id="ba36b467-0d98-415e-9035-042b931b59ef" disabled="true">
+  </con:testStep><con:testStep type="restrequest" name="RetrieveItineraryContent with brand c, effectiveDate" id="91c84a27-a42f-48a9-957a-726b8ab62d2a">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/itineraryContent" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveItineraryContent with brand c, effectiveDate" id="e8bfa49e-5ac1-475b-92b6-dffbe3ad5ec8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/itineraryContent</con:originalUri>
@@ -740,13 +957,7 @@
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
-          <con:entry key="includeDetails" value="${ContentDS1#includeDetails}"/>
-          <con:entry key="effectiveDate" value="${ContentDS1#effectiveDate}"/>
-        </con:parameters>
+        <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="packageId" value="${packageId#package_Id for brand c}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="includeDetails" value="false"/><con:entry key="effectiveDate" value="${packageId#Effective_Date_C}"/></con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
           <con:entry>header.application</con:entry>
@@ -891,8 +1102,7 @@
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep>
-  <con:properties/>
+  </con:testStep><con:properties><con:property><con:name>application</con:name><con:value>celebritycruises.com</con:value></con:property><con:property><con:name>country</con:name><con:value>USA</con:value></con:property><con:property><con:name>currency</con:name><con:value>USD</con:value></con:property><con:property><con:name>language</con:name><con:value>en_us</con:value></con:property><con:property><con:name>packageCode</con:name><con:value>IN11M267</con:value></con:property><con:property><con:name>shipCode</con:name><con:value>IN</con:value></con:property><con:property><con:name>sailDate</con:name><con:value>2024-02-12</con:value></con:property><con:property><con:name>brand</con:name><con:value>C</con:value></con:property></con:properties>
   <con:reportParameters/>
   <con:breakPoints>
     <con:testStepId>0e83de83-6986-450d-9f00-ff4b853d2628</con:testStepId>
@@ -904,21 +1114,9 @@
     <con:status>NONE</con:status>
     <con:properties/>
   </con:breakPoints>
-  <con:breakPoints>
-    <con:testStepId>48dca876-ff0d-470f-b780-022636930a01</con:testStepId>
-    <con:status>NONE</con:status>
-    <con:properties/>
-  </con:breakPoints>
-  <con:breakPoints>
-    <con:testStepId>00146972-e508-4d21-a5f8-cbfba7d478e2</con:testStepId>
-    <con:status>NONE</con:status>
-    <con:properties/>
-  </con:breakPoints>
-  <con:breakPoints>
-    <con:testStepId>8dc04de4-919b-473a-bd80-0bf98b0b7480</con:testStepId>
-    <con:status>NONE</con:status>
-    <con:properties/>
-  </con:breakPoints>
+  
+  
+  
   <con:environmentSpec>
     <con:entry environmentId="2ec36bd4-8e07-4ff7-976f-50b7fb197bda">
       <con:authProfile>Inherit From Parent</con:authProfile>
