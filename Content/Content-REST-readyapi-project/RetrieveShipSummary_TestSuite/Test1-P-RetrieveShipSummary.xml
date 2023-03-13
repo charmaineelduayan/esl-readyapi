@@ -19,53 +19,86 @@
       </con:properties>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="ContentDS" id="5ebb5542-5aec-4ce0-9466-1268d15a7067">
+  <con:testStep type="restrequest" name="cruiseSearch_R" id="3c460c32-aec8-4849-8aeb-127a91d089cd">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveShipSummary</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>shipCode</con:property>
-      <con:property>shipClassCode</con:property>
-      <con:startRow>0</con:startRow>
-      <con:endRow>0</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch_R" id="fb6a1814-0292-4a12-bff4-58114459124f" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="591e37f1-0d93-4a86-a0f2-7615adfafd1f" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="resultsPreference.pagination.offset" value="0"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="criteria.brand.value" value="R"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="criteria.office" value="MIA"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.country" value="USA"/>
+          <con:entry key="criteria.cruiseType.value" value="CO"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+        </con:parameters>
+      </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveShipSummary" id="68b82732-3b9d-4e15-8128-54c33fd063b3">
+  <con:testStep type="groovy" name="Fetch_R_REQ_app/brand/language" id="dcf2a5f9-1e71-46e1-a924-e9016cd99f4e">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch_R");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&amp;");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveShipSummary_R" id="68b82732-3b9d-4e15-8128-54c33fd063b3">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/shipSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveShipSummary" id="6659943a-ea8d-4eb9-996c-5fada861e866" mediaType="application/json">
+      <con:restRequest name="RetrieveShipSummary_R" id="6659943a-ea8d-4eb9-996c-5fada861e866" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/shipSummary</con:originalUri>
@@ -85,11 +118,11 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="shipClassCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="shipCode" value=""/>
         </con:parameters>
         <con:parameterOrder>
@@ -243,7 +276,7 @@
       <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
         <con:name>code</con:name>
         <con:sourceType>Response</con:sourceType>
-        <con:sourceStep>RetrieveShipSummary</con:sourceStep>
+        <con:sourceStep>RetrieveShipSummary_R</con:sourceStep>
         <con:sourcePath>$['shipList']['ship'][0]['code']</con:sourcePath>
         <con:targetType>code</con:targetType>
         <con:targetStep>shipCode</con:targetStep>
@@ -253,15 +286,42 @@
       </con:transfers>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveShipClassCode_R" id="663a796b-5e74-46ff-91e7-91bc4db71a88">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/sailingMaster" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveShipClassCode_R" id="e8347760-2229-4213-a726-ec7ced99befa" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/sailingMaster</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="9e78242a-1a5e-43a7-862a-3b10b5e36ba0" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="startSailDate" value="${cruiseSearch_R#Response#declare namespace ns2='http://www.rccl.com/esl/services/search/v2'; //ns2:CruiseSearchResponse[1]/resultsByPackage[1]/packageSummaryWithClassLevelPricing[1]/cabinClassPriceBySailing[1]/startDate[1]}"/>
+          <con:entry key="endSailDate" value="${cruiseSearch_R#Response#declare namespace ns2='http://www.rccl.com/esl/services/search/v2'; //ns2:CruiseSearchResponse[1]/resultsByPackage[1]/packageSummaryWithClassLevelPricing[1]/cabinClassPriceBySailing[1]/startDate[1]}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="RetrieveShipSummary with shipCode" id="59156429-ef18-48f3-84e5-43ab92d1dd9a">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/shipSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveShipSummary with shipCode" id="6659943a-ea8d-4eb9-996c-5fada861e866" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/shipSummary</con:originalUri>
@@ -281,11 +341,10 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="shipClassCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="shipCode" value="${shipCode#code}"/>
         </con:parameters>
         <con:parameterOrder>
@@ -438,10 +497,7 @@
     <con:config service="ContentOperations" resourcePath="/shipSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveShipSummary with shipClassCode" id="6659943a-ea8d-4eb9-996c-5fada861e866" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/shipSummary</con:originalUri>
@@ -461,11 +517,11 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="shipClassCode" value="${ContentDS#shipClassCode}"/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="shipClassCode" value="${RetrieveShipClassCode_R#Response#$['sailingMasterDetails']['sailingMasterSummary'][0]['shipClassSummary'][0]['shipClassCode']}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -612,42 +668,76 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="ContentDS1" id="c0c1a26d-cd28-4150-b91a-432fded50302">
+  <con:testStep type="restrequest" name="cruiseSearch_C" id="adf9b587-5a07-4b7f-974e-69187d371521">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveShipSummary</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>shipCode</con:property>
-      <con:property>shipClassCode</con:property>
-      <con:startRow>1</con:startRow>
-      <con:endRow>1</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch_C" id="fb6a1814-0292-4a12-bff4-58114459124f" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="591e37f1-0d93-4a86-a0f2-7615adfafd1f" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="resultsPreference.pagination.offset" value="0"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="criteria.office" value="MIA"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.country" value="USA"/>
+          <con:entry key="criteria.cruiseType.value" value="CO"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_C_REQ_app/brand" id="4975ae2b-4d9a-47b5-8596-4ff494c296a2">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch_C");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application_c",app);
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&amp;");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand_c",brand);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="RetrieveShipSummary with brand c" id="1d90c5d2-f719-4699-9e06-612db82f4be7">
@@ -655,10 +745,7 @@
     <con:config service="ContentOperations" resourcePath="/shipSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveShipSummary with brand c" id="6659943a-ea8d-4eb9-996c-5fada861e866" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/shipSummary</con:originalUri>
@@ -678,11 +765,11 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application_c}"/>
           <con:entry key="shipClassCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand_c}"/>
           <con:entry key="shipCode" value=""/>
         </con:parameters>
         <con:parameterOrder>
@@ -846,15 +933,42 @@
       </con:transfers>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveShipClassCode_C" id="8e847015-1ed6-47b4-9d72-51598bdba1aa">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/sailingMaster" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveShipClassCode_C" id="e8347760-2229-4213-a726-ec7ced99befa" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/sailingMaster</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="9e78242a-1a5e-43a7-862a-3b10b5e36ba0" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application_c}"/>
+          <con:entry key="startSailDate" value="${cruiseSearch_C#Response#declare namespace ns2='http://www.rccl.com/esl/services/search/v2'; //ns2:CruiseSearchResponse[1]/resultsByPackage[1]/packageSummaryWithClassLevelPricing[1]/cabinClassPriceBySailing[1]/startDate[1]}"/>
+          <con:entry key="endSailDate" value="${cruiseSearch_C#Response#declare namespace ns2='http://www.rccl.com/esl/services/search/v2'; //ns2:CruiseSearchResponse[1]/resultsByPackage[1]/packageSummaryWithClassLevelPricing[1]/cabinClassPriceBySailing[1]/startDate[1]}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand_c}"/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="RetrieveShipSummary with brand c, shipCode" id="4a77594a-10ea-4fab-bd6f-20bd12c29d44">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/shipSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveShipSummary with brand c, shipCode" id="6659943a-ea8d-4eb9-996c-5fada861e866" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/shipSummary</con:originalUri>
@@ -874,11 +988,11 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application_c}"/>
           <con:entry key="shipClassCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand_c}"/>
           <con:entry key="shipCode" value="${shipCode#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
@@ -1031,10 +1145,7 @@
     <con:config service="ContentOperations" resourcePath="/shipSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveShipSummary with brand c, shipClassCode" id="6659943a-ea8d-4eb9-996c-5fada861e866" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/shipSummary</con:originalUri>
@@ -1055,10 +1166,10 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="shipClassCode" value="${ContentDS1#shipClassCode}"/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="header.application" value="${#TestCase#application_c}"/>
+          <con:entry key="shipClassCode" value="${RetrieveShipClassCode_C#Response#$['sailingMasterDetails']['sailingMasterSummary'][0]['shipClassSummary'][0]['shipClassCode']}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand_c}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1205,7 +1316,52 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>R</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>RD07A309</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>RD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>application_c</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand_c</con:name>
+      <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode_c</con:name>
+      <con:value>EC18T034</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode_c</con:name>
+      <con:value>EC</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:breakPoints>
     <con:testStepId>565833e6-ea3d-4c7a-86cb-66f88f904ba1</con:testStepId>
