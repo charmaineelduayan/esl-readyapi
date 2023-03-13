@@ -4,44 +4,121 @@
     <con:setting id="6d1521b8-c52b-4331-af14-0682d7b00d32fileName">Test2-N-RetrieveStateroomTypeSummary-bad-brand</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="datasource" name="ContentDS" id="3c416fea-c569-4d97-a4ff-dddc18ac5ae6">
+  <con:testStep type="restrequest" name="cruiseSearch" id="f68c752a-0587-467f-b40d-4435706387f2">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveStateroomTypeSummary</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>shipCode</con:property>
-      <con:property>code</con:property>
-      <con:property>deckCode</con:property>
-      <con:property>sailDate</con:property>
-      <con:startRow>2</con:startRow>
-      <con:endRow>2</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch" id="189952fe-b6cc-48ad-97e6-5e5b19048a8e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aa241b9b-7f7a-4410-9507-cd91752f7a4b" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="resultsPreference.pagination.offset" value="0"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="criteria.brand.value" value="R"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="criteria.office" value="MIA"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.country" value="USA"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_R_REQ_app/brand/language" id="98b4a930-258a-4bba-a457-5243f1f6e6d8">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&amp;");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_ShipCode/sailDate" id="b5135c61-77e8-4867-909d-2ebd463ff1be">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+
+//Set Test Case Package Code
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+
+//Set Test Case Ship Code
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+//Set Test Case Sail Date
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+//Set Test Case Brand
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="RetrieveStateroomTypeSummary" id="ce2b8ea6-ec86-4a61-9b1b-ca46d3df4ca5">
@@ -49,10 +126,7 @@
     <con:config service="ContentOperations" resourcePath="/stateroomTypeSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomTypeSummary" id="ef56299e-6d5b-4100-a6a9-7646ef3b5de8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/stateroomTypeSummary</con:originalUri>
@@ -65,7 +139,7 @@
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="5e61f07e-c07f-41d8-8ea5-9238ce7b39b6" name="Match content of [description]">
+        <con:assertion type="JsonPath Match" id="5e61f07e-c07f-41d8-8ea5-9238ce7b39b6" name="Match content of [description]" disabled="true">
           <con:configuration>
             <path>$['header']['error'][0]['description']</path>
             <content>Invalid brand.</content>
@@ -74,20 +148,27 @@
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="Simple Contains" id="d511b217-2aa0-45a2-a6d7-d236c3fe0cfc" name="Contains">
+          <con:configuration>
+            <token>CATL-005</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="code" value=""/>
           <con:entry key="deckCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="RR"/>
           <con:entry key="sailDate" value=""/>
-          <con:entry key="shipCode" value="${ContentDS#shipCode}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -236,55 +317,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="ContentDS1" id="af6ea7f7-cbfa-4e56-8f6c-e16a4525914d">
-    <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveStateroomTypeSummary</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>shipCode</con:property>
-      <con:property>code</con:property>
-      <con:property>deckCode</con:property>
-      <con:property>sailDate</con:property>
-      <con:startRow>4</con:startRow>
-      <con:endRow>4</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
-    </con:config>
-  </con:testStep>
   <con:testStep type="restrequest" name="RetrieveStateroomTypeSummary with bad shipCode" id="824d893e-2d77-4b5e-bd9f-a4beeca20586">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/stateroomTypeSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomTypeSummary with bad shipCode" id="ef56299e-6d5b-4100-a6a9-7646ef3b5de8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/stateroomTypeSummary</con:originalUri>
@@ -303,12 +341,12 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="code" value="${ContentDS#code}"/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
-          <con:entry key="shipCode" value="${ContentDS1#shipCode}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="code" value="avc"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="XYZ"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -462,10 +500,7 @@
     <con:config service="ContentOperations" resourcePath="/stateroomTypeSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomTypeSummary with bad deckCode" id="ef56299e-6d5b-4100-a6a9-7646ef3b5de8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/stateroomTypeSummary</con:originalUri>
@@ -484,13 +519,12 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="code" value=""/>
-          <con:entry key="deckCode" value="${ContentDS1#deckCode}"/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
-          <con:entry key="sailDate" value=""/>
+          <con:entry key="deckCode" value="acd"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -644,10 +678,7 @@
     <con:config service="ContentOperations" resourcePath="/stateroomTypeSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomTypeSummary with bad code" id="ef56299e-6d5b-4100-a6a9-7646ef3b5de8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/stateroomTypeSummary</con:originalUri>
@@ -666,11 +697,11 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="code" value="${ContentDS1#code}"/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="code" value="avc"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="sailDate" value=""/>
         </con:parameters>
         <con:parameterOrder>
@@ -825,10 +856,7 @@
     <con:config service="ContentOperations" resourcePath="/stateroomTypeSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStateroomTypeSummary with shipCode, bad sailDate" id="ef56299e-6d5b-4100-a6a9-7646ef3b5de8" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/stateroomTypeSummary</con:originalUri>
@@ -847,12 +875,12 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
-          <con:entry key="sailDate" value="${ContentDS1#sailDate}"/>
-          <con:entry key="shipCode" value="${ContentDS#shipCode}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="05-05-2021"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1001,7 +1029,28 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>R</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>RD07A309</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>RD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2023-05-26</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:environmentSpec>
     <con:entry environmentId="2ec36bd4-8e07-4ff7-976f-50b7fb197bda">
