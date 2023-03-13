@@ -4,65 +4,33 @@
     <con:setting id="d59f4d7d-511d-4fef-911e-2d8b7a7644d3fileName">Test1-P-RetrieveDeliveryLocation</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="datasource" name="ContentDS" id="21cd6058-0383-4001-a034-dc19e6a5bc00">
+  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="06036e1b-b0f2-493e-92fc-5bf4bf8d5942">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveDeliveryLocation</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>itemCode</con:property>
-      <con:property>collectionCode</con:property>
-      <con:property>classificationCode</con:property>
-      <con:property>saleSourceCode</con:property>
-      <con:startRow>0</con:startRow>
-      <con:endRow>0</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation" id="ae83537a-a220-4e5c-9b5e-328249fad723">
-    <con:settings/>
-    <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-CEL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
+        <con:encoding>UTF-8</con:encoding>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aeea0b73-a636-43f8-9e7e-592c253cb5c6" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="970f9f2a-b98c-4157-a7d0-bdb110cadbb3" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -70,16 +38,201 @@
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.date" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="71be06c1-ad93-49b3-9c40-b37932ea23c6">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="d5d297e5-aae7-4e4a-8df7-02a890d3160b">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Package Code
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+
+//Set Test Case Ship Code
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+//Set Test Case Sail Date
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+//Set Test Case Brand
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-CEL" id="3266c821-cc35-4ec4-a76d-c2e434b68fe2">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveDeliveryLocation-CEL" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="08f270d5-2bcf-4bef-8fb3-c3ea7f4f3e55" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType
+log.info delivery
+assert delivery!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion 2" id="663e7bf5-f101-4103-b00d-d5e469d3fa10">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType
+log.info delivery
+assert delivery!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -228,25 +381,62 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with itemCode" id="0b2cbd37-b294-4c61-a5c7-0f95d38c1ad9">
+  <con:testStep type="groovy" name="Fetch_RES_otherParameters" id="2c60cd8c-fb32-4f61-a247-5c93302f8f8a">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("RetrieveDeliveryLocation-CEL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Package Code
+def itemCode = res.retrievedDeliveryTypes.deliveryType[0].e.itemCode[0].text()
+log.info(itemCode)
+testRunner.testCase.setPropertyValue("itemCode",itemCode);
+
+def collectionCode = res.retrievedDeliveryTypes.deliveryType[0].e.collectionCode[0].text()
+log.info(collectionCode)
+testRunner.testCase.setPropertyValue("collectionCode",collectionCode);
+
+def classificationCode = res.retrievedDeliveryTypes.deliveryType[0].e.classificationCode[0].text()
+log.info(classificationCode)
+testRunner.testCase.setPropertyValue("classificationCode",classificationCode);
+
+def saleSourceCode = res.retrievedDeliveryTypes.deliveryType[0].e.salesSouces[0].text()
+log.info(saleSourceCode)
+testRunner.testCase.setPropertyValue("saleSourceCode",saleSourceCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with itemCode" id="f93ee8be-43a6-4a73-9b71-40c35ecf0f42">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with itemCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with itemCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="e2619e45-f2c9-453f-82b9-99c11f548f1b">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.itemCode
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -255,14 +445,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="itemCode" value="${RetrieveDeliveryLocation#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['itemCode']}"/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="itemCode" value="${#TestCase#itemCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -411,25 +597,32 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with collectionCode" id="3ab40ed9-3b90-462d-8fdc-d727b9765b64">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with collectionCode" id="28c0e490-97fe-4c29-8001-3eb21485a5c8">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with collectionCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with collectionCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="35406865-3a43-4190-a5a6-98c74db1ccca">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.collectionCode
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -438,14 +631,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="collectionCode" value="${RetrieveDeliveryLocation#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['collectionCode']}"/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="collectionCode" value="${#TestCase#collectionCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -594,25 +783,32 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with classificationCode" id="5d7894bd-1981-459e-92c6-dba21b954462">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with classificationCode" id="79abd520-20b1-42c8-bb67-96c155ea9997">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with classificationCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with classificationCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="bfd937ea-64cb-41a5-9c47-ed2a917878c0">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.classificationCode
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -621,14 +817,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="classificationCode" value="${RetrieveDeliveryLocation#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['classificationCode']}"/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="classificationCode" value="${#TestCase#classificationCode}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -777,25 +969,32 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with saleSourceCode" id="a27ff6fe-92f7-475d-80de-9cfaeeb625d3">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with saleSourceCode" id="db732f58-9f0c-4d4c-86d6-b971b75e7747">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with saleSourceCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with saleSourceCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="4a2fdec4-d4a3-411a-a41c-cbead1bea599">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.salesSouces
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -804,14 +1003,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value="${RetrieveDeliveryLocation#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['salesSouces']}"/>
-          <con:entry key="header.language" value="${ContentDS#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS#brand}"/>
+          <con:entry key="saleSourceCode" value="${#TestCase#saleSourceCode}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -960,65 +1155,33 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="ContentDS1" id="9fe56aae-7c2e-4bfb-a148-6a5f54062357">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="a46294ea-f22d-47ad-9b17-47154146d37e">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>${#Global#Content_REST_InputPath}</file>
-          <worksheet>RetrieveDeliveryLocation</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>itemCode</con:property>
-      <con:property>collectionCode</con:property>
-      <con:property>classificationCode</con:property>
-      <con:property>saleSourceCode</con:property>
-      <con:startRow>1</con:startRow>
-      <con:endRow>1</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c" id="375a84e2-e35b-4e4a-9976-80ad5e870bc0">
-    <con:settings/>
-    <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
+        <con:encoding>UTF-8</con:encoding>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aeea0b73-a636-43f8-9e7e-592c253cb5c6" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="970f9f2a-b98c-4157-a7d0-bdb110cadbb3" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1027,14 +1190,189 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="criteria.brand.value" value="R"/>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.date" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency 2" id="a18af047-53ec-4d51-a019-d37b85804980">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package 2" id="5f5296ae-fbe7-4abf-b941-473a681490d0">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Package Code
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+
+//Set Test Case Ship Code
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+//Set Test Case Sail Date
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+//Set Test Case Brand
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-ROYAL" id="c7d2dcff-7120-4779-954d-14a864859db7">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveDeliveryLocation-ROYAL" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="33b3f060-baaf-4852-9599-a759e5558a31">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType
+log.info delivery
+assert delivery!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1183,25 +1521,75 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c, itemCode" id="b642386a-3828-44a2-b684-86d1447fbde8">
+  <con:testStep type="groovy" name="Fetch_RES_otherParameters 2" id="34d2fd79-47e7-4dbe-a398-1217d9c84ccc">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("RetrieveDeliveryLocation-ROYAL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Package Code
+def itemCode = res.retrievedDeliveryTypes.deliveryType[0].e.itemCode[0].text()
+log.info(itemCode)
+testRunner.testCase.setPropertyValue("itemCode",itemCode);
+
+def collectionCode = res.retrievedDeliveryTypes.deliveryType[0].e.collectionCode[0].text()
+log.info(collectionCode)
+testRunner.testCase.setPropertyValue("collectionCode",collectionCode);
+
+def classificationCode = res.retrievedDeliveryTypes.deliveryType[0].e.classificationCode[0].text()
+log.info(classificationCode)
+testRunner.testCase.setPropertyValue("classificationCode",classificationCode);
+
+def saleSourceCode = res.retrievedDeliveryTypes.deliveryType[0].e.salesSouces[0].text()
+log.info(saleSourceCode)
+testRunner.testCase.setPropertyValue("saleSourceCode",saleSourceCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with itemCode" id="1f786d60-d924-4c18-be20-f3665c436b45">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c, itemCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with itemCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="ff2d55b7-49f3-487f-b3f6-b901e040ecdc">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType
+log.info delivery
+assert delivery!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion 2" id="53cd5cd1-049b-4b5f-a9ab-eb51e11d6546">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.itemCode
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1210,14 +1598,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="itemCode" value="${RetrieveDeliveryLocation with brand c#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['itemCode']}"/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="itemCode" value="${#TestCase#itemCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1366,25 +1750,45 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c, collectionCode" id="d316abed-d618-408e-b7fe-084fd98a85eb">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with collectionCode" id="8770b2a0-73d0-4289-969e-db021251b830">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c, collectionCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with collectionCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="4a1f51b8-1032-4a82-9a24-9b9457ba4d31">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType
+log.info delivery
+assert delivery!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion 2" id="ef4fb97b-8fac-4093-b75e-4c08c29d12c2">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.collectionCode
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1393,14 +1797,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="collectionCode" value="${RetrieveDeliveryLocation with brand c#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['collectionCode']}"/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="collectionCode" value="${#TestCase#collectionCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1549,25 +1949,45 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c, classificationCode" id="a44eddb3-8fce-446a-9520-4198b5436f0b">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with classificationCode" id="b2795eb7-984b-41e3-9979-7290273d0f8c">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c, classificationCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with classificationCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="8a6bbf90-a505-49f9-87be-2578f945476d">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType
+log.info delivery
+assert delivery!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion 2" id="e309bc34-94b8-4b71-a1d2-b56e36c902a0">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.classificationCode
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1576,14 +1996,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="classificationCode" value="${RetrieveDeliveryLocation with brand c#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['classificationCode']}"/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="classificationCode" value="${#TestCase#classificationCode}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1732,25 +2148,45 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c,  saleSourceCode" id="cc75a963-1dad-4a2d-a281-6bbc78a44f1d">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with saleSourceCode" id="789e0f30-ed4c-414a-a073-6c64f0a5bc68">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/deliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c,  saleSourceCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with saleSourceCode" id="e75c043b-be56-4c36-8d4d-36d953e20ca5" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/deliveryLocations</con:originalUri>
-        <con:assertion type="JsonPath Match" id="49e612d1-b302-4fc2-8d9f-a0f2d88c9282" name="Match content of [status]">
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/deliveryLocations</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0c407c9d-5451-4ef0-9237-09ee6f34f3da" name="Valid HTTP Status Codes">
+          <con:settings/>
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="58053aac-a216-44d8-9267-f41fcb297a32">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType
+log.info delivery
+assert delivery!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion 2" id="fe615361-55cb-4bc8-aea1-aae21c3c8a03">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def delivery = parse.retrievedDeliveryTypes.deliveryType.salesSouces
+log.info delivery
+assert delivery!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -1759,14 +2195,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value="${RetrieveDeliveryLocation with brand c#Response#$['retrievedDeliveryTypes']['deliveryType'][0]['salesSouces']}"/>
-          <con:entry key="header.language" value="${ContentDS1#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${ContentDS1#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${ContentDS1#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${ContentDS1#brand}"/>
+          <con:entry key="saleSourceCode" value="${#TestCase#saleSourceCode}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -1915,7 +2347,56 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>ALALTST2</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>AL</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2023-06-04</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>R</con:value>
+    </con:property>
+    <con:property>
+      <con:name>itemCode</con:name>
+      <con:value>000102</con:value>
+    </con:property>
+    <con:property>
+      <con:name>collectionCode</con:name>
+      <con:value>FRUITBSK</con:value>
+    </con:property>
+    <con:property>
+      <con:name>classificationCode</con:name>
+      <con:value>CANAPW</con:value>
+    </con:property>
+    <con:property>
+      <con:name>saleSourceCode</con:name>
+      <con:value>C</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:environmentSpec>
     <con:entry environmentId="2ec36bd4-8e07-4ff7-976f-50b7fb197bda">
