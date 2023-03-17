@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="0e8cea65-2853-446f-adf6-87a6b12cbfc7" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Validate invalid brand value" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="0e8cea65-2853-446f-adf6-87a6b12cbfc7fileName">Validate-invalid-brand-value</con:setting>
+  </con:settings>
+  <con:testStep type="restrequest" name="cruiseSearch-invalid brand-POST" id="6fcc9add-6d74-4cbd-8813-c1c4ac240722">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch_POST" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-invalid brand-POST" id="54ca366e-c818-402b-a602-5748bef4f001" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"brand": "ALL",
+		"application": "royalcaribbean.com",
+		"domainId": 1,
+		"language": "en_US"
+	},
+	"criteria": {
+		"office": "MIA",
+		"country": "USA",
+		"currency": "USD",
+		"channel": "VP",
+		"bookingType": "FIT", 
+		"cruiseType": {
+			"value": [
+				"CO",
+				"CT"
+			]
+		},
+		"brand": {
+			"value": [
+				"K"
+			]
+		}
+	},
+	"qualifiers": {
+		"offersType": {
+			"promoCodes": [
+				"CASINO17NMDQMD",
+				"POSTTHANKU"
+			],
+			"strictPricingFlag": false
+		},
+		"loyaltyType": [
+			{
+				"promotionType": null,
+				"loyaltyTier": [],
+				"loyaltyId": 382170606
+			}
+		],
+		"priceScope": "REQUESTED_AVAILABLE",
+		"qualifierScope": "SEARCH_AND_PRICE"
+	},
+	"resultsPreference": {
+		"additionalFacets": [],
+		"groupBy": "SAILING",
+		"guestPricing": "AVERAGE",
+		"includeFacets": false,
+		"includeOnlyIfPriceAvailable": false,
+		"includePrices": true,
+		"includeResults": true,
+		"pagination": {
+			"count": "3100",
+			"offset": 0
+		},
+		"priceLevel": null,
+		"sortBy": "PRICE",
+		"sortOrder": "ASCENDING",
+		"strictSearch": true
+	}
+}</con:request>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="194b2eef-817e-4930-a044-baca0ce92e56" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="4aadd484-fcd2-40eb-9913-fc8abaf377b4" name="errorCode">
+          <con:configuration>
+            <path>$['code']</path>
+            <content>"E1031"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value=""/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value=""/>
+          <con:entry key="criteria.channel" value=""/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value=""/>
+          <con:entry key="resultsPreference.pagination.offset" value=""/>
+          <con:entry key="resultsPreference.includeResults" value=""/>
+          <con:entry key="criteria.ship.value" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value=""/>
+          <con:entry key="resultsPreference.includePrices" value=""/>
+          <con:entry key="resultsPreference.groupBy" value=""/>
+          <con:entry key="criteria.bookingType" value=""/>
+          <con:entry key="resultsPreference.pagination.count" value=""/>
+          <con:entry key="qualifiers.qualifierScope" value=""/>
+          <con:entry key="header.language" value=""/>
+          <con:entry key="criteria.brand.value" value=""/>
+          <con:entry key="qualifiers.priceScope" value=""/>
+          <con:entry key="criteria.office" value=""/>
+          <con:entry key="criteria.currency" value=""/>
+          <con:entry key="resultsPreference.strictSearch" value=""/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value=""/>
+          <con:entry key="header.domainId" value=""/>
+          <con:entry key="criteria.country" value=""/>
+          <con:entry key="criteria.cruiseType.value" value=""/>
+          <con:entry key="criteria.occupancy.adult" value=""/>
+          <con:entry key="resultsPreference.sortBy" value=""/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="cruiseSearch-invalid brand-GET" id="26ecce63-9459-4842-9ca4-4acfd030adf3">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-invalid brand-GET" id="3efd27a3-c060-4ccb-8337-cd10c6b4e444" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="c9004963-5413-414c-9c08-9a2bb84def2e" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="XPath Match" id="ef1b8889-4a32-49a8-86be-0504ea9ed598" name="status Failure">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
+//ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
+            <content>failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="criteria.brand.value" value="Q"/>
+          <con:entry key="qualifiers.itineraryGroup.value" value=""/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties/>
+  <con:reportParameters/>
+</con:testCase>
