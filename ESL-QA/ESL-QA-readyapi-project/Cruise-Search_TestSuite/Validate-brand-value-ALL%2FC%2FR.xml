@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="358b7127-36fa-4f2f-9b0f-c7932a6c7bb2" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Validate brand value-ALL/C/R" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="358b7127-36fa-4f2f-9b0f-c7932a6c7bb2fileName">Validate-brand-value-ALL%2FC%2FR</con:setting>
+  </con:settings>
+  <con:testStep type="restrequest" name="cruiseSearch-brand ALL" id="328f8520-0e00-40da-83ab-a2c44aa48227">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch_POST" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-brand ALL" id="54ca366e-c818-402b-a602-5748bef4f001" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"brand": "ALL",
+		"application": "royalcaribbean.com",
+		"domainId": 1,
+		"language": "en_US"
+	},
+	"criteria": {
+		"office": "MIA",
+		"country": "USA",
+		"currency": "USD",
+		"channel": "VP",
+		"bookingType": "FIT", 
+		"cruiseType": {
+			"value": [
+				"CO",
+				"CT"
+			]
+		},
+		"brand": {
+			"value": [
+				"ALL"
+			]
+		}
+	},
+	"qualifiers": {
+		"offersType": {
+			"promoCodes": [
+				"CASINO17NMDQMD",
+				"POSTTHANKU"
+			],
+			"strictPricingFlag": false
+		},
+		"loyaltyType": [
+			{
+				"promotionType": null,
+				"loyaltyTier": [],
+				"loyaltyId": 382170606
+			}
+		],
+		"priceScope": "REQUESTED_AVAILABLE",
+		"qualifierScope": "SEARCH_AND_PRICE"
+	},
+	"resultsPreference": {
+		"additionalFacets": [],
+		"groupBy": "SAILING",
+		"guestPricing": "AVERAGE",
+		"includeFacets": false,
+		"includeOnlyIfPriceAvailable": false,
+		"includePrices": true,
+		"includeResults": true,
+		"pagination": {
+			"count": "3100",
+			"offset": 0
+		},
+		"priceLevel": null,
+		"sortBy": "PRICE",
+		"sortOrder": "ASCENDING",
+		"strictSearch": true
+	}
+}</con:request>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="fb75da0e-f207-449b-82fb-4ce24b3c1efe" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="423bc8f8-b97a-4c86-9155-0378e0fb61fb" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value=""/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value=""/>
+          <con:entry key="criteria.channel" value=""/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value=""/>
+          <con:entry key="resultsPreference.pagination.offset" value=""/>
+          <con:entry key="resultsPreference.includeResults" value=""/>
+          <con:entry key="criteria.ship.value" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value=""/>
+          <con:entry key="resultsPreference.includePrices" value=""/>
+          <con:entry key="resultsPreference.groupBy" value=""/>
+          <con:entry key="criteria.bookingType" value=""/>
+          <con:entry key="resultsPreference.pagination.count" value=""/>
+          <con:entry key="qualifiers.qualifierScope" value=""/>
+          <con:entry key="header.language" value=""/>
+          <con:entry key="criteria.brand.value" value=""/>
+          <con:entry key="qualifiers.priceScope" value=""/>
+          <con:entry key="criteria.office" value=""/>
+          <con:entry key="criteria.currency" value=""/>
+          <con:entry key="resultsPreference.strictSearch" value=""/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value=""/>
+          <con:entry key="header.domainId" value=""/>
+          <con:entry key="criteria.country" value=""/>
+          <con:entry key="criteria.cruiseType.value" value=""/>
+          <con:entry key="criteria.occupancy.adult" value=""/>
+          <con:entry key="resultsPreference.sortBy" value=""/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation of brand value ALL" id="a94cc4f5-48bc-46bb-b77f-957d9115b381">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.JsonSlurper
+import com.eviware.soapui.settings.SSLSettings
+import com.eviware.soapui.SoapUI 
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-brand ALL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+int  totalHits = (res.resultsSummary.totalHits.text()).toInteger()
+int countItineraries = res.resultsBySailing.sailingSummaryWithClassLevelPricing.size()
+
+
+assert totalHits==countItineraries
+log.info (totalHits +' '+countItineraries)
+
+int countCShip=0
+int countRShip=0	
+
+for(i=0; i&lt;=countItineraries-1;i++){
+	
+	def getPackage = res.resultsBySailing.sailingSummaryWithClassLevelPricing[i].sailingRef.@package.text()
+
+	def shipCode = getPackage[0..1]
+
+	def celebrityBrand = "C"
+	def royalBrand = "R"
+
+	def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+	def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+	if (celebrityShips.contains(shipCode)) {
+	log.info('Celebrity Brand( ' +celebrityBrand+ ' ):Ship '+shipCode)	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand)
+
+	
+	} else {
+		log.info('Royal Brand( ' +royalBrand+ ' ):Ship '+shipCode)
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}	
+
+	
+
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="cruiseSearch-brand R" id="53302c3d-c1b9-4b3e-92ba-9429a3d06c31">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch_POST" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-brand R" id="54ca366e-c818-402b-a602-5748bef4f001" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"brand": "ALL",
+		"application": "royalcaribbean.com",
+		"domainId": 1,
+		"language": "en_US"
+	},
+	"criteria": {
+		"office": "MIA",
+		"country": "USA",
+		"currency": "USD",
+		"channel": "VP",
+		"bookingType": "FIT", 
+		"cruiseType": {
+			"value": [
+				"CO",
+				"CT"
+			]
+		},
+		"brand": {
+			"value": [
+				"R"
+			]
+		}
+	},
+	"qualifiers": {
+		"offersType": {
+			"promoCodes": [
+				"CASINO17NMDQMD",
+				"POSTTHANKU"
+			],
+			"strictPricingFlag": false
+		},
+		"loyaltyType": [
+			{
+				"promotionType": null,
+				"loyaltyTier": [],
+				"loyaltyId": 382170606
+			}
+		],
+		"priceScope": "REQUESTED_AVAILABLE",
+		"qualifierScope": "SEARCH_AND_PRICE"
+	},
+	"resultsPreference": {
+		"additionalFacets": [],
+		"groupBy": "SAILING",
+		"guestPricing": "AVERAGE",
+		"includeFacets": false,
+		"includeOnlyIfPriceAvailable": false,
+		"includePrices": true,
+		"includeResults": true,
+		"pagination": {
+			"count": "3100",
+			"offset": 0
+		},
+		"priceLevel": null,
+		"sortBy": "PRICE",
+		"sortOrder": "ASCENDING",
+		"strictSearch": true
+	}
+}</con:request>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="fb75da0e-f207-449b-82fb-4ce24b3c1efe" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="04dc3468-a5c4-498e-a738-ee6eaa0cb0ed" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value=""/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value=""/>
+          <con:entry key="criteria.channel" value=""/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value=""/>
+          <con:entry key="resultsPreference.pagination.offset" value=""/>
+          <con:entry key="resultsPreference.includeResults" value=""/>
+          <con:entry key="criteria.ship.value" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value=""/>
+          <con:entry key="resultsPreference.includePrices" value=""/>
+          <con:entry key="resultsPreference.groupBy" value=""/>
+          <con:entry key="criteria.bookingType" value=""/>
+          <con:entry key="resultsPreference.pagination.count" value=""/>
+          <con:entry key="qualifiers.qualifierScope" value=""/>
+          <con:entry key="header.language" value=""/>
+          <con:entry key="criteria.brand.value" value=""/>
+          <con:entry key="qualifiers.priceScope" value=""/>
+          <con:entry key="criteria.office" value=""/>
+          <con:entry key="criteria.currency" value=""/>
+          <con:entry key="resultsPreference.strictSearch" value=""/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value=""/>
+          <con:entry key="header.domainId" value=""/>
+          <con:entry key="criteria.country" value=""/>
+          <con:entry key="criteria.cruiseType.value" value=""/>
+          <con:entry key="criteria.occupancy.adult" value=""/>
+          <con:entry key="resultsPreference.sortBy" value=""/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation of brand value R" id="323a4278-4d94-436b-9bc9-e228e6960860">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.JsonSlurper
+import com.eviware.soapui.settings.SSLSettings
+import com.eviware.soapui.SoapUI 
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-brand R");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+int  totalHits = (res.resultsSummary.totalHits.text()).toInteger()
+int countItineraries = res.resultsBySailing.sailingSummaryWithClassLevelPricing.size()
+
+assert totalHits==countItineraries
+log.info (totalHits +' '+countItineraries)
+
+
+for(i=0; i&lt;=countItineraries-1;i++){
+	
+	//def getSailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[i].sailingRef.@saildate.text()
+	//log.info('SailingDate: '+getSailDate)
+
+	def getPackage = res.resultsBySailing.sailingSummaryWithClassLevelPricing[i].sailingRef.@package.text()
+	//log.info('Package: '+getPackage)
+
+	def shipCode = getPackage[0..1]
+				
+
+	def celebrityBrand = "C"
+	def royalBrand = "R"
+
+	def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+	def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+	if (celebrityShips.contains(shipCode)) {
+	log.info('Celebrity Brand('+celebrityBrand+'):Ship '+shipCode)	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+
+	
+	} else {
+		log.info('Royal Brand('+royalBrand+'):Ship '+shipCode)
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}	
+
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="cruiseSearch-brand C" id="05db8560-f5e4-454b-a99a-c34dfcd7d6e6">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch_POST" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-brand C" id="54ca366e-c818-402b-a602-5748bef4f001" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"brand": "ALL",
+		"application": "royalcaribbean.com",
+		"domainId": 1,
+		"language": "en_US"
+	},
+	"criteria": {
+		"office": "MIA",
+		"country": "USA",
+		"currency": "USD",
+		"channel": "VP",
+		"bookingType": "FIT", 
+		"cruiseType": {
+			"value": [
+				"CO",
+				"CT"
+			]
+		},
+		"brand": {
+			"value": [
+				"C"
+			]
+		}
+	},
+	"qualifiers": {
+		"offersType": {
+			"promoCodes": [
+				"CASINO17NMDQMD",
+				"POSTTHANKU"
+			],
+			"strictPricingFlag": false
+		},
+		"loyaltyType": [
+			{
+				"promotionType": null,
+				"loyaltyTier": [],
+				"loyaltyId": 382170606
+			}
+		],
+		"priceScope": "REQUESTED_AVAILABLE",
+		"qualifierScope": "SEARCH_AND_PRICE"
+	},
+	"resultsPreference": {
+		"additionalFacets": [],
+		"groupBy": "SAILING",
+		"guestPricing": "AVERAGE",
+		"includeFacets": false,
+		"includeOnlyIfPriceAvailable": false,
+		"includePrices": true,
+		"includeResults": true,
+		"pagination": {
+			"count": "3100",
+			"offset": 0
+		},
+		"priceLevel": null,
+		"sortBy": "PRICE",
+		"sortOrder": "ASCENDING",
+		"strictSearch": true
+	}
+}</con:request>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="fb75da0e-f207-449b-82fb-4ce24b3c1efe" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="0fe8c0b2-0ac5-4b2e-b03b-a93cf22ec671" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value=""/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value=""/>
+          <con:entry key="criteria.channel" value=""/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value=""/>
+          <con:entry key="resultsPreference.pagination.offset" value=""/>
+          <con:entry key="resultsPreference.includeResults" value=""/>
+          <con:entry key="criteria.ship.value" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value=""/>
+          <con:entry key="resultsPreference.includePrices" value=""/>
+          <con:entry key="resultsPreference.groupBy" value=""/>
+          <con:entry key="criteria.bookingType" value=""/>
+          <con:entry key="resultsPreference.pagination.count" value=""/>
+          <con:entry key="qualifiers.qualifierScope" value=""/>
+          <con:entry key="header.language" value=""/>
+          <con:entry key="criteria.brand.value" value=""/>
+          <con:entry key="qualifiers.priceScope" value=""/>
+          <con:entry key="criteria.office" value=""/>
+          <con:entry key="criteria.currency" value=""/>
+          <con:entry key="resultsPreference.strictSearch" value=""/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value=""/>
+          <con:entry key="header.domainId" value=""/>
+          <con:entry key="criteria.country" value=""/>
+          <con:entry key="criteria.cruiseType.value" value=""/>
+          <con:entry key="criteria.occupancy.adult" value=""/>
+          <con:entry key="resultsPreference.sortBy" value=""/>
+        </con:parameters>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Validation of brand value C" id="b6f5c6b6-7246-442e-9ca2-bbe6673501bd">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.JsonSlurper
+import com.eviware.soapui.settings.SSLSettings
+import com.eviware.soapui.SoapUI 
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-brand C");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+int  totalHits = (res.resultsSummary.totalHits.text()).toInteger()
+int countItineraries = res.resultsBySailing.sailingSummaryWithClassLevelPricing.size()
+
+assert totalHits==countItineraries
+log.info (totalHits +' '+countItineraries)
+
+
+for(i=0; i&lt;=countItineraries-1;i++){
+	
+	//def getSailDate = res.resultsBySailing.sailingSummaryWithClassLevelPricing[i].sailingRef.@saildate.text()
+	//log.info('SailingDate: '+getSailDate)
+
+	def getPackage = res.resultsBySailing.sailingSummaryWithClassLevelPricing[i].sailingRef.@package.text()
+	//log.info('Package: '+getPackage)
+
+	def shipCode = getPackage[0..1]
+	
+	def celebrityBrand = "C"
+	def royalBrand = "R"
+
+	def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+	def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+	if (celebrityShips.contains(shipCode)) {
+	log.info('Celebrity Brand('+celebrityBrand+'):Ship '+shipCode)	
+	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+
+	
+	} else {
+		log.info('Royal Brand('+royalBrand+'):Ship '+shipCode)
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}	
+
+}</script>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+  </con:properties>
+  <con:reportParameters/>
+</con:testCase>
