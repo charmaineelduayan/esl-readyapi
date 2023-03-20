@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="currencies" path="/rest/v3/currencies" id="46c3f40a-015e-443d-854c-18158e632218" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="46c3f40a-015e-443d-854c-18158e632218fileName">currencies</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="currencies" id="14e3ea55-ef07-422d-9da7-87e80e7d7691" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.domainId</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.language</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+    </con:parameters>
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element xmlns:cur="https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/rest/v3/currencies">cur:Response</con:element>
+    </con:representation>
+    <con:request name="currencies" id="7746dc0a-d438-4b1e-90c4-b10bbb6d734b" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="header.domainId" value="1"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>header.language</con:entry>
+      </con:parameterOrder>
+    </con:request>
+  </con:method>
+</con:resource>
