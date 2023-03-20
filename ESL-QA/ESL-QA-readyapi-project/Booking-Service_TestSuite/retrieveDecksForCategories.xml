@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="e8ae798a-e240-45f4-887c-1958b95fda5b" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="retrieveDecksForCategories_TestCase--Invalid/Empty Fields/NegTS" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="5bacb94c-15ad-4f10-be21-a2e24ab46208" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="retrieveDecksForCategories" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="e8ae798a-e240-45f4-887c-1958b95fda5bfileName">retrieveDecksForCategories_TestCase--Invalid%2FEmpty-Fields%2FNegTS</con:setting>
+    <con:setting id="5bacb94c-15ad-4f10-be21-a2e24ab46208fileName">retrieveDecksForCategories</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch" id="ca1f20c5-66e6-475c-9ab4-aa0dfafbb76e">
+  <con:testStep type="restrequest" name="cruiseSearch" id="0286ce83-8ac8-43f9-8968-6a74b707316c">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
@@ -106,7 +106,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="8d609398-914a-4508-87e1-dc8f152d643d">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="c61612b8-cfbb-4c14-8c6c-7a77524b922c">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -132,10 +132,14 @@ testRunner.testCase.setPropertyValue("country",country);
 
 String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
 log.info(currency)
-testRunner.testCase.setPropertyValue("currency",currency);</script>
+testRunner.testCase.setPropertyValue("currency",currency);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="665c9501-683a-4b0d-b832-fbb4ddbc9f82">
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package/cabinClass" id="9c4de84c-dc64-4ea8-92f7-b3f614e1e3ad">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -175,22 +179,41 @@ if (celebrityShips.contains(shipCode)) {
 	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
 	} else {
 		testRunner.testCase.setPropertyValue("brand",royalBrand);
-		}</script>
+		}
+
+
+def cabinClass = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].cabinClassPricing.@cabinClass[0].text()
+log.info(cabinClass)
+testRunner.testCase.setPropertyValue("cabinClass",cabinClass);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveStateroomCategories" id="be0a8651-0933-421c-88b5-066e5e0348d7">
+  <con:testStep type="restrequest" name="RetrieveStateroomCategories" id="0173d172-cb0d-4188-bda8-6a2c6779ee12">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomCategories" methodName="retrieveStateroomCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveStateroomCategories" id="747c2a9f-ae3a-46c4-9677-5fd3a653ba6b" mediaType="application/json">
+      <con:restRequest name="RetrieveStateroomCategories" id="747c2a9f-ae3a-46c4-9677-5fd3a653ba6b" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomCategories</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="4fe118d3-5a63-4cd7-9401-f719263a1158" name="Valid HTTP Status Codes">
+        <con:assertion type="Valid HTTP Status Codes" id="9c178438-1d7e-44fb-b3ac-6a1aa290ae07" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="45251116-4cb0-4d5d-8a9f-af521608987b">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def stateroom = parse.stateroomCategoryTypes
+log.info stateroom
+assert stateroom!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -223,7 +246,6 @@ if (celebrityShips.contains(shipCode)) {
           <con:entry>policeReqd</con:entry>
           <con:entry>fireFighterReqd</con:entry>
           <con:entry>includeAllStaterooms</con:entry>
-          <con:entry>guestAge</con:entry>
           <con:entry>guestAge[1]</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
@@ -237,16 +259,16 @@ if (celebrityShips.contains(shipCode)) {
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_Category" id="67a42609-9155-4b6b-af93-e272621a7cc6">
+  <con:testStep type="groovy" name="Fetch_RES_Category" id="f0325180-af17-4524-950f-eedeb93aab74">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*
+def tc = testRunner.testCase.testSuite.testCases["RetrieveStateroomForCategory_TestCase"];
 
-
-def ts = testRunner.testCase.getTestStepByName("retrieveStateroomCategories")
+def ts = testRunner.testCase.getTestStepByName("RetrieveStateroomCategories")
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 def categoryCode = res.stateroomCategoryTypes.e[1].categories.e[1].stateroomCategoryCode.text();
@@ -262,10 +284,10 @@ log.info(selectedFareCode)
 testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-invalid brand" id="c2836997-024c-45f9-a453-1e487edfc587">
+  <con:testStep type="restrequest" name="retrieveDecksForCategories-with 1pax" id="aabb92d5-4278-4373-953d-26ba4abee6f2">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-invalid brand" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
+      <con:restRequest name="retrieveDecksForCategories-with 1pax" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
@@ -277,29 +299,18 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
+        <con:assertion type="GroovyScriptAssertion" id="9fd6b582-baca-4047-80d3-a633edc9f5aa" name="Script Assertion">
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"CATL-005"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains invalid brand">
-          <con:configuration>
-            <token>Invalid brand</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def deckCode = parse.categoryDeck.deckType
+log.info deckCode
+assert deckCode!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -316,7 +327,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
           <con:entry key="categoryCodes[0]" value="${#TestCase#categoryCode}"/>
           <con:entry key="header.domainId" value="1"/>
           <con:entry key="guestCount" value="1"/>
-          <con:entry key="header.brand" value="RR"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
           <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
@@ -338,10 +349,10 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-no countryCode, no agencyId" id="86a4b5e0-48af-4add-a693-32be35235d55">
+  <con:testStep type="restrequest" name="retrieveDecksForCategories-with 1pax, international code" id="b463d8ed-0849-4beb-b3b5-fb664ea5719b">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-no countryCode, no agencyId" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
+      <con:restRequest name="retrieveDecksForCategories-with 1pax, international code" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
@@ -353,29 +364,18 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="81776d8f-6f4f-4f21-8480-d2c8aee10121">
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="08373303-7b2a-4d62-bb9b-ba151dbdd021" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"ESL_MultipleNotBlank"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="0d91050b-cf56-40b8-8d58-fbf4d05ab5d9" name="Contains one of these is required">
-          <con:configuration>
-            <token>One of these is required</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def deckCode = parse.categoryDeck.deckType
+log.info deckCode
+assert deckCode!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -388,6 +388,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
           <con:entry key="accessibleReqd" value="false"/>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="SGP"/>
           <con:entry key="categoryCodes[0]" value="${#TestCase#categoryCode}"/>
           <con:entry key="header.domainId" value="1"/>
           <con:entry key="guestCount" value="1"/>
@@ -413,10 +414,10 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-invalid countryCode" id="89b5f41e-5c56-4042-a876-775459e31a6d">
+  <con:testStep type="restrequest" name="retrieveDecksForCategories-with 2pax" id="a22d6ffb-ba7e-4f21-99f1-7c9cf68921af">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-invalid countryCode" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
+      <con:restRequest name="retrieveDecksForCategories-with 2pax" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
@@ -428,106 +429,18 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="2d9a25d6-a5ed-4b43-ba72-f109bd3e5911">
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"BKNG-0060"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains error in Agency validation">
-          <con:configuration>
-            <token>Country and Agency do not match</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="connectedReqd" value="false"/>
-          <con:entry key="accessibleReqd" value="false"/>
-          <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="ABC"/>
-          <con:entry key="categoryCodes[0]" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="guestCount" value="1"/>
-          <con:entry key="agencyId" value="111"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
-          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
-        </con:parameters>
-        <con:parameterOrder>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.domainId</con:entry>
-          <con:entry>header.language</con:entry>
-          <con:entry>countryCode</con:entry>
-          <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
-          <con:entry>connectedReqd</con:entry>
-          <con:entry>accessibleReqd</con:entry>
-          <con:entry>guestCount</con:entry>
-          <con:entry>categoryCodes[0]</con:entry>
-          <con:entry>categoryCodes[1]</con:entry>
-          <con:entry>agencyId</con:entry>
-        </con:parameterOrder>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-invalid shipCode" id="cfe1dc35-fbf8-482e-b0c6-e7b6849193f0">
-    <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-invalid shipCode" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/decksForCategories</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="0d264de1-ae3b-47e8-8e3e-5785a1114568" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
-          <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"CSE0002"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains invalid ship/dept date">
-          <con:configuration>
-            <token>Invalid Ship/Departure Date</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def deckCode = parse.categoryDeck.deckType
+log.info deckCode
+assert deckCode!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -547,7 +460,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
           <con:entry key="guestCount" value="2"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
-          <con:entry key="shipCode" value="AA"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -567,10 +480,10 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-no shipCode" id="c229d047-d9df-4201-851c-b7e31fc0e224">
+  <con:testStep type="restrequest" name="retrieveDecksForCategories-with 2pax, international code" id="c05843d1-de78-4bad-be3d-053839e72d67">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-no shipCode" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
+      <con:restRequest name="retrieveDecksForCategories-with 2pax, international code" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
@@ -582,29 +495,18 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="3ae912f9-0916-4ffd-ba71-6dc644e363f2">
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"NotBlank"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains may not be empty">
-          <con:configuration>
-            <token>may not be empty</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def deckCode = parse.categoryDeck.deckType
+log.info deckCode
+assert deckCode!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -617,87 +519,13 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
           <con:entry key="accessibleReqd" value="false"/>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="countryCode" value="SGP"/>
+          <con:entry key="categoryCodes[1]" value="${#TestCase#categoryCode2}"/>
           <con:entry key="categoryCodes[0]" value="${#TestCase#categoryCode}"/>
           <con:entry key="header.domainId" value="1"/>
-          <con:entry key="guestCount" value="1"/>
+          <con:entry key="guestCount" value="2"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
-        </con:parameters>
-        <con:parameterOrder>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.domainId</con:entry>
-          <con:entry>header.language</con:entry>
-          <con:entry>countryCode</con:entry>
-          <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
-          <con:entry>connectedReqd</con:entry>
-          <con:entry>accessibleReqd</con:entry>
-          <con:entry>guestCount</con:entry>
-          <con:entry>categoryCodes[0]</con:entry>
-          <con:entry>categoryCodes[1]</con:entry>
-          <con:entry>agencyId</con:entry>
-        </con:parameterOrder>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-no sailDate" id="87920e43-7a63-4402-a559-a95818008e3d">
-    <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-no sailDate" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/decksForCategories</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="0d264de1-ae3b-47e8-8e3e-5785a1114568" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
-          <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"InvalidDate"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains sail date invalid">
-          <con:configuration>
-            <token>Sail date invalid</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="connectedReqd" value="false"/>
-          <con:entry key="accessibleReqd" value="false"/>
-          <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="categoryCodes[1]" value="${#TestCase#categoryCode2}"/>
-          <con:entry key="categoryCodes[0]" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="guestCount" value="2"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
@@ -718,10 +546,10 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-invalid sailDate" id="348ec761-53a4-4af1-afd8-42e9a50b4018">
+  <con:testStep type="restrequest" name="retrieveDecksForCategories-with agencyId" id="8a54879a-01a4-43de-8010-e67628ca3e1e">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-invalid sailDate" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
+      <con:restRequest name="retrieveDecksForCategories-with agencyId" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
@@ -733,29 +561,18 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="866dc2e6-b576-4f4d-93f4-e704cbfea1e5">
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"CSE0002"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains invalid ship/dept date">
-          <con:configuration>
-            <token>Invalid Ship/Departure Date</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def deckCode = parse.categoryDeck.deckType
+log.info deckCode
+assert deckCode!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -769,58 +586,7 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="categoryCodes[1]" value="${#TestCase#categoryCode2}"/>
           <con:entry key="categoryCodes[0]" value="${#TestCase#categoryCode}"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="guestCount" value="2"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value="2025-01-00"/>
-          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
-        </con:parameters>
-        <con:parameterOrder>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.domainId</con:entry>
-          <con:entry>header.language</con:entry>
-          <con:entry>countryCode</con:entry>
-          <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
-          <con:entry>connectedReqd</con:entry>
-          <con:entry>accessibleReqd</con:entry>
-          <con:entry>guestCount</con:entry>
-          <con:entry>categoryCodes[0]</con:entry>
-          <con:entry>categoryCodes[1]</con:entry>
-          <con:entry>agencyId</con:entry>
-        </con:parameterOrder>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDeckForCategories-no categoryCodes" id="282be6f2-a4da-4d3c-9bc0-a63a48873901">
-    <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDeckForCategories-no categoryCodes" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/decksForCategories</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="2425f0d7-54dd-4243-9c0f-18a7fe3709ac" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="connectedReqd" value="false"/>
-          <con:entry key="accessibleReqd" value="false"/>
-          <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
           <con:entry key="header.domainId" value="1"/>
           <con:entry key="guestCount" value="1"/>
           <con:entry key="agencyId" value="108869"/>
@@ -846,10 +612,10 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-invalid categoryCodes" id="a564c0a8-267b-4ec8-939c-177f7951bd5e">
+  <con:testStep type="restrequest" name="retrieveDecksForCategories-with connectedReqd" id="c9e278e1-db6b-45e7-8e1a-3306e5484d6b">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-invalid categoryCodes" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
+      <con:restRequest name="retrieveDecksForCategories-with connectedReqd" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
@@ -861,29 +627,18 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="f7a061a1-8a73-41b1-a557-ac2c34b5974f">
           <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"BKNG-0050"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains invalid brand">
-          <con:configuration>
-            <token>Available Decks for Categories not found</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def deckCode = parse.categoryDeck.deckType
+log.info deckCode
+assert deckCode!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -892,90 +647,15 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="connectedReqd" value="false"/>
+          <con:entry key="connectedReqd" value="true"/>
           <con:entry key="accessibleReqd" value="false"/>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="countryCode" value="${#TestCase#country}"/>
-          <con:entry key="categoryCodes[0]" value="aa"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="guestCount" value="1"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
-          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
-        </con:parameters>
-        <con:parameterOrder>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.domainId</con:entry>
-          <con:entry>header.language</con:entry>
-          <con:entry>countryCode</con:entry>
-          <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
-          <con:entry>connectedReqd</con:entry>
-          <con:entry>accessibleReqd</con:entry>
-          <con:entry>guestCount</con:entry>
-          <con:entry>categoryCodes[0]</con:entry>
-          <con:entry>categoryCodes[1]</con:entry>
-          <con:entry>agencyId</con:entry>
-        </con:parameterOrder>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveDecksForCategories-guestCount>5" id="d95eed61-1cd4-4b6e-985a-3250b4a7804c">
-    <con:settings/>
-    <con:config service="Booking" resourcePath="/rest/v3/decksForCategories" methodName="decksForCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveDecksForCategories-guestCount>5" id="1905d6d4-02db-4a40-a0b8-21e212ef1361" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/decksForCategories</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="0d264de1-ae3b-47e8-8e3e-5785a1114568" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="8a313d12-24d8-447f-80fa-5c0efd61691b" name="status Failure">
-          <con:configuration>
-            <path>$['header']['status']</path>
-            <content>"Failure"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="428576f4-f603-491f-9f7c-968998300ebe" name="errorCode">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>"Range"</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="7197ffb1-13da-4859-8084-acc56b4d902c" name="Contains guestCount>5">
-          <con:configuration>
-            <token>must be between 1 and 4</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="connectedReqd" value="false"/>
-          <con:entry key="accessibleReqd" value="false"/>
-          <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="categoryCodes[1]" value="${#TestCase#categoryCode2}"/>
           <con:entry key="categoryCodes[0]" value="${#TestCase#categoryCode}"/>
           <con:entry key="header.domainId" value="1"/>
-          <con:entry key="guestCount" value="6"/>
+          <con:entry key="guestCount" value="2"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
           <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
           <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
@@ -1000,12 +680,24 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
   </con:testStep>
   <con:properties>
     <con:property>
-      <con:name>PackageCode</con:name>
-      <con:value>IN11M267</con:value>
+      <con:name>application</con:name>
+      <con:value>celebritycruises.com</con:value>
     </con:property>
     <con:property>
-      <con:name>TestShip</con:name>
-      <con:value>AX</con:value>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>IN11M267</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
@@ -1020,81 +712,21 @@ testRunner.testCase.setPropertyValue("FareCode",selectedFareCode)</script>
       <con:value>C</con:value>
     </con:property>
     <con:property>
-      <con:name>fareCode</con:name>
-      <con:value/>
+      <con:name>cabinClass</con:name>
+      <con:value>OUTSIDE</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value/>
+      <con:value>O2</con:value>
     </con:property>
     <con:property>
-      <con:name>cabinNumber</con:name>
-      <con:value>7044</con:value>
-    </con:property>
-    <con:property>
-      <con:name>seatingCd</con:name>
-      <con:value>O</con:value>
-    </con:property>
-    <con:property>
-      <con:name>seatingTime</con:name>
-      <con:value>CEL SLCT</con:value>
-    </con:property>
-    <con:property>
-      <con:name>application</con:name>
-      <con:value>celebritycruises.com</con:value>
-    </con:property>
-    <con:property>
-      <con:name>country</con:name>
-      <con:value>USA</con:value>
-    </con:property>
-    <con:property>
-      <con:name>currency</con:name>
-      <con:value>USD</con:value>
-    </con:property>
-    <con:property>
-      <con:name>bookingID</con:name>
-      <con:value>1438605</con:value>
-    </con:property>
-    <con:property>
-      <con:name>lastname</con:name>
-      <con:value>Tester</con:value>
-    </con:property>
-    <con:property>
-      <con:name>bookingAccessToken</con:name>
-      <con:value>9c98e452-d5a0-4700-95cf-861c78966065</con:value>
-    </con:property>
-    <con:property>
-      <con:name>stateroomPrice</con:name>
-      <con:value>1140.0</con:value>
-    </con:property>
-    <con:property>
-      <con:name>totalCruiseAmountString</con:name>
-      <con:value>1370.36</con:value>
-    </con:property>
-    <con:property>
-      <con:name>totalCruiseAmount</con:name>
-      <con:value>500</con:value>
-    </con:property>
-    <con:property>
-      <con:name>Status</con:name>
-      <con:value>BOOKED</con:value>
+      <con:name>FareCode</con:name>
+      <con:value>I1794952</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode2</con:name>
-      <con:value/>
+      <con:value>I1</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
-  <con:environmentSpec>
-    <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-  </con:environmentSpec>
-  <con:tagId>7f524615-2a12-44eb-b907-7930ce6ab200</con:tagId>
 </con:testCase>
