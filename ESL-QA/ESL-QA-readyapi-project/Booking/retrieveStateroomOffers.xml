@@ -59,7 +59,7 @@
       <con:default>USD</con:default>
     </con:parameter>
     <con:parameter required="true">
-      <con:name>guestAge[0]</con:name>
+      <con:name>guestAge</con:name>
       <con:value>25</con:value>
       <con:style>QUERY</con:style>
       <con:default>25</con:default>
@@ -124,22 +124,6 @@
       <con:setting id="93d9df56-c0d0-4e1b-9048-782a3abc3620fileName">updateBooking</con:setting>
     </con:settings>
     <con:parameters/>
-    <con:method name="Method 1" id="95cab921-da00-4a65-941e-28071a03538d" method="POST">
-      <con:settings/>
-      <con:parameters/>
-      <con:request name="Request 1" id="a56179e2-4873-46b9-a15c-2739facd23a0" mediaType="application/json" postQueryString="false">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters/>
-      </con:request>
-    </con:method>
     <con:method name="Method 2" id="118c2838-1e9c-4730-a0e7-424c294eeefa" method="GET">
       <con:settings/>
       <con:parameters/>
@@ -159,7 +143,26 @@
   </con:resource>
   <con:method name="retrieveStateroomOffers" id="1f4ab7e5-8448-4cbd-9cdf-774393e02e7e" method="GET">
     <con:settings/>
-    <con:parameters/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>agencyId</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>fares[0]</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>fares[1]</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+    </con:parameters>
     <con:request name="retrieveStateroomOffers_fetchData_1pax" id="c0911431-1d0b-463a-9026-f8c123679434" mediaType="application/json">
       <con:settings>
         <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
@@ -172,7 +175,10 @@
       </con:credentials>
       <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
       <con:parameters>
+        <con:entry key="fares[0]" value="BESTRATE"/>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
         <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="fares[1]" value="BVL"/>
         <con:entry key="countryCode" value="${#TestCase#country}"/>
         <con:entry key="packageId" value="${#TestCase#packageCode}"/>
         <con:entry key="currency" value="${#TestCase#currency}"/>
@@ -181,16 +187,17 @@
         <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
       </con:parameters>
       <con:parameterOrder>
-        <con:entry>header.domainId</con:entry>
-        <con:entry>header.language</con:entry>
         <con:entry>header.application</con:entry>
         <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>countryCode</con:entry>
+        <con:entry>agencyId</con:entry>
         <con:entry>shipCode</con:entry>
         <con:entry>sailDate</con:entry>
         <con:entry>packageId</con:entry>
-        <con:entry>countryCode</con:entry>
         <con:entry>currency</con:entry>
-        <con:entry>guestAge[0]</con:entry>
+        <con:entry>guestAge</con:entry>
         <con:entry>accessibleReqd</con:entry>
         <con:entry>seniorReqd</con:entry>
         <con:entry>militaryReqd</con:entry>
@@ -201,6 +208,8 @@
         <con:entry>couponCodes</con:entry>
         <con:entry>includeNonRefundablePromos</con:entry>
         <con:entry>includePromoBreakdown</con:entry>
+        <con:entry>fares[0]</con:entry>
+        <con:entry>fares[1]</con:entry>
       </con:parameterOrder>
       <con:environmentSpec>
         <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
