@@ -182,6 +182,673 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomCategories" id="7eb63686-3504-4159-ba09-f9a3c9208d7b">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomCategories" methodName="retrieveStateroomCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomCategories" id="747c2a9f-ae3a-46c4-9677-5fd3a653ba6b" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomCategories</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="4fe118d3-5a63-4cd7-9401-f719263a1158" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="guestAge" value="25"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="guestAge[1]" value="50"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>fareCode</con:entry>
+          <con:entry>includeDeckInfo</con:entry>
+          <con:entry>accessibleReqd</con:entry>
+          <con:entry>seniorReqd</con:entry>
+          <con:entry>militaryReqd</con:entry>
+          <con:entry>policeReqd</con:entry>
+          <con:entry>fireFighterReqd</con:entry>
+          <con:entry>includeAllStaterooms</con:entry>
+          <con:entry>guestAge</con:entry>
+          <con:entry>guestAge[1]</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_categoryCode/fareCode/cruiseTotal" id="afb18337-bb26-469b-b9e9-73d1791a1140">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+
+def ts = testRunner.testCase.getTestStepByName("retrieveStateroomCategories");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Fare Code
+def fareCode = res.stateroomCategoryTypes.e[0].categories.e[0].selectedFareCode.text()
+log.info(fareCode)
+testRunner.testCase.setPropertyValue("fareCode",fareCode);
+
+//Set Test Case Cruise Price
+def netPrice = res.stateroomCategoryTypes.e[0].categories.e[0].netPrice.toDouble()
+def guestCount = res.stateroomCategoryTypes.e[0].categories.e[0].guestPrices[0].guestPrice.e.size()
+def taxes = res.stateroomCategoryTypes.e[0].categories.e[0].guestPrices[0].guestPrice.e[0].priceInfos.priceInfo.e[2].amount.toDouble()
+def totalCruiseAmount = 500
+
+
+log.info("Stateroom Price: "+netPrice.toString())
+log.info("Guest Count: "+guestCount)
+log.info("Taxes Fees: "+taxes)
+log.info("Total Cruise Amount:  "+totalCruiseAmount)
+testRunner.testCase.setPropertyValue("totalCruiseAmount",totalCruiseAmount.toString());
+
+//Set Test Case Category Code
+def categoryCode = res.stateroomCategoryTypes.e[0].categories.e[0].stateroomCategoryCode.text()
+log.info(categoryCode)
+testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory-invalid brand" id="5f819ed5-ced6-4262-bb3e-3cd07d7d87ad">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="retrieveStateroomsForCategory-REQ2" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomsForCategory-invalid brand" id="a2ba02f5-ebcf-4981-9cdb-2badd09cfd1e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="appKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="05947f5c-90b7-4831-be98-2cfcb041b1ae" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="status Failure" id="3e2c0743-9455-4310-b7ef-c1bf3a461f8f">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="2beec66a-c7b8-4e14-a4ca-4b941d267523">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains invalid brand" id="20d350d0-65f9-4f01-a1e3-a906d662615d">
+          <con:configuration>
+            <token>Invalid brand</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="RR"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="24"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>categoryCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>agencyId</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory-invalid deckCode" id="7a5073b0-e2f7-4602-a2b2-f40d34ce8c48">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="retrieveStateroomsForCategory-REQ2" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomsForCategory-invalid deckCode" id="a2ba02f5-ebcf-4981-9cdb-2badd09cfd1e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="appKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="05947f5c-90b7-4831-be98-2cfcb041b1ae" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="status Failure" id="3e2c0743-9455-4310-b7ef-c1bf3a461f8f">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="2beec66a-c7b8-4e14-a4ca-4b941d267523">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"BKNG-0003"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains Staterooms are not available" id="20d350d0-65f9-4f01-a1e3-a906d662615d">
+          <con:configuration>
+            <token>Staterooms are not available</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="deckCode" value="AA"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="24"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>categoryCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>agencyId</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory-no shipCode,no packageId" id="062c20b6-5d64-4bb6-a425-b6e30b2513db">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="retrieveStateroomsForCategory-REQ2" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomsForCategory-no shipCode,no packageId" id="a2ba02f5-ebcf-4981-9cdb-2badd09cfd1e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="appKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="05947f5c-90b7-4831-be98-2cfcb041b1ae" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="status Failure" id="3e2c0743-9455-4310-b7ef-c1bf3a461f8f">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="2beec66a-c7b8-4e14-a4ca-4b941d267523">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains may not be empty" id="20d350d0-65f9-4f01-a1e3-a906d662615d">
+          <con:configuration>
+            <token>may not be empty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="deckCode" value="AA"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="24"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>categoryCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>agencyId</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory-invalid shipCode" id="f51975b7-06e5-4d5b-925c-24558e987f32">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="retrieveStateroomsForCategory-REQ2" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomsForCategory-invalid shipCode" id="a2ba02f5-ebcf-4981-9cdb-2badd09cfd1e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="appKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="05947f5c-90b7-4831-be98-2cfcb041b1ae" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="status Failure" id="3e2c0743-9455-4310-b7ef-c1bf3a461f8f">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="2beec66a-c7b8-4e14-a4ca-4b941d267523">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"BKNG-0003"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains Staterooms are not available" id="20d350d0-65f9-4f01-a1e3-a906d662615d">
+          <con:configuration>
+            <token>Staterooms are not available</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="deckCode" value="AA"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="AA"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="24"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>categoryCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>agencyId</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory-invalid sailDate" id="52a5a376-6ba0-464c-90d3-afc2b600a19a">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="retrieveStateroomsForCategory-REQ2" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomsForCategory-invalid sailDate" id="a2ba02f5-ebcf-4981-9cdb-2badd09cfd1e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="appKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="05947f5c-90b7-4831-be98-2cfcb041b1ae" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="status Failure" id="3e2c0743-9455-4310-b7ef-c1bf3a461f8f">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="2beec66a-c7b8-4e14-a4ca-4b941d267523">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"InvalidDate"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains Sail date invalid" id="20d350d0-65f9-4f01-a1e3-a906d662615d">
+          <con:configuration>
+            <token>Sail date invalid</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="deckCode" value="AA"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="24"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="sailDate" value="YYYY"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>categoryCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>agencyId</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory-no sailDate" id="222cb5e7-8084-40a8-b04a-09b309f2cebb">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="retrieveStateroomsForCategory-REQ2" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomsForCategory-no sailDate" id="a2ba02f5-ebcf-4981-9cdb-2badd09cfd1e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="appKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="05947f5c-90b7-4831-be98-2cfcb041b1ae" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="status Failure" id="3e2c0743-9455-4310-b7ef-c1bf3a461f8f">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="2beec66a-c7b8-4e14-a4ca-4b941d267523">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"InvalidDate"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains Sail date invalid." id="20d350d0-65f9-4f01-a1e3-a906d662615d">
+          <con:configuration>
+            <token>Sail date invalid</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="deckCode" value="AA"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="24"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>categoryCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>agencyId</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveStateroomsForCategory-invalid agencyId" id="efc62597-4a65-4752-b6ec-83496fc92936">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="retrieveStateroomsForCategory-REQ2" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveStateroomsForCategory-invalid agencyId" id="a2ba02f5-ebcf-4981-9cdb-2badd09cfd1e" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="appKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="05947f5c-90b7-4831-be98-2cfcb041b1ae" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="status Failure" id="3e2c0743-9455-4310-b7ef-c1bf3a461f8f">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="2beec66a-c7b8-4e14-a4ca-4b941d267523">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"BKNG-0060"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains Country and Agency do not match" id="20d350d0-65f9-4f01-a1e3-a906d662615d">
+          <con:configuration>
+            <token>Country and Agency do not match</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="deckCode" value="AA"/>
+          <con:entry key="agencyId" value="0000"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="24"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>categoryCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>agencyId</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:properties>
     <con:property>
       <con:name>application</con:name>
@@ -214,6 +881,18 @@ if (celebrityShips.contains(shipCode)) {
     <con:property>
       <con:name>brand</con:name>
       <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>fareCode</con:name>
+      <con:value>I1840869</con:value>
+    </con:property>
+    <con:property>
+      <con:name>totalCruiseAmount</con:name>
+      <con:value>500</con:value>
+    </con:property>
+    <con:property>
+      <con:name>categoryCode</con:name>
+      <con:value>O1</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
