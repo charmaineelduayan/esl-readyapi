@@ -182,7 +182,372 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
-  <con:properties>
+  <con:testStep type="restrequest" name="RetrieveStateroomCategories" id="9f370fcb-cb5f-4063-86d3-859ecd32a4d9">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomCategories" methodName="retrieveStateroomCategories" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveStateroomCategories" id="747c2a9f-ae3a-46c4-9677-5fd3a653ba6b" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomCategories</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="4fe118d3-5a63-4cd7-9401-f719263a1158" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="guestAge" value="25"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="guestAge[1]" value="50"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>fareCode</con:entry>
+          <con:entry>includeDeckInfo</con:entry>
+          <con:entry>accessibleReqd</con:entry>
+          <con:entry>seniorReqd</con:entry>
+          <con:entry>militaryReqd</con:entry>
+          <con:entry>policeReqd</con:entry>
+          <con:entry>fireFighterReqd</con:entry>
+          <con:entry>includeAllStaterooms</con:entry>
+          <con:entry>guestAge</con:entry>
+          <con:entry>guestAge[1]</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep><con:testStep type="groovy" name="Fetch_RES_categoryCode/fareCode" id="ce43294d-bea7-4b6b-a3d0-af6f0bddaf43">
+    <con:settings/>
+    <con:config><script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+
+def ts = testRunner.testCase.getTestStepByName("RetrieveStateroomCategories");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Fare Code
+def fareCode = res.stateroomCategoryTypes.e[0].categories.e[0].selectedFareCode.text()
+log.info(fareCode)
+testRunner.testCase.setPropertyValue("fareCode",fareCode);
+
+
+//Set Test Case Category Code
+def categoryCode = res.stateroomCategoryTypes.e[0].categories.e[0].stateroomCategoryCode.text()
+log.info(categoryCode)
+testRunner.testCase.setPropertyValue("categoryCode",categoryCode);</script></con:config>
+  </con:testStep><con:testStep type="restrequest" name="RetrieveStateroomOffers" id="b0e78ee3-7fa2-4361-afd2-93ba03823b77"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomOffers" methodName="retrieveStateroomOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomOffers" id="c0911431-1d0b-463a-9026-f8c123679434" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers?header.application=celebritycruises.com&header.brand=C&header.language=en_us&header.domainId=1&countryCode=USA&agencyId=&shipCode=IN&sailDate=2023-06-21&packageId=INCRTSIP&currency=USD&guestAge=25&accessibleReqd=false&seniorReqd=false&militaryReqd=false&policeReqd=false&fireFighterReqd=false&includeNonRefundablePromos=TRUE&includePromoBreakdown=TRUE&fares%5B0%5D=BESTRATE&fares%5B1%5D= ]]></con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers</con:originalUri>
+      <con:assertion type="Valid HTTP Status Codes" id="136f1e5f-7bee-4593-b783-732444030b6f" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="1b9f457e-edd5-4014-a3f9-6d5cb07f0757" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Success"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains" id="17d6509b-614d-469f-b9e2-4e63713d4b13"><con:configuration><token>"stateroomOffers"</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="f1e0635f-2800-4707-8491-8fd90e847dd4" name="Script Assertion"><con:configuration><scriptText>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.impl.support.http.HttpRequestTestStep
+
+def rawRequest = new String(messageExchange.getRawRequestData(), "UTF-8")
+def rawrequest1 = rawRequest.indexOf("GET")+4;
+def rawrequest2 = rawRequest.indexOf("HTTP")
+def url = rawRequest.substring(rawrequest1,rawrequest2)
+
+messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="fares[0]" value="BESTRATE"/><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="countryCode" value="${#TestCase#country}"/><con:entry key="packageId" value="${#TestCase#packageCode}"/><con:entry key="currency" value="${#TestCase#currency}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="shipCode" value="${#TestCase#shipCode}"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>countryCode</con:entry>
+        <con:entry>agencyId</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>packageId</con:entry>
+        <con:entry>currency</con:entry>
+        <con:entry>guestAge</con:entry>
+        <con:entry>accessibleReqd</con:entry>
+        <con:entry>seniorReqd</con:entry>
+        <con:entry>militaryReqd</con:entry>
+        <con:entry>policeReqd</con:entry>
+        <con:entry>fireFighterReqd</con:entry>
+        <con:entry>stateCode</con:entry>
+        <con:entry>loyaltyId</con:entry>
+        <con:entry>couponCodes</con:entry>
+        <con:entry>includeNonRefundablePromos</con:entry>
+        <con:entry>includePromoBreakdown</con:entry>
+        <con:entry>fares[0]</con:entry>
+        <con:entry>fares[1]</con:entry>
+      </con:parameterOrder>
+      <con:environmentSpec>
+        <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="RetrieveStateroomOffers with international countryCode" id="61641057-90ce-4dea-ae23-7e7613828e23"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomOffers" methodName="retrieveStateroomOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomOffers with international countryCode" id="c0911431-1d0b-463a-9026-f8c123679434" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers?header.application=celebritycruises.com&header.brand=C&header.language=en_us&header.domainId=1&countryCode=USA&agencyId=&shipCode=IN&sailDate=2023-06-21&packageId=INCRTSIP&currency=USD&guestAge=25&accessibleReqd=false&seniorReqd=false&militaryReqd=false&policeReqd=false&fireFighterReqd=false&includeNonRefundablePromos=TRUE&includePromoBreakdown=TRUE&fares%5B0%5D=BESTRATE&fares%5B1%5D= ]]></con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers</con:originalUri>
+      <con:assertion type="Valid HTTP Status Codes" id="136f1e5f-7bee-4593-b783-732444030b6f" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="1b9f457e-edd5-4014-a3f9-6d5cb07f0757" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Success"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains" id="17d6509b-614d-469f-b9e2-4e63713d4b13"><con:configuration><token>"stateroomOffers"</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="f1e0635f-2800-4707-8491-8fd90e847dd4" name="Script Assertion"><con:configuration><scriptText>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.impl.support.http.HttpRequestTestStep
+
+def rawRequest = new String(messageExchange.getRawRequestData(), "UTF-8")
+def rawrequest1 = rawRequest.indexOf("GET")+4;
+def rawrequest2 = rawRequest.indexOf("HTTP")
+def url = rawRequest.substring(rawrequest1,rawrequest2)
+
+messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="fares[0]" value="BESTRATE"/><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="packageId" value="${#TestCase#packageCode}"/><con:entry key="currency" value="${#TestCase#currency}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="shipCode" value="${#TestCase#shipCode}"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>countryCode</con:entry>
+        <con:entry>agencyId</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>packageId</con:entry>
+        <con:entry>currency</con:entry>
+        <con:entry>guestAge</con:entry>
+        <con:entry>accessibleReqd</con:entry>
+        <con:entry>seniorReqd</con:entry>
+        <con:entry>militaryReqd</con:entry>
+        <con:entry>policeReqd</con:entry>
+        <con:entry>fireFighterReqd</con:entry>
+        <con:entry>stateCode</con:entry>
+        <con:entry>loyaltyId</con:entry>
+        <con:entry>couponCodes</con:entry>
+        <con:entry>includeNonRefundablePromos</con:entry>
+        <con:entry>includePromoBreakdown</con:entry>
+        <con:entry>fares[0]</con:entry>
+        <con:entry>fares[1]</con:entry>
+      </con:parameterOrder>
+      <con:environmentSpec>
+        <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="RetrieveStateroomOffers with agencyId" id="2862e721-8ae4-45e8-b015-12b142bc6d41"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomOffers" methodName="retrieveStateroomOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomOffers with agencyId" id="c0911431-1d0b-463a-9026-f8c123679434" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers?header.application=celebritycruises.com&header.brand=C&header.language=en_us&header.domainId=1&countryCode=USA&agencyId=108869&shipCode=IN&sailDate=2023-06-21&packageId=INCRTSIP&currency=USD&guestAge=25&accessibleReqd=false&seniorReqd=false&militaryReqd=false&policeReqd=false&fireFighterReqd=false&includeNonRefundablePromos=TRUE&includePromoBreakdown=TRUE&fares%5B0%5D=BESTRATE&fares%5B1%5D= ]]></con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers</con:originalUri>
+      <con:assertion type="Valid HTTP Status Codes" id="136f1e5f-7bee-4593-b783-732444030b6f" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="1b9f457e-edd5-4014-a3f9-6d5cb07f0757" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Success"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains" id="17d6509b-614d-469f-b9e2-4e63713d4b13"><con:configuration><token>"stateroomOffers"</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="f1e0635f-2800-4707-8491-8fd90e847dd4" name="Script Assertion"><con:configuration><scriptText>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.impl.support.http.HttpRequestTestStep
+
+def rawRequest = new String(messageExchange.getRawRequestData(), "UTF-8")
+def rawrequest1 = rawRequest.indexOf("GET")+4;
+def rawrequest2 = rawRequest.indexOf("HTTP")
+def url = rawRequest.substring(rawrequest1,rawrequest2)
+
+messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="fares[0]" value="BESTRATE"/><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="countryCode" value="${#TestCase#country}"/><con:entry key="packageId" value="${#TestCase#packageCode}"/><con:entry key="currency" value="${#TestCase#currency}"/><con:entry key="agencyId" value="108869"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="shipCode" value="${#TestCase#shipCode}"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>countryCode</con:entry>
+        <con:entry>agencyId</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>packageId</con:entry>
+        <con:entry>currency</con:entry>
+        <con:entry>guestAge</con:entry>
+        <con:entry>accessibleReqd</con:entry>
+        <con:entry>seniorReqd</con:entry>
+        <con:entry>militaryReqd</con:entry>
+        <con:entry>policeReqd</con:entry>
+        <con:entry>fireFighterReqd</con:entry>
+        <con:entry>stateCode</con:entry>
+        <con:entry>loyaltyId</con:entry>
+        <con:entry>couponCodes</con:entry>
+        <con:entry>includeNonRefundablePromos</con:entry>
+        <con:entry>includePromoBreakdown</con:entry>
+        <con:entry>fares[0]</con:entry>
+        <con:entry>fares[1]</con:entry>
+      </con:parameterOrder>
+      <con:environmentSpec>
+        <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="RetrieveStateroomOffers with fares" id="aa7d6806-e8d9-43ba-be7c-a27b8e3b3d99"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomOffers" methodName="retrieveStateroomOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomOffers with fares" id="c0911431-1d0b-463a-9026-f8c123679434" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers?header.application=celebritycruises.com&header.brand=C&header.language=en_us&header.domainId=1&countryCode=USA&agencyId=&shipCode=IN&sailDate=2023-06-21&packageId=INCRTSIP&currency=USD&guestAge=25&accessibleReqd=false&seniorReqd=false&militaryReqd=false&policeReqd=false&fireFighterReqd=false&includeNonRefundablePromos=TRUE&includePromoBreakdown=TRUE&fares%5B0%5D=BESTRATE&fares%5B1%5D=BVL ]]></con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers</con:originalUri>
+      <con:assertion type="Valid HTTP Status Codes" id="136f1e5f-7bee-4593-b783-732444030b6f" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="1b9f457e-edd5-4014-a3f9-6d5cb07f0757" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Success"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="f1e0635f-2800-4707-8491-8fd90e847dd4" name="Script Assertion"><con:configuration><scriptText>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.impl.support.http.HttpRequestTestStep
+
+def rawRequest = new String(messageExchange.getRawRequestData(), "UTF-8")
+def rawrequest1 = rawRequest.indexOf("GET")+4;
+def rawrequest2 = rawRequest.indexOf("HTTP")
+def url = rawRequest.substring(rawrequest1,rawrequest2)
+
+messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="fares[0]" value="BESTRATE"/><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="fares[1]" value="BVL"/><con:entry key="countryCode" value="${#TestCase#country}"/><con:entry key="packageId" value="${#TestCase#packageCode}"/><con:entry key="currency" value="${#TestCase#currency}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="shipCode" value="${#TestCase#shipCode}"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>countryCode</con:entry>
+        <con:entry>agencyId</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>packageId</con:entry>
+        <con:entry>currency</con:entry>
+        <con:entry>guestAge</con:entry>
+        <con:entry>accessibleReqd</con:entry>
+        <con:entry>seniorReqd</con:entry>
+        <con:entry>militaryReqd</con:entry>
+        <con:entry>policeReqd</con:entry>
+        <con:entry>fireFighterReqd</con:entry>
+        <con:entry>stateCode</con:entry>
+        <con:entry>loyaltyId</con:entry>
+        <con:entry>couponCodes</con:entry>
+        <con:entry>includeNonRefundablePromos</con:entry>
+        <con:entry>includePromoBreakdown</con:entry>
+        <con:entry>fares[0]</con:entry>
+        <con:entry>fares[1]</con:entry>
+      </con:parameterOrder>
+      <con:environmentSpec>
+        <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="RetrieveStateroomOffers with currency" id="2451716b-0bd5-40b0-9df9-9c404ee8daca"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/retrieveStateroomOffers" methodName="retrieveStateroomOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomOffers with currency" id="c0911431-1d0b-463a-9026-f8c123679434" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers?header.application=celebritycruises.com&header.brand=C&header.language=en_us&header.domainId=1&countryCode=USA&agencyId=&shipCode=IN&sailDate=2023-06-21&packageId=INCRTSIP&currency=USD&guestAge=25&accessibleReqd=false&seniorReqd=false&militaryReqd=false&policeReqd=false&fireFighterReqd=false&includeNonRefundablePromos=TRUE&includePromoBreakdown=TRUE&fares%5B0%5D=BESTRATE&fares%5B1%5D=BVL ]]></con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomOffers</con:originalUri>
+      <con:assertion type="Valid HTTP Status Codes" id="136f1e5f-7bee-4593-b783-732444030b6f" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="1b9f457e-edd5-4014-a3f9-6d5cb07f0757" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Success"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains" id="17d6509b-614d-469f-b9e2-4e63713d4b13"><con:configuration><token>"stateroomOffers"</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="f1e0635f-2800-4707-8491-8fd90e847dd4" name="Script Assertion"><con:configuration><scriptText>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.impl.support.http.HttpRequestTestStep
+
+def rawRequest = new String(messageExchange.getRawRequestData(), "UTF-8")
+def rawrequest1 = rawRequest.indexOf("GET")+4;
+def rawrequest2 = rawRequest.indexOf("HTTP")
+def url = rawRequest.substring(rawrequest1,rawrequest2)
+
+messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="fares[0]" value="BESTRATE"/><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="fares[1]" value="BVL"/><con:entry key="countryCode" value="${#TestCase#country}"/><con:entry key="packageId" value="${#TestCase#packageCode}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="shipCode" value="${#TestCase#shipCode}"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>countryCode</con:entry>
+        <con:entry>agencyId</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>packageId</con:entry>
+        <con:entry>currency</con:entry>
+        <con:entry>guestAge</con:entry>
+        <con:entry>accessibleReqd</con:entry>
+        <con:entry>seniorReqd</con:entry>
+        <con:entry>militaryReqd</con:entry>
+        <con:entry>policeReqd</con:entry>
+        <con:entry>fireFighterReqd</con:entry>
+        <con:entry>stateCode</con:entry>
+        <con:entry>loyaltyId</con:entry>
+        <con:entry>couponCodes</con:entry>
+        <con:entry>includeNonRefundablePromos</con:entry>
+        <con:entry>includePromoBreakdown</con:entry>
+        <con:entry>fares[0]</con:entry>
+        <con:entry>fares[1]</con:entry>
+      </con:parameterOrder>
+      <con:environmentSpec>
+        <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:restRequest></con:config></con:testStep><con:properties>
     <con:property>
       <con:name>application</con:name>
       <con:value>celebritycruises.com</con:value>
@@ -215,6 +580,6 @@ if (celebrityShips.contains(shipCode)) {
       <con:name>brand</con:name>
       <con:value>C</con:value>
     </con:property>
-  </con:properties>
+  <con:property><con:name>fareCode</con:name><con:value>I1840869</con:value></con:property><con:property><con:name>categoryCode</con:name><con:value>O1</con:value></con:property></con:properties>
   <con:reportParameters/>
 </con:testCase>
