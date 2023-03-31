@@ -27,7 +27,62 @@
       <con:settings>
         <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
       </con:settings>
-      <con:request/>
+      <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US",
+		"uuid": ""
+	},
+	"reservationNumber": "${#TestCase#bookingId}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"consumerInformation": {
+		"consumerType": "ANON_SHOP",
+		"travelAgencyId": "156393",
+		"firstName": "${#TestCase#firstName}",
+		"lastName": "${#TestCase#lastName}",
+		"email": "smrosellon@rcclapac.com"
+	},
+	"giftOrderItems": [
+		{
+			"itemCode": "${#TestCase#itemCode}",
+			"subItemCode": "",
+			"quantity": "${#TestCase#quantity}",
+			"unitPrice": "${#TestCase#unitPrice}",
+			"deliveryLocation": "C",
+			"deliveryDate": "${#TestCase#sailDate}",
+			"recipentName": "ESL Two Tester",
+			"senderName": "ESL One Tester",
+			"messageText": "Test Only"
+		}
+	],
+	"paymentInformation": {
+		"cardHolderName": "ESL One Tester",
+		"cardType": "VA",
+		"paymentAmount": "${#TestCase#unitPriceTotal}",
+		"currencyCode": "USD",
+		"expireMonth": "12",
+		"expireYear": "2030",
+		"securityCode": "123",
+		"extendedPayment": false,
+		"tokenizedCC": "4387751111111111"
+	},
+	"address": {
+		"type": "BILLING",
+		"address1": "asd 123",
+		"city": "VALLEY VILLAGE",
+		"stateCode": "CA",
+		"postalCode": "91607",
+		"countryCode": "USA"
+	},
+	"contactInformation": {
+		"telephoneNumber": "8888888888",
+		"telephoneType": "HOME",
+		"contactType": "REGULAR"
+	}
+}</con:request>
       <con:credentials>
         <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
         <con:authType>No Authorization</con:authType>
