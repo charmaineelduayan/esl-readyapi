@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="shipActivities" path="/shipActivities" id="eba9ca83-205a-4440-a649-35d5d4836b9b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="eba9ca83-205a-4440-a649-35d5d4836b9bfileName">shipActivities</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="shipActivities" id="6e81678f-23d9-46ff-8bc2-cf9f9fabd373" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.language</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>activityTypeCode</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter>
+        <con:name>shipCode</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+    </con:parameters>
+    <con:request name="shipActivities" id="b00f2ae7-57d6-442e-ba0a-82045874cb6e" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="activityTypeCode" value="things-to-do"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>activityTypeCode</con:entry>
+        <con:entry>shipCode</con:entry>
+      </con:parameterOrder>
+    </con:request>
+  </con:method>
+</con:resource>
