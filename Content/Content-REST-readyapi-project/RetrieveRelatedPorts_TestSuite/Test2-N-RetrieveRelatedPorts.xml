@@ -3,10 +3,10 @@
   <con:settings>
     <con:setting id="3bd7cbfa-f364-47d4-bc14-89f7933194c6fileName">Test2-N-RetrieveRelatedPorts</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="bac8da2c-a0e7-412a-99de-9c335d023538">
+  <con:testStep type="restrequest" name="cruiseSearch" id="bac8da2c-a0e7-412a-99de-9c335d023538">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+      <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
@@ -108,7 +108,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency 2" id="1605ec09-a84f-4ae3-96e0-de76138d31ef">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="1605ec09-a84f-4ae3-96e0-de76138d31ef">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -118,7 +118,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import org.apache.commons.lang3.StringUtils;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 String  url =  ts.getHttpRequest().getResponse().getURL(); 
 log.info(url)
 
@@ -138,9 +138,216 @@ testRunner.testCase.setPropertyValue("currency",currency);
 
 String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
 log.info(language)
-testRunner.testCase.setPropertyValue("language",language);</script>
+testRunner.testCase.setPropertyValue("language",language);
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&amp;");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);</script>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:testStep type="restrequest" name="retrieveRelatedPorts-invalid brand" id="9ddb4111-41ef-4906-80f3-c13cfa15ee72">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/relatedPorts" methodName="relatedPorts" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveRelatedPorts-invalid brand" id="30d3c788-6d43-49f9-8182-39cf13fb5318" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/relatedPorts</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="40ff3be8-1af1-4d54-84a1-f863f30c17e2" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="a1573516-f417-4529-a1e5-39302d453ae9" name="status Failure">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="773f5600-9dcc-4783-bf9a-affffdb76952" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="dcedd329-e92e-4bcd-94b0-795647303e80" name="Contains invalid brand">
+          <con:configuration>
+            <token>Invalid brand</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="portCode" value="MIA"/>
+          <con:entry key="header.brand" value="RR"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>portCode</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveRelatedPorts-no portCode" id="bbe0b5a7-1f3b-432d-94e4-4c36c661af60">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/relatedPorts" methodName="relatedPorts" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveRelatedPorts-no portCode" id="30d3c788-6d43-49f9-8182-39cf13fb5318" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/relatedPorts</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="40ff3be8-1af1-4d54-84a1-f863f30c17e2" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="a1573516-f417-4529-a1e5-39302d453ae9" name="status Failure">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="773f5600-9dcc-4783-bf9a-affffdb76952" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="dcedd329-e92e-4bcd-94b0-795647303e80" name="Contains may not be empty">
+          <con:configuration>
+            <token>may not be empty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>portCode</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveRelatedPorts-invalid portCode" id="36b48998-64ef-4f3d-adea-d8a7981f32c3">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/relatedPorts" methodName="relatedPorts" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveRelatedPorts-invalid portCode" id="30d3c788-6d43-49f9-8182-39cf13fb5318" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/relatedPorts</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="40ff3be8-1af1-4d54-84a1-f863f30c17e2" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="a1573516-f417-4529-a1e5-39302d453ae9" name="status Success">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Success"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="e62fb165-c7fb-4f1b-9b73-2b517cc57895" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def portCode = parse.ports.port
+log.info portCode
+assert portCode==null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="portCode" value="ESL"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>portCode</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>R</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
