@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="ef153eb3-ad18-4921-aa87-2715f63663e1" created="3.44.1" activeEnvironment="RLE" name="Profile" compositeProjectFormat="1.3" projectVersion="" updated="3.44.1" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:properties>
+    <con:property>
+      <con:name>AppKey</con:name>
+    </con:property>
+    <con:property>
+      <con:name>Authorization</con:name>
+    </con:property>
+  </con:properties>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:reporting/>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
+    <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
+// This code is often used for adding custom authentication to ReadyAPI functional tests
+
+// If hardcoding the token, uncomment and change line 5
+// token = '4567'
+
+// If your token is parameterized in Project level custom property, uncomment line 8
+// token = request.parent.testCase.testSuite.project.getProperty('auth_token').getValue()
+
+// To modify all outgoing calls, remove comments from lines 11 to 16
+// headers = request.requestHeaders
+// if (headers.containsKey('auth_token2') == false) {
+//   headers.put('auth_token2', token)
+//   request.requestHeaders = headers
+// }</con:script>
+  </con:eventHandlers>
+  <con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep">
+    <con:script>// Save all test step results into files
+// Change the directory path in line 5 to a location where you want to store details
+// then uncomment lines 5 to 10
+
+// filePath = 'C:\\tempOutputDirectory\\'
+// fos = new java.io.FileOutputStream(filePath + testStepResult.testStep.label + '.txt', true)
+// pw = new java.io.PrintWriter(fos)
+// testStepResult.writeTo(pw)
+// pw.close()
+// fos.close()</con:script>
+  </con:eventHandlers>
+  <con:environment id="92f9414f-b97d-4de4-b3f6-65c45370d025" name="RLE" index="0">
+    <con:service type="REST" name="Cruise Search">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://eslaservicestst01.rccl.com:13030</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Google">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://sheetdb.io/api/v1/2qakncmxaivve</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Profile">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://tst1-int.api.rccl.com/esl/profile/tst2</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Authorization</con:name>
+      <con:value>Bearer s8s90iskear5524o11qoifz4mtvb5q30nuu03pwr</con:value>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="9404251c-aa95-4211-92b0-acf26221ea4b" name="RLC" index="1">
+    <con:service type="REST" name="Cruise Search">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://eslaservicestst01.rccl.com:13000</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Google">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://sheetdb.io/api/v1/2qakncmxaivve</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Profile">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://tst1-int.api.rccl.com/esl/profile/tst1</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Authorization</con:name>
+      <con:value>Bearer s8s90iskear5524o11qoifz4mtvb5q30nuu03pwr</con:value>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="b19aad4b-d810-4db2-b513-2c2817380f9a" name="RLB" index="2">
+    <con:service type="REST" name="Cruise Search">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://eslaservicestst01:13060</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Google">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://sheetdb.io/api/v1/2qakncmxaivve</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Profile">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://tst1-int.api.rccl.com/esl/profile/tst3</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>ZJCQR5Gf2v7I5zaz8jtOGGe3sbTXMcJp</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Authorization</con:name>
+      <con:value>Bearer s8s90iskear5524o11qoifz4mtvb5q30nuu03pwr</con:value>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="b5472774-b14d-4f96-8d78-25c02e32cec1" name="Production" index="3">
+    <con:service type="REST" name="Cruise Search">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://cul.esla.internal.services.rccl.com</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Google">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://sheetdb.io/api/v1/ienf9s3f2wsx2</con:endpoint>
+    </con:service>
+    <con:service type="REST" name="Profile">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://prd-int.api.rccl.com/esl/profile/prd</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>hyNNqIPHHzaLzVpcICPdAdbFV8yvTsAm</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Authorization</con:name>
+      <con:value>Bearer 4x0le2j0dgyk3te02u3k51yd9qvva3xjtt156obs</con:value>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:authRepository/>
+  <con:environmentSpec>
+    <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+  <con:tags/>
+</con:soapui-project>
