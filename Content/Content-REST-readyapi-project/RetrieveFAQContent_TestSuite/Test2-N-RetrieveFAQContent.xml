@@ -3,10 +3,10 @@
   <con:settings>
     <con:setting id="94150fe2-06dd-4df3-96dd-1b45421bbde7fileName">Test2-N-RetrieveFAQContent</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="1693183d-1e72-4f44-be79-dd2ea9e1d2c0">
+  <con:testStep type="restrequest" name="cruiseSearch" id="1693183d-1e72-4f44-be79-dd2ea9e1d2c0">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+      <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
@@ -118,7 +118,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import org.apache.commons.lang3.StringUtils;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 String  url =  ts.getHttpRequest().getResponse().getURL(); 
 log.info(url)
 
@@ -138,9 +138,241 @@ testRunner.testCase.setPropertyValue("currency",currency);
 
 String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
 log.info(language)
-testRunner.testCase.setPropertyValue("language",language);</script>
+testRunner.testCase.setPropertyValue("language",language);
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&amp;");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);</script>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:testStep type="restrequest" name="retrieveFAQContent-invalid brand" id="5bed8970-1933-4953-9f6c-90a627fb8c46">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/FAQContent" methodName="FAQContent" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveFAQContent-invalid brand" id="7583e793-354d-45cc-9786-ce0efb387f26" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/FAQContent</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="15abd4ad-61ab-41dc-ae64-b7517aa6960d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="65600b42-6549-4a68-88c7-d02cb2269c6d" name="status Failure">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="d6be80e5-ad14-405f-bbf5-dd729d339260" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="b8316a2a-0ac5-43c2-ad2a-f9b773e18ac0" name="Contains invalid brand">
+          <con:configuration>
+            <token>Invalid brand</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="topicKey" value="657"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="featured" value="true"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="includeAnswers" value="true"/>
+          <con:entry key="includeAll" value="false"/>
+          <con:entry key="header.brand" value="RR"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>topicType</con:entry>
+          <con:entry>topicKey</con:entry>
+          <con:entry>subCategoryKeys</con:entry>
+          <con:entry>includeAnswers</con:entry>
+          <con:entry>includeAll</con:entry>
+          <con:entry>featured</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveFAQContent-no topicType" id="3b2e7431-2f4f-4798-92d6-98445f109ccf">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/FAQContent" methodName="FAQContent" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveFAQContent-no topicType" id="7583e793-354d-45cc-9786-ce0efb387f26" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/FAQContent</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="15abd4ad-61ab-41dc-ae64-b7517aa6960d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="65600b42-6549-4a68-88c7-d02cb2269c6d" name="status Failure">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="d6be80e5-ad14-405f-bbf5-dd729d339260" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="b8316a2a-0ac5-43c2-ad2a-f9b773e18ac0" name="Contains may not be empty">
+          <con:configuration>
+            <token>may not be empty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="topicKey" value="657"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="featured" value="true"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="includeAnswers" value="true"/>
+          <con:entry key="includeAll" value="false"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>topicType</con:entry>
+          <con:entry>topicKey</con:entry>
+          <con:entry>subCategoryKeys</con:entry>
+          <con:entry>includeAnswers</con:entry>
+          <con:entry>includeAll</con:entry>
+          <con:entry>featured</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveFAQContent-invalid topicType" id="a2bfd117-765e-4f12-9323-3bc929652dbe">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/FAQContent" methodName="FAQContent" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveFAQContent-invalid topicType" id="7583e793-354d-45cc-9786-ce0efb387f26" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/FAQContent</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="15abd4ad-61ab-41dc-ae64-b7517aa6960d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="65600b42-6549-4a68-88c7-d02cb2269c6d" name="status Failure">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="d6be80e5-ad14-405f-bbf5-dd729d339260" name="errorCode">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"NotBlank"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="b8316a2a-0ac5-43c2-ad2a-f9b773e18ac0" name="Contains may not be empty">
+          <con:configuration>
+            <token>may not be empty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="topicKey" value="657"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="featured" value="true"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="includeAnswers" value="true"/>
+          <con:entry key="includeAll" value="false"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>topicType</con:entry>
+          <con:entry>topicKey</con:entry>
+          <con:entry>subCategoryKeys</con:entry>
+          <con:entry>includeAnswers</con:entry>
+          <con:entry>includeAll</con:entry>
+          <con:entry>featured</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>R</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
