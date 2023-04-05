@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="shipItineraries" path="/shipItineraries" id="3c0b272c-3ebf-42f2-9185-37f96e888c75" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="3c0b272c-3ebf-42f2-9185-37f96e888c75fileName">shipItineraries</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="shipItineraries" id="88556a01-38ff-424a-af94-eecb4e4ae038" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.language</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.domainId</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>startSailDate</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>endSailDate</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+    </con:parameters>
+    <con:request name="shipItineraries" id="9dbf355b-68a9-4716-a2f0-16d327e115bf" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey} " xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="startSailDate" value="2023-01-01"/>
+        <con:entry key="header.domainId" value="1"/>
+        <con:entry key="endSailDate" value="2023-12-31"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>startSailDate</con:entry>
+        <con:entry>endSailDate</con:entry>
+      </con:parameterOrder>
+    </con:request>
+  </con:method>
+</con:resource>
