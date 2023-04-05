@@ -184,6 +184,54 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="retrieveResourceBundle-ROYAL" id="1c54bc19-3b3b-418b-a8f9-6d03c503c66a">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/resourceBundle" methodName="resourceBundle" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveResourceBundle-ROYAL" id="c83d350a-79b0-4f97-bf7b-3af9038013ff" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/resourceBundle</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="74990fdd-7f01-47fc-913e-1942773c3eaa" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="42fbda6f-92bd-4a00-9b7e-c87c0a1da378" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def resources = parse.resourceBundle.resources.item
+log.info resources
+assert resources !=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="bundleName" value="booking_dining"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>bundleName</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="cruiseSearch-CEL" id="7386fa1b-1c97-4365-b25f-f4167170aa21">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -221,8 +269,6 @@ assert totalHits!=0</scriptText>
         <con:parameters>
           <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
           <con:entry key="header.language" value="en_us"/>
-          <con:entry key="criteria.brand.value" value="R"/>
-          <con:entry key="header.application" value="royalcaribbean.com"/>
           <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
           <con:entry key="criteria.channel" value="VP"/>
           <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
@@ -230,7 +276,7 @@ assert totalHits!=0</scriptText>
           <con:entry key="resultsPreference.includeResults" value="true"/>
           <con:entry key="criteria.currency" value="USD"/>
           <con:entry key="resultsPreference.strictSearch" value="true"/>
-          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
           <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
           <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
           <con:entry key="criteria.sailingDate.date" value=""/>
@@ -365,6 +411,87 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:testStep type="restrequest" name="retrieveResourceBundle-CEL" id="248c02c2-e64b-4b89-899e-2f5aa0750a18">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/resourceBundle" methodName="resourceBundle" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveResourceBundle-CEL" id="c83d350a-79b0-4f97-bf7b-3af9038013ff" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/resourceBundle</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="74990fdd-7f01-47fc-913e-1942773c3eaa" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="f3948739-c471-436d-a190-df4db323fa7b">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper()
+def parse = jsonSlurper.parseText(jsonRes)
+
+def resources = parse.resourceBundle.resources.item
+log.info resources
+assert resources !=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="bundleName" value="online_checkin_digital"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>bundleName</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>IN11M267</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>IN</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2024-02-12</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
