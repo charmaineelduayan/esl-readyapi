@@ -110,15 +110,14 @@ assert totalHits!=0</scriptText>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="44668627-997d-45e5-a4bc-73eb01d2244f">
     <con:settings/>
-    <con:config>
-      <script>import java.io.*;
+    <con:config><script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import org.apache.commons.lang3.StringUtils;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 String  url =  ts.getHttpRequest().getResponse().getURL(); 
 log.info(url)
 
@@ -138,19 +137,17 @@ testRunner.testCase.setPropertyValue("currency",currency);
 
 String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
 log.info(language)
-testRunner.testCase.setPropertyValue("language",language);</script>
-    </con:config>
+testRunner.testCase.setPropertyValue("language",language);</script></con:config>
   </con:testStep>
   <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="c829ee94-06ed-40cf-a2af-004091a0706f">
     <con:settings/>
-    <con:config>
-      <script>import java.io.*;
+    <con:config><script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Package Code
@@ -181,9 +178,71 @@ if (celebrityShips.contains(shipCode)) {
 	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
 	} else {
 		testRunner.testCase.setPropertyValue("brand",royalBrand);
-		}</script>
-    </con:config>
+		}</script></con:config>
   </con:testStep>
-  <con:properties/>
+  <con:testStep type="restrequest" name="RetrieveStateroomSubtypeSummary-invalid brand" id="5a6350c2-bae3-4e5d-9d5c-311301a7dc4c"><con:settings/><con:config service="ContentOperations" resourcePath="/stateroomSubtypeSummary" methodName="stateroomSubtypeSummary" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomSubtypeSummary-invalid brand" id="d7c0ed19-3293-4091-a2df-82528ec7778a" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/stateroomSubtypeSummary</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="b3078fed-a069-43fe-83ef-dec52007197e" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="9d19d3fc-0a94-404d-89ee-79ab5833e2ba" name="Match content of [code]"><con:configuration><path>$['header']['error'][0]['code']</path><content>"CATL-005"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" id="390b6218-f202-406d-b332-de703c606c7a" name="Contains"><con:configuration><token>Invalid brand.</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="includeFutureCategories" value="true"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="code" value="VP"/><con:entry key="deckCode" value="12"/><con:entry key="header.brand" value="ZZ"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="typeCode" value=" D"/><con:entry key="shipCode" value="${#TestCase#shipCode}"/><con:entry key="includeFutureCategories " value="true"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>code</con:entry>
+        <con:entry>typeCode</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>deckCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>includeFutureCategories</con:entry>
+      </con:parameterOrder>
+    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="RetrieveStateroomSubtypeSummary-no brand" id="f5ad6de5-a79c-4d3a-8d88-5cb28dd0934e"><con:settings/><con:config service="ContentOperations" resourcePath="/stateroomSubtypeSummary" methodName="stateroomSubtypeSummary" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomSubtypeSummary-no brand" id="d7c0ed19-3293-4091-a2df-82528ec7778a" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/stateroomSubtypeSummary</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="b3078fed-a069-43fe-83ef-dec52007197e" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="15971e83-c2b7-4af8-8d85-d2c80fafc5a9" name="Match content of [code]"><con:configuration><path>$['header']['error'][0]['code']</path><content>"ESL_NotBlankConditional"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="80431b4d-bc8c-4069-b1ea-9544bf2e7b8e" name="Match content of [description]"><con:configuration><path>$['header']['error'][0]['description']</path><content>"Value is required for brandCode"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="includeFutureCategories" value="true"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="code" value="VP"/><con:entry key="deckCode" value="12"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="typeCode" value=" D"/><con:entry key="shipCode" value="${#TestCase#shipCode}"/><con:entry key="includeFutureCategories " value="true"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>code</con:entry>
+        <con:entry>typeCode</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>deckCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>includeFutureCategories</con:entry>
+      </con:parameterOrder>
+    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="RetrieveStateroomSubtypeSummary-no shipCode" id="e0be4a32-6679-44c3-a787-1b6e227d3eae"><con:settings/><con:config service="ContentOperations" resourcePath="/stateroomSubtypeSummary" methodName="stateroomSubtypeSummary" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveStateroomSubtypeSummary-no shipCode" id="d7c0ed19-3293-4091-a2df-82528ec7778a" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/stateroomSubtypeSummary</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="b3078fed-a069-43fe-83ef-dec52007197e" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="8cb3eb97-998b-4727-9d96-7b55f79f7afa" name="Match content of [code]"><con:configuration><path>$['header']['error'][0]['code']</path><content>"NotBlank"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="b4427374-2ab8-4357-acc6-4c51e752335f" name="Match content of [description]"><con:configuration><path>$['header']['error'][0]['description']</path><content>"requires shipCode."</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="includeFutureCategories" value="true"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="code" value="VP"/><con:entry key="deckCode" value="12"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="typeCode" value=" D"/><con:entry key="includeFutureCategories " value="true"/></con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>code</con:entry>
+        <con:entry>typeCode</con:entry>
+        <con:entry>shipCode</con:entry>
+        <con:entry>deckCode</con:entry>
+        <con:entry>sailDate</con:entry>
+        <con:entry>includeFutureCategories</con:entry>
+      </con:parameterOrder>
+    </con:restRequest></con:config></con:testStep><con:properties><con:property><con:name>application</con:name><con:value>royalcaribbean.com</con:value></con:property><con:property><con:name>country</con:name><con:value>USA</con:value></con:property><con:property><con:name>currency</con:name><con:value>USD</con:value></con:property><con:property><con:name>language</con:name><con:value>en_us</con:value></con:property><con:property><con:name>packageCode</con:name><con:value>ALALTST2</con:value></con:property><con:property><con:name>shipCode</con:name><con:value>AL</con:value></con:property><con:property><con:name>sailDate</con:name><con:value>2023-06-04</con:value></con:property><con:property><con:name>brand</con:name><con:value>R</con:value></con:property></con:properties>
   <con:reportParameters/>
 </con:testCase>
