@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="resourceBundle" path="/resourceBundle" id="458624f8-f676-454f-b683-68be05492d1b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="458624f8-f676-454f-b683-68be05492d1bfileName">resourceBundle</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="resourceBundle" id="3c6294b6-eb27-452e-aa90-007aebfb66e7" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.language</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>bundleName</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+    </con:parameters>
+    <con:request name="resourceBundle" id="c83d350a-79b0-4f97-bf7b-3af9038013ff" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="bundleName" value="booking_dining"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>bundleName</con:entry>
+      </con:parameterOrder>
+    </con:request>
+  </con:method>
+</con:resource>
