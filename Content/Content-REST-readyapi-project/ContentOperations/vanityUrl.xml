@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="vanityUrl" path="/vanityUrl" id="a9db8cfe-c3a1-498f-a13c-0fec54d9ae31" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="a9db8cfe-c3a1-498f-a13c-0fec54d9ae31fileName">vanityUrl</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="vanityUrl" id="d500ebf9-387e-4039-a2af-e46d77e59df3" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.domainId</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.language</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>vanityPath</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+    </con:parameters>
+    <con:request name="vanityUrl" id="efee6541-6143-4f55-9a1b-87a817ab8de1" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="vanityPath" value="/travel"/>
+        <con:entry key="header.domainId" value="1"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>vanityPath</con:entry>
+      </con:parameterOrder>
+    </con:request>
+  </con:method>
+</con:resource>
