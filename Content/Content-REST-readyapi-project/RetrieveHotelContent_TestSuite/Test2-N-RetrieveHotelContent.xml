@@ -418,6 +418,64 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveHotelContent_blank hotelCode" id="5b6ebdf4-c9a2-47aa-bfff-44d4488f3119">
+    <con:settings/>
+    <con:config service="ContentOperations" resourcePath="/hotelContent" methodName="hotelContent" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveHotelContent_blank hotelCode" id="dc9ef991-1a75-4318-826c-9b8a2b9dd645" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/hotelContent</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="b1be0f18-c30c-4e33-b159-39bb43d0521a" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="f70dcfb5-d214-442c-9534-e4a2a2df7dee" name="Contains">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="25290121-3fc7-41d2-806b-375e76872a4e" name="Contains [code]">
+          <con:configuration>
+            <token>NotBlank</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="arrivalPortCode" value="MIA"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="destinationCode" value="BAHAM"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="hotelCriteria.prePostCruiseFlag" value="${Properties#CruiseFlag}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="departurePortCode" value="MIA"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>departurePortCode</con:entry>
+          <con:entry>arrivalPortCode</con:entry>
+          <con:entry>destinationCode</con:entry>
+          <con:entry>hotelCriteria.hotelCode</con:entry>
+          <con:entry>hotelCriteria.prePostCruiseFlag</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:properties>
     <con:property>
       <con:name>application</con:name>
