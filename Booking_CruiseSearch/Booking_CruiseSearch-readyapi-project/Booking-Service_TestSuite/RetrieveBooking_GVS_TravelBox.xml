@@ -3,39 +3,51 @@
   <con:settings>
     <con:setting id="b622c492-c767-43f2-a9c7-35b498073769fileName">RetrieveBooking_GVS_TravelBox</con:setting>
   </con:settings>
-  
-  
-  
-  <con:testStep type="restrequest" name="Sheet-bookingDetails" id="26d89d14-b46e-47a5-bad7-5b37d5a6da0b"><con:settings/><con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Sheet-bookingDetails" id="b57c838f-3da7-4150-8496-95c63fa6baaa" mediaType="application/json">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:request/>
-      <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
-      <con:assertion type="Valid HTTP Status Codes" id="154746f6-809a-4179-bf00-0cc38bc3ac28" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters><con:entry key="sheet" value="bookingDetails"/></con:parameters>
-      <con:parameterOrder>
-        <con:entry>sheet</con:entry>
-      </con:parameterOrder>
-      <con:environmentSpec>
-        <con:entry environmentId="1e8db791-2cca-4d3a-9451-5c9a433740b4">
-          <con:authProfile>No Authorization</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-      </con:environmentSpec>
-    </con:restRequest></con:config></con:testStep><con:testStep type="groovy" name="Get Booking Details" id="f5c056c6-9535-464d-bb43-53d2731d67a4">
+  <con:testStep type="restrequest" name="Sheet-bookingDetails" id="26d89d14-b46e-47a5-bad7-5b37d5a6da0b">
     <con:settings/>
-    <con:config><script>import java.io.*;
+    <con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Sheet-bookingDetails" id="b57c838f-3da7-4150-8496-95c63fa6baaa" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="154746f6-809a-4179-bf00-0cc38bc3ac28" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="sheet" value="bookingDetails"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>sheet</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="1e8db791-2cca-4d3a-9451-5c9a433740b4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Get Booking Details" id="f5c056c6-9535-464d-bb43-53d2731d67a4">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
@@ -61,15 +73,36 @@ testRunner.testCase.setPropertyValue("Lastname", lastname);
 
 def country= res.e.countryCode[2].text();
 log.info(country)
-testRunner.testCase.setPropertyValue("CountryCode", country);
-</script></con:config>
-  </con:testStep><con:testStep type="restrequest" name="RetrieveBooking_GVS_TravelBox" id="38c6e321-a579-49f0-97c2-e66c745b46a7"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/retrieveBooking" methodName="retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="RetrieveBooking_GVS_TravelBox" id="5d1548a4-8bdb-4e8d-b961-ec1d7235ef93" mediaType="application/json">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
-      </con:settings>
-      <con:request/>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking</con:originalUri>
-      <con:assertion type="Valid HTTP Status Codes" id="e7e07a8f-d2da-4320-99ed-5597bee59634" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="622b95de-8fcd-439b-8fd5-f9cb1040e025" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Success"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="c78d79e4-55c2-4fdb-894a-c9e0c6b2c6a5" name="Validate booking type"><con:configuration><scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+testRunner.testCase.setPropertyValue("CountryCode", country);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveBooking_GVS_TravelBox" id="38c6e321-a579-49f0-97c2-e66c745b46a7">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/retrieveBooking" methodName="retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveBooking_GVS_TravelBox" id="5d1548a4-8bdb-4e8d-b961-ec1d7235ef93" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="e7e07a8f-d2da-4320-99ed-5597bee59634" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="622b95de-8fcd-439b-8fd5-f9cb1040e025" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Success"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="c78d79e4-55c2-4fdb-894a-c9e0c6b2c6a5" name="Validate booking type">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
 
 
 def jsonSlurper = new groovy.json.JsonSlurper();
@@ -81,26 +114,39 @@ def type = parse.booking.bookingInformation.type
 assert type!=null
 
 assert bookingType == type
-log.info bookingType +(' = ')+type</scriptText></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters><con:entry key="lastName" value="${#TestCase#lastname}"/><con:entry key="countryCode" value="${#TestCase#country}"/><con:entry key="sailDate" value="${#TestCase#SailDate}"/><con:entry key="bookingId" value="${#TestCase#BookingId}"/><con:entry key="shipCode" value="${#TestCase#Ship}"/></con:parameters>
-      <con:environmentSpec>
-        <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-      </con:environmentSpec>
-    </con:restRequest></con:config></con:testStep><con:testStep type="groovy" name="Fetch_RES_bookingAccessToken" id="42141468-a636-4b1d-8fa4-f62c072bb0ab">
+log.info bookingType +(' = ')+type</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="lastName" value="${#TestCase#lastname}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="sailDate" value="${#TestCase#SailDate}"/>
+          <con:entry key="bookingId" value="${#TestCase#BookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#Ship}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken" id="42141468-a636-4b1d-8fa4-f62c072bb0ab">
     <con:settings/>
-    <con:config><script>import java.io.*;
+    <con:config>
+      <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
@@ -121,8 +167,10 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);
 
 def bookingId  = xml.booking.bookingInformation.bookingId.text()
 log.info(bookingId)
-testRunner.testCase.setPropertyValue("bookingId",bookingId);</script></con:config>
-  </con:testStep><con:testStep type="restrequest" name="releaseBooking" id="79349066-ef14-464f-a0ca-948cfa283227">
+testRunner.testCase.setPropertyValue("bookingId",bookingId);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="releaseBooking" id="79349066-ef14-464f-a0ca-948cfa283227">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/releaseBooking" methodName="releaseBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="releaseBooking" id="e0135d9d-6b24-4332-996d-3f8c56b32255" mediaType="application/json">
@@ -151,7 +199,13 @@ testRunner.testCase.setPropertyValue("bookingId",bookingId);</script></con:confi
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="countryCode" value="${#TestCase#countryCode}"/><con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="bookingId" value="${#TestCase#bookingId}"/></con:parameters>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#countryCode}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+        </con:parameters>
         <con:environmentSpec>
           <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
             <con:authProfile>Inherit From Parent</con:authProfile>
@@ -165,7 +219,8 @@ testRunner.testCase.setPropertyValue("bookingId",bookingId);</script></con:confi
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep><con:properties>
+  </con:testStep>
+  <con:properties>
     <con:property>
       <con:name>application</con:name>
       <con:value>celebritycruises.com</con:value>
@@ -198,6 +253,26 @@ testRunner.testCase.setPropertyValue("bookingId",bookingId);</script></con:confi
       <con:name>brand</con:name>
       <con:value>C</con:value>
     </con:property>
-  <con:property><con:name>Ship</con:name><con:value>AD</con:value></con:property><con:property><con:name>BookingID</con:name><con:value>1521269</con:value></con:property><con:property><con:name>Lastname</con:name><con:value>DIRECT</con:value></con:property><con:property><con:name>CountryCode</con:name><con:value>GBR</con:value></con:property><con:property><con:name>bookingAccessToken</con:name><con:value>cf3e5e7e-31ce-450e-901b-521bb8ca0f41</con:value></con:property></con:properties>
+    <con:property>
+      <con:name>Ship</con:name>
+      <con:value>AD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>BookingID</con:name>
+      <con:value>1521269</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Lastname</con:name>
+      <con:value>DIRECT</con:value>
+    </con:property>
+    <con:property>
+      <con:name>CountryCode</con:name>
+      <con:value>GBR</con:value>
+    </con:property>
+    <con:property>
+      <con:name>bookingAccessToken</con:name>
+      <con:value>92d9e87f-db68-4183-9899-caaabd13ee18</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>

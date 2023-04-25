@@ -562,13 +562,15 @@ for (i=0; i&lt;=countObject-1; i++){
 		//log.info(label)
 		if (label=="GROSS_TOTALS"){
 				def grossAmountLabel = res.bookingPrice.bookingPayment.prices.priceInfo.e[i].amount.text()
+				//log.info(grossAmountLabel)
 				double grossAmount = (grossAmountLabel as Double)
-				grossTotal = grossTotal + grossAmount
-				log.info(grossTotal)
+				log.info(grossAmount)
+				grossTotal2 = (grossTotal + grossAmount)
+				log.info(grossTotal2)
 				break		
 			}
 	}
-testRunner.testCase.setPropertyValue("grossTotal",grossTotal as String);</script>
+testRunner.testCase.setPropertyValue("grossTotal2",grossTotal2.toString());</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="da564c76-e470-4a0b-8ca8-c70ee5ac727b">
@@ -676,8 +678,9 @@ testRunner.testCase.setPropertyValue("grossTotal",grossTotal as String);</script
 						"cardType": "VA",
 						"cardToken": "4387751111111111",
 						"expireDate": "1230",
-						"amount": "${#TestCase#grossTotal}",
+						"amount": "${#TestCase#grossTotal2}",
 						"currency": "USD",
+						"cvv": "123",
 						"extendPayments": "false",
 						"contact": {
 							"firstName": "ESL QA",
@@ -954,7 +957,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>ALALTST2</con:value>
+      <con:value>RD07A337</con:value>
     </con:property>
     <con:property>
       <con:name>TestShip</con:name>
@@ -962,11 +965,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
-      <con:value>AL</con:value>
+      <con:value>RD</con:value>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2023-06-04</con:value>
+      <con:value>2024-05-10</con:value>
     </con:property>
     <con:property>
       <con:name>brand</con:name>
@@ -974,15 +977,15 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
-      <con:value>I1843221</con:value>
+      <con:value>I1859105</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>2S</con:value>
+      <con:value>4V</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>9649</con:value>
+      <con:value>4023</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -1006,7 +1009,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1449477</con:value>
+      <con:value>1572386</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -1014,7 +1017,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>c1f9e05e-e9b1-4331-98c0-8338edcdd077</con:value>
+      <con:value>857e9700-6769-4b00-a4ec-3c5d530eb0a9</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -1026,7 +1029,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
-      <con:value>2078.0</con:value>
+      <con:value>2110.36</con:value>
     </con:property>
     <con:property>
       <con:name>grossAmount</con:name>
@@ -1034,7 +1037,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>grossTotal</con:name>
-      <con:value>2542</con:value>
+      <con:value>0</con:value>
+    </con:property>
+    <con:property>
+      <con:name>grossTotal2</con:name>
+      <con:value>2458.36</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
