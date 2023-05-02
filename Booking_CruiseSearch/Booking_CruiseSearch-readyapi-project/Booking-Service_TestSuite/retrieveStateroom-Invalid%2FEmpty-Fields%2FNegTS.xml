@@ -148,7 +148,7 @@ def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Package Code
-def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[2].packageReference.@code.text()
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
 log.info(packageCode)
 testRunner.testCase.setPropertyValue("packageCode",packageCode);
 
@@ -159,7 +159,7 @@ log.info(shipCode)
 testRunner.testCase.setPropertyValue("shipCode",shipCode);
 
 //Set Test Case Sail Date
-def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[2].cabinClassPriceBySailing[2].sailingRef.@saildate.text()
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
 log.info(sailDate)
 testRunner.testCase.setPropertyValue("sailDate",sailDate);
 
@@ -556,7 +556,7 @@ log.info(cabinNumber)</script>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&countryCode=ZZZ&shipCode=IN&sailDate=2023-06-21&packageId=INCRTSIP&cabinNumber=2066&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&countryCode=ZZZ&shipCode=SL&sailDate=2023-10-01&packageId=SL17T034&cabinNumber=8340&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/retrieveStateroom</con:originalUri>
         <con:assertion type="Valid HTTP Status Codes" id="cd3c0723-6045-4154-99b8-31da84c3fb89" name="Valid HTTP Status Codes">
           <con:settings/>
@@ -761,7 +761,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&shipCode=IN&sailDate=2023-06-21&packageId=INCRTSIP&cabinNumber=2066&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&shipCode=SL&sailDate=2023-10-01&packageId=SL17T034&cabinNumber=8340&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/retrieveStateroom</con:originalUri>
         <con:assertion type="Valid HTTP Status Codes" id="cd3c0723-6045-4154-99b8-31da84c3fb89" name="Valid HTTP Status Codes">
           <con:settings/>
@@ -974,7 +974,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&countryCode=USA&agencyId=108869&sailDate=2023-06-21&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&countryCode=USA&agencyId=108869&sailDate=2023-10-01&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/retrieveStateroom</con:originalUri>
         <con:assertion type="Valid HTTP Status Codes" id="cd3c0723-6045-4154-99b8-31da84c3fb89" name="Valid HTTP Status Codes">
           <con:settings/>
@@ -1599,7 +1599,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&countryCode=USA&shipCode=ZZ&sailDate=2023-06-21&packageId=ZZ&cabinNumber=2066&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroom?header.application=celebritycruises.com&header.brand=C&header.domainId=1&countryCode=USA&shipCode=ZZ&sailDate=2023-10-01&packageId=ZZ&cabinNumber=8340&stateroomOccupancy.guestAge=24&stateroomOccupancy.accessibleReqd=false&stateroomOccupancy.seniorReqd=false&stateroomOccupancy.militaryReqd=false&stateroomOccupancy.policeReqd=false&stateroomOccupancy.fireFighterReqd=false&fareCode=BESTRATE&includeDeckInfo=false&noShowOfUpgrades=false&connectedCabinsReqd=false&connectingOccupancy.guestAge=45]]></con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/retrieveStateroom</con:originalUri>
         <con:assertion type="Valid HTTP Status Codes" id="cd3c0723-6045-4154-99b8-31da84c3fb89" name="Valid HTTP Status Codes">
           <con:settings/>
@@ -1813,15 +1813,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>packageCode</con:name>
-      <con:value>INCRTSIP</con:value>
+      <con:value>SL17T034</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
-      <con:value>IN</con:value>
+      <con:value>SL</con:value>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2023-06-21</con:value>
+      <con:value>2023-10-01</con:value>
     </con:property>
     <con:property>
       <con:name>brand</con:name>
@@ -1829,15 +1829,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
-      <con:value>I1840869</con:value>
+      <con:value>I1895942</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>O2</con:value>
+      <con:value>SV</con:value>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value>2066</con:value>
+      <con:value>8340</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
