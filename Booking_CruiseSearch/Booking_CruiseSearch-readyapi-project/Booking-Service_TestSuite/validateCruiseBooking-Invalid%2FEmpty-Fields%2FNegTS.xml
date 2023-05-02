@@ -7,7 +7,11 @@
     <con:settings/>
     <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:properties>
-        <con:property><con:name>BOOKINGID</con:name><con:value>000</con:value></con:property><con:property>
+        <con:property>
+          <con:name>BOOKINGID</con:name>
+          <con:value>000</con:value>
+        </con:property>
+        <con:property>
           <con:name>BOOKINGID1</con:name>
           <con:value xsi:nil="true"/>
         </con:property>
@@ -48,7 +52,30 @@ assert totalHits!=0</scriptText>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters><con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/><con:entry key="header.language" value="en_us"/><con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/><con:entry key="criteria.channel" value="VP"/><con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/><con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/><con:entry key="resultsPreference.includeResults" value="true"/><con:entry key="criteria.currency" value="USD"/><con:entry key="resultsPreference.strictSearch" value="true"/><con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/><con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/><con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/><con:entry key="criteria.sailingDate.date" value=""/><con:entry key="resultsPreference.sortOrder" value="DESCENDING"/><con:entry key="resultsPreference.includePrices" value="true"/><con:entry key="resultsPreference.groupBy" value="PACKAGE"/><con:entry key="criteria.bookingType" value="FIT"/><con:entry key="resultsPreference.pagination.count" value="100"/><con:entry key="header.domainId" value="1"/><con:entry key="criteria.occupancy.adult" value="2"/><con:entry key="resultsPreference.sortBy" value="DURATION"/><con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/></con:parameters>
+        <con:parameters>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.date" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
         <con:parameterOrder>
           <con:entry>criteria.channel</con:entry>
           <con:entry>criteria.bookingType</con:entry>
@@ -169,7 +196,8 @@ if (celebrityShips.contains(shipCode)) {
 		testRunner.testCase.setPropertyValue("brand",royalBrand);
 		}</script>
     </con:config>
-  </con:testStep><con:testStep type="jdbc" name="JDBC Request" id="a766f170-d525-49bf-82a8-a2fceabb12c2" disabled="true">
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request" id="a766f170-d525-49bf-82a8-a2fceabb12c2" disabled="true">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
@@ -203,7 +231,8 @@ if (celebrityShips.contains(shipCode)) {
       </con:assertion>
       <con:properties/>
     </con:config>
-  </con:testStep><con:testStep type="transfer" name="PropertyTransfer 1" id="cc3ef88d-f26a-4ede-b882-21369051bb1a" disabled="true">
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer 1" id="cc3ef88d-f26a-4ede-b882-21369051bb1a" disabled="true">
     <con:settings/>
     <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
@@ -218,11 +247,15 @@ if (celebrityShips.contains(shipCode)) {
         <con:upgraded>true</con:upgraded>
       </con:transfers>
     </con:config>
-  </con:testStep><con:testStep type="restrequest" name="validateCruiseBooking-invalid brand" id="d782bc4b-22cc-4039-aac6-c1d6392b5341"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/cruisecritic/validateBatchBookings" methodName="validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="validateCruiseBooking-invalid brand" id="0b02ef39-ef4c-464e-a468-ec06526beec3" mediaType="application/json" postQueryString="false">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:request>{
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking-invalid brand" id="d782bc4b-22cc-4039-aac6-c1d6392b5341">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/cruisecritic/validateBatchBookings" methodName="validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking-invalid brand" id="0b02ef39-ef4c-464e-a468-ec06526beec3" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
    "header" : {
      "application": "${#TestCase#application}",
 	"brand": "ZZ",
@@ -238,17 +271,55 @@ if (celebrityShips.contains(shipCode)) {
       ]
    }
 }</con:request>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cruisecritic/validateBatchBookings</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="57037fc4-e83a-4cf3-8623-ed07c7d3dfe6" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="7befa535-ee69-4d1f-bacf-42ce029fabd4" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Failure"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="8075bb44-025b-4b6d-8010-df4b6c397896" name="Match content of [code]"><con:configuration><path>$['header']['error'][0]['code']</path><content>"CATL-005"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" id="a2b02378-a370-488c-a40c-fb908be87aa5" name="Contains"><con:configuration><token>Invalid brand.</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters/>
-    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="validateCruiseBooking-invalid bookingId" id="f1f715f4-b6d0-4c11-a6f6-8a19f089b510"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/cruisecritic/validateBatchBookings" methodName="validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="validateCruiseBooking-invalid bookingId" id="0b02ef39-ef4c-464e-a468-ec06526beec3" mediaType="application/json" postQueryString="false">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:request>{
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cruisecritic/validateBatchBookings</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="57037fc4-e83a-4cf3-8623-ed07c7d3dfe6" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="7befa535-ee69-4d1f-bacf-42ce029fabd4" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="8075bb44-025b-4b6d-8010-df4b6c397896" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="a2b02378-a370-488c-a40c-fb908be87aa5" name="Contains">
+          <con:configuration>
+            <token>Invalid brand.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking-invalid bookingId" id="f1f715f4-b6d0-4c11-a6f6-8a19f089b510">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/cruisecritic/validateBatchBookings" methodName="validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking-invalid bookingId" id="0b02ef39-ef4c-464e-a468-ec06526beec3" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
    "header" : {
      "application": "${#TestCase#application}",
 	"brand": "${#TestCase#brand}",
@@ -264,17 +335,48 @@ if (celebrityShips.contains(shipCode)) {
       ]
    }
 }</con:request>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cruisecritic/validateBatchBookings</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="57037fc4-e83a-4cf3-8623-ed07c7d3dfe6" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="7befa535-ee69-4d1f-bacf-42ce029fabd4" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Failure"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="69ab931b-1f33-48c3-8425-370213f6cd87" name="Match content of [description]"><con:configuration><path>$['header']['error'][0]['description']</path><content>"Booking(s) not found."</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters/>
-    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="validateCruiseBooking-blank brand" id="6f39d0e8-753f-441b-b7e8-6ad107690108"><con:settings/><con:config service="Booking" resourcePath="/rest/v3/cruisecritic/validateBatchBookings" methodName="validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="validateCruiseBooking-blank brand" id="0b02ef39-ef4c-464e-a468-ec06526beec3" mediaType="application/json" postQueryString="false">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:request>{
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cruisecritic/validateBatchBookings</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="57037fc4-e83a-4cf3-8623-ed07c7d3dfe6" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="7befa535-ee69-4d1f-bacf-42ce029fabd4" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="69ab931b-1f33-48c3-8425-370213f6cd87" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>"Booking(s) not found."</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validateCruiseBooking-blank brand" id="6f39d0e8-753f-441b-b7e8-6ad107690108">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/cruisecritic/validateBatchBookings" methodName="validateBatchBookings" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validateCruiseBooking-blank brand" id="0b02ef39-ef4c-464e-a468-ec06526beec3" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request>{
    "header" : {
      "application": "${#TestCase#application}",
 	"brand": "",
@@ -290,13 +392,48 @@ if (celebrityShips.contains(shipCode)) {
       ]
    }
 }</con:request>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cruisecritic/validateBatchBookings</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="57037fc4-e83a-4cf3-8623-ed07c7d3dfe6" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="7befa535-ee69-4d1f-bacf-42ce029fabd4" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Failure"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="f1493f77-49a7-4fea-9d21-55f83bd572c6" name="Match content of [code]"><con:configuration><path>$['header']['error'][0]['code']</path><content>"ESL_NotBlankConditional"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" id="2a6f4104-ebbc-4527-ae1c-84dec13a7333" name="Contains"><con:configuration><token>Value is required for brandCode</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters/>
-    </con:restRequest></con:config></con:testStep><con:properties>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/cruisecritic/validateBatchBookings</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="57037fc4-e83a-4cf3-8623-ed07c7d3dfe6" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="7befa535-ee69-4d1f-bacf-42ce029fabd4" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="f1493f77-49a7-4fea-9d21-55f83bd572c6" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"ESL_NotBlankConditional"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="2a6f4104-ebbc-4527-ae1c-84dec13a7333" name="Contains">
+          <con:configuration>
+            <token>Value is required for brandCode</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
     <con:property>
       <con:name>application</con:name>
       <con:value>celebritycruises.com</con:value>
@@ -315,15 +452,15 @@ if (celebrityShips.contains(shipCode)) {
     </con:property>
     <con:property>
       <con:name>packageCode</con:name>
-      <con:value>INCRTSIP</con:value>
+      <con:value>EC16R028</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
-      <con:value>IN</con:value>
+      <con:value>EC</con:value>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2023-06-21</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>brand</con:name>

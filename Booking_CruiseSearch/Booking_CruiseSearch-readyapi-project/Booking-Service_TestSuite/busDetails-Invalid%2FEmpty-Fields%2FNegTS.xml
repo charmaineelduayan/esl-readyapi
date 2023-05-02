@@ -9,7 +9,7 @@
       <con:properties>
         <con:property>
           <con:name>bookingId</con:name>
-          <con:value xsi:nil="true"/>
+          <con:value>1592685</con:value>
         </con:property>
         <con:property>
           <con:name>Booking_Status</con:name>
@@ -29,11 +29,11 @@
         </con:property>
         <con:property>
           <con:name>packageID</con:name>
-          <con:value>IN11M267</con:value>
+          <con:value>SL17T034</con:value>
         </con:property>
         <con:property>
           <con:name>sailDate</con:name>
-          <con:value>2024-02-12</con:value>
+          <con:value>2023-10-01</con:value>
         </con:property>
         <con:property>
           <con:name>promotionID</con:name>
@@ -191,7 +191,7 @@ def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Package Code
-def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[2].packageReference.@code.text()
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
 log.info(packageCode)
 testRunner.testCase.setPropertyValue("packageCode",packageCode);
 
@@ -202,7 +202,7 @@ log.info(shipCode)
 testRunner.testCase.setPropertyValue("shipCode",shipCode);
 
 //Set Test Case Sail Date
-def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[2].cabinClassPriceBySailing[2].sailingRef.@saildate.text()
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
 log.info(sailDate)
 testRunner.testCase.setPropertyValue("sailDate",sailDate);
 
@@ -888,7 +888,7 @@ assert token!=null</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveTransportOptions?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_us&countryCode=USA&sailDate=2024-02-12&shipCode=IN&guestCount=2&childCount=0&guestAge=25&fareCode=I1840869&currencyCode=USD&transportOptionCode=BOTH]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveTransportOptions?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_us&countryCode=USA&sailDate=2023-10-01&shipCode=SL&guestCount=2&childCount=0&guestAge=25&fareCode=I1895942&currencyCode=USD&transportOptionCode=BOTH]]></con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveTransportOptions</con:originalUri>
         <con:assertion type="Simple Contains" id="76a0697e-3bb7-489f-8cfe-7909af1e9f0f" name="Contains">
           <con:configuration>
@@ -1100,7 +1100,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
         <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
-        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveTransportOptions?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_us&countryCode=USA&sailDate=2024-02-12&shipCode=IN&guestCount=2&childCount=0&guestAge=25&fareCode=I1840869&currencyCode=USD&transportOptionCode=BOTH]]></con:request>
+        <con:request><![CDATA[https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveTransportOptions?header.application=celebritycruises.com&header.brand=C&header.domainId=1&header.language=en_us&countryCode=USA&sailDate=2023-10-01&shipCode=SL&guestCount=2&childCount=0&guestAge=25&fareCode=I1895942&currencyCode=USD&bookingID=1592685&transportOptionCode=BOTH]]></con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveTransportOptions</con:originalUri>
         <con:assertion type="Simple Contains" id="76a0697e-3bb7-489f-8cfe-7909af1e9f0f" name="Contains">
           <con:configuration>
@@ -2707,15 +2707,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>packageCode</con:name>
-      <con:value>INCRTSIP</con:value>
+      <con:value>SL17T034</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
-      <con:value>IN</con:value>
+      <con:value>SL</con:value>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2023-06-21</con:value>
+      <con:value>2023-10-01</con:value>
     </con:property>
     <con:property>
       <con:name>brand</con:name>
@@ -2723,15 +2723,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>CategoryCode</con:name>
-      <con:value>SV</con:value>
+      <con:value>C2</con:value>
     </con:property>
     <con:property>
       <con:name>FareCode</con:name>
-      <con:value>I1840869</con:value>
+      <con:value>I1895942</con:value>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value/>
+      <con:value>1120</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -2747,11 +2747,11 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingId</con:name>
-      <con:value/>
+      <con:value>1592685</con:value>
     </con:property>
     <con:property>
       <con:name>balanceDue</con:name>
-      <con:value/>
+      <con:value>13218.16</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
