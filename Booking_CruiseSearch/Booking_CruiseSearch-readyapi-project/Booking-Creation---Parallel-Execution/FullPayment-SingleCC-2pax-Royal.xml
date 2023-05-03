@@ -911,6 +911,94 @@ log.info(bookingAccessToken)
 testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
     </con:config>
   </con:testStep>
+  <con:testStep type="restrequest" name="releaseBooking" id="eaeba5ff-7b3b-4a24-a2ff-99d46533eb11">
+    <con:settings/>
+    <con:config service="Booking" resourcePath="/rest/v3/releaseBooking" methodName="releaseBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="releaseBooking" id="e0135d9d-6b24-4332-996d-3f8c56b32255" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/releaseBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="fb3ac095-a858-49ce-a624-b02073e3c787" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="bookingAccessToken" value="${#TestCase#bookingAccessToken}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="sendBookingEmail" id="b4108d84-446f-49d8-8170-cae001c6a4df">
+    <con:settings/>
+    <con:config service="Management" resourcePath="/rest/v2.0/sendBookingEmail" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="sendBookingEmail" id="b4dcc823-fec9-4604-ba2a-0d29b363de68" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers"><![CDATA[<xml-fragment><con:entry key="Refresh-Cache" value="false" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="Content-Type" value="application/json" xmlns:con="http://eviware.com/soapui/config"/></xml-fragment>]]></con:setting>
+        </con:settings>
+        <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"language": "en_US",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1"
+	},
+	"bookingId": "${#TestCase#bookingId}",
+	"emailType": "FULL_PAY",
+	"altRecipient": {
+		"firstName": "ESLQA",
+		"lastName": "${#TestCase#lastname}",
+		"email": "charmainejaneelduayan@rcclapac.com"
+	},
+	"countryCode": "${#TestCase#country}",
+	"agencyId": null
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/management/tst2/rest/v2.0/sendBookingEmail</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="a3c9d640-282c-4c19-abd4-010ccbcfa98f" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="e46e2ce5-b46d-4c3e-920f-6d400980152e" name="Contains">
+          <con:configuration>
+            <token>Success</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="cancelBooking" id="0a8411eb-8bb3-4384-8e62-3f407706c963">
     <con:settings/>
     <con:config service="Booking" resourcePath="/rest/v3/cancelBooking" methodName="cancelBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -985,7 +1073,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>4023</con:value>
+      <con:value>4035</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
