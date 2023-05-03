@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="sendBookingEmail" path="/rest/v2.0/sendBookingEmail" id="3700fdd4-ddc8-420c-a6be-0194e7f1289c" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="3700fdd4-ddc8-420c-a6be-0194e7f1289cfileName">sendBookingEmail</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="Method 1" id="71d1bb6e-42a6-487d-a38c-920b3f325dad" method="POST">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="Request 1" id="b4dcc823-fec9-4604-ba2a-0d29b363de68" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers"><![CDATA[<xml-fragment><con:entry key="Refresh-Cache" value="false" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="Content-Type" value="application/json" xmlns:con="http://eviware.com/soapui/config"/></xml-fragment>]]></con:setting>
+      </con:settings>
+      <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"language": "en_US",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1"
+	},
+	"bookingId": "${#TestCase#bookingId}",
+	"emailType": "FULL_PAY_GUEST",
+	"altRecipient": {
+		"firstName": "${#TestCase#firstname}",
+		"lastName": "${#TestCase#lastname}",
+		"email": "charmainejaneelduayan@rcclapac.com"
+	},
+	"countryCode": "${#TestCase#country}",
+	"agencyId": null
+}</con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/management/tst2/rest/v2.0/sendBookingEmail</con:originalUri>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+  </con:method>
+</con:resource>
