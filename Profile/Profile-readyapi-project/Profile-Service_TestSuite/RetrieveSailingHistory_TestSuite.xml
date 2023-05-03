@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="a624b64a-fea2-41eb-9d83-0b4fa6478f48" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="RetrieveSailingHistory_TestSuite" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="a624b64a-fea2-41eb-9d83-0b4fa6478f48fileName">RetrieveSailingHistory_TestSuite</con:setting></con:settings><con:testStep type="restrequest" name="cruiseSearch" id="7531f9f6-f55c-4012-b4db-a7d8d98daafc">
+<con:testCase id="a624b64a-fea2-41eb-9d83-0b4fa6478f48" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="RetrieveSailingHistory_TestSuite" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="a624b64a-fea2-41eb-9d83-0b4fa6478f48fileName">RetrieveSailingHistory_TestSuite</con:setting>
+  </con:settings>
+  <con:testStep type="restrequest" name="cruiseSearch" id="7531f9f6-f55c-4012-b4db-a7d8d98daafc">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
@@ -103,9 +107,11 @@ assert totalHits!=0</scriptText>
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep><con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="3187d1ee-9db5-47a1-b8f1-b728314a44fe">
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="3187d1ee-9db5-47a1-b8f1-b728314a44fe">
     <con:settings/>
-    <con:config><script>import java.io.*;
+    <con:config>
+      <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
@@ -132,10 +138,13 @@ testRunner.testCase.setPropertyValue("currency",currency);
 
 String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
 log.info(language)
-testRunner.testCase.setPropertyValue("language",language);</script></con:config>
-  </con:testStep><con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="9cf93227-c983-406d-83ea-9cacd7d25bf3">
+testRunner.testCase.setPropertyValue("language",language);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="9cf93227-c983-406d-83ea-9cacd7d25bf3">
     <con:settings/>
-    <con:config><script>import java.io.*;
+    <con:config>
+      <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
@@ -172,15 +181,35 @@ if (celebrityShips.contains(shipCode)) {
 	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
 	} else {
 		testRunner.testCase.setPropertyValue("brand",royalBrand);
-		}</script></con:config>
-  </con:testStep><con:testStep type="restrequest" name="retrieveSailingHistory - validate return LoyaltyActualCruises" id="46496d3a-914f-470b-b986-3e87dc4e9afd"><con:settings/><con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="retrieveSailingHistory - validate return LoyaltyActualCruises" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:endpoint xsi:nil="true"/>
-      <con:request/>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
-      <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="1fbbd725-4261-4697-bbf0-30cafba95a85" name="Contains - Success"><con:configuration><token>Success</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" name="validate loyaltyActualCruises" id="e2ab1006-20b9-49d8-8bbe-60ca3078e579"><con:configuration><scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveSailingHistory - validate return LoyaltyActualCruises" id="46496d3a-914f-470b-b986-3e87dc4e9afd">
+    <con:settings/>
+    <con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveSailingHistory - validate return LoyaltyActualCruises" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="1fbbd725-4261-4697-bbf0-30cafba95a85" name="Contains - Success">
+          <con:configuration>
+            <token>Success</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="validate loyaltyActualCruises" id="e2ab1006-20b9-49d8-8bbe-60ca3078e579">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
 
 
 def jsonSlurper = new groovy.json.JsonSlurper()
@@ -188,7 +217,12 @@ def parse = jsonSlurper.parseText(jsonRes)
 
 def loyaltyActualCruises = parse.loyalActualCruises.toInteger()
 log.info loyaltyActualCruises
-assert loyaltyActualCruises !=null</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="6b05a472-ac7c-4ea5-8667-de8a2da44823" name="retrieveSailingHistory - validate response"><con:configuration><scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+assert loyaltyActualCruises !=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="6b05a472-ac7c-4ea5-8667-de8a2da44823" name="retrieveSailingHistory - validate response">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
 def jsonSlurper = new groovy.json.JsonSlurper();
 def parse = jsonSlurper.parseText(jsonRes)
 log.info parse
@@ -226,47 +260,61 @@ for ( s=0; s&lt;=countSailings-1;s++){
 
 		def transactionNumber= parse.sailings[s].transactionNumber
 		log.info("Transaction Number: " +transactionNumber)
-}
-	</scriptText></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters><con:entry key="header.language" value="en_US"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="header.domainId" value="6"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="loyaltyNumber" value="122525382"/></con:parameters>
-      <con:parameterOrder>
-        <con:entry>header.application</con:entry>
-        <con:entry>loyaltyNumber</con:entry>
-        <con:entry>header.brand</con:entry>
-        <con:entry>header.domainId</con:entry>
-        <con:entry>header.language</con:entry>
-      </con:parameterOrder>
-      <con:environmentSpec>
-        <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-      </con:environmentSpec>
-    </con:restRequest></con:config></con:testStep><con:testStep type="groovy" name="Fetch_loyaltyNumber" id="2af44e9a-6633-4bd7-91ff-2c91ce1c6a99"><con:settings/><con:config><script>import java.io.*;
+}</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="6"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="loyaltyNumber" value="122525382"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>loyaltyNumber</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_loyaltyNumber" id="2af44e9a-6633-4bd7-91ff-2c91ce1c6a99">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
@@ -283,150 +331,303 @@ log.info(url)
 
 String loyaltyNumber = StringUtils.substringBetween(url, "loyaltyNumber=", "&amp;");
 log.info("Loyalty Number: " +loyaltyNumber)
-testRunner.testCase.setPropertyValue("loyaltyNumber",loyaltyNumber);
-
-
-
-
-
-
-
-</script></con:config></con:testStep><con:testStep type="restrequest" name="retrieveSailingHistory - invalid brand" id="c074ffff-ddcb-477d-870f-34cd324ca21a"><con:settings/><con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="retrieveSailingHistory - invalid brand" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:endpoint xsi:nil="true"/>
-      <con:request/>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
-      <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="1fbbd725-4261-4697-bbf0-30cafba95a85" name="Contains"><con:configuration><token>Failure</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="33416f0d-8d3f-4db7-be49-f617c7ff9576" name="Match content of [code]"><con:configuration><path>$['header']['error'][0]['code']</path><content>"CATL-005"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="ae7c3ee9-9e40-4232-b2b7-1201b6829ca0" name="Match content of [description]"><con:configuration><path>$['header']['error'][0]['description']</path><content>"Invalid brand. : rejectedValue=ZZ"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters><con:entry key="header.language" value="en_US"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="header.domainId" value="6"/><con:entry key="header.brand" value="ZZ"/><con:entry key="loyaltyNumber" value="122525382"/></con:parameters>
-      <con:parameterOrder>
-        <con:entry>header.application</con:entry>
-        <con:entry>loyaltyNumber</con:entry>
-        <con:entry>header.brand</con:entry>
-        <con:entry>header.domainId</con:entry>
-        <con:entry>header.language</con:entry>
-      </con:parameterOrder>
-      <con:environmentSpec>
-        <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-      </con:environmentSpec>
-    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="retrieveSailingHistory - no brand" id="a498a50a-7259-42b3-b8de-e7c6fcb183a8"><con:settings/><con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="retrieveSailingHistory - no brand" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:endpoint xsi:nil="true"/>
-      <con:request/>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
-      <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="078b2cd6-fae0-4539-9c63-ad7ce537a7d4" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Failure"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="79e76f66-5966-4fc1-9323-551fbc5e4ecf" name="Match content of [code]"><con:configuration><path>$['header']['error'][0]['code']</path><content>"ESL_NotBlankConditional"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" id="4832817d-9fd0-4a55-9039-9064a0e95b77" name="Contains - required for brandCode"><con:configuration><token>Value is required for brandCode</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters><con:entry key="header.language" value="en_US"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="header.domainId" value="6"/><con:entry key="loyaltyNumber" value="123456789"/></con:parameters>
-      <con:parameterOrder>
-        <con:entry>header.application</con:entry>
-        <con:entry>loyaltyNumber</con:entry>
-        <con:entry>header.brand</con:entry>
-        <con:entry>header.domainId</con:entry>
-        <con:entry>header.language</con:entry>
-      </con:parameterOrder>
-      <con:environmentSpec>
-        <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-      </con:environmentSpec>
-    </con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="retrieveSailingHistory - invalid loyaltyNumber" id="a20a1daa-263c-4aff-8d6e-5281d729f703"><con:settings/><con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="retrieveSailingHistory - invalid loyaltyNumber" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
-      <con:settings>
-        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-      </con:settings>
-      <con:endpoint xsi:nil="true"/>
-      <con:request/>
-      <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
-      <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="078b2cd6-fae0-4539-9c63-ad7ce537a7d4" name="Match content of [status]"><con:configuration><path>$['header']['status']</path><content>"Failure"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Simple Contains" id="0a252679-2ffa-45ba-af1b-128a276da4bf" name="Contains - MEMBER RECORD NOT FOUND"><con:configuration><token>MEMBER RECORD NOT FOUND</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials>
-        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-        <con:authType>No Authorization</con:authType>
-      </con:credentials>
-      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-      <con:parameters><con:entry key="header.language" value="en_US"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="header.domainId" value="6"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="loyaltyNumber" value="123456789"/></con:parameters>
-      <con:parameterOrder>
-        <con:entry>header.application</con:entry>
-        <con:entry>loyaltyNumber</con:entry>
-        <con:entry>header.brand</con:entry>
-        <con:entry>header.domainId</con:entry>
-        <con:entry>header.language</con:entry>
-      </con:parameterOrder>
-      <con:environmentSpec>
-        <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-        <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
-          <con:authProfile>Inherit From Parent</con:authProfile>
-        </con:entry>
-      </con:environmentSpec>
-    </con:restRequest></con:config></con:testStep><con:properties><con:property><con:name>application</con:name><con:value>royalcaribbean.com</con:value></con:property><con:property><con:name>country</con:name><con:value>USA</con:value></con:property><con:property><con:name>currency</con:name><con:value>USD</con:value></con:property><con:property><con:name>language</con:name><con:value>en_us</con:value></con:property><con:property><con:name>packageCode</con:name><con:value>RD07A337</con:value></con:property><con:property><con:name>shipCode</con:name><con:value>RD</con:value></con:property><con:property><con:name>sailDate</con:name><con:value>2024-05-10</con:value></con:property><con:property><con:name>brand</con:name><con:value>R</con:value></con:property><con:property><con:name>loyaltyNumber</con:name><con:value>122525382</con:value></con:property></con:properties><con:reportParameters/></con:testCase>
+testRunner.testCase.setPropertyValue("loyaltyNumber",loyaltyNumber);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveSailingHistory - invalid brand" id="c074ffff-ddcb-477d-870f-34cd324ca21a">
+    <con:settings/>
+    <con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveSailingHistory - invalid brand" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="1fbbd725-4261-4697-bbf0-30cafba95a85" name="Contains">
+          <con:configuration>
+            <token>Failure</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="33416f0d-8d3f-4db7-be49-f617c7ff9576" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"CATL-005"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="ae7c3ee9-9e40-4232-b2b7-1201b6829ca0" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>"Invalid brand. : rejectedValue=ZZ"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="6"/>
+          <con:entry key="header.brand" value="ZZ"/>
+          <con:entry key="loyaltyNumber" value="122525382"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>loyaltyNumber</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveSailingHistory - no brand" id="a498a50a-7259-42b3-b8de-e7c6fcb183a8">
+    <con:settings/>
+    <con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveSailingHistory - no brand" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="078b2cd6-fae0-4539-9c63-ad7ce537a7d4" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="79e76f66-5966-4fc1-9323-551fbc5e4ecf" name="Match content of [code]">
+          <con:configuration>
+            <path>$['header']['error'][0]['code']</path>
+            <content>"ESL_NotBlankConditional"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="4832817d-9fd0-4a55-9039-9064a0e95b77" name="Contains - required for brandCode">
+          <con:configuration>
+            <token>Value is required for brandCode</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="6"/>
+          <con:entry key="loyaltyNumber" value="123456789"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>loyaltyNumber</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveSailingHistory - invalid loyaltyNumber" id="a20a1daa-263c-4aff-8d6e-5281d729f703">
+    <con:settings/>
+    <con:config service="Profile" resourcePath="/rest/v3/sailingHistory" methodName="SailingHistory" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveSailingHistory - invalid loyaltyNumber" id="f30534d6-70cf-4d5c-a584-379730f52b31" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/profile/tst1/rest/v3/sailingHistory/esl/profile/tst1/rest/v3/sailingHistory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="d7874f63-cf3a-48b1-93a0-f45f4f1a4070" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="078b2cd6-fae0-4539-9c63-ad7ce537a7d4" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>"Failure"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="0a252679-2ffa-45ba-af1b-128a276da4bf" name="Contains - MEMBER RECORD NOT FOUND">
+          <con:configuration>
+            <token>MEMBER RECORD NOT FOUND</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="6"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="loyaltyNumber" value="123456789"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>loyaltyNumber</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="6c9fa1b7-8f4f-4d45-b555-8e3e7ade2a2d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="039e6392-d84b-455d-a3f3-41c627f2e28b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5585138a-0ee5-4dbf-bcf5-1d9b23c0b165">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbce9ba7-ab12-4d75-b07b-93f6cd74a68b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="92f9414f-b97d-4de4-b3f6-65c45370d025">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9404251c-aa95-4211-92b0-acf26221ea4b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b19aad4b-d810-4db2-b513-2c2817380f9a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b5472774-b14d-4f96-8d78-25c02e32cec1">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>OV18T038</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>OV</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2023-10-15</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>R</con:value>
+    </con:property>
+    <con:property>
+      <con:name>loyaltyNumber</con:name>
+      <con:value>122525382</con:value>
+    </con:property>
+  </con:properties>
+  <con:reportParameters/>
+</con:testCase>
