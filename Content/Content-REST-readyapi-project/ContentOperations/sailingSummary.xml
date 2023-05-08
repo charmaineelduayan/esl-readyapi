@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="sailingSummary" path="/sailingSummary" id="6b26659d-f072-4e72-a0c6-9bda9298c744" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="6b26659d-f072-4e72-a0c6-9bda9298c744fileName">sailingSummary</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="sailingSummary" id="dd256d44-6e86-4333-93e9-d3143228e65a" method="GET">
+    <con:settings/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.domainId</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.language</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>packageId</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>startDate</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>endDate</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>includeAllSailingsFlag</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>includeDryDockSailingsFlag</con:name>
+        <con:style>QUERY</con:style>
+      </con:parameter>
+    </con:parameters>
+    <con:representation type="FAULT">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>401</con:status>
+      <con:params/>
+      <con:element xmlns:sail="https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/sailingSummary">sail:Fault</con:element>
+    </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element xmlns:sail="https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/sailingSummary">sail:Response</con:element>
+    </con:representation>
+    <con:request name="sailingSummary" id="00da5371-61c9-4bac-866a-206cd48c3701" mediaType="application/json">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request/>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters>
+        <con:entry key="header.language" value="${#TestCase#language}"/>
+        <con:entry key="header.application" value="${#TestCase#application}"/>
+        <con:entry key="includeDryDockSailingsFlag" value=" true"/>
+        <con:entry key="endDate" value="2024-05-31"/>
+        <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+        <con:entry key="header.domainId" value="1"/>
+        <con:entry key="includeAllSailingsFlag" value="true"/>
+        <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        <con:entry key="startDate" value="2023-08-08"/>
+      </con:parameters>
+      <con:parameterOrder>
+        <con:entry>header.application</con:entry>
+        <con:entry>header.brand</con:entry>
+        <con:entry>header.domainId</con:entry>
+        <con:entry>header.language</con:entry>
+        <con:entry>packageId</con:entry>
+        <con:entry>startDate</con:entry>
+        <con:entry>endDate</con:entry>
+        <con:entry>includeAllSailingsFlag</con:entry>
+        <con:entry>includeDryDockSailingsFlag</con:entry>
+      </con:parameterOrder>
+    </con:request>
+  </con:method>
+</con:resource>
