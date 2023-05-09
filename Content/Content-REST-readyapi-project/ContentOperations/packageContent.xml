@@ -37,9 +37,72 @@
       <con:description xsi:nil="true"/>
     </con:parameter>
   </con:parameters>
-  <con:method name="GET" id="1ccc60e2-cfe4-4a0b-a528-e60c1bd00d5b" method="GET">
+  <con:resource name="packageContent" path="rest/v3/packageContent" id="3c9fc179-b621-46df-abc9-8e64d76e679d">
+    <con:settings>
+      <con:setting id="3c9fc179-b621-46df-abc9-8e64d76e679dfileName">webPageContent</con:setting>
+    </con:settings>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>header.application</con:name>
+        <con:value>celebritycruises.com</con:value>
+        <con:style>QUERY</con:style>
+        <con:default>celebritycruises.com</con:default>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.brand</con:name>
+        <con:value>C</con:value>
+        <con:style>QUERY</con:style>
+        <con:default>C</con:default>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>header.language</con:name>
+        <con:value>en_US</con:value>
+        <con:style>QUERY</con:style>
+        <con:default>en_US</con:default>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>packageId</con:name>
+        <con:value>EC18T034</con:value>
+        <con:style>QUERY</con:style>
+        <con:default>EC18T034</con:default>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>effectiveDate</con:name>
+        <con:value>04/01/2023</con:value>
+        <con:style>QUERY</con:style>
+        <con:default>04/01/2023</con:default>
+      </con:parameter>
+      <con:parameter required="true">
+        <con:name>packageContent.destinationCode</con:name>
+        <con:value>ALCAN</con:value>
+        <con:style>QUERY</con:style>
+        <con:default>ALCAN</con:default>
+      </con:parameter>
+    </con:parameters>
+    <con:method name="packageContent_REQ2" id="414b2283-3fe6-424d-835d-b33f5c784432" method="GET">
+      <con:settings/>
+      <con:parameters/>
+      <con:request name="Request 1" id="aa101d40-bb3b-49ff-a526-0cfadbf9ab4e" mediaType="application/json">
+        <con:settings/>
+        <con:request/>
+        <con:credentials>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:request>
+    </con:method>
+  </con:resource>
+  <con:method name="packageContent" id="1ccc60e2-cfe4-4a0b-a528-e60c1bd00d5b" method="GET">
     <con:settings/>
-    <con:parameters/>
+    <con:parameters>
+      <con:parameter required="true">
+        <con:name>effectiveDate</con:name>
+        <con:value/>
+        <con:style>QUERY</con:style>
+        <con:default/>
+      </con:parameter>
+    </con:parameters>
     <con:representation type="FAULT">
       <con:mediaType>application/json</con:mediaType>
       <con:status>401</con:status>
@@ -54,7 +117,7 @@
     </con:representation>
     <con:representation type="RESPONSE">
       <con:mediaType xsi:nil="true"/>
-      <con:status>0</con:status>
+      <con:status>0 200</con:status>
       <con:params/>
       <con:element>data</con:element>
     </con:representation>
@@ -70,7 +133,13 @@
       <con:params/>
       <con:element>html</con:element>
     </con:representation>
-    <con:request name="GET Request" id="840d5e6d-6a90-41ce-af44-e67cd429600d" mediaType="application/json">
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element xmlns:pac="https://tst1-int.api.rccl.com/esl/content/tst2/rest/v3/packageContent">pac:Response</con:element>
+    </con:representation>
+    <con:request name="packageContent_REQ1" id="840d5e6d-6a90-41ce-af44-e67cd429600d" mediaType="application/json">
       <con:settings>
         <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
       </con:settings>
@@ -85,6 +154,7 @@
         <con:entry key="header.application" value="${#TestCase#application}"/>
         <con:entry key="header.brand" value="${#TestCase#brand}"/>
         <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+        <con:entry key="effectiveDate" value=""/>
       </con:parameters>
       <con:parameterOrder>
         <con:entry>header.application</con:entry>
@@ -92,6 +162,7 @@
         <con:entry>header.language</con:entry>
         <con:entry>packageId</con:entry>
         <con:entry>sailDate</con:entry>
+        <con:entry>effectiveDate</con:entry>
       </con:parameterOrder>
       <con:environmentSpec>
         <con:entry environmentId="e7f50ce2-dd90-4e64-9a15-63478880e468">
