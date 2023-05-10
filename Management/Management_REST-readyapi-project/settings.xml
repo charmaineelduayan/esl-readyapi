@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="eb94d5f5-5b00-437a-a05d-18aca01cd2d3" created="2.5.0" activeEnvironment="Apigee-503" name="Management_REST" resourceRoot="${projectDir}" updated="3.44.1" encryptionMode="Not encrypted" abortOnError="false" runType="SEQUENTIAL" soapui-version="5.3.0" projectVersion="" compositeProjectFormat="1.3" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:requirements/>
+  <con:properties>
+    <con:property>
+      <con:name>AppKey</con:name>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+    </con:property>
+  </con:properties>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
+    <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
+// This code is often used for adding custom authentication to SoapUI Pro tests
+
+// If hardcoding the token, uncomment and change line 5
+// def token = '4567'
+
+// If your token is parameterized in Project level custom property, uncomment line 8
+// def token = request.parent.testCase.testSuite.project.getProperty('auth_token').getValue()
+
+// To modify all outgoing calls, remove comments from lines 11 to 16
+// def headers = request.requestHeaders
+// if (headers.containsKey('auth_token2') == false) {
+//   headers.put('auth_token2', token)
+//   request.requestHeaders = headers
+// }</con:script>
+  </con:eventHandlers>
+  <con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep">
+    <con:script>// Save all test step results into files
+// Change the directory path in line 5 to a location where you want to store details
+// then uncomment lines 5 to 10
+
+// filePath = 'C:\\tempOutputDirectory\\'
+// fos = new FileOutputStream(filePath + testStepResult.testStep.label + '.txt', true)
+// pw = new PrintWriter(fos)
+// testStepResult.writeTo(pw)
+// pw.close()
+// fos.close()</con:script>
+  </con:eventHandlers>
+  <con:environment id="fbd62e07-acd5-4223-b733-231498788704" name="Dev2-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-dev2}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>qByaWnKZmWr7hInQ9uDZAxzEBjk6Odg1</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="c398861d-9f5b-43c1-9553-044cf8f363fa" name="Dev2-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-dev2}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="8461f8ff-c36d-4b26-a014-f5625cf575b9" name="Tst1-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-tst1}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="cf201253-1077-43fa-8164-ac881f3208f0" name="Tst1-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-tst1}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="6687d45b-7263-4d23-a0bb-b97464e908a9" name="Tst2-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-tst2}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="d9c24bc8-c098-4875-860a-ff004ab08064" name="Tst2-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-tst2}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="5593c43a-c642-4f9f-90b0-6b83353cb426" name="Tst3-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-tst3}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="d93250b3-100c-4ca7-b8d3-37e5b4c26fa4" name="Tst3-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-dev2}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="e9429f78-8e3a-4e8f-978d-e52807b88768" name="Stg1-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-stg1}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>CNZgDPOLqitHQqgkwhlhFKglSfZOSFrc</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value>WINSQLDDB01</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value>14729</con:value>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value>b2c_user</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value>b2c_user</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value>AS400_Mirror</con:value>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value>jdbc:sqlserver:</con:value>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="18d9163f-6691-44cc-bdc9-6b80ae22d4b6" name="Stg1-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-stg1}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="42663490-0032-4651-bf93-9052b75371d7" name="Stg2-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-stg2}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>CNZgDPOLqitHQqgkwhlhFKglSfZOSFrc</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="8965ba5b-f50d-416c-b313-216ed7ea4cc1" name="Stg2-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-stg2}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="1337ec74-44fc-456b-87e5-214d9668007a" name="Stg3-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-stg3}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>CNZgDPOLqitHQqgkwhlhFKglSfZOSFrc</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="261b61c0-cee5-468f-8a5c-b56a0e7595e7" name="Stg3-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-stg3}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="17f62849-0dac-49e8-aecb-0252e95ea507" name="Prd-Apigee">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-apigee-prd}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>IxXPQQ9zMH1sqEouOnoaCCPwDRPATiKo</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="ba9de875-e2bc-4e35-b040-299b4e475908" name="Cul-Stg1-esl-1.0">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://cul.stg1.api.internal.services.rccl.com/esl/management/rest/v2.0/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="e19a0289-5829-47e1-9d79-1c1871d56178" name="Cul-Prd-esl-1.0">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://cul.api.internal.services.rccl.com/esl/management/rest/v2.0/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="c56e66ba-4dc7-46fb-a801-42cd4be00bdc" name="Legacy-esl-1.0">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://api.internal.services.rccl.com/esl/management/rest/v2.0/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="0a88421e-a9a1-49d8-b85c-10cf3c26af6a" name="jvm-14000">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://10.18.42.105:14000/esl/management/rest/v2/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="1481b482-fc2c-4d63-a8b9-4e865f7b133d" name="cell b - 10.18.42.60:9101">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://10.18.42.60:9101/esl/management/rest/v2.0/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="f738de36-0406-496e-8c25-4674943e9540" name="eslb.stg2">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://eslb.stg2.internal.services.rccl.com/esl/management/rest/v2.0/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>DGLT2sNdYvjiAK97STgzDVyKcPjRBqJG</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="30493475-55f2-468b-affc-20813bdf1a94" name="tst01-14000">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="No Authorization" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">http://eslbservicestst01.rccl.com:14000/esl/management/rest/v2.0/</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="968cb7a3-c567-4927-97e4-3a26fd4c62d8" name="Prd1a-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-prd1a}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>IxXPQQ9zMH1sqEouOnoaCCPwDRPATiKo</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29" name="Prd1b-Mesos">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">${#Global#management-endpoint-mesos-prd1b}</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>IxXPQQ9zMH1sqEouOnoaCCPwDRPATiKo</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:environment id="28c31bf2-0f02-4370-b988-1d25a5dda4dd" name="Apigee-503">
+    <con:service type="REST" name="ManagementOperations">
+      <con:endpoint authProfile="Inherit From Parent" username="" password="" domain="" incomingWss="" outgoingWss="" wssTimeToLive="" wssType="" proxyHost="" proxyPort="" proxyUsername="" proxyPassword="">https://tst1-int.api.rccl.com/esl/management/tst9/rest/v2.0</con:endpoint>
+    </con:service>
+    <con:property>
+      <con:name>AppKey</con:name>
+      <con:value>bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG</con:value>
+    </con:property>
+    <con:property>
+      <con:name>Driver</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Host</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Port</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>User</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Password</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>Database</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>jdbc:sqlserver</con:name>
+      <con:value/>
+    </con:property>
+    <con:databaseConnectionContainer/>
+    <con:jmsConnectionContainer/>
+  </con:environment>
+  <con:authRepository/>
+  <con:environmentSpec>
+    <con:entry environmentId="e0214587-14d2-4948-93d6-50ffda020abe">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="f0c84e04-8c43-4b65-8b3a-c89a32ce3bad">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="5b7f0edb-3bc7-4a0f-87b1-cc19488216dc">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="8a59a589-59b4-4db1-a706-cc881b352949">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="06eafee3-dfa3-4b09-9505-b6dae77c2787">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="0ed36b85-a157-4a16-aaa1-cf6a711f1058">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+      <con:authProfile>No Authorization</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+  <con:tags/>
+</con:soapui-project>
