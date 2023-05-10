@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="427b97e4-45c9-439e-8e6a-c21bc5515ce3" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="jobRoleLocation" searchProperties="true" timeout="0" maxResults="0" disabled="true" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="427b97e4-45c9-439e-8e6a-c21bc5515ce3fileName">jobRoleLocation</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="datasource" name="ManagementDS" id="0c2980d9-e902-48a0-b87a-0f6fd0be7422">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>Management_Rest_Input.xlsx</file>
+          <worksheet>CreateJobRoleLocation</worksheet>
+          <cell>A1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>S.No</con:property>
+      <con:property>ServiceName</con:property>
+      <con:property>Operation Name</con:property>
+      <con:property>ExecutionFlag</con:property>
+      <con:property>TestCaseName</con:property>
+      <con:property>TestCaseDescription</con:property>
+      <con:property>application</con:property>
+      <con:property>brand</con:property>
+      <con:property>domainId</con:property>
+      <con:property>uuid</con:property>
+      <con:property>language</con:property>
+      <con:property>jobRoleId</con:property>
+      <con:property>displayLocationId</con:property>
+      <con:startRow>1</con:startRow>
+      <con:endRow>2</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="CreateJobRoleLocation" id="c5d3cb98-c4d5-4d02-90b5-d6336785c5b2">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/createJobRoleLocation" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="CreateJobRoleLocation" id="4d23ac5a-97e0-4051-813a-7c9e0af17002" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14060</con:endpoint>
+        <con:request>{\r
+   "header" : {\r
+      "application" : "${ManagementDS#application}",\r
+      "brand" : "${ManagementDS#brand}",\r
+      "domainId" : "${ManagementDS#domainId}",\r
+      "language" : "${ManagementDS#language}",\r
+      "uuid" : "${ManagementDS#uuid}"\r
+   },\r
+   "jobRoleId" : "${ManagementDS#jobRoleId}",\r
+   "displayLocationId" : "${ManagementDS#displayLocationId}"\r
+}</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/createJobRoleLocation</con:originalUri>
+        <con:assertion type="JsonPath Match" id="93a26d84-e426-4453-a570-0af071ec5a7c" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="aec09428-752c-4833-b134-bdd269d12529">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2235bdc0-eb80-421f-ae38-94fc875c57be">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a1b1015-52fc-4017-8a49-05e7a829a81f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="48c52998-5b4d-477a-a3f8-f44e1a555eea">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="54969a3e-c0d6-449d-b584-1a8e4e522dd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbd62e07-acd5-4223-b733-231498788704">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c398861d-9f5b-43c1-9553-044cf8f363fa">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8461f8ff-c36d-4b26-a014-f5625cf575b9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cf201253-1077-43fa-8164-ac881f3208f0">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6687d45b-7263-4d23-a0bb-b97464e908a9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d9c24bc8-c098-4875-860a-ff004ab08064">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5593c43a-c642-4f9f-90b0-6b83353cb426">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d93250b3-100c-4ca7-b8d3-37e5b4c26fa4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5c9e5653-3624-4a93-bb9b-88af44104f1b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5b898f92-9f33-46cd-86a7-535e89fed160">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="52355dbe-f0c0-4ddb-888f-6918caecaf71">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2615c4db-6e3a-4847-8d12-46e02434cc42">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e9429f78-8e3a-4e8f-978d-e52807b88768">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="18d9163f-6691-44cc-bdc9-6b80ae22d4b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="42663490-0032-4651-bf93-9052b75371d7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8965ba5b-f50d-416c-b313-216ed7ea4cc1">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1337ec74-44fc-456b-87e5-214d9668007a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="261b61c0-cee5-468f-8a5c-b56a0e7595e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="17f62849-0dac-49e8-aecb-0252e95ea507">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ba9de875-e2bc-4e35-b040-299b4e475908">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e19a0289-5829-47e1-9d79-1c1871d56178">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c56e66ba-4dc7-46fb-a801-42cd4be00bdc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a88421e-a9a1-49d8-b85c-10cf3c26af6a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveJobRoleLocation" id="b2a5c8f9-764e-47f9-b04d-dbf6f3137f77">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/retrieveJobRoleLocations" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveJobRoleLocation" id="9d92e1e9-fbb6-4de3-b68c-995ce6ee6f92" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14060</con:endpoint>
+        <con:request/>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/</con:originalUri>
+        <con:assertion type="JsonPath Match" id="2ca316d3-5879-459c-a429-a1c33a1773c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${ManagementDS#application}"/>
+          <con:entry key="jobRoleId" value="${ManagementDS#jobRoleId}"/>
+          <con:entry key="header.domainId" value="${ManagementDS#domainId}"/>
+          <con:entry key="header.brand" value="${ManagementDS#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>jobRoleId</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="f907e159-4f0d-4708-bdcf-b78c5982a6cb">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="a80c7255-ad17-4b2e-8850-1b0cf8eb0cab">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="aec09428-752c-4833-b134-bdd269d12529">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2235bdc0-eb80-421f-ae38-94fc875c57be">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a1b1015-52fc-4017-8a49-05e7a829a81f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="48c52998-5b4d-477a-a3f8-f44e1a555eea">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="54969a3e-c0d6-449d-b584-1a8e4e522dd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbd62e07-acd5-4223-b733-231498788704">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c398861d-9f5b-43c1-9553-044cf8f363fa">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8461f8ff-c36d-4b26-a014-f5625cf575b9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cf201253-1077-43fa-8164-ac881f3208f0">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6687d45b-7263-4d23-a0bb-b97464e908a9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d9c24bc8-c098-4875-860a-ff004ab08064">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5593c43a-c642-4f9f-90b0-6b83353cb426">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d93250b3-100c-4ca7-b8d3-37e5b4c26fa4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5c9e5653-3624-4a93-bb9b-88af44104f1b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5b898f92-9f33-46cd-86a7-535e89fed160">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="52355dbe-f0c0-4ddb-888f-6918caecaf71">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2615c4db-6e3a-4847-8d12-46e02434cc42">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e9429f78-8e3a-4e8f-978d-e52807b88768">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="18d9163f-6691-44cc-bdc9-6b80ae22d4b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="42663490-0032-4651-bf93-9052b75371d7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8965ba5b-f50d-416c-b313-216ed7ea4cc1">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1337ec74-44fc-456b-87e5-214d9668007a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="261b61c0-cee5-468f-8a5c-b56a0e7595e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="17f62849-0dac-49e8-aecb-0252e95ea507">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ba9de875-e2bc-4e35-b040-299b4e475908">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e19a0289-5829-47e1-9d79-1c1871d56178">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c56e66ba-4dc7-46fb-a801-42cd4be00bdc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a88421e-a9a1-49d8-b85c-10cf3c26af6a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="DeleteJobRoleLocation" id="951f44e9-a527-440d-a810-7412a530e4d4">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/deleteJobRoleLocation" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="DeleteJobRoleLocation" id="1ae738e1-0ecf-446c-b75a-ca4fd8e9c4a8" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14060</con:endpoint>
+        <con:request>{
+        "header": {
+          "application": "${ManagementDS#application}",
+          "brand": "${ManagementDS#brand}",
+          "domainId": "${ManagementDS#domainId}",
+          "language": "${ManagementDS#language}",
+          "uuid": "${ManagementDS#uuid}"
+        },
+        "jobRoleId": "${ManagementDS#jobRoleId}",
+        "displayLocationId": "${ManagementDS#displayLocationId}"
+      }</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/deleteJobRoleLocation</con:originalUri>
+        <con:assertion type="JsonPath Match" id="7116399a-45ce-41e8-8167-9b82273f318a" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="aec09428-752c-4833-b134-bdd269d12529">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2235bdc0-eb80-421f-ae38-94fc875c57be">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a1b1015-52fc-4017-8a49-05e7a829a81f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="48c52998-5b4d-477a-a3f8-f44e1a555eea">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="54969a3e-c0d6-449d-b584-1a8e4e522dd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbd62e07-acd5-4223-b733-231498788704">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c398861d-9f5b-43c1-9553-044cf8f363fa">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8461f8ff-c36d-4b26-a014-f5625cf575b9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cf201253-1077-43fa-8164-ac881f3208f0">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6687d45b-7263-4d23-a0bb-b97464e908a9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d9c24bc8-c098-4875-860a-ff004ab08064">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5593c43a-c642-4f9f-90b0-6b83353cb426">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d93250b3-100c-4ca7-b8d3-37e5b4c26fa4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5c9e5653-3624-4a93-bb9b-88af44104f1b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5b898f92-9f33-46cd-86a7-535e89fed160">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="52355dbe-f0c0-4ddb-888f-6918caecaf71">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2615c4db-6e3a-4847-8d12-46e02434cc42">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e9429f78-8e3a-4e8f-978d-e52807b88768">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="18d9163f-6691-44cc-bdc9-6b80ae22d4b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="42663490-0032-4651-bf93-9052b75371d7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8965ba5b-f50d-416c-b313-216ed7ea4cc1">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1337ec74-44fc-456b-87e5-214d9668007a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="261b61c0-cee5-468f-8a5c-b56a0e7595e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="17f62849-0dac-49e8-aecb-0252e95ea507">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ba9de875-e2bc-4e35-b040-299b4e475908">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e19a0289-5829-47e1-9d79-1c1871d56178">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c56e66ba-4dc7-46fb-a801-42cd4be00bdc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a88421e-a9a1-49d8-b85c-10cf3c26af6a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveJobRoleLocation (after delete)" id="ec03668c-87cf-4d0c-a496-5fbbe140e78c">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/retrieveJobRoleLocations" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveJobRoleLocation (after delete)" id="9d92e1e9-fbb6-4de3-b68c-995ce6ee6f92" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14060</con:endpoint>
+        <con:request/>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/</con:originalUri>
+        <con:assertion type="JsonPath Match" id="2ca316d3-5879-459c-a429-a1c33a1773c9" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.application" value="${ManagementDS#application}"/>
+          <con:entry key="jobRoleId" value="${ManagementDS#jobRoleId}"/>
+          <con:entry key="header.domainId" value="${ManagementDS#domainId}"/>
+          <con:entry key="header.brand" value="${ManagementDS#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>jobRoleId</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="f907e159-4f0d-4708-bdcf-b78c5982a6cb">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="a80c7255-ad17-4b2e-8850-1b0cf8eb0cab">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="aec09428-752c-4833-b134-bdd269d12529">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2235bdc0-eb80-421f-ae38-94fc875c57be">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a1b1015-52fc-4017-8a49-05e7a829a81f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="48c52998-5b4d-477a-a3f8-f44e1a555eea">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="54969a3e-c0d6-449d-b584-1a8e4e522dd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fbd62e07-acd5-4223-b733-231498788704">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c398861d-9f5b-43c1-9553-044cf8f363fa">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8461f8ff-c36d-4b26-a014-f5625cf575b9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cf201253-1077-43fa-8164-ac881f3208f0">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6687d45b-7263-4d23-a0bb-b97464e908a9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d9c24bc8-c098-4875-860a-ff004ab08064">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5593c43a-c642-4f9f-90b0-6b83353cb426">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d93250b3-100c-4ca7-b8d3-37e5b4c26fa4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5c9e5653-3624-4a93-bb9b-88af44104f1b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5b898f92-9f33-46cd-86a7-535e89fed160">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="52355dbe-f0c0-4ddb-888f-6918caecaf71">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2615c4db-6e3a-4847-8d12-46e02434cc42">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e9429f78-8e3a-4e8f-978d-e52807b88768">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="18d9163f-6691-44cc-bdc9-6b80ae22d4b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="42663490-0032-4651-bf93-9052b75371d7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8965ba5b-f50d-416c-b313-216ed7ea4cc1">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1337ec74-44fc-456b-87e5-214d9668007a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="261b61c0-cee5-468f-8a5c-b56a0e7595e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="17f62849-0dac-49e8-aecb-0252e95ea507">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ba9de875-e2bc-4e35-b040-299b4e475908">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e19a0289-5829-47e1-9d79-1c1871d56178">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c56e66ba-4dc7-46fb-a801-42cd4be00bdc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0a88421e-a9a1-49d8-b85c-10cf3c26af6a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasourceloop" name="DataSource Loop" id="673ce7a8-faa2-444f-8a9b-c7ae3983e338">
+    <con:settings/>
+    <con:config>
+      <dataSourceStep>ManagementDS</dataSourceStep>
+      <targetStep>CreateJobRoleLocation</targetStep>
+      <discardResults>true</discardResults>
+    </con:config>
+  </con:testStep>
+  <con:properties/>
+  <con:reportParameters/>
+  <con:environmentSpec>
+    <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:testCase>

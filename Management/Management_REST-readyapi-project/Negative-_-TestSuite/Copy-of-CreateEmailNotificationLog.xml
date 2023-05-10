@@ -1,0 +1,1055 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="e1c70952-50f4-4d0d-8edb-ed6cbfb7ceeb" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Copy of CreateEmailNotificationLog" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="e1c70952-50f4-4d0d-8edb-ed6cbfb7ceebfileName">Copy-of-CreateEmailNotificationLog</con:setting>
+  </con:settings>
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="datasource" name="DataSource - EmailNotification" id="4cf5aee8-f7b4-42dd-baa8-8dcf88b4291c">
+    <con:settings/>
+    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dataSource type="Excel">
+        <con:configuration>
+          <file>Management_Rest_Input.xlsx</file>
+          <worksheet>EmailNotificationLog</worksheet>
+          <cell>A1</cell>
+          <ignoreEmpty>false</ignoreEmpty>
+          <evaluateFormulas>false</evaluateFormulas>
+        </con:configuration>
+      </con:dataSource>
+      <con:shared>true</con:shared>
+      <con:restartShared>true</con:restartShared>
+      <con:property>S.No</con:property>
+      <con:property>ExecutionFlag</con:property>
+      <con:property>TestCaseDescription</con:property>
+      <con:property>application</con:property>
+      <con:property>brand</con:property>
+      <con:property>domainId</con:property>
+      <con:property>uuid</con:property>
+      <con:property>language</con:property>
+      <con:property>subject</con:property>
+      <con:property>message</con:property>
+      <con:property>senderEmail</con:property>
+      <con:property>senderName</con:property>
+      <con:property>senderType</con:property>
+      <con:property>recipientsEmail</con:property>
+      <con:property>recipientsName</con:property>
+      <con:property>recipientsType</con:property>
+      <con:property>sourceID</con:property>
+      <con:property>sourceMapId</con:property>
+      <con:property>topicId</con:property>
+      <con:property>subsystemCode</con:property>
+      <con:property>topicCode</con:property>
+      <con:startRow>1</con:startRow>
+      <con:endRow>2</con:endRow>
+      <con:recordsPerIteration>1</con:recordsPerIteration>
+      <con:completeLastOperation>true</con:completeLastOperation>
+      <con:trimValues>false</con:trimValues>
+      <con:entitizeValues>false</con:entitizeValues>
+      <con:restartOnRun>true</con:restartOnRun>
+      <con:expandProperties>false</con:expandProperties>
+      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="createEmailNotificationLog - without Subject" id="afbfe83f-e68c-41e2-baba-9560f46940b1">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/createEmailNotificationLog" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="createEmailNotificationLog - without Subject" id="873a1990-0bb8-43ed-b559-79d611403804" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14000</con:endpoint>
+        <con:request>{
+        "header": {
+          "application": "${DataSource - EmailNotification#application}",
+          "brand": "${DataSource - EmailNotification#brand}",
+          "domainId": "${DataSource - EmailNotification#domainId}",
+          "language": "${DataSource - EmailNotification#language}",
+          "uuid": "${DataSource - EmailNotification#uuid}"
+        },
+        "message": "${DataSource - EmailNotification#message}",
+        "sender": {
+          "email": "${DataSource - EmailNotification#senderEmail}",
+          "name": "${DataSource - EmailNotification#senderName}",
+          "type": "${DataSource - EmailNotification#senderType}"
+        },
+        "recipients": [{
+          "email": "${DataSource - EmailNotification#recipientsEmail}",
+          "name": "${DataSource - EmailNotification#recipientsName}",
+          "type": "${DataSource - EmailNotification#recipientsType}"
+        }],
+        "sendSuccess": "true",
+        "sourceId": "${DataSource - EmailNotification#sourceID}",
+        "sourceMapId": "${DataSource - EmailNotification#sourceMapId}",
+        "topicId": "${DataSource - EmailNotification#topicId}",
+        "subsystemCode": "${DataSource - EmailNotification#subsystemCode}",
+        "topicCode": "${DataSource - EmailNotification#topicCode}"
+}</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/createEmailNotificationLog</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4db57ed2-11d1-484c-b3d3-94b9fee8a1fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="d4091f2f-3f1a-402a-b887-54f9f36c1046" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>may not be empty</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="57e78be8-6fae-4838-a140-cbcfdfcbd0b0" name="Match content of [component]">
+          <con:configuration>
+            <path>$['header']['error'][0]['component']</path>
+            <content>subject</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4bea7faf-e188-475f-865a-c9aa0f297bb6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="82661830-2f21-4684-b011-82797624551e">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5cc641f7-5758-4418-9f14-1ea4e090d44f">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c2fbd171-bae5-4d21-8308-36b0f0cec128">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="134218be-1c27-418c-8bd6-12e4d94d4285">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="57fba944-b31a-4195-a863-9fdc0de72c06">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fe4ac908-2759-4f3a-abc8-9e08ff64ebd8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="23242ad3-e1f8-4800-b06c-451f8d968909">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ff71313a-41b8-4d4d-a809-083489049364">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="754fc145-88a5-4748-85e0-639ebb8fded6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be9208f1-b1d6-440e-a939-d2f7cc136e96">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1526d4e5-9a23-44ee-b20e-7ae834bbe614">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="31a41053-178b-4763-b482-d62fec86e414">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a18fa54-e460-4770-9c83-8ab558505d1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e879c8b5-9d9f-46b5-816f-1e2462d463e9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1840a87b-48e2-4fa0-a5d4-13045f9fed1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2be189eb-0ab1-4c9f-ad42-84486b8e2e56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f1e39eb-2c73-476f-88da-c2f9200ee160">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="createEmailNotificationLog - without Message" id="b3589947-910a-4971-9963-9ca30ba3a167">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/createEmailNotificationLog" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="createEmailNotificationLog - without Message" id="873a1990-0bb8-43ed-b559-79d611403804" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14000</con:endpoint>
+        <con:request>{
+        "header": {
+          "application": "${DataSource - EmailNotification#application}",
+          "brand": "${DataSource - EmailNotification#brand}",
+          "domainId": "${DataSource - EmailNotification#domainId}",
+          "language": "${DataSource - EmailNotification#language}",
+          "uuid": "${DataSource - EmailNotification#uuid}"
+        },
+        "subject": "${DataSource - EmailNotification#subject}",
+        "sender": {
+          "email": "${DataSource - EmailNotification#senderEmail}",
+          "name": "${DataSource - EmailNotification#senderName}",
+          "type": "${DataSource - EmailNotification#senderType}"
+        },
+        "recipients": [{
+          "email": "${DataSource - EmailNotification#recipientsEmail}",
+          "name": "${DataSource - EmailNotification#recipientsName}",
+          "type": "${DataSource - EmailNotification#recipientsType}"
+        }],
+        "sendSuccess": "true",
+        "sourceId": "${DataSource - EmailNotification#sourceID}",
+        "sourceMapId": "${DataSource - EmailNotification#sourceMapId}",
+        "topicId": "${DataSource - EmailNotification#topicId}",
+        "subsystemCode": "${DataSource - EmailNotification#subsystemCode}",
+        "topicCode": "${DataSource - EmailNotification#topicCode}"
+}</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/createEmailNotificationLog</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4db57ed2-11d1-484c-b3d3-94b9fee8a1fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="13af3a53-466c-4c8f-8e9e-35fff344e397" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>may not be empty</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="a1549bc4-be2c-4d1a-942b-10e69a6f4434" name="Match content of [component]">
+          <con:configuration>
+            <path>$['header']['error'][0]['component']</path>
+            <content>message</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4bea7faf-e188-475f-865a-c9aa0f297bb6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="82661830-2f21-4684-b011-82797624551e">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5cc641f7-5758-4418-9f14-1ea4e090d44f">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c2fbd171-bae5-4d21-8308-36b0f0cec128">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="134218be-1c27-418c-8bd6-12e4d94d4285">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="57fba944-b31a-4195-a863-9fdc0de72c06">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fe4ac908-2759-4f3a-abc8-9e08ff64ebd8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="23242ad3-e1f8-4800-b06c-451f8d968909">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ff71313a-41b8-4d4d-a809-083489049364">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="754fc145-88a5-4748-85e0-639ebb8fded6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be9208f1-b1d6-440e-a939-d2f7cc136e96">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1526d4e5-9a23-44ee-b20e-7ae834bbe614">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="31a41053-178b-4763-b482-d62fec86e414">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a18fa54-e460-4770-9c83-8ab558505d1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e879c8b5-9d9f-46b5-816f-1e2462d463e9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1840a87b-48e2-4fa0-a5d4-13045f9fed1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2be189eb-0ab1-4c9f-ad42-84486b8e2e56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f1e39eb-2c73-476f-88da-c2f9200ee160">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="createEmailNotificationLog - without Sender info" id="1910e792-769f-4b30-b5cc-21ac6fd3f60b">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/createEmailNotificationLog" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="createEmailNotificationLog - without Sender info" id="873a1990-0bb8-43ed-b559-79d611403804" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14000</con:endpoint>
+        <con:request>{
+        "header": {
+          "application": "${DataSource - EmailNotification#application}",
+          "brand": "${DataSource - EmailNotification#brand}",
+          "domainId": "${DataSource - EmailNotification#domainId}",
+          "language": "${DataSource - EmailNotification#language}",
+          "uuid": "${DataSource - EmailNotification#uuid}"
+        },
+        "subject": "${DataSource - EmailNotification#subject}",
+        "message": "${DataSource - EmailNotification#message}",
+
+        "recipients": [{
+          "email": "${DataSource - EmailNotification#recipientsEmail}",
+          "name": "${DataSource - EmailNotification#recipientsName}",
+          "type": "${DataSource - EmailNotification#recipientsType}"
+        }],
+        "sendSuccess": "true",
+        "sourceId": "${DataSource - EmailNotification#sourceID}",
+        "sourceMapId": "${DataSource - EmailNotification#sourceMapId}",
+        "topicId": "${DataSource - EmailNotification#topicId}",
+        "subsystemCode": "${DataSource - EmailNotification#subsystemCode}",
+        "topicCode": "${DataSource - EmailNotification#topicCode}"
+}</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/createEmailNotificationLog</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4db57ed2-11d1-484c-b3d3-94b9fee8a1fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="3d76e7c1-7e11-47b6-b566-3e26fe2a52aa" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>may not be null</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="f9024267-135a-4452-a655-19e375529208" name="Match content of [component]">
+          <con:configuration>
+            <path>$['header']['error'][0]['component']</path>
+            <content>sender</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4bea7faf-e188-475f-865a-c9aa0f297bb6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="82661830-2f21-4684-b011-82797624551e">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5cc641f7-5758-4418-9f14-1ea4e090d44f">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c2fbd171-bae5-4d21-8308-36b0f0cec128">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="134218be-1c27-418c-8bd6-12e4d94d4285">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="57fba944-b31a-4195-a863-9fdc0de72c06">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fe4ac908-2759-4f3a-abc8-9e08ff64ebd8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="23242ad3-e1f8-4800-b06c-451f8d968909">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ff71313a-41b8-4d4d-a809-083489049364">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="754fc145-88a5-4748-85e0-639ebb8fded6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be9208f1-b1d6-440e-a939-d2f7cc136e96">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1526d4e5-9a23-44ee-b20e-7ae834bbe614">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="31a41053-178b-4763-b482-d62fec86e414">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a18fa54-e460-4770-9c83-8ab558505d1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e879c8b5-9d9f-46b5-816f-1e2462d463e9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1840a87b-48e2-4fa0-a5d4-13045f9fed1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2be189eb-0ab1-4c9f-ad42-84486b8e2e56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f1e39eb-2c73-476f-88da-c2f9200ee160">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="createEmailNotificationLog - without Recipients name" id="f91b3042-d01e-460f-a5a0-4919b7d6c0d2">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/createEmailNotificationLog" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="createEmailNotificationLog - without Recipients name" id="873a1990-0bb8-43ed-b559-79d611403804" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14000</con:endpoint>
+        <con:request>{
+        "header": {
+          "application": "${DataSource - EmailNotification#application}",
+          "brand": "${DataSource - EmailNotification#brand}",
+          "domainId": "${DataSource - EmailNotification#domainId}",
+          "language": "${DataSource - EmailNotification#language}",
+          "uuid": "${DataSource - EmailNotification#uuid}"
+        },
+        "subject": "${DataSource - EmailNotification#subject}",
+        "message": "${DataSource - EmailNotification#message}",
+        "sender": {
+          "email": "${DataSource - EmailNotification#senderEmail}",
+          "name": "${DataSource - EmailNotification#senderName}",
+          "type": "${DataSource - EmailNotification#senderType}"
+        },
+
+        "sendSuccess": "true",
+        "sourceId": "${DataSource - EmailNotification#sourceID}",
+        "sourceMapId": "${DataSource - EmailNotification#sourceMapId}",
+        "topicId": "${DataSource - EmailNotification#topicId}",
+        "subsystemCode": "${DataSource - EmailNotification#subsystemCode}",
+        "topicCode": "${DataSource - EmailNotification#topicCode}"
+}</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/createEmailNotificationLog</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4db57ed2-11d1-484c-b3d3-94b9fee8a1fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="ba9d1db6-fedf-42fd-807b-76294e8e63ee" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>may not be null</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="9f0dcf91-4143-4270-8890-ee684da05d18" name="Match content of [component]">
+          <con:configuration>
+            <path>$['header']['error'][0]['component']</path>
+            <content>recipients</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4bea7faf-e188-475f-865a-c9aa0f297bb6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="82661830-2f21-4684-b011-82797624551e">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5cc641f7-5758-4418-9f14-1ea4e090d44f">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c2fbd171-bae5-4d21-8308-36b0f0cec128">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="134218be-1c27-418c-8bd6-12e4d94d4285">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="57fba944-b31a-4195-a863-9fdc0de72c06">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fe4ac908-2759-4f3a-abc8-9e08ff64ebd8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="23242ad3-e1f8-4800-b06c-451f8d968909">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ff71313a-41b8-4d4d-a809-083489049364">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="754fc145-88a5-4748-85e0-639ebb8fded6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be9208f1-b1d6-440e-a939-d2f7cc136e96">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1526d4e5-9a23-44ee-b20e-7ae834bbe614">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="31a41053-178b-4763-b482-d62fec86e414">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a18fa54-e460-4770-9c83-8ab558505d1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e879c8b5-9d9f-46b5-816f-1e2462d463e9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1840a87b-48e2-4fa0-a5d4-13045f9fed1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2be189eb-0ab1-4c9f-ad42-84486b8e2e56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f1e39eb-2c73-476f-88da-c2f9200ee160">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="createEmailNotificationLog - without TopicID" id="bbfa87b9-e79f-4caf-a7fd-01ca39a1d472">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/createEmailNotificationLog" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="createEmailNotificationLog - without TopicID" id="873a1990-0bb8-43ed-b559-79d611403804" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14000</con:endpoint>
+        <con:request>{
+        "header": {
+          "application": "${DataSource - EmailNotification#application}",
+          "brand": "${DataSource - EmailNotification#brand}",
+          "domainId": "${DataSource - EmailNotification#domainId}",
+          "language": "${DataSource - EmailNotification#language}",
+          "uuid": "${DataSource - EmailNotification#uuid}"
+        },
+        "subject": "${DataSource - EmailNotification#subject}",
+        "message": "${DataSource - EmailNotification#message}",
+        "sender": {
+          "email": "${DataSource - EmailNotification#senderEmail}",
+          "name": "${DataSource - EmailNotification#senderName}",
+          "type": "${DataSource - EmailNotification#senderType}"
+        },
+        "recipients": [{
+          "email": "${DataSource - EmailNotification#recipientsEmail}",
+          "name": "${DataSource - EmailNotification#recipientsName}",
+          "type": "${DataSource - EmailNotification#recipientsType}"
+        }],
+        "sendSuccess": "true",
+        "sourceId": "${DataSource - EmailNotification#sourceID}",
+        "sourceMapId": "${DataSource - EmailNotification#sourceMapId}"
+}</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/createEmailNotificationLog</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4db57ed2-11d1-484c-b3d3-94b9fee8a1fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="e6fdb23f-fd5e-40f1-949b-739d6a7d2167" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>Either topicId or topicCode/subsystemCode required</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4bea7faf-e188-475f-865a-c9aa0f297bb6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="82661830-2f21-4684-b011-82797624551e">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5cc641f7-5758-4418-9f14-1ea4e090d44f">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c2fbd171-bae5-4d21-8308-36b0f0cec128">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="134218be-1c27-418c-8bd6-12e4d94d4285">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="57fba944-b31a-4195-a863-9fdc0de72c06">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fe4ac908-2759-4f3a-abc8-9e08ff64ebd8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="23242ad3-e1f8-4800-b06c-451f8d968909">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ff71313a-41b8-4d4d-a809-083489049364">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="754fc145-88a5-4748-85e0-639ebb8fded6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be9208f1-b1d6-440e-a939-d2f7cc136e96">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1526d4e5-9a23-44ee-b20e-7ae834bbe614">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="31a41053-178b-4763-b482-d62fec86e414">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a18fa54-e460-4770-9c83-8ab558505d1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e879c8b5-9d9f-46b5-816f-1e2462d463e9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1840a87b-48e2-4fa0-a5d4-13045f9fed1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2be189eb-0ab1-4c9f-ad42-84486b8e2e56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f1e39eb-2c73-476f-88da-c2f9200ee160">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="createEmailNotificationLog - without Brand" id="26b124be-50dd-44a8-85a8-97fb328f0f46">
+    <con:settings/>
+    <con:config service="ManagementOperations" resourcePath="/createEmailNotificationLog" methodName="V2.0" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="createEmailNotificationLog - without Brand" id="873a1990-0bb8-43ed-b559-79d611403804" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="AppKey" value="${#Project#AppKey}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>http://eslbservicestst01.rccl.com:14000</con:endpoint>
+        <con:request>{
+        "header": {
+          "application": "${DataSource - EmailNotification#application}",
+          "domainId": "${DataSource - EmailNotification#domainId}",
+          "language": "${DataSource - EmailNotification#language}",
+          "uuid": "${DataSource - EmailNotification#uuid}"
+        },
+        "subject": "${DataSource - EmailNotification#subject}",
+        "message": "${DataSource - EmailNotification#message}",
+        "sender": {
+          "email": "${DataSource - EmailNotification#senderEmail}",
+          "name": "${DataSource - EmailNotification#senderName}",
+          "type": "${DataSource - EmailNotification#senderType}"
+        },
+        "recipients": [{
+          "email": "${DataSource - EmailNotification#recipientsEmail}",
+          "name": "${DataSource - EmailNotification#recipientsName}",
+          "type": "${DataSource - EmailNotification#recipientsType}"
+        }],
+        "sendSuccess": "true",
+        "sourceId": "${DataSource - EmailNotification#sourceID}",
+        "sourceMapId": "${DataSource - EmailNotification#sourceMapId}",
+        "topicId": "${DataSource - EmailNotification#topicId}",
+        "subsystemCode": "${DataSource - EmailNotification#subsystemCode}",
+        "topicCode": "${DataSource - EmailNotification#topicCode}"
+}</con:request>
+        <con:originalUri>http://eslbservicestst01.rccl.com/esl/management/rest/v2.0/createEmailNotificationLog</con:originalUri>
+        <con:assertion type="JsonPath Match" id="4db57ed2-11d1-484c-b3d3-94b9fee8a1fa" name="Match content of [status]">
+          <con:configuration>
+            <path>$['header']['status']</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="7ba73aa6-fc37-4508-88d0-85cfeb6f3ac7" name="Match content of [description]">
+          <con:configuration>
+            <path>$['header']['error'][0]['description']</path>
+            <content>Value is required for brandCode</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="27b93fe3-7a99-411c-b585-a205c1d804df">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28f5cb4c-5c38-4fa1-8d65-c65701f30db4">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4bea7faf-e188-475f-865a-c9aa0f297bb6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="82661830-2f21-4684-b011-82797624551e">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5cc641f7-5758-4418-9f14-1ea4e090d44f">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c2fbd171-bae5-4d21-8308-36b0f0cec128">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="134218be-1c27-418c-8bd6-12e4d94d4285">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="57fba944-b31a-4195-a863-9fdc0de72c06">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="fe4ac908-2759-4f3a-abc8-9e08ff64ebd8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="23242ad3-e1f8-4800-b06c-451f8d968909">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="ff71313a-41b8-4d4d-a809-083489049364">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="754fc145-88a5-4748-85e0-639ebb8fded6">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be9208f1-b1d6-440e-a939-d2f7cc136e96">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1526d4e5-9a23-44ee-b20e-7ae834bbe614">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="31a41053-178b-4763-b482-d62fec86e414">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a18fa54-e460-4770-9c83-8ab558505d1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e879c8b5-9d9f-46b5-816f-1e2462d463e9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1840a87b-48e2-4fa0-a5d4-13045f9fed1a">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2be189eb-0ab1-4c9f-ad42-84486b8e2e56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f1e39eb-2c73-476f-88da-c2f9200ee160">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1481b482-fc2c-4d63-a8b9-4e865f7b133d">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f738de36-0406-496e-8c25-4674943e9540">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="968cb7a3-c567-4927-97e4-3a26fd4c62d8">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9329bc71-2f40-4f7b-8aa6-228ad5f7ed29">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="28c31bf2-0f02-4370-b988-1d25a5dda4dd">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="datasourceloop" name="DataSource Loop" id="1bb8cb6b-a49d-4387-a5dc-66a1e4e2236a">
+    <con:settings/>
+    <con:config>
+      <dataSourceStep>DataSource - EmailNotification</dataSourceStep>
+      <targetStep>createEmailNotificationLog</targetStep>
+      <discardResults>true</discardResults>
+    </con:config>
+  </con:testStep>
+  <con:properties/>
+  <con:reportParameters/>
+  <con:breakPoints>
+    <con:testStepId>0f019135-73b4-44de-a9f1-d2c6ca55c195</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>e422a35a-1a20-45ff-b360-c34943028a40</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>e37e3a49-3926-4756-8a91-92a864daaff1</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>5873030f-c41b-4ee0-b69e-a0ccead0a11c</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>86743888-aac4-4187-bea8-16d1f74057e6</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>2d090228-2395-43ea-8a28-9875d3808ecd</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:breakPoints>
+    <con:testStepId>95a8fa8c-43ec-43f5-9ce9-c4e1a6c07d36</con:testStepId>
+    <con:status>NONE</con:status>
+    <con:properties/>
+  </con:breakPoints>
+  <con:environmentSpec>
+    <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="ff71313a-41b8-4d4d-a809-083489049364">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="754fc145-88a5-4748-85e0-639ebb8fded6">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="be9208f1-b1d6-440e-a939-d2f7cc136e96">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="1526d4e5-9a23-44ee-b20e-7ae834bbe614">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="31a41053-178b-4763-b482-d62fec86e414">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="7a18fa54-e460-4770-9c83-8ab558505d1a">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="e879c8b5-9d9f-46b5-816f-1e2462d463e9">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="1840a87b-48e2-4fa0-a5d4-13045f9fed1a">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="2be189eb-0ab1-4c9f-ad42-84486b8e2e56">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="0f1e39eb-2c73-476f-88da-c2f9200ee160">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="30493475-55f2-468b-affc-20813bdf1a94">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:testCase>
