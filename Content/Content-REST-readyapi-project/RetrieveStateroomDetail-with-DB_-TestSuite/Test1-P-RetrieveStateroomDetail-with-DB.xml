@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="12ba2bc9-c469-4af2-b9a9-087936d9b88b" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-RetrieveStateroomDetail-bad-brand" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="4aa79e6a-587f-4807-a4c1-96673a7373b6" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-RetrieveStateroomDetail with DB" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="12ba2bc9-c469-4af2-b9a9-087936d9b88bfileName">Test2-N-RetrieveStateroomDetail-bad-brand</con:setting>
+    <con:setting id="4aa79e6a-587f-4807-a4c1-96673a7373b6fileName">Test1-P-RetrieveStateroomDetail-with-DB</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  
-  
-  
-  
-  
-  <con:testStep type="restrequest" name="cruiseSearch" id="7236550b-f78b-401f-a139-5d6052b6f87b">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="ccf85588-05be-4d32-b786-37fe23ea42a0">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+      <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
@@ -113,16 +108,18 @@ assert totalHits!=0</scriptText>
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep><con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="0760d20d-ac0e-4054-a2c3-bb31a85bc807">
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="ece3bb39-82e0-4805-a54d-3387dc0940c7">
     <con:settings/>
-    <con:config><script>import java.io.*;
+    <con:config>
+      <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import org.apache.commons.lang3.StringUtils;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
 String  url =  ts.getHttpRequest().getResponse().getURL(); 
 log.info(url)
 
@@ -143,16 +140,19 @@ testRunner.testCase.setPropertyValue("currency",currency);
 
 String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
 log.info(language)
-testRunner.testCase.setPropertyValue("language",language);</script></con:config>
-  </con:testStep><con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="41c7c5cf-9bce-441e-b8dc-be1c721138c8">
+testRunner.testCase.setPropertyValue("language",language);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="51451aa9-695e-47e8-b318-84c5c7725028">
     <con:settings/>
-    <con:config><script>import java.io.*;
+    <con:config>
+      <script>import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Package Code
@@ -183,36 +183,34 @@ if (celebrityShips.contains(shipCode)) {
 	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
 	} else {
 		testRunner.testCase.setPropertyValue("brand",royalBrand);
-		}</script></con:config>
-  </con:testStep><con:testStep type="jdbc" name="JDBC Request" id="aca3c9f1-67dd-4695-9694-6508e442db67">
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request - Royal" id="8ab2ea89-9b3a-4a4d-ac57-bd5d1f216634">
     <con:settings>
       <con:setting id="prettyPrintResponse">true</con:setting>
     </con:settings>
     <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dbConnectionName>WebRemoteDataAccess_PBND</con:dbConnectionName>
+      <con:dbConnectionName>Test_WebRemoteDataAccess_PBND</con:dbConnectionName>
       <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
-      <con:connectionString>jdbc:sqlserver://10.14.31.120:14729;databaseName=WebRemoteDataAccess_PBND;user=b2c_ven_user;password=PASS_VALUE</con:connectionString>
-      <con:password>BRhPu1nsx</con:password>
+      <con:connectionString>jdbc:sqlserver://WINSQLDDB01.TSTNA.TSTRCCL.COM:14725;databaseName=WebRemoteDataAccess_PBND ;user=b2c_user ;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
       <con:connectionProperties/>
-      <con:query>SELECT TOP 5
-       baship AS Ship_Code,   
-       bacbno AS Stateroom_Number
-FROM AS400_Mirror.dbo.ICSCBD B
-INNER JOIN AS400_Mirror.dbo.ICSHPD S 
-       ON B.BASHIP = S.SHSHIP
-INNER JOIN AS400_Mirror.dbo.ICCTCD 
-       ON LKCATG = B.BACBIO
-       AND (LKBRND = SHBRND)
-INNER JOIN AS400_Mirror.dbo.ICCTPD 
-       ON B.BASHIP = ARSHIP 
-       AND B.BACTYP = ARCTYP
-INNER JOIN AS400_Mirror.dbo.ICDCKD D
-    ON B.BADKCD = AQDKCD 
-    AND B.BASHIP = AQSHIP
-WHERE (S.SHPBRD LIKE 'R')
-AND b.bacbdd = '0'                -- cabin delete date
-AND (B.BAEFDT = (SELECT MAX(BAEFDT) FROM AS400_Mirror.dbo.ICSCBD WHERE
-BASHIP = B.BASHIP AND BAEFDT &lt;= 1190305 AND BACBNO = B.BACBNO));</con:query>
+      <con:query>Select Top 5 B.BASHIP As Ship_Code, B.BACBNO As Stateroom_Number
+From AS400_Mirror.dbo.ICSCBD B Inner Join
+  AS400_Mirror.dbo.ICDCKD D On B.BADKCD = D.AQDKCD And B.BASHIP = D.AQSHIP
+  Inner Join
+  AS400_Mirror.dbo.ICSHPD S On B.BASHIP = S.SHSHIP Inner Join
+  AS400_Mirror.dbo.ICCTCD On AS400_Mirror.dbo.ICCTCD.LKCATG = B.BACBIO
+    And (AS400_Mirror.dbo.ICCTCD.LKBRND = S.SHBRND) Inner Join
+  AS400_Mirror.dbo.ICCTPD On B.BASHIP = AS400_Mirror.dbo.ICCTPD.ARSHIP
+    And B.BACTYP = AS400_Mirror.dbo.ICCTPD.ARCTYP
+Where S.SHPBRD Like 'R' And B.BACBDD = '0' And
+  B.BAEFDT = (Select Max(AS400_Mirror.dbo.ICSCBD.BAEFDT)
+  From AS400_Mirror.dbo.ICSCBD
+  Where AS400_Mirror.dbo.ICSCBD.BASHIP = B.BASHIP And
+    AS400_Mirror.dbo.ICSCBD.BAEFDT &lt;= 1190305 And AS400_Mirror.dbo.ICSCBD.BACBNO
+    = B.BACBNO)</con:query>
       <con:storedProcedure>false</con:storedProcedure>
       <con:assertion type="XPath Match" id="53d9390b-ad16-45ad-80b2-e90452ef24c2" name="Match content of [@fetchSize]">
         <con:configuration>
@@ -225,31 +223,60 @@ BASHIP = B.BASHIP AND BAEFDT &lt;= 1190305 AND BACBNO = B.BACBNO));</con:query>
       </con:assertion>
       <con:properties/>
     </con:config>
-  </con:testStep><con:testStep type="transfer" name="PropertyTransfer 1" id="b0bcad01-319e-4446-8ec2-8bfa36d121a4"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>SHIP_CODE</con:name><con:sourceType>ResponseAsXml</con:sourceType><con:sourceStep>JDBC Request</con:sourceStep><con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/SHIP_CODE[1]</con:sourcePath><con:targetType>SHIP_CODE</con:targetType><con:targetStep>cabinNumber</con:targetStep><con:targetPath/><con:upgraded>true</con:upgraded></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>STATEROOM_NUMBER</con:name><con:sourceType>ResponseAsXml</con:sourceType><con:sourceStep>JDBC Request</con:sourceStep><con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/STATEROOM_NUMBER[1]</con:sourcePath><con:targetType>STATROOM_NUMBER</con:targetType><con:targetStep>cabinNumber</con:targetStep><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="properties" name="cabinNumber" id="4317a7f4-49f3-4a29-aeac-f0c75ae93e21"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>SHIP_CODE</con:name><con:value>AD</con:value></con:property><con:property><con:name>STATROOM_NUMBER</con:name><con:value>1100</con:value></con:property></con:properties></con:config></con:testStep><con:testStep type="restrequest" name="RetrieveStateroomDetail with bad brand" id="7d64e433-375b-4eb0-a6a1-229505cab4eb">
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer - Royal" id="a49ffca9-a26e-4fb9-a5c9-fcb1972bafd7">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>STATEROOM_NUMBER</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - Royal</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/STATEROOM_NUMBER[1]</con:sourcePath>
+        <con:targetType>STATEROOM_NUMBER</con:targetType>
+        <con:targetStep>cabinNumber-Royal</con:targetStep>
+        <con:targetPath/>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>SHIP_CODE</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - Royal</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/SHIP_CODE[1]</con:sourcePath>
+        <con:targetType>SHIP_CODE</con:targetType>
+        <con:targetStep>cabinNumber-Royal</con:targetStep>
+        <con:targetPath/>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="properties" name="cabinNumber-Royal" id="ce7aaf9c-8990-489a-ad08-3a37cc89bae0">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>STATEROOM_NUMBER</con:name>
+          <con:value>1100</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SHIP_CODE</con:name>
+          <con:value>AD</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveStateroomDetail with brand R" id="18ad683f-9723-4bcc-a089-142ba7875838">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/stateroomDetail" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveStateroomDetail with bad brand" id="d1998572-b012-4e13-b487-32169daaf4fe" mediaType="application/json">
+      <con:restRequest name="RetrieveStateroomDetail with brand R" id="d1998572-b012-4e13-b487-32169daaf4fe" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/stateroomDetail</con:originalUri>
-        <con:assertion type="JsonPath Match" id="77e90f42-6e2d-4ea2-ba87-9f0113350269" name="Match content of [status]">
+        <con:assertion type="JsonPath Match" id="bfb363b4-fa9b-49c9-8610-764da3cddb1e" name="Match content of [status]">
           <con:configuration>
             <path>$['header']['status']</path>
-            <content>Failure</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="5df4d0b4-0941-4ee2-ba07-a6ea411f1af2" name="Match content of [description]">
-          <con:configuration><path>$['header']['error'][0]['description']</path><content>Invalid brand. : rejectedValue=ZZ</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="38a7cb89-e132-4caa-8b84-1c2f3239cc80" name="Match content of [code]">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>CATL-005</content>
+            <content>Success</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
@@ -260,7 +287,15 @@ BASHIP = B.BASHIP AND BAEFDT &lt;= 1190305 AND BACBNO = B.BACBNO));</con:query>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="cabinNumber" value="${cabinNumber#STATEROOM_NUMBER}"/><con:entry key="header.brand" value="ZZ"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="shipCode" value="${cabinNumber#SHIP_CODE}"/></con:parameters>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="cabinNumber" value="${cabinNumber-Royal#STATEROOM_NUMBER}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="shipCode" value="${cabinNumber-Royal#SHIP_CODE}"/>
+        </con:parameters>
         <con:environmentSpec>
           <con:entry environmentId="e7f50ce2-dd90-4e64-9a15-63478880e468">
             <con:authProfile>No Authorization</con:authProfile>
@@ -403,28 +438,281 @@ BASHIP = B.BASHIP AND BAEFDT &lt;= 1190305 AND BACBNO = B.BACBNO));</con:query>
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep><con:testStep type="restrequest" name="RetrieveStateroomDetail with valid values, blank shipCode" id="dd633845-210e-4486-817a-1bdc0620191b">
+  </con:testStep>
+  <con:testStep type="restrequest" name="cruiseSearch-C" id="bee1eea4-0e3c-4042-bd32-f85d03cc18ff">
+    <con:settings/>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-C" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aeea0b73-a636-43f8-9e7e-592c253cb5c6" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="970f9f2a-b98c-4157-a7d0-bdb110cadbb3" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="resultsPreference.includeResults" value="true"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.date" value=""/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="13da8a57-679f-4583-a559-874976b131bc">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency 2" id="134ee738-60f6-4dd3-abd0-904e3d918bfd">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-C");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&amp;");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);
+
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package 2" id="78ecc5f1-5a14-4fb7-86b0-ddd8a6ae4018">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-C");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+//Set Test Case Package Code
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+
+//Set Test Case Ship Code
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+//Set Test Case Sail Date
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+//Set Test Case Brand
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request - Celebrity" id="7be140e4-91e1-4049-85ff-ccfd77869735">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dbConnectionName>Test_WebRemoteDataAccess_PBND</con:dbConnectionName>
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLDDB01.TSTNA.TSTRCCL.COM:14725;databaseName=WebRemoteDataAccess_PBND ;user=b2c_user ;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
+      <con:connectionProperties/>
+      <con:query>Select Top 5 B.BASHIP As Ship_Code, B.BACBNO As Stateroom_Number
+From AS400_Mirror.dbo.ICSCBD B Inner Join
+  AS400_Mirror.dbo.ICDCKD D On B.BADKCD = D.AQDKCD And B.BASHIP = D.AQSHIP
+  Inner Join
+  AS400_Mirror.dbo.ICSHPD S On B.BASHIP = S.SHSHIP Inner Join
+  AS400_Mirror.dbo.ICCTCD On AS400_Mirror.dbo.ICCTCD.LKCATG = B.BACBIO
+    And AS400_Mirror.dbo.ICCTCD.LKBRND = S.SHBRND Inner Join
+  AS400_Mirror.dbo.ICCTPD On B.BASHIP = AS400_Mirror.dbo.ICCTPD.ARSHIP
+    And B.BACTYP = AS400_Mirror.dbo.ICCTPD.ARCTYP
+Where B.BASHIP Like 'IN' And S.SHPBRD Like 'C' And B.BACBDD = '0' And
+  B.BAEFDT = (Select Max(AS400_Mirror.dbo.ICSCBD.BAEFDT)
+  From AS400_Mirror.dbo.ICSCBD
+  Where AS400_Mirror.dbo.ICSCBD.BASHIP = B.BASHIP And
+    AS400_Mirror.dbo.ICSCBD.BAEFDT &lt;= 1190305 And AS400_Mirror.dbo.ICSCBD.BACBNO
+    = B.BACBNO)</con:query>
+      <con:storedProcedure>false</con:storedProcedure>
+      <con:assertion type="XPath Match" id="53d9390b-ad16-45ad-80b2-e90452ef24c2" name="Match content of [@fetchSize]">
+        <con:configuration>
+          <path>//Results[1]/ResultSet[1]/@fetchSize</path>
+          <content>128</content>
+          <allowWildcards>false</allowWildcards>
+          <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+          <ignoreComments>false</ignoreComments>
+        </con:configuration>
+      </con:assertion>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer - C" id="0ad2dfc0-5ef6-487a-be3f-a7c63c478c4b">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>STATEROOM_NUMBER</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - Celebrity</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/STATEROOM_NUMBER[1]</con:sourcePath>
+        <con:targetType>STATEROOM_NUMBER</con:targetType>
+        <con:targetStep>cabinNumber-C</con:targetStep>
+        <con:targetPath/>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+        <con:name>SHIP_CODE</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - Celebrity</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/SHIP_CODE[1]</con:sourcePath>
+        <con:targetType>SHIP_CODE</con:targetType>
+        <con:targetStep>cabinNumber-C</con:targetStep>
+        <con:targetPath/>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="properties" name="cabinNumber-C" id="4df01c03-8721-43e0-9feb-3b0be63ca7d9">
+    <con:settings/>
+    <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:properties>
+        <con:property>
+          <con:name>STATEROOM_NUMBER</con:name>
+          <con:value>1100</con:value>
+        </con:property>
+        <con:property>
+          <con:name>SHIP_CODE</con:name>
+          <con:value>IN</con:value>
+        </con:property>
+      </con:properties>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveStateroomDetail with brand c" id="6049b543-9c71-4b78-909d-3373a4c8c144">
     <con:settings/>
     <con:config service="ContentOperations" resourcePath="/stateroomDetail" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveStateroomDetail with valid values, blank shipCode" id="d1998572-b012-4e13-b487-32169daaf4fe" mediaType="application/json">
+      <con:restRequest name="RetrieveStateroomDetail with brand c" id="d1998572-b012-4e13-b487-32169daaf4fe" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1-int.api.rccl.com/esl/content/stg1/rest/v3/stateroomDetail</con:originalUri>
-        <con:assertion type="JsonPath Match" id="e731c26e-71dd-419a-b199-9a959069e327" name="Match content of [status]">
+        <con:assertion type="JsonPath Match" id="bfb363b4-fa9b-49c9-8610-764da3cddb1e" name="Match content of [status]">
           <con:configuration>
             <path>$['header']['status']</path>
-            <content>Failure</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="JsonPath Match" id="3204002a-c599-4894-86db-90656559f6be" name="Match content of [code]">
-          <con:configuration>
-            <path>$['header']['error'][0]['code']</path>
-            <content>NotBlank</content>
+            <content>Success</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
@@ -435,7 +723,15 @@ BASHIP = B.BASHIP AND BAEFDT &lt;= 1190305 AND BACBNO = B.BACBNO));</con:query>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters><con:entry key="header.language" value="${#TestCase#language}"/><con:entry key="header.application" value="${#TestCase#application}"/><con:entry key="cabinNumber" value="${cabinNumber#STATEROOM_NUMBER}"/><con:entry key="header.brand" value="${#TestCase#brand}"/><con:entry key="sailDate" value="${#TestCase#sailDate}"/><con:entry key="shipCode" value=""/></con:parameters>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="cabinNumber" value="${cabinNumber-C#STATEROOM_NUMBER}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="shipCode" value="${cabinNumber-C#SHIP_CODE}"/>
+        </con:parameters>
         <con:environmentSpec>
           <con:entry environmentId="e7f50ce2-dd90-4e64-9a15-63478880e468">
             <con:authProfile>No Authorization</con:authProfile>
@@ -578,7 +874,41 @@ BASHIP = B.BASHIP AND BAEFDT &lt;= 1190305 AND BACBNO = B.BACBNO));</con:query>
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
-  </con:testStep><con:properties><con:property><con:name>application</con:name><con:value>royalcaribbean.com</con:value></con:property><con:property><con:name>country</con:name><con:value>USA</con:value></con:property><con:property><con:name>currency</con:name><con:value>USD</con:value></con:property><con:property><con:name>language</con:name><con:value>en_us</con:value></con:property><con:property><con:name>packageCode</con:name><con:value>ALALTST2</con:value></con:property><con:property><con:name>shipCode</con:name><con:value>AL</con:value></con:property><con:property><con:name>sailDate</con:name><con:value>2023-06-04</con:value></con:property><con:property><con:name>brand</con:name><con:value>R</con:value></con:property></con:properties>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>IN11M267</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>IN</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2024-02-12</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:environmentSpec>
     <con:entry environmentId="2ec36bd4-8e07-4ff7-976f-50b7fb197bda">
