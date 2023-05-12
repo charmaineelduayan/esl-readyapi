@@ -570,7 +570,7 @@ for (i=0; i&lt;=countObject-1; i++){
 				break		
 			}
 	}
-testRunner.testCase.setPropertyValue("grossTotal2",grossTotal as String);</script>
+testRunner.testCase.setPropertyValue("grossTotal2",grossTotal2 as String);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="d8be3920-1f65-44de-8bcf-ee7958e4388f">
@@ -611,7 +611,7 @@ testRunner.testCase.setPropertyValue("grossTotal2",grossTotal as String);</scrip
           "sittingInstance": "${#TestCase#seatingTime}"
         }
       ],
-      "gratuitiesPrepaid": "false",
+      "gratuitiesPrepaid": "true",
       "insurance": {
         "code": "CRCR",
         "optionIndicator": "false"
@@ -678,7 +678,7 @@ testRunner.testCase.setPropertyValue("grossTotal2",grossTotal as String);</scrip
 						"cardType": "VA",
 						"cardToken": "4387751111111111",
 						"expireDate": "1230",
-						"amount": "${#TestCase#grossTotal}",
+						"amount": "${#TestCase#grossTotal2}",
 						"cvv": "123",
 						"currency": "USD",
 						"extendPayments": "false",
@@ -952,6 +952,12 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
       </con:restRequest>
     </con:config>
   </con:testStep>
+  <con:testStep type="delay" name="Delay 2" id="b9777bff-bf95-414f-b11e-0f0a43e3a749">
+    <con:settings/>
+    <con:config>
+      <delay>5000</delay>
+    </con:config>
+  </con:testStep>
   <con:testStep type="restrequest" name="sendBookingEmail" id="b4108d84-446f-49d8-8170-cae001c6a4df">
     <con:settings/>
     <con:config service="Management" resourcePath="/rest/v2.0/sendBookingEmail" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -997,6 +1003,97 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters/>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="retrieveBooking 2" id="c6f214d2-d987-41ae-8c9b-24e3fb4e9c0e">
+    <con:settings/>
+    <con:config service="Booking" methodName="retrieveBooking" resourcePath="/rest/v3/retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="retrieveBooking 2" id="5233383c-3985-4305-ab02-2225af0d0e20" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="bjnm9J1yJjsQQLqQ8H1ffKtDAv3kQohG" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aa751c95-8f3c-46fc-b1a0-39d195e9727d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" name="Contains" id="836cc23a-febd-410e-a3d5-c136bb4303e9">
+          <con:configuration>
+            <token>Success</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="8d2c2110-d9ab-4d1b-9a6e-cbe94da21f3a" name="Validate accessToken is not null">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+
+
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+
+def token = parse.bookingAccessToken
+log.info token
+assert token!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="lastName" value="${#TestCase#lastname}"/>
+          <con:entry key="header.language" value="en_US"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="summaryRequested" value="FALSE"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+        </con:parameters>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_bookingAccessToken 2" id="c710a056-2f66-4e2c-a231-d76d10f258e5">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import groovy.json.*
+import groovy.util.*
+
+
+def ts = testRunner.testCase.getTestStepByName("retrieveBooking");
+
+def xml = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+log.info(xml)
+
+
+//Set Test Case bookingAccessToken
+def bookingAccessToken  = xml.bookingAccessToken.text()
+log.info(bookingAccessToken)
+testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="cancelBooking" id="0a8411eb-8bb3-4384-8e62-3f407706c963">
@@ -1073,7 +1170,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>4035</con:value>
+      <con:value>9013</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -1097,7 +1194,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value/>
+      <con:value>1620645</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -1105,7 +1202,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value/>
+      <con:value>65d145bf-8a3e-4b2b-b0a0-841b7bc25201</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -1121,11 +1218,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>grossTotal</con:name>
-      <con:value>0</con:value>
+      <con:value>2458.36</con:value>
     </con:property>
     <con:property>
       <con:name>grossTotal2</con:name>
-      <con:value>0</con:value>
+      <con:value>2458.36</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
