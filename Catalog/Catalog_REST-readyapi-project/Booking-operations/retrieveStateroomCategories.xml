@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:resource name="retrieveStateroomCategories" path="/retrieveStateroomCategories" id="5d4b46ec-ba18-4f35-834e-8832204139c3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+<con:resource name="retrieveStateroomCategories" path="/rest/v3/retrieveStateroomCategories" id="5d4b46ec-ba18-4f35-834e-8832204139c3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
     <con:setting id="5d4b46ec-ba18-4f35-834e-8832204139c3fileName">retrieveStateroomCategories</con:setting>
   </con:settings>
@@ -30,14 +30,6 @@
     </con:parameter>
     <con:parameter>
       <con:name>agencyId</con:name>
-      <con:style>QUERY</con:style>
-    </con:parameter>
-    <con:parameter>
-      <con:name>bookingAccessToken</con:name>
-      <con:style>QUERY</con:style>
-    </con:parameter>
-    <con:parameter>
-      <con:name>bookingId</con:name>
       <con:style>QUERY</con:style>
     </con:parameter>
     <con:parameter>
@@ -146,7 +138,7 @@
     </con:representation>
     <con:representation type="FAULT">
       <con:mediaType>text/html;charset=utf-8</con:mediaType>
-      <con:status>400</con:status>
+      <con:status>400 404</con:status>
       <con:params/>
       <con:element>html</con:element>
     </con:representation>
@@ -174,6 +166,12 @@
       <con:params/>
       <con:element>html</con:element>
     </con:representation>
+    <con:representation type="RESPONSE">
+      <con:mediaType>application/json</con:mediaType>
+      <con:status>200</con:status>
+      <con:params/>
+      <con:element xmlns:ret="http://eslbservicestst01.rccl.com/esl/booking/rest/v3/retrieveStateroomCategories">ret:Response</con:element>
+    </con:representation>
     <con:request name="Request 1" id="ae3e7085-156e-4888-ac69-072d44e2b818" mediaType="application/json">
       <con:settings>
         <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
@@ -198,8 +196,6 @@
         <con:entry>header.uuid</con:entry>
         <con:entry>countryCode</con:entry>
         <con:entry>agencyId</con:entry>
-        <con:entry>bookingAccessToken</con:entry>
-        <con:entry>bookingId</con:entry>
         <con:entry>shipCode</con:entry>
         <con:entry>sailDate</con:entry>
         <con:entry>packageId</con:entry>
@@ -220,7 +216,8 @@
         <con:entry>couponCodes</con:entry>
         <con:entry>includeAllStaterooms</con:entry>
         <con:entry>includeUpsell</con:entry>
-        <con:entry/>
+        <con:entry>includePromoContent</con:entry>
+        <con:entry>includeCategory</con:entry>
       </con:parameterOrder>
       <con:environmentSpec>
         <con:entry environmentId="7d1e8c91-121f-4b55-96d1-8ca75c1cd945">
