@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="bd189125-2cd2-49f9-9aba-2ff608d11c43" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Test2-P-Booking-Email_CouponEmaiL-Partial, Full Payment" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="cc8beecb-ed19-4269-9ad7-ac6751334113" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Test2-P-Booking-Email_CouponEmaiL-Partial, Full Payment" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="bd189125-2cd2-49f9-9aba-2ff608d11c43fileName">Test2-P-Booking-Email_CouponEmaiL-Partial%2C-Full-Payment</con:setting>
+    <con:setting id="cc8beecb-ed19-4269-9ad7-ac6751334113fileName">Test2-P-Booking-Email_CouponEmaiL-Partial%2C-Full-Payment</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch" id="db88ab20-a6f1-43db-9644-2ee3db3cfe1b">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="0758cbe9-f699-4fb6-b444-1aeeb737a031">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+      <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
@@ -108,7 +108,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="d7718dd3-d17d-4f48-85fc-f8eca3a77bd8">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="21409695-f04f-4ba3-95f7-8b0bc208ec57">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -118,7 +118,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import org.apache.commons.lang3.StringUtils;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
 String  url =  ts.getHttpRequest().getResponse().getURL(); 
 log.info(url)
 
@@ -126,6 +126,9 @@ String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
 log.info(app)
 testRunner.testCase.setPropertyValue("application",app);
 
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
 
 String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
 log.info(country)
@@ -137,7 +140,7 @@ log.info(currency)
 testRunner.testCase.setPropertyValue("currency",currency);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_brand/shipCode/packageCode" id="ea4a5b7f-cae5-439c-a6d6-84ec08d3442e">
+  <con:testStep type="groovy" name="Fetch_REQ_brand/shipCode/packageCode" id="fbf552eb-4907-48fd-b0c0-49c1be972757">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -146,7 +149,7 @@ import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Package Code
