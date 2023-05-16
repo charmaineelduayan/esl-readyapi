@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="a8dea205-c80b-4f6e-b396-57fc7027e92b" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-Booking-Email_CouponEmaiL-CH, Partial Payment" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="2518ce4e-7734-400d-8432-f9f3eefb869a" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-Booking-Email_CouponEmaiL-CH, Partial Payment" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="a8dea205-c80b-4f6e-b396-57fc7027e92bfileName">Test1-P-Booking-Email_CouponEmaiL-CH%2C-Partial-Payment</con:setting>
+    <con:setting id="2518ce4e-7734-400d-8432-f9f3eefb869afileName">Test1-P-Booking-Email_CouponEmaiL-CH%2C-Partial-Payment</con:setting>
   </con:settings>
-  <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="82d1a47c-cdf2-4f24-9424-62dc1c6f92fa">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="6eca9f44-adb5-4557-a648-dbe1ce880600">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
@@ -109,7 +108,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency 2" id="2cdbf8a3-e5c8-46f7-a275-df4899eaa00d">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/currency" id="21e1f88f-89a0-4ff5-ac82-4bb04f81e3d3">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -127,6 +126,9 @@ String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
 log.info(app)
 testRunner.testCase.setPropertyValue("application",app);
 
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
 
 String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
 log.info(country)
@@ -138,7 +140,7 @@ log.info(currency)
 testRunner.testCase.setPropertyValue("currency",currency);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_brand/shipCode/packageCode 2" id="9b6e8ad6-abd5-458a-ab76-ef3adf5168ee">
+  <con:testStep type="groovy" name="Fetch_REQ_brand/shipCode/packageCode" id="d58c5b3b-7a4c-4fad-baf4-32c52c66d724">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -181,78 +183,6 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
-  <con:properties>
-    <con:property>
-      <con:name>application</con:name>
-      <con:value>royalcaribbean.com</con:value>
-    </con:property>
-    <con:property>
-      <con:name>country</con:name>
-      <con:value>USA</con:value>
-    </con:property>
-    <con:property>
-      <con:name>currency</con:name>
-      <con:value>USD</con:value>
-    </con:property>
-    <con:property>
-      <con:name>packageCode</con:name>
-      <con:value>RD07A337</con:value>
-    </con:property>
-    <con:property>
-      <con:name>shipCode</con:name>
-      <con:value>RD</con:value>
-    </con:property>
-    <con:property>
-      <con:name>sailDate</con:name>
-      <con:value>2024-05-10</con:value>
-    </con:property>
-    <con:property>
-      <con:name>brand</con:name>
-      <con:value>R</con:value>
-    </con:property>
-  </con:properties>
+  <con:properties/>
   <con:reportParameters/>
-  <con:breakPoints>
-    <con:testStepId>0f019135-73b4-44de-a9f1-d2c6ca55c195</con:testStepId>
-    <con:status>NONE</con:status>
-    <con:properties/>
-  </con:breakPoints>
-  <con:environmentSpec>
-    <con:entry environmentId="b184688a-3391-458c-9cbf-28a1da9e06a5">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="cd2d1d50-3d3b-4639-b0c6-3b31a67a9065">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="e0214587-14d2-4948-93d6-50ffda020abe">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="f0c84e04-8c43-4b65-8b3a-c89a32ce3bad">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="5b7f0edb-3bc7-4a0f-87b1-cc19488216dc">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="8a59a589-59b4-4db1-a706-cc881b352949">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="06eafee3-dfa3-4b09-9505-b6dae77c2787">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="0ed36b85-a157-4a16-aaa1-cf6a711f1058">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="da4da12c-07ab-4206-acf3-1bc119bfa803">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="fc1d9e4e-4d88-49b3-9cb3-ef4210009f89">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="53516c62-e8e0-4b88-b003-4c0e2aa8dbd3">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-    <con:entry environmentId="0fbe5b0b-a38f-4b5d-a073-1256bff7bd99">
-      <con:authProfile>Inherit From Parent</con:authProfile>
-    </con:entry>
-  </con:environmentSpec>
 </con:testCase>
