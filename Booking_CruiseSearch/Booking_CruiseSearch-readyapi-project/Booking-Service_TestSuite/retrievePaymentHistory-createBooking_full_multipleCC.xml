@@ -860,6 +860,31 @@ for ( i=0; i<=count-1;i++){
 
 			 getTotal = (getTotal + payment).round(2)
 			log.info getTotal
+
+		def status = ["REC", "PST", "PEN", "REF"]
+
+		def transactionStatus = parse.paymentDetail[i].transactionStatus
+		assert (transactionStatus != null) && (transactionStatus != "") && (transactionStatus != []); 
+		
+
+			if (transactionStatus.contains("REC")){
+				log.info ('Transaction Status: ' +transactionStatus)
+			}
+
+			else {
+			def paymentPostedDate = parse.paymentDetail[i].paymentPostedDate
+			assert (paymentPostedDate != null) && (paymentPostedDate != "") && (paymentPostedDate != []); 
+			log.info ('PaymentPostedTime: ' +paymentPostedDate)
+
+			def paymentPostedTime = parse.paymentDetail[i].paymentPostedTime
+			assert (paymentPostedTime != null) && (paymentPostedTime != "") && (paymentPostedTime != []); 
+			log.info ('PaymentPostedTime: ' +paymentPostedTime)
+
+			log.info ('Transaction Status: ' +transactionStatus)
+			}
+
+
+			
 	
 }
 
@@ -945,7 +970,7 @@ assert balanceDue==difference]]></scriptText>
   <con:properties>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>e5c50fad-7e7e-46a0-923c-7a63ecbb09fb</con:value>
+      <con:value>420a8c18-d16e-45ed-a035-30cbf65859c0</con:value>
     </con:property>
     <con:property>
       <con:name>application</con:name>
@@ -965,7 +990,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>bookingId</con:name>
-      <con:value>1627174</con:value>
+      <con:value>1686590</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
@@ -997,7 +1022,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>1578</con:value>
+      <con:value>1569</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
