@@ -1142,6 +1142,30 @@ for ( i=0; i<=count-1;i++){
 
 			 getTotal = (getTotal + payment).round(2)
 			log.info getTotal
+
+
+		def status = ["REC", "PST", "PEN", "REF"]
+
+		def transactionStatus = parse.paymentDetail[i].transactionStatus
+		assert (transactionStatus != null) && (transactionStatus != "") && (transactionStatus != []); 
+		
+
+			if (transactionStatus.contains("REC")){
+				log.info ('Transaction Status: ' +transactionStatus)
+			}
+
+			else {
+			def paymentPostedDate = parse.paymentDetail[i].paymentPostedDate
+			assert (paymentPostedDate != null) && (paymentPostedDate != "") && (paymentPostedDate != []); 
+			log.info ('PaymentPostedTime: ' +paymentPostedDate)
+
+			def paymentPostedTime = parse.paymentDetail[i].paymentPostedTime
+			assert (paymentPostedTime != null) && (paymentPostedTime != "") && (paymentPostedTime != []); 
+			log.info ('PaymentPostedTime: ' +paymentPostedTime)
+
+			log.info ('Transaction Status: ' +transactionStatus)
+			}
+	
 	
 }
 
@@ -1227,7 +1251,7 @@ assert balanceDue==difference]]></scriptText>
   <con:properties>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>8537296e-f367-4929-a489-2ddb61864bca</con:value>
+      <con:value>e530ff5c-8640-4c22-9086-a36bdd514f96</con:value>
     </con:property>
     <con:property>
       <con:name>application</con:name>
@@ -1247,7 +1271,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>bookingId</con:name>
-      <con:value>1627181</con:value>
+      <con:value>1686643</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
@@ -1279,7 +1303,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>1578</con:value>
+      <con:value>1569</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
@@ -1303,7 +1327,7 @@ assert balanceDue==difference]]></scriptText>
     </con:property>
     <con:property>
       <con:name>bookingAccessToken 2</con:name>
-      <con:value>832bea2c-32d4-41c8-b982-ffe17b0b4807</con:value>
+      <con:value>8c16acbf-9da3-4e8b-a9a6-7f716b440fb1</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
