@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="fa0cea9d-fdcc-445a-ac3c-974d5e1bae97" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-GetSaillingProfileSummary" searchProperties="true" timeout="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="2e201440-e69f-4060-a4e2-fbe6455527ca" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-GetStateroomSubtypeSummary" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="fa0cea9d-fdcc-445a-ac3c-974d5e1bae97fileName">Test2-N-GetSaillingProfileSummary</con:setting>
+    <con:setting id="2e201440-e69f-4060-a4e2-fbe6455527cafileName">Test2-N-GetStateroomSubtypeSummary</con:setting>
   </con:settings>
-  <con:testStep type="restrequest" name="cruiseSearch" id="6d98bba2-6218-4321-ac2c-8541ef1afc4c">
+  <con:savedRecentRuns>1</con:savedRecentRuns>
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="18cd07c5-8bbb-4903-b034-c203ebcdea15">
     <con:settings/>
     <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="cruiseSearch" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
+      <con:restRequest name="cruiseSearch-ROYAL" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
-        <con:assertion type="XPath Match" name="Status" id="a752e638-61c9-4b83-9839-809fc00e20bd">
+        <con:assertion type="XPath Match" id="d1c11019-6fb0-4f9d-a797-02c5d8e40b67" name="Status">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
 //ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
@@ -28,8 +29,10 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
+          <con:entry key="criteria.brand.value" value="R"/>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
           <con:entry key="qualifiers.itineraryGroup.value" value=""/>
-          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
           <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
           <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
         </con:parameters>
@@ -78,37 +81,45 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId" id="99501227-80d2-4997-8249-4ec146dd4393">
+  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId" id="8913cb78-8941-4473-98bb-246523d64bb7">
     <con:settings/>
     <con:config>
-      <script>import java.io.*;
+      <script><![CDATA[import java.io.*;
 import java.util.*;
 import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import org.apache.commons.lang3.StringUtils;
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
 String  url =  ts.getHttpRequest().getResponse().getURL(); 
 log.info(url)
 
-String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&amp;");
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&");
 log.info(brand)
 testRunner.testCase.setPropertyValue("brand",brand);
 
-String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+String app = StringUtils.substringBetween(url, "header.application=", "&");
 log.info(app)
 testRunner.testCase.setPropertyValue("application",app);
 
-String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+String language = StringUtils.substringBetween(url, "header.language=", "&");
 log.info(language)
 testRunner.testCase.setPropertyValue("language",language);
 
-String domainId = StringUtils.substringBetween(url, "header.domainId=", "&amp;");
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&");
 log.info(domainId)
-testRunner.testCase.setPropertyValue("domainId",domainId);</script>
+testRunner.testCase.setPropertyValue("domainId",domainId);
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);]]></script>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_ship/saildate" id="f2755262-d328-4d5c-b21f-1a9ce7d7f472">
+  <con:testStep type="groovy" name="Fetch_RES_packagecode/shipcode/saildate" id="6cd2b33b-c3f2-40bb-8c46-61152973217f">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -117,7 +128,7 @@ import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
@@ -146,36 +157,433 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="GetSailingProfileSummary with bad brand" id="f979c456-db98-4c7c-b330-b9118fd0a591">
+  <con:testStep type="restrequest" name="stateroomCategories" id="b112830b-84da-4549-b5bf-ab67e3add5bc">
     <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/sailingProfilesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="GetSailingProfileSummary with bad brand" id="f74a4aa0-2c05-4c94-bae6-77036a98e578" mediaType="application/json">
+    <con:config service="Booking operations" resourcePath="/rest/v3/retrieveStateroomCategories" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="stateroomCategories" id="ae3e7085-156e-4888-ac69-072d44e2b818" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomCategories</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="cfe5135b-6690-49f3-b7f2-defab16f5dce" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:username xsi:nil="true"/>
+          <con:password xsi:nil="true"/>
+          <con:domain xsi:nil="true"/>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="accessibleReqd" value="false"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="policeReqd" value="false"/>
+          <con:entry key="includeDeckInfo" value="false"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="includeAllStaterooms" value="true"/>
+          <con:entry key="militaryReqd" value="false"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="guestAge" value="50"/>
+          <con:entry key="seniorReqd" value="false"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="fareCode" value="BESTRATE"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="currency" value="${#TestCase#currency}"/>
+          <con:entry key="fireFighterReqd" value="false"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.uuid</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>agencyId</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>stateroomType</con:entry>
+          <con:entry>currency</con:entry>
+          <con:entry>guestAge</con:entry>
+          <con:entry>fareCode</con:entry>
+          <con:entry>selectedFareCode</con:entry>
+          <con:entry>numberOfCabins</con:entry>
+          <con:entry>includeDeckInfo</con:entry>
+          <con:entry>accessibleReqd</con:entry>
+          <con:entry>seniorReqd</con:entry>
+          <con:entry>militaryReqd</con:entry>
+          <con:entry>policeReqd</con:entry>
+          <con:entry>fireFighterReqd</con:entry>
+          <con:entry>stateCode</con:entry>
+          <con:entry>loyaltyId</con:entry>
+          <con:entry>couponCodes</con:entry>
+          <con:entry>includeAllStaterooms</con:entry>
+          <con:entry>includeUpsell</con:entry>
+          <con:entry>includePromoContent</con:entry>
+          <con:entry>includeCategory</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="7d1e8c91-121f-4b55-96d1-8ca75c1cd945">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b30addaa-2177-45d9-85a7-b9dc93b7fcdf">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e320b7c4-301b-41bd-8c4d-4804f4e6f1ed">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e9641255-6aaf-4b0d-b953-99b56bdf930b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="235f0c88-661e-471f-af64-6b02ede3e408">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="aefc0c06-2768-4736-a8d8-fcad7da98c16">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="706edc95-d046-4617-ae79-da8bc2c4ae4b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8f3a309f-d6f4-489c-9861-4611d598e9b4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="07590858-b342-4c54-8198-bedf1bc0ac61">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40bf441a-bcdb-4db5-b3e7-470754e41840">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6420117f-650f-4baf-92a0-850ffdd2aa49">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a10e7fd-d882-4f61-b73b-6f4dcda11154">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4e89681c-9601-4fb8-a9ef-234c3fd76897">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f8dfa3ed-98ae-4c72-819e-1f129985913f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cfd35c17-9793-420e-9f15-61622ba978ea">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9922ee0f-40db-4a49-9447-17f361e3096c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="adb2fdf9-b64b-4691-95d1-df289b06431d">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0833c981-c533-4700-abe7-81135fb5a38a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7f6a785a-2702-40d0-9d34-84682b9da9d3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="16f53452-9022-476e-9f4b-48f5bffe559a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b81067df-dd43-4f98-805e-853175fd61e9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="a75bec4f-654f-4b06-9c6e-7424ad504573">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f3ea9050-4e80-4d71-bbed-e23be33c100c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1328077e-edb5-4f23-99ac-ba2884c570c2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9395442b-b075-4c90-9dc7-175d79a7b708">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1a635486-274f-4491-b2dd-13fea67b7bdc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3c6154ae-6919-4433-b530-0006545db4d2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="25855cac-8c80-49bd-93ff-6e22fcdde5d9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f6d9482e-3953-4c54-a617-6a743f6ca440">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f63911f-118f-4814-9ee0-13a012cbd1ba">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="78366991-1005-4019-b46c-c36122958cb5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6fff4ff9-f0d4-4d0d-89e1-a5f205ec4546">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d9c61de5-a3a7-4183-8bd0-92bf86872f5a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1b22dd5c-2e3d-4a03-a9b6-6798d35431d3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f3087d8-30e1-40b5-a7a0-c78078035746">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_categorycode/typeCode" id="12d5f675-a89f-425c-9770-6b837dc31e0a">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("stateroomCategories");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def categoryCode = res.stateroomCategoryTypes[0].e.categories[0].e.stateroomCategoryCode[0].text()
+log.info(categoryCode)
+testRunner.testCase.setPropertyValue("categoryCode",categoryCode);
+
+def typeCode = res.stateroomCategoryTypes[0].e.stateroomType[0].text()
+log.info(typeCode)
+testRunner.testCase.setPropertyValue("typeCode",typeCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="stateroomsForCategory" id="240d6d75-28f4-4d48-98d8-0b2e3589ab95">
+    <con:settings/>
+    <con:config service="Booking operations" resourcePath="/rest/v3/retrieveStateroomsForCategory" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="stateroomsForCategory" id="511ad6b5-e620-4152-82f1-2beef1759d9a" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:endpoint>${#Global#Booking_REST_Endpoint}</con:endpoint>
+        <con:request/>
+        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveStateroomsForCategory</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="202e2a02-cf2f-44ed-9a21-ef7ecdda1b5c" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:username xsi:nil="true"/>
+          <con:password xsi:nil="true"/>
+          <con:domain xsi:nil="true"/>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="stateroomOccupancy.seniorReqd" value="false"/>
+          <con:entry key="categoryCode" value="${#TestCase#categoryCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="stateroomOccupancy.accessibleReqd" value="false"/>
+          <con:entry key="stateroomOccupancy.guestAge" value="50"/>
+          <con:entry key="countryCode" value="${#TestCase#country}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="currencyCode" value="${#TestCase#currency}"/>
+          <con:entry key="stateroomOccupancy.fareCode" value="BESTRATE"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.uuid</con:entry>
+          <con:entry>countryCode</con:entry>
+          <con:entry>agencyId</con:entry>
+          <con:entry>bookingAccessToken</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>sailDate</con:entry>
+          <con:entry>packageId</con:entry>
+          <con:entry>currencyCode</con:entry>
+          <con:entry>stateroomOccupancy.guestAge</con:entry>
+          <con:entry>stateroomOccupancy.fareCode</con:entry>
+          <con:entry>stateroomOccupancy.seniorReqd</con:entry>
+          <con:entry>stateroomOccupancy.accessibleReqd</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>categoryCode</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="7d1e8c91-121f-4b55-96d1-8ca75c1cd945">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b30addaa-2177-45d9-85a7-b9dc93b7fcdf">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e320b7c4-301b-41bd-8c4d-4804f4e6f1ed">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e9641255-6aaf-4b0d-b953-99b56bdf930b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="235f0c88-661e-471f-af64-6b02ede3e408">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="aefc0c06-2768-4736-a8d8-fcad7da98c16">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="706edc95-d046-4617-ae79-da8bc2c4ae4b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8f3a309f-d6f4-489c-9861-4611d598e9b4">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="07590858-b342-4c54-8198-bedf1bc0ac61">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40bf441a-bcdb-4db5-b3e7-470754e41840">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6420117f-650f-4baf-92a0-850ffdd2aa49">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7a10e7fd-d882-4f61-b73b-6f4dcda11154">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="4e89681c-9601-4fb8-a9ef-234c3fd76897">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f8dfa3ed-98ae-4c72-819e-1f129985913f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cfd35c17-9793-420e-9f15-61622ba978ea">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9922ee0f-40db-4a49-9447-17f361e3096c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="adb2fdf9-b64b-4691-95d1-df289b06431d">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0833c981-c533-4700-abe7-81135fb5a38a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7f6a785a-2702-40d0-9d34-84682b9da9d3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="16f53452-9022-476e-9f4b-48f5bffe559a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b81067df-dd43-4f98-805e-853175fd61e9">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="a75bec4f-654f-4b06-9c6e-7424ad504573">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f3ea9050-4e80-4d71-bbed-e23be33c100c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1328077e-edb5-4f23-99ac-ba2884c570c2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="9395442b-b075-4c90-9dc7-175d79a7b708">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1a635486-274f-4491-b2dd-13fea67b7bdc">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3c6154ae-6919-4433-b530-0006545db4d2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="25855cac-8c80-49bd-93ff-6e22fcdde5d9">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f6d9482e-3953-4c54-a617-6a743f6ca440">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="0f63911f-118f-4814-9ee0-13a012cbd1ba">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="78366991-1005-4019-b46c-c36122958cb5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6fff4ff9-f0d4-4d0d-89e1-a5f205ec4546">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d9c61de5-a3a7-4183-8bd0-92bf86872f5a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1b22dd5c-2e3d-4a03-a9b6-6798d35431d3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6f3087d8-30e1-40b5-a7a0-c78078035746">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_subtypeCode/deckCode" id="32da279f-66ba-44dd-9a35-14df99011a52">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("stateroomsForCategory");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def subtypeCode = res.cabin[0].e.stateroomSubtypeCode[0].text()
+log.info(subtypeCode)
+testRunner.testCase.setPropertyValue("subtypeCode",subtypeCode);
+
+def deckCode = res.cabin[0].e.deckCode[0].text()
+log.info(deckCode)
+testRunner.testCase.setPropertyValue("deckCode",deckCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="GetStaterromSubTypeSummary with bad brand" id="428ab5d3-7209-4113-8caa-3720de3771db">
+    <con:settings/>
+    <con:config service="Catalog operations" resourcePath="/stateroomSubtypesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="GetStaterromSubTypeSummary with bad brand" id="1197acb5-2f32-4522-b67a-b73a83f83492" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/sailingProfilesSummary</con:originalUri>
-        <con:assertion type="XPath Match" id="8d06b2bd-72fe-4a04-9801-4b2546c816b8" name="status">
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/stateroomSubtypesSummary</con:originalUri>
+        <con:assertion type="XPath Match" id="919b3de4-72d6-43ab-9fa9-e8cf76db60ac" name="Match content of [status]">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetSailingProfileSummaryResponse[1]/header[1]/status[1]</path>
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/status[1]/text()</path>
             <content>Failure</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="XPath Match" id="8271334f-abaa-4961-a39b-24c00e7d5a53" name="@code">
+        <con:assertion type="XPath Match" id="7cec960c-a541-4576-8f5a-e7a827fc7163" name="@code">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetSailingProfileSummaryResponse[1]/header[1]/error[1]/@code</path>
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/error[1]/@code</path>
             <content>CATL-005</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="2a17de1f-8b5b-4af0-b444-fe6f62f3a512" name="@description">
+        <con:assertion type="Simple Contains" id="a28587cb-8c86-4f9f-b42a-1a395a0970d4" name="@description">
           <con:configuration>
             <token>Invalid brand</token>
             <ignoreCase>false</ignoreCase>
@@ -189,11 +597,14 @@ if (celebrityShips.contains(shipCode)) {
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#app}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="deckCode" value=""/>
           <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
-          <con:entry key="header.brand" value="asdf"/>
-          <con:entry key="sailDate" value=""/>
+          <con:entry key="header.brand" value="ASDF"/>
+          <con:entry key="effectiveDate" value=""/>
           <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
+          <con:entry key="typeCode" value=""/>
+          <con:entry key="subtypeCode" value=""/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -201,7 +612,10 @@ if (celebrityShips.contains(shipCode)) {
           <con:entry>header.language</con:entry>
           <con:entry>header.domainId</con:entry>
           <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
+          <con:entry>typeCode</con:entry>
+          <con:entry>subtypeCode</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>effectiveDate</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -316,200 +730,43 @@ if (celebrityShips.contains(shipCode)) {
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="GetSailingProfileSummary with bad ShipCode" id="e45dbfac-7521-45e9-8b66-e4da3883e9b0">
+  <con:testStep type="restrequest" name="GetStaterromSubTypeSummary with valid brand, deckCode and blank shipCode" id="ce81b153-760e-449c-b551-696f514a73a8">
     <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/sailingProfilesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="GetSailingProfileSummary with bad ShipCode" id="f74a4aa0-2c05-4c94-bae6-77036a98e578" mediaType="application/json">
+    <con:config service="Catalog operations" resourcePath="/stateroomSubtypesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="GetStaterromSubTypeSummary with valid brand, deckCode and blank shipCode" id="1197acb5-2f32-4522-b67a-b73a83f83492" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/sailingProfilesSummary</con:originalUri>
-        <con:assertion type="XPath Match" id="dccd9393-7e86-41d0-9d84-66a80f7a384f" name="status">
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/stateroomSubtypesSummary</con:originalUri>
+        <con:assertion type="XPath Match" id="919b3de4-72d6-43ab-9fa9-e8cf76db60ac" name="Match content of [status]">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetSailingProfileSummaryResponse[1]/header[1]/status[1]</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" id="36f2b3e0-1769-43ff-adaf-ca16f512f61f" name="traceId">
-          <con:configuration>
-            <token>null</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#app}"/>
-          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value=""/>
-          <con:entry key="shipCode" value="asdf"/>
-        </con:parameters>
-        <con:parameterOrder>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.language</con:entry>
-          <con:entry>header.domainId</con:entry>
-          <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
-        </con:parameterOrder>
-        <con:environmentSpec>
-          <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="be041c68-1c4f-4687-86f3-a7fd0ebf8f9a">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="112d4380-5af5-4434-9ffb-730724ba0b9c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="d0b14709-b491-49ba-810a-8eaf87695276">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="7c6f2394-89c3-49d4-b69c-6342fa3d1e75">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="35b07294-8d95-4318-a9b4-cb4fccfa2147">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="e0ee0f68-1c51-48e5-a2a2-1e17b0c737fd">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2597b8d7-5406-4909-b493-b10a2c17a2da">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="55b003ce-ac20-45c1-bede-fa861d06ef43">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="8113e0fa-0e97-458d-acf0-34e5f47cf7b6">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cce32330-f3ec-401d-a6dc-092cb46510e7">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="260fb9ed-7034-4af6-b042-e535905e090c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="35c5c00e-1d54-4a7f-bbf6-69bb2aa7c049">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="f04bebb4-ce05-45a0-a875-88667fb7e3f5">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="3dd7e3e4-8b16-4060-9022-9468c2f6877b">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="5a8ee53f-fc0e-4d24-900f-a6985f90d6ab">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cc25719b-f05a-4053-8619-f0a74a3bbcb3">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="e03e55d5-1ac6-43a9-8041-d29c5d3bb735">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2103ab01-80bf-437d-b846-b569164a5816">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="b6e67e98-c598-4594-afff-b51a55854cd2">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="69441485-52b8-4269-80c3-224724044cc8">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="b4c0b339-9c72-498f-a512-5d70c9564822">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="639c118c-40a3-43e7-b610-b2e2e468005e">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="6ae2666e-fa63-4093-9d43-ce781a088e8f">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="e6d3c0c6-c6f0-4d75-9a54-c31ff90b2021">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="3e9f6048-de6e-4a88-9cd5-ad372c36533c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="deb8c5dd-f934-47ab-a544-4a4393d71c97">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="6539fc8c-7c42-4a66-bec0-8706162ecd9c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cd9435bf-b0f2-48d9-a2d5-efeb3750b730">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="afbed76e-9fa2-45aa-aba9-d81f6932e4bd">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="88e40651-8e1b-4254-8ce4-63d38395aa39">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cb80cefe-6d41-4a7c-b59a-45526eab19db">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="7169756d-cc6d-4669-bd69-2b38a47c7d34">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="c17cc50a-9f40-48ac-9cb4-c8bdfff3a989">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2a29eb58-5eba-479a-8b18-198bc47a8e71">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-        </con:environmentSpec>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="GetSailingProfileSummary with blank shipCode" id="4cc3e0eb-d3a8-42bc-aaee-359adb06239e">
-    <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/sailingProfilesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="GetSailingProfileSummary with blank shipCode" id="f74a4aa0-2c05-4c94-bae6-77036a98e578" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
-        </con:settings>
-        <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/sailingProfilesSummary</con:originalUri>
-        <con:assertion type="XPath Match" id="8d06b2bd-72fe-4a04-9801-4b2546c816b8" name="status">
-          <con:configuration>
-            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetSailingProfileSummaryResponse[1]/header[1]/status[1]</path>
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/status[1]/text()</path>
             <content>Failure</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="XPath Match" id="8271334f-abaa-4961-a39b-24c00e7d5a53" name="@code">
+        <con:assertion type="XPath Match" id="ab95bd75-5c9f-4c6e-8b61-8256cd7dc3e3" name="Match content of [status]">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetSailingProfileSummaryResponse[1]/header[1]/error[1]/@code</path>
-            <content>NotBlank</content>
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/status[1]/text()</path>
+            <content>Failure</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="2a17de1f-8b5b-4af0-b444-fe6f62f3a512" name="description">
+        <con:assertion type="XPath Match" id="014a9c40-39a0-49aa-b8c5-369fe52e35f5" name="Match content of [@description]">
           <con:configuration>
-            <token>may not be empty</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/error[1]/@description</path>
+            <content>requires shipCode.</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -519,10 +776,14 @@ if (celebrityShips.contains(shipCode)) {
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#app}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="deckCode" value="${#TestCase#deckCode}"/>
           <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value=""/>
+          <con:entry key="effectiveDate" value=""/>
+          <con:entry key="shipCode" value=""/>
+          <con:entry key="typeCode" value=""/>
+          <con:entry key="subtypeCode" value=""/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -530,7 +791,10 @@ if (celebrityShips.contains(shipCode)) {
           <con:entry>header.language</con:entry>
           <con:entry>header.domainId</con:entry>
           <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
+          <con:entry>typeCode</con:entry>
+          <con:entry>subtypeCode</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>effectiveDate</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -645,30 +909,33 @@ if (celebrityShips.contains(shipCode)) {
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="GetSailingProfileSummary with bad sailDate" id="06e7378c-0595-4f0f-95d1-42ade985be3e">
+  <con:testStep type="restrequest" name="GetStaterromSubTypeSummary with valid brand, effectiveDate, typeCode and blank deckCode" id="028f8627-4d45-4836-abee-a2f4cd55c1ea">
     <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/sailingProfilesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="GetSailingProfileSummary with bad sailDate" id="f74a4aa0-2c05-4c94-bae6-77036a98e578" mediaType="application/json">
+    <con:config service="Catalog operations" resourcePath="/stateroomSubtypesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="GetStaterromSubTypeSummary with valid brand, effectiveDate, typeCode and blank deckCode" id="1197acb5-2f32-4522-b67a-b73a83f83492" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/sailingProfilesSummary</con:originalUri>
-        <con:assertion type="XPath Match" id="6411a314-d464-4aac-9ebc-c24eae4a1834" name="status">
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/stateroomSubtypesSummary</con:originalUri>
+        <con:assertion type="XPath Match" id="ab95bd75-5c9f-4c6e-8b61-8256cd7dc3e3" name="Match content of [status]">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetSailingProfileSummaryResponse[1]/header[1]/status[1]</path>
-            <content>Success</content>
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/status[1]/text()</path>
+            <content>Failure</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="ff9d9482-e169-4d83-a731-fd7512fb92cc" name="Contains">
+        <con:assertion type="XPath Match" id="014a9c40-39a0-49aa-b8c5-369fe52e35f5" name="Match content of [@description]">
           <con:configuration>
-            <token>sailDates</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/error[1]/@description</path>
+            <content>requires shipCode.</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -678,10 +945,169 @@ if (celebrityShips.contains(shipCode)) {
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
-          <con:entry key="header.application" value="${#TestCase#app}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="deckCode" value="${#TestCase#deckCode}"/>
           <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value="asdf"/>
+          <con:entry key="effectiveDate" value="${#TestCase#sailDate}"/>
+          <con:entry key="typeCode" value="${#TestCase#typeCode}"/>
+          <con:entry key="shipCode" value=""/>
+          <con:entry key="subtypeCode" value="${#TestCase#subtypeCode}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>typeCode</con:entry>
+          <con:entry>subtypeCode</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>effectiveDate</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be041c68-1c4f-4687-86f3-a7fd0ebf8f9a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="112d4380-5af5-4434-9ffb-730724ba0b9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d0b14709-b491-49ba-810a-8eaf87695276">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7c6f2394-89c3-49d4-b69c-6342fa3d1e75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35b07294-8d95-4318-a9b4-cb4fccfa2147">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e0ee0f68-1c51-48e5-a2a2-1e17b0c737fd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2597b8d7-5406-4909-b493-b10a2c17a2da">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="55b003ce-ac20-45c1-bede-fa861d06ef43">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8113e0fa-0e97-458d-acf0-34e5f47cf7b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cce32330-f3ec-401d-a6dc-092cb46510e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="260fb9ed-7034-4af6-b042-e535905e090c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35c5c00e-1d54-4a7f-bbf6-69bb2aa7c049">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f04bebb4-ce05-45a0-a875-88667fb7e3f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3dd7e3e4-8b16-4060-9022-9468c2f6877b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5a8ee53f-fc0e-4d24-900f-a6985f90d6ab">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cc25719b-f05a-4053-8619-f0a74a3bbcb3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e03e55d5-1ac6-43a9-8041-d29c5d3bb735">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2103ab01-80bf-437d-b846-b569164a5816">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b6e67e98-c598-4594-afff-b51a55854cd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="69441485-52b8-4269-80c3-224724044cc8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b4c0b339-9c72-498f-a512-5d70c9564822">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="639c118c-40a3-43e7-b610-b2e2e468005e">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6ae2666e-fa63-4093-9d43-ce781a088e8f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e6d3c0c6-c6f0-4d75-9a54-c31ff90b2021">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3e9f6048-de6e-4a88-9cd5-ad372c36533c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="deb8c5dd-f934-47ab-a544-4a4393d71c97">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6539fc8c-7c42-4a66-bec0-8706162ecd9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd9435bf-b0f2-48d9-a2d5-efeb3750b730">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="afbed76e-9fa2-45aa-aba9-d81f6932e4bd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="88e40651-8e1b-4254-8ce4-63d38395aa39">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cb80cefe-6d41-4a7c-b59a-45526eab19db">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7169756d-cc6d-4669-bd69-2b38a47c7d34">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c17cc50a-9f40-48ac-9cb4-c8bdfff3a989">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2a29eb58-5eba-479a-8b18-198bc47a8e71">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="GetStaterromSubTypeSummary with valid brand, shipCode and bad effectiveDate" id="c3bbdc97-c81a-4666-8725-7624f9239cbb">
+    <con:settings/>
+    <con:config service="Catalog operations" resourcePath="/stateroomSubtypesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="GetStaterromSubTypeSummary with valid brand, shipCode and bad effectiveDate" id="1197acb5-2f32-4522-b67a-b73a83f83492" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/stateroomSubtypesSummary</con:originalUri>
+        <con:assertion type="XPath Match" id="ab95bd75-5c9f-4c6e-8b61-8256cd7dc3e3" name="Match content of [status]">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
+//ns2:GetStateroomSubtypesSummaryResponse[1]/header[1]/status[1]/text()</path>
+            <content>Failure</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="effectiveDate" value="0000-11-11"/>
           <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
@@ -690,7 +1116,10 @@ if (celebrityShips.contains(shipCode)) {
           <con:entry>header.language</con:entry>
           <con:entry>header.domainId</con:entry>
           <con:entry>shipCode</con:entry>
-          <con:entry>sailDate</con:entry>
+          <con:entry>typeCode</con:entry>
+          <con:entry>subtypeCode</con:entry>
+          <con:entry>deckCode</con:entry>
+          <con:entry>effectiveDate</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -808,11 +1237,11 @@ if (celebrityShips.contains(shipCode)) {
   <con:properties>
     <con:property>
       <con:name>brand</con:name>
-      <con:value>C</con:value>
+      <con:value>R</con:value>
     </con:property>
     <con:property>
       <con:name>application</con:name>
-      <con:value>celebritycruises.com</con:value>
+      <con:value>royalcaribbean.com</con:value>
     </con:property>
     <con:property>
       <con:name>language</con:name>
@@ -823,17 +1252,46 @@ if (celebrityShips.contains(shipCode)) {
       <con:value>1</con:value>
     </con:property>
     <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
       <con:name>packageCode</con:name>
-      <con:value>SL17T034</con:value>
+      <con:value>RD07A337</con:value>
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
-      <con:value>SL</con:value>
+      <con:value>RD</con:value>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2023-10-01</con:value>
+      <con:value>2024-05-10</con:value>
+    </con:property>
+    <con:property>
+      <con:name>categoryCode</con:name>
+      <con:value>3V</con:value>
+    </con:property>
+    <con:property>
+      <con:name>typeCode</con:name>
+      <con:value>I</con:value>
+    </con:property>
+    <con:property>
+      <con:name>subtypeCode</con:name>
+      <con:value>V</con:value>
+    </con:property>
+    <con:property>
+      <con:name>deckCode</con:name>
+      <con:value>10</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
+  <con:environmentSpec>
+    <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
 </con:testCase>
