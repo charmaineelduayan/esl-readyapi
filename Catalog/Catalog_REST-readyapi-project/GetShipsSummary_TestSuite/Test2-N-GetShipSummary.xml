@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="ee8f1f25-decc-46b6-b955-81aaedb6bb1c" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-GetPackagesSummary-bad-brand" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="492e8901-366e-474a-83d5-786682123b29" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-GetShipSummary" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="ee8f1f25-decc-46b6-b955-81aaedb6bb1cfileName">Test2-N-GetPackagesSummary-bad-brand</con:setting>
+    <con:setting id="492e8901-366e-474a-83d5-786682123b29fileName">Test2-N-GetShipSummary</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="3ba1de91-f887-44d8-8fc0-819bc0bb4cdc">
+  <con:testStep type="restrequest" name="cruiseSearch" id="3bd43b00-1162-4442-a58b-ec863151f8a0">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="cruiseSearch-CEL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+      <con:restRequest name="cruiseSearch" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
@@ -106,7 +106,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/brand/shipCode" id="c19437d5-d952-4562-842f-f0e73d464f17">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/brand/shipCode" id="4d584c37-26d5-4ac6-9e6a-2df3aad8c2c4">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -116,7 +116,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 import org.apache.commons.lang3.StringUtils;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 String  url =  ts.getHttpRequest().getResponse().getURL(); 
 log.info(url)
 
@@ -136,10 +136,14 @@ testRunner.testCase.setPropertyValue("brand",brand);
 
 String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
 log.info(language)
-testRunner.testCase.setPropertyValue("language",language);</script>
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&amp;");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="9eeeb191-c5ad-4eb9-a71a-a7c99e13aa1a">
+  <con:testStep type="groovy" name="Fetch_RES_brand/ship/saildate/package" id="fdfb6250-df9a-473e-9286-87ec2bc55115">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -148,7 +152,7 @@ import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 
 
-def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Package Code
@@ -182,36 +186,36 @@ if (celebrityShips.contains(shipCode)) {
 		}</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="GetPackagesSummary-invalid brand" id="c8f392c1-f1e0-4453-ac06-fdd42d3e3a8c">
+  <con:testStep type="restrequest" name="GetShipsSummary-invalid brand" id="f842f117-70d3-43ba-be3b-2a3c132c81a8">
     <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/packagesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="GetPackagesSummary-invalid brand" id="f50332f7-9aa6-4333-aac3-4224431cf862" mediaType="application/json">
+    <con:config service="Catalog operations" resourcePath="/shipsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="GetShipsSummary-invalid brand" id="14dad0f9-3ee9-40ed-b8d8-42b63f1b3d40" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/packagesSummary</con:originalUri>
-        <con:assertion type="XPath Match" id="08c887b7-8424-4583-b121-fed13b18481d" name="Match content of [status]">
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/shipsSummary</con:originalUri>
+        <con:assertion type="XPath Match" id="495c11e3-c711-4854-8bc3-411ab5e618ab" name="Match content of [status]">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetPackagesSummaryResponse[1]/header[1]/status[1]/text()</path>
+//ns2:GetShipsSummaryResponse[1]/header[1]/status[1]/text()</path>
             <content>Failure</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="XPath Match" id="94468afc-4323-4879-84ab-1aed7352019c" name="errorCode">
+        <con:assertion type="XPath Match" id="c021819e-60fe-4ac7-9bc9-73398a6bcca1" name="errorCode">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetPackagesSummaryResponse[1]/header[1]/error[1]/@code</path>
+//ns2:GetShipsSummaryResponse[1]/header[1]/error[1]/@code</path>
             <content>CATL-005</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="Simple Contains" id="eacc21ed-fe99-42f8-b659-f48489820703" name="Contains invalid brand">
+        <con:assertion type="Simple Contains" id="45dd019d-cd1b-4aa8-b108-cdad8d65a602" name="Contains invalid brand">
           <con:configuration>
             <token>Invalid brand</token>
             <ignoreCase>false</ignoreCase>
@@ -226,19 +230,18 @@ if (celebrityShips.contains(shipCode)) {
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="includeAllSailings" value=""/>
+          <con:entry key="shipClassCode" value=""/>
           <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
-          <con:entry key="header.brand" value="RR"/>
-          <con:entry key="startDate" value=""/>
+          <con:entry key="header.brand" value="rr"/>
+          <con:entry key="shipCode" value=""/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
           <con:entry>header.application</con:entry>
           <con:entry>header.language</con:entry>
           <con:entry>header.domainId</con:entry>
-          <con:entry>packageId</con:entry>
-          <con:entry>includeAllSailings</con:entry>
-          <con:entry>startDate</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>shipClassCode</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -353,34 +356,34 @@ if (celebrityShips.contains(shipCode)) {
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="GetPackagesSummary-invalid packageId" id="faa08ee7-b597-4ab6-b514-61096ce07c07">
+  <con:testStep type="restrequest" name="GetShipsSummary-invalid shipCode" id="509f0f58-b794-448a-be5a-f7b689fec364">
     <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/packagesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="GetPackagesSummary-invalid packageId" id="f50332f7-9aa6-4333-aac3-4224431cf862" mediaType="application/json">
+    <con:config service="Catalog operations" resourcePath="/shipsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="GetShipsSummary-invalid shipCode" id="14dad0f9-3ee9-40ed-b8d8-42b63f1b3d40" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/packagesSummary</con:originalUri>
-        <con:assertion type="XPath Match" id="08c887b7-8424-4583-b121-fed13b18481d" name="Match content of [status]">
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/shipsSummary</con:originalUri>
+        <con:assertion type="XPath Match" id="495c11e3-c711-4854-8bc3-411ab5e618ab" name="Match content of [status]">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetPackagesSummaryResponse[1]/header[1]/status[1]/text()</path>
+//ns2:GetShipsSummaryResponse[1]/header[1]/status[1]/text()</path>
             <content>Success</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="4357ef10-d946-4cdb-b5e7-dd52005d6849" name="Script Assertion">
+        <con:assertion type="GroovyScriptAssertion" id="0d58752e-87ee-47ff-88de-ed6cd9294dfb" name="Script Assertion">
           <con:configuration>
             <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
 def xmlSlurper = new groovy.xml.XmlSlurper();
 def parse = xmlSlurper.parseText(xmlRes)
 
-def packageList = parse.packageList
-log.info packageList
-assert packageList==""</scriptText>
+def shipList = parse.shipList
+log.info shipList
+assert shipList==""</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -391,20 +394,18 @@ assert packageList==""</scriptText>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="includeAllSailings" value=""/>
-          <con:entry key="packageId" value="QQQQQ"/>
+          <con:entry key="shipClassCode" value=""/>
           <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="startDate" value=""/>
+          <con:entry key="shipCode" value="QQ"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
           <con:entry>header.application</con:entry>
           <con:entry>header.language</con:entry>
           <con:entry>header.domainId</con:entry>
-          <con:entry>packageId</con:entry>
-          <con:entry>includeAllSailings</con:entry>
-          <con:entry>startDate</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>shipClassCode</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -519,33 +520,34 @@ assert packageList==""</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="GetPackagesSummary-invalid startDate" id="4187d409-f3c2-4249-976f-799808a336e4">
+  <con:testStep type="restrequest" name="GetShipsSummary-invalid shipClassCode" id="c195f399-0e20-46d4-aa7f-374eafd6c6c2">
     <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/packagesSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="GetPackagesSummary-invalid startDate" id="f50332f7-9aa6-4333-aac3-4224431cf862" mediaType="application/json">
+    <con:config service="Catalog operations" resourcePath="/shipsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="GetShipsSummary-invalid shipClassCode" id="14dad0f9-3ee9-40ed-b8d8-42b63f1b3d40" mediaType="application/json">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/packagesSummary</con:originalUri>
-        <con:assertion type="XPath Match" id="08c887b7-8424-4583-b121-fed13b18481d" name="Match content of [status]">
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/shipsSummary</con:originalUri>
+        <con:assertion type="XPath Match" id="495c11e3-c711-4854-8bc3-411ab5e618ab" name="Match content of [status]">
           <con:configuration>
             <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetPackagesSummaryResponse[1]/header[1]/status[1]/text()</path>
-            <content>Failure</content>
+//ns2:GetShipsSummaryResponse[1]/header[1]/status[1]/text()</path>
+            <content>Success</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="XPath Match" id="e34da487-eb2a-48a5-9e55-a8f99d5cc95c" name="errorCode">
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="692e7904-0f63-4ff8-9d41-d6c93736bed0">
           <con:configuration>
-            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:GetPackagesSummaryResponse[1]/header[1]/error[1]/@code</path>
-            <content>unknownError</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+
+def shipList = parse.shipList
+log.info shipList
+assert shipList==""</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -556,20 +558,18 @@ assert packageList==""</scriptText>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="includeAllSailings" value=""/>
-          <con:entry key="packageId" value="${#TestCase#packageCode}"/>
+          <con:entry key="shipClassCode" value="XY"/>
           <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="startDate" value="05-05-2018"/>
+          <con:entry key="shipCode" value=""/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
           <con:entry>header.application</con:entry>
           <con:entry>header.language</con:entry>
           <con:entry>header.domainId</con:entry>
-          <con:entry>packageId</con:entry>
-          <con:entry>includeAllSailings</con:entry>
-          <con:entry>startDate</con:entry>
+          <con:entry>shipCode</con:entry>
+          <con:entry>shipClassCode</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -713,13 +713,12 @@ assert packageList==""</scriptText>
       <con:name>sailDate</con:name>
       <con:value>2023-10-01</con:value>
     </con:property>
+    <con:property>
+      <con:name>domainId</con:name>
+      <con:value>1</con:value>
+    </con:property>
   </con:properties>
   <con:reportParameters/>
-  <con:breakPoints>
-    <con:testStepId>38014a41-e80d-4088-8df6-ed6ab5438480</con:testStepId>
-    <con:status>NONE</con:status>
-    <con:properties/>
-  </con:breakPoints>
   <con:environmentSpec>
     <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
       <con:authProfile>Inherit From Parent</con:authProfile>
