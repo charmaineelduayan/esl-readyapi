@@ -1,44 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="b556e932-8e34-4f4f-a57d-538adc1188f8" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-RetrieveStates-blank-stateType" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="b556e932-8e34-4f4f-a57d-538adc1188f8" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test2-N-RetrieveStates" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="b556e932-8e34-4f4f-a57d-538adc1188f8fileName">Test2-N-RetrieveStates-blank-stateType</con:setting>
+    <con:setting id="b556e932-8e34-4f4f-a57d-538adc1188f8fileName">Test2-N-RetrieveStates</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="datasource" name="CatalogDS" id="6a16e9f0-7cb0-4d57-9fd7-5761bb8e2281">
+  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="cdac6a1e-fff0-49db-a645-30fb3110ec59">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>Catalog_Rest_Input.xlsx</file>
-          <worksheet>RetrieveStates</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>stateType</con:property>
-      <con:startRow>4</con:startRow>
-      <con:endRow>4</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-CEL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="aeea0b73-a636-43f8-9e7e-592c253cb5c6" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="970f9f2a-b98c-4157-a7d0-bdb110cadbb3" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+log.info parse
+
+
+def totalHits = (parse.resultsSummary.totalHits.text()).toInteger()
+log.info totalHits
+assert totalHits!=0</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="qualifiers.qualifierScope" value="SEARCH_AND_PRICE"/>
+          <con:entry key="header.language" value="en_us"/>
+          <con:entry key="resultsPreference.includeOnlyIfPriceAvailable" value="true"/>
+          <con:entry key="criteria.channel" value="VP"/>
+          <con:entry key="qualifiers.offersType.strictPricingFlag" value="true"/>
+          <con:entry key="qualifiers.priceScope" value="REQUESTED_AVAILABLE"/>
+          <con:entry key="criteria.currency" value="USD"/>
+          <con:entry key="resultsPreference.strictSearch" value="true"/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="resultsPreference.priceLevel.bestPricedCategory" value="true"/>
+          <con:entry key="criteria.sailingDate.date" value=""/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="resultsPreference.sortOrder" value="DESCENDING"/>
+          <con:entry key="resultsPreference.includePrices" value="true"/>
+          <con:entry key="resultsPreference.groupBy" value="PACKAGE"/>
+          <con:entry key="criteria.bookingType" value="FIT"/>
+          <con:entry key="resultsPreference.pagination.count" value="100"/>
+          <con:entry key="header.domainId" value="1"/>
+          <con:entry key="criteria.occupancy.adult" value="2"/>
+          <con:entry key="resultsPreference.sortBy" value="DURATION"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/brand/shipCode" id="af13f73f-c04a-48fb-a969-a17ef1058c17">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String app = StringUtils.substringBetween(url, "header.application=", "&amp;");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&amp;");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&amp;");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&amp;");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&amp;");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="RetrieveStates with stateType" id="5b027a40-32ff-4091-8b65-0440993e1d9f">
@@ -46,10 +148,7 @@
     <con:config service="Catalog operations" resourcePath="/retrieveStates" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStates with stateType" id="0d085041-1b93-4a67-a519-96a7f0ea5fdf" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveStates</con:originalUri>
@@ -63,17 +162,34 @@
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="XPath Match" id="4a05fca4-35e8-48f7-8fab-255dfec02e56" name="errorCode">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
+//ns2:RetrieveStatesResponse[1]/header[1]/error[1]/@code</path>
+            <content>NotBlank</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="942ddc51-a045-4709-aee5-d4346ee4c69f" name="Contains may not be empty">
+          <con:configuration>
+            <token>may not be empty</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
-          <con:entry key="stateType" value="${CatalogDS1#stateType}"/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="stateType" value=""/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -193,10 +309,7 @@
     <con:config service="Catalog operations" resourcePath="/retrieveStates" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveStates with bad stateType" id="0d085041-1b93-4a67-a519-96a7f0ea5fdf" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveStates</con:originalUri>
@@ -210,17 +323,35 @@
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="f86cffc3-e659-4e30-8596-806933ffb2b5" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
+def xmlSlurper = new groovy.xml.XmlSlurper();
+def parse = xmlSlurper.parseText(xmlRes)
+
+def states = parse.states
+assert states!=null
+
+def stateCode = parse.states.state.code
+log.info stateCode
+assert stateCode=='NA'
+
+def stateName = parse.states.state.name
+log.info stateName
+assert stateName=='Not Applicable'</scriptText>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
-          <con:entry key="stateType" value="${CatalogDS#stateType}"/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="stateType" value="XYZ"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:environmentSpec>
           <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
@@ -335,7 +466,28 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:properties>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>domainId</con:name>
+      <con:value>1</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:breakPoints>
     <con:testStepId>4997f55a-452a-4168-a8b2-810ea7891b7d</con:testStepId>
