@@ -1,58 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="c206b472-0d92-49d0-bc74-15c0548d0c2d" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-RetrieveDeliveryLocation" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="9b210de6-e45f-4c0d-ab37-fcd639c76be3" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-RetrieveDeliveryLocation" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="c206b472-0d92-49d0-bc74-15c0548d0c2dfileName">Test1-P-RetrieveDeliveryLocation</con:setting>
+    <con:setting id="9b210de6-e45f-4c0d-ab37-fcd639c76be3fileName">Test1-P-RetrieveDeliveryLocation</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="datasource" name="CatalogDS" id="eeb84dff-0711-4fdb-8aa3-6f1d9dd11483">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="8307ec72-253b-4144-a0d7-8a76449c5def">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>Catalog_Rest_Input.xlsx</file>
-          <worksheet>RetrieveDeliveryLocation</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>itemCode</con:property>
-      <con:property>collectionCode</con:property>
-      <con:property>classificationCode</con:property>
-      <con:property>saleSourceCode</con:property>
-      <con:startRow>0</con:startRow>
-      <con:endRow>0</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-ROYAL" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="XPath Match" id="d1c11019-6fb0-4f9d-a797-02c5d8e40b67" name="Status">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
+//ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="criteria.brand.value" value="R"/>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
+          <con:entry key="qualifiers.itineraryGroup.value" value=""/>
+          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation" id="53cc6986-d125-48d3-a3e9-2a436eacb383">
+  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId" id="ba8d7ef2-deb2-48d6-905e-169770325170">
+    <con:settings/>
+    <con:config>
+      <script><![CDATA[import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+String app = StringUtils.substringBetween(url, "header.application=", "&");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);]]></script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_packagecode/shipcode/saildate" id="95b92570-f2bd-465d-839e-78f5a3523fa7">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R" id="22523a74-900c-4570-accd-dbbb19e6b069">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -74,13 +184,13 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -205,15 +315,41 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with itemCode" id="ab310065-652d-4cc2-b746-729119ea2ef0">
+  <con:testStep type="groovy" name="Fetch_RES_itemCode/collectionCode/classificationCode/saleSourceCode" id="5d715fbd-f624-4f12-a522-9aa15efb5bd5">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("RetrieveDeliveryLocation-R");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def itemCode = res.retrievedDeliveryTypes.deliveryType.itemCode[0].text()
+log.info(itemCode)
+testRunner.testCase.setPropertyValue("itemCode",itemCode);
+
+def collectionCode = res.retrievedDeliveryTypes.deliveryType.collectionCode[0].text()
+log.info(collectionCode)
+testRunner.testCase.setPropertyValue("collectionCode",collectionCode);
+
+def classificationCode = res.retrievedDeliveryTypes.deliveryType.classificationCode[0].text()
+log.info(classificationCode)
+testRunner.testCase.setPropertyValue("classificationCode",classificationCode);
+
+def saleSourceCode = res.retrievedDeliveryTypes.deliveryType.salesSouces[0].text()
+log.info(saleSourceCode)
+testRunner.testCase.setPropertyValue("saleSourceCode",saleSourceCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with itemCode" id="74d857f6-d38f-46c7-ac66-0b24be60bd07">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with itemCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with itemCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -235,13 +371,13 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
-          <con:entry key="itemCode" value="${RetrieveDeliveryLocation#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/itemCode[1]}"/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="itemCode" value="${#TestCase#itemCode}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -366,15 +502,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with collectionCode" id="95c693ce-18c1-4d6c-b7c2-d0071c708574">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with collectionCode" id="66984c7c-cdee-442e-b40f-6a33557d83d2">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with collectionCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with collectionCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -396,13 +529,13 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
-          <con:entry key="collectionCode" value="${RetrieveDeliveryLocation#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/collectionCode[1]}"/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="collectionCode" value="${#TestCase#collectionCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -527,15 +660,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with classificationCode" id="0b09b96d-d414-4393-8e4e-a0e784a78345">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with classificationCode" id="e330f184-5100-4e24-8462-28be76249d7a">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with classificationCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with classificationCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -557,13 +687,13 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
-          <con:entry key="classificationCode" value="${RetrieveDeliveryLocation#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/classificationCode[1]}"/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="classificationCode" value="${#TestCase#classificationCode}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -688,15 +818,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with saleSourceCode" id="2c41ad6b-950e-4252-aeda-acff6a5d4f40">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-R-with saleSourceCode" id="a28daa2f-8c5c-4148-ab79-cb05ad2efa5d">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with saleSourceCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-R-with saleSourceCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -717,14 +844,13 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value="${RetrieveDeliveryLocation#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/salesSouces[1]}"/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="saleSourceCode" value="${#TestCase#saleSourceCode}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -849,72 +975,19 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="CatalogDS1" id="76788dee-61f7-48c6-bb9c-a1741f069ab5">
+  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="3b8085a7-072f-41f4-816d-55ff184d68d2">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>Catalog_Rest_Input.xlsx</file>
-          <worksheet>RetrieveDeliveryLocation</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>itemCode</con:property>
-      <con:property>collectionCode</con:property>
-      <con:property>classificationCode</con:property>
-      <con:property>saleSourceCode</con:property>
-      <con:startRow>1</con:startRow>
-      <con:endRow>1</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with  brand c" id="786d68a8-4af8-4048-b8ae-8fef5a23dc59">
-    <con:settings/>
-    <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with  brand c" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-CEL" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
         </con:settings>
         <con:request/>
-        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
-        <con:assertion type="XPath Match" id="74c3be9d-f13a-4460-9fa8-3e887fb640c8" name="Match content of [status]">
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="XPath Match" id="d1c11019-6fb0-4f9d-a797-02c5d8e40b67" name="Status">
           <con:configuration>
-            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:RetrieveDeliveryLocationResponse[1]/header[1]/status[1]/text()</path>
-            <content>Success</content>
-            <allowWildcards>false</allowWildcards>
-            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
-            <ignoreComments>false</ignoreComments>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="XPath Match" id="5797c909-78c3-4a80-ac0e-be9cd06423b7" name="Match content of [status]">
-          <con:configuration>
-            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
-//ns2:RetrieveDeliveryLocationResponse[1]/header[1]/status[1]/text()</path>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
+//ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
             <content>Success</content>
             <allowWildcards>false</allowWildcards>
             <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
@@ -926,149 +999,139 @@
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
+          <con:entry key="qualifiers.itineraryGroup.value" value=""/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
         </con:parameters>
         <con:parameterOrder>
-          <con:entry>header.brand</con:entry>
-          <con:entry>header.application</con:entry>
-          <con:entry>header.language</con:entry>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
           <con:entry>header.domainId</con:entry>
-          <con:entry>itemCode</con:entry>
-          <con:entry>collectionCode</con:entry>
-          <con:entry>classificationCode</con:entry>
-          <con:entry>saleSourceCode</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
         </con:parameterOrder>
         <con:environmentSpec>
-          <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
             <con:authProfile>Inherit From Parent</con:authProfile>
           </con:entry>
-          <con:entry environmentId="be041c68-1c4f-4687-86f3-a7fd0ebf8f9a">
-            <con:authProfile>No Authorization</con:authProfile>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
           </con:entry>
-          <con:entry environmentId="112d4380-5af5-4434-9ffb-730724ba0b9c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="d0b14709-b491-49ba-810a-8eaf87695276">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="7c6f2394-89c3-49d4-b69c-6342fa3d1e75">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="35b07294-8d95-4318-a9b4-cb4fccfa2147">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="e0ee0f68-1c51-48e5-a2a2-1e17b0c737fd">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2597b8d7-5406-4909-b493-b10a2c17a2da">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="55b003ce-ac20-45c1-bede-fa861d06ef43">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="8113e0fa-0e97-458d-acf0-34e5f47cf7b6">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cce32330-f3ec-401d-a6dc-092cb46510e7">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="260fb9ed-7034-4af6-b042-e535905e090c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="35c5c00e-1d54-4a7f-bbf6-69bb2aa7c049">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="f04bebb4-ce05-45a0-a875-88667fb7e3f5">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="3dd7e3e4-8b16-4060-9022-9468c2f6877b">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="5a8ee53f-fc0e-4d24-900f-a6985f90d6ab">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cc25719b-f05a-4053-8619-f0a74a3bbcb3">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="e03e55d5-1ac6-43a9-8041-d29c5d3bb735">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2103ab01-80bf-437d-b846-b569164a5816">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="b6e67e98-c598-4594-afff-b51a55854cd2">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="69441485-52b8-4269-80c3-224724044cc8">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="b4c0b339-9c72-498f-a512-5d70c9564822">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="639c118c-40a3-43e7-b610-b2e2e468005e">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="6ae2666e-fa63-4093-9d43-ce781a088e8f">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="e6d3c0c6-c6f0-4d75-9a54-c31ff90b2021">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="3e9f6048-de6e-4a88-9cd5-ad372c36533c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="deb8c5dd-f934-47ab-a544-4a4393d71c97">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="6539fc8c-7c42-4a66-bec0-8706162ecd9c">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cd9435bf-b0f2-48d9-a2d5-efeb3750b730">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="afbed76e-9fa2-45aa-aba9-d81f6932e4bd">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="88e40651-8e1b-4254-8ce4-63d38395aa39">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="cb80cefe-6d41-4a7c-b59a-45526eab19db">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="7169756d-cc6d-4669-bd69-2b38a47c7d34">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="c17cc50a-9f40-48ac-9cb4-c8bdfff3a989">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2a29eb58-5eba-479a-8b18-198bc47a8e71">
-            <con:authProfile>No Authorization</con:authProfile>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c, itemCode" id="2696270f-d4d5-42a0-8a2f-80efdb1e56d8">
+  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId 2" id="40560ea3-2310-4f0e-82ac-7bb6d2c75ddd">
+    <con:settings/>
+    <con:config>
+      <script><![CDATA[import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+String app = StringUtils.substringBetween(url, "header.application=", "&");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);]]></script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_packagecode/shipcode/saildate 2" id="6513b8ca-b918-45b0-a24e-46dcde1a8c25">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C" id="f5f7ef93-daac-48ce-830b-f0efcd7f20e1">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c, itemCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -1090,13 +1153,13 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
-          <con:entry key="itemCode" value="${RetrieveDeliveryLocation with  brand c#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/itemCode[1]}"/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="itemCode" value=""/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1221,15 +1284,41 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c, collectionCode" id="3d9913b7-f844-4718-9920-32bebe8f4762">
+  <con:testStep type="groovy" name="Fetch_RES_itemCode/collectionCode/classificationCode/saleSourceCode 2" id="04a903fe-65da-4d55-aebf-76058e2ef36c">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("RetrieveDeliveryLocation-C");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def itemCode = res.retrievedDeliveryTypes.deliveryType.itemCode[0].text()
+log.info(itemCode)
+testRunner.testCase.setPropertyValue("itemCode",itemCode);
+
+def collectionCode = res.retrievedDeliveryTypes.deliveryType.collectionCode[0].text()
+log.info(collectionCode)
+testRunner.testCase.setPropertyValue("collectionCode",collectionCode);
+
+def classificationCode = res.retrievedDeliveryTypes.deliveryType.classificationCode[0].text()
+log.info(classificationCode)
+testRunner.testCase.setPropertyValue("classificationCode",classificationCode);
+
+def saleSourceCode = res.retrievedDeliveryTypes.deliveryType.salesSouces[0].text()
+log.info(saleSourceCode)
+testRunner.testCase.setPropertyValue("saleSourceCode",saleSourceCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with itemCode" id="986b27b5-523f-4959-8eb8-e5563c07bcdc">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c, collectionCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with itemCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -1251,13 +1340,13 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
-          <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
-          <con:entry key="collectionCode" value="${RetrieveDeliveryLocation with  brand c#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/collectionCode[1]}"/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="itemCode" value="${#TestCase#itemCode}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="collectionCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1382,15 +1471,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c, classificationCode" id="35cf5e1b-9028-4121-8be5-df6d2ffba305">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with collectionCode" id="0651ef3f-00f8-4afd-b402-c1eafeb2d67f">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c, classificationCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with collectionCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -1412,13 +1498,13 @@
         <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="saleSourceCode" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
-          <con:entry key="classificationCode" value="${RetrieveDeliveryLocation with  brand c#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/classificationCode[1]}"/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="classificationCode" value=""/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
-          <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="collectionCode" value="${#TestCase#collectionCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1543,15 +1629,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveDeliveryLocation with brand c, saleSourceCode" id="af513f41-5912-4262-a6b1-4a4e265df273">
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with classificationCode" id="2d79cfd9-9d9b-4481-b96f-efabc2428cc4">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveDeliveryLocation with brand c, saleSourceCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with classificationCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
@@ -1572,14 +1655,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="saleSourceCode" value="${RetrieveDeliveryLocation with  brand c#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrieveDeliveryLocationResponse[1]/retrievedDeliveryTypes[1]/deliveryType[1]/salesSouces[1]}"/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
-          <con:entry key="classificationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="saleSourceCode" value=""/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="classificationCode" value="${#TestCase#classificationCode}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="itemCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="collectionCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1704,7 +1787,217 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:testStep type="restrequest" name="RetrieveDeliveryLocation-C-with saleSourceCode" id="3342840c-41e0-46d7-9cc6-1dddc52a905f">
+    <con:settings/>
+    <con:config service="Catalog operations" resourcePath="/retrieveDeliveryLocations" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="RetrieveDeliveryLocation-C-with saleSourceCode" id="441ba4dd-9534-46c8-8fcb-586eb7fccaea" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/retrieveDeliveryLocations</con:originalUri>
+        <con:assertion type="XPath Match" id="74c3be9d-f13a-4460-9fa8-3e887fb640c8" name="Match content of [status]">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2';
+//ns2:RetrieveDeliveryLocationResponse[1]/header[1]/status[1]/text()</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:parameters>
+          <con:entry key="saleSourceCode" value="${#TestCase#saleSourceCode}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="itemCode" value=""/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="collectionCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>header.brand</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>itemCode</con:entry>
+          <con:entry>collectionCode</con:entry>
+          <con:entry>classificationCode</con:entry>
+          <con:entry>saleSourceCode</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="be041c68-1c4f-4687-86f3-a7fd0ebf8f9a">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="112d4380-5af5-4434-9ffb-730724ba0b9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="d0b14709-b491-49ba-810a-8eaf87695276">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7c6f2394-89c3-49d4-b69c-6342fa3d1e75">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35b07294-8d95-4318-a9b4-cb4fccfa2147">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e0ee0f68-1c51-48e5-a2a2-1e17b0c737fd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2597b8d7-5406-4909-b493-b10a2c17a2da">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="55b003ce-ac20-45c1-bede-fa861d06ef43">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="8113e0fa-0e97-458d-acf0-34e5f47cf7b6">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cce32330-f3ec-401d-a6dc-092cb46510e7">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="260fb9ed-7034-4af6-b042-e535905e090c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="35c5c00e-1d54-4a7f-bbf6-69bb2aa7c049">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="f04bebb4-ce05-45a0-a875-88667fb7e3f5">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3dd7e3e4-8b16-4060-9022-9468c2f6877b">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5a8ee53f-fc0e-4d24-900f-a6985f90d6ab">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cc25719b-f05a-4053-8619-f0a74a3bbcb3">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e03e55d5-1ac6-43a9-8041-d29c5d3bb735">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2103ab01-80bf-437d-b846-b569164a5816">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b6e67e98-c598-4594-afff-b51a55854cd2">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="69441485-52b8-4269-80c3-224724044cc8">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="b4c0b339-9c72-498f-a512-5d70c9564822">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="639c118c-40a3-43e7-b610-b2e2e468005e">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6ae2666e-fa63-4093-9d43-ce781a088e8f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="e6d3c0c6-c6f0-4d75-9a54-c31ff90b2021">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3e9f6048-de6e-4a88-9cd5-ad372c36533c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="deb8c5dd-f934-47ab-a544-4a4393d71c97">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="6539fc8c-7c42-4a66-bec0-8706162ecd9c">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cd9435bf-b0f2-48d9-a2d5-efeb3750b730">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="afbed76e-9fa2-45aa-aba9-d81f6932e4bd">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="88e40651-8e1b-4254-8ce4-63d38395aa39">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="cb80cefe-6d41-4a7c-b59a-45526eab19db">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="7169756d-cc6d-4669-bd69-2b38a47c7d34">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="c17cc50a-9f40-48ac-9cb4-c8bdfff3a989">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="2a29eb58-5eba-479a-8b18-198bc47a8e71">
+            <con:authProfile>No Authorization</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>domainId</con:name>
+      <con:value>1</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>SL17T034</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>SL</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2023-10-01</con:value>
+    </con:property>
+    <con:property>
+      <con:name>itemCode</con:name>
+      <con:value>000102</con:value>
+    </con:property>
+    <con:property>
+      <con:name>collectionCode</con:name>
+      <con:value>FRUITBSK</con:value>
+    </con:property>
+    <con:property>
+      <con:name>classificationCode</con:name>
+      <con:value>CANAPW</con:value>
+    </con:property>
+    <con:property>
+      <con:name>saleSourceCode</con:name>
+      <con:value>C</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:environmentSpec>
     <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
