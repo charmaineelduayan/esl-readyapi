@@ -371,12 +371,16 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="properties" name="Properties 1 - airportCode" id="80f638dd-7b5c-413e-8262-1887d936745b">
+  <con:testStep type="properties" name="Properties-airportCodes" id="80f638dd-7b5c-413e-8262-1887d936745b">
     <con:settings/>
     <con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:properties>
         <con:property>
-          <con:name>PORTCODE</con:name>
+          <con:name>PORTCODE_R</con:name>
+          <con:value>AAR</con:value>
+        </con:property>
+        <con:property>
+          <con:name>PORTCODE_C</con:name>
           <con:value>ABD</con:value>
         </con:property>
       </con:properties>
@@ -396,31 +400,181 @@
       <con:properties/>
     </con:config>
   </con:testStep>
-  <con:testStep type="transfer" name="PropertyTransfer 1" id="248bdf04-6f32-415a-9bac-adfd1d27e850">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="7b2fc1e0-cff9-43ee-9c5d-de114cc75ec4">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-ROYAL" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="XPath Match" id="d1c11019-6fb0-4f9d-a797-02c5d8e40b67" name="Status">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
+//ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="criteria.brand.value" value="R"/>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
+          <con:entry key="qualifiers.itineraryGroup.value" value=""/>
+          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId" id="831f5889-7e0e-46fd-aec5-fc5c24cc0c8d">
+    <con:settings/>
+    <con:config>
+      <script><![CDATA[import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+String app = StringUtils.substringBetween(url, "header.application=", "&");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);]]></script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_packagecode/shipcode/saildate" id="811b4691-59a0-43b5-b4ec-28fa112a9900">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer-R" id="248bdf04-6f32-415a-9bac-adfd1d27e850">
     <con:settings/>
     <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" transferToAll="false" entitize="false" transferChildNodes="false" ignoreEmpty="false">
-        <con:name>PORTCODE</con:name>
+        <con:name>PORTCODE_R</con:name>
         <con:sourceType>ResponseAsXml</con:sourceType>
         <con:sourceStep>JDBC Request - airportCodes</con:sourceStep>
-        <con:sourcePath>//Results[1]/ResultSet[1]/Row[2]/PORTCODE[1]</con:sourcePath>
-        <con:targetType>PORTCODE</con:targetType>
-        <con:targetStep>Properties 1 - airportCode</con:targetStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[1]/PORTCODE[1]</con:sourcePath>
+        <con:targetType>PORTCODE_R</con:targetType>
+        <con:targetStep>Properties-airportCodes</con:targetStep>
         <con:targetPath/>
         <con:type>XPATH</con:type>
         <con:upgraded>true</con:upgraded>
       </con:transfers>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveAirportForPort - Royal" id="524e09e1-aee7-4fcb-9af3-b8935b5ab61e">
+  <con:testStep type="restrequest" name="RetrieveAirportForPort-R" id="524e09e1-aee7-4fcb-9af3-b8935b5ab61e">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/airportForPort" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveAirportForPort - Royal" id="3a430d67-1c8a-49b5-a73f-62dec68b525c" mediaType="application/json">
+      <con:restRequest name="RetrieveAirportForPort-R" id="3a430d67-1c8a-49b5-a73f-62dec68b525c" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/airportForPort</con:originalUri>
@@ -441,9 +595,10 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="en_us"/>
-          <con:entry key="portCode" value="${Properties 1 - airportCode#PORTCODE}"/>
-          <con:entry key="header.brand" value="1"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="portCode" value="${Properties-airportCodes#PORTCODE_R}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -558,15 +713,179 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveAirportForPort - Celeb" id="2ffa3331-cd97-481f-a1b3-333cb70bb0bd">
+  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="d0a595af-53e5-477f-97d9-86b6525e5cc8">
+    <con:settings/>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-CEL" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="XPath Match" id="d1c11019-6fb0-4f9d-a797-02c5d8e40b67" name="Status">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
+//ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="qualifiers.itineraryGroup.value" value=""/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId 2" id="4aad7a1d-a644-4f94-8bc8-53f951de4a35">
+    <con:settings/>
+    <con:config>
+      <script><![CDATA[import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+String app = StringUtils.substringBetween(url, "header.application=", "&");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);]]></script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_packagecode/shipcode/saildate 2" id="cd5c578d-1901-402c-b778-86673e3e24df">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="transfer" name="PropertyTransfer-C" id="9a3d75f2-4933-4458-9ea2-be1b5bb354b9">
+    <con:settings/>
+    <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" transferToAll="false" entitize="false" transferChildNodes="false" ignoreEmpty="false">
+        <con:name>PORTCODE_C</con:name>
+        <con:sourceType>ResponseAsXml</con:sourceType>
+        <con:sourceStep>JDBC Request - airportCodes</con:sourceStep>
+        <con:sourcePath>//Results[1]/ResultSet[1]/Row[2]/PORTCODE[1]</con:sourcePath>
+        <con:targetType>PORTCODE_C</con:targetType>
+        <con:targetStep>Properties-airportCodes</con:targetStep>
+        <con:targetPath/>
+        <con:type>XPATH</con:type>
+        <con:upgraded>true</con:upgraded>
+      </con:transfers>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrieveAirportForPort-C" id="b67767cb-0853-42de-b508-d79edb060c0a">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/airportForPort" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrieveAirportForPort - Celeb" id="3a430d67-1c8a-49b5-a73f-62dec68b525c" mediaType="application/json">
+      <con:restRequest name="RetrieveAirportForPort-C" id="3a430d67-1c8a-49b5-a73f-62dec68b525c" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/airportForPort</con:originalUri>
@@ -587,10 +906,10 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:jmsPropertyConfig/>
         <con:parameters>
-          <con:entry key="header.language" value="en_us"/>
-          <con:entry key="header.application" value="celebritycruises.com"/>
-          <con:entry key="portCode" value="${Properties 1 - airportCode#PORTCODE}"/>
-          <con:entry key="header.brand" value="6"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
+          <con:entry key="portCode" value="${Properties-airportCodes#PORTCODE_C}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.application</con:entry>
@@ -705,7 +1024,44 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:properties>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>domainId</con:name>
+      <con:value>1</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>SL17T034</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>SL</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2023-10-01</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:breakPoints>
     <con:testStepId>00b0da81-dc20-4fbf-a251-05ce7f4adb41</con:testStepId>
