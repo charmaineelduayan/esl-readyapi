@@ -1,59 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="c7d50383-e398-4ac4-adbc-325fed97b545" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-RetrievePortsSummary" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="a188e54c-5ad5-4275-aca0-22cecde188b5" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-RetrievePortsSummary" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="c7d50383-e398-4ac4-adbc-325fed97b545fileName">Test1-P-RetrievePortsSummary</con:setting>
+    <con:setting id="a188e54c-5ad5-4275-aca0-22cecde188b5fileName">Test1-P-RetrievePortsSummary</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="datasource" name="CatalogDS" id="09cec40c-5747-4181-8148-87254705f1e8">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="cd704eaa-c4e9-4f63-9209-df5b45a543f9">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>Catalog_Rest_Input.xlsx</file>
-          <worksheet>RetrievePortsSummary</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>destinationCode</con:property>
-      <con:property>countryCode</con:property>
-      <con:property>portCode</con:property>
-      <con:property>portType</con:property>
-      <con:property>shipCode</con:property>
-      <con:startRow>0</con:startRow>
-      <con:endRow>0</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-ROYAL" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="XPath Match" id="d1c11019-6fb0-4f9d-a797-02c5d8e40b67" name="Status">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
+//ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="criteria.brand.value" value="R"/>
+          <con:entry key="header.application" value="royalcaribbean.com"/>
+          <con:entry key="qualifiers.itineraryGroup.value" value=""/>
+          <con:entry key="criteria.ship.value" value="${#Global#royalShip}"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary" id="66f33f5d-0f4c-495b-8bb8-45165d898c95">
+  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId" id="d6b9da33-6851-4196-af81-072af3374bc9">
+    <con:settings/>
+    <con:config>
+      <script><![CDATA[import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+String app = StringUtils.substringBetween(url, "header.application=", "&");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);]]></script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_packagecode/shipcode/saildate" id="23c92bbf-6f3c-460f-87e6-daabba5f4dae">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-ROYAL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrievePortsSummary-R" id="183098b5-55b6-4b80-91d4-4841574d76b6">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-R" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -74,15 +183,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -209,15 +317,41 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with destinationCode" id="01edb020-c0f0-41a2-86d6-597b13e1cbb7">
+  <con:testStep type="groovy" name="Fetch_RES_destinationCode/countryCode/portCode/portType" id="f0edf627-d584-4f74-a288-29b80272dfbf">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("RetrievePortsSummary-R");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def destinationCode = res.ports.port.destinations.destination.code[0].text()
+log.info(destinationCode)
+testRunner.testCase.setPropertyValue("destinationCode",destinationCode);
+
+def countryCode = res.ports.port.countryCode[0].text()
+log.info(countryCode)
+testRunner.testCase.setPropertyValue("countryCode",countryCode);
+
+def portCode = res.ports.port.code[0].text()
+log.info(portCode)
+testRunner.testCase.setPropertyValue("portCode",portCode);
+
+def portType = res.ports.port.portType[0].text()
+log.info(portType)
+testRunner.testCase.setPropertyValue("portType",portType);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrievePortsSummary-R-with destinationCode" id="673b2c06-16ea-45d4-9848-cb9e25721404">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with destinationCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-R-with destinationCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -238,15 +372,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
-          <con:entry key="destinationCode" value="${RetrievePortsSummary#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrievePortsSummaryResponse[1]/ports[1]/port[1]/destinations[1]/destination[1]/code[1]}"/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="destinationCode" value="${#TestCase#destinationCode}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -373,15 +506,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with countryCode" id="202b2371-921e-495e-aefe-7dc0a479fb7d">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-R-with countryCode" id="80aee515-c882-4426-b1e0-43fdd24abbc5">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with countryCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-R-with countryCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -402,15 +532,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
-          <con:entry key="countryCode" value="${CatalogDS#countryCode}"/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="countryCode" value="${#TestCase#countryCode}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -537,15 +666,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with portCode" id="367f04ee-06cf-4b25-8ed4-7a543cee8a05">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-R-with portCode" id="56fcc987-6190-4d8f-b7e2-31221683b8f7">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with portCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-R-with portCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -566,15 +692,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
-          <con:entry key="portCode" value="${RetrievePortsSummary#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrievePortsSummaryResponse[1]/ports[1]/port[1]/code[1]}"/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="portCode" value="${#TestCase#portCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -701,15 +826,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with portType" id="1b94d621-1387-4a26-b844-8b846dcb3e02">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-R-with portType" id="e6f725f6-9601-4bb5-8c6c-9607988f7a07">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with portType" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-R-with portType" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -729,16 +851,15 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="portType" value="${RetrievePortsSummary#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrievePortsSummaryResponse[1]/ports[1]/port[1]/portType[1]}"/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="portType" value="${#TestCase#portType}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -865,15 +986,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with shipCode" id="6ca1fb12-b1ea-4455-8664-6f4fd8386e3d">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-R-with shipCode" id="832fedce-4c2a-4038-80ae-ec85401bf518">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with shipCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-R-with shipCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -894,15 +1012,15 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS#brand}"/>
-          <con:entry key="shipCode" value="${CatalogDS#shipCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1029,56 +1147,163 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="datasource" name="CatalogDS1" id="0e918410-9d30-40fd-948d-4a7be08f3c40">
+  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="4133ddd9-489b-4f41-9514-558dc8bcd43a">
     <con:settings/>
-    <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:dataSource type="Excel">
-        <con:configuration>
-          <file>Catalog_Rest_Input.xlsx</file>
-          <worksheet>RetrievePortsSummary</worksheet>
-          <cell>A2</cell>
-          <ignoreEmpty>false</ignoreEmpty>
-          <evaluateFormulas>false</evaluateFormulas>
-        </con:configuration>
-      </con:dataSource>
-      <con:shared>true</con:shared>
-      <con:restartShared>true</con:restartShared>
-      <con:property>S.No</con:property>
-      <con:property>ServiceName</con:property>
-      <con:property>Operation Name</con:property>
-      <con:property>ExecutionFlag</con:property>
-      <con:property>TestCaseName</con:property>
-      <con:property>TestCaseDescription</con:property>
-      <con:property>application</con:property>
-      <con:property>brand</con:property>
-      <con:property>domainId</con:property>
-      <con:property>language</con:property>
-      <con:property>uuid</con:property>
-      <con:property>destinationCode</con:property>
-      <con:property>countryCode</con:property>
-      <con:property>portCode</con:property>
-      <con:property>portType</con:property>
-      <con:property>shipCode</con:property>
-      <con:startRow>1</con:startRow>
-      <con:endRow>1</con:endRow>
-      <con:recordsPerIteration>1</con:recordsPerIteration>
-      <con:completeLastOperation>true</con:completeLastOperation>
-      <con:trimValues>false</con:trimValues>
-      <con:entitizeValues>false</con:entitizeValues>
-      <con:restartOnRun>true</con:restartOnRun>
-      <con:expandProperties>false</con:expandProperties>
-      <con:stopDatasourceExhausted>false</con:stopDatasourceExhausted>
+    <con:config service="Cruise Search" resourcePath="/esl/search/rest/cruiseSearch" methodName="cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="cruiseSearch-CEL" id="51c02f29-cfee-4459-92f2-f99411193987" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>http://eslaservicestst01.rccl.com/esl/booking/tst2/esl/search/rest/cruiseSearch</con:originalUri>
+        <con:assertion type="XPath Match" id="d1c11019-6fb0-4f9d-a797-02c5d8e40b67" name="Status">
+          <con:configuration>
+            <path>declare namespace ns2='http://www.rccl.com/esl/services/search/v2';
+//ns2:CruiseSearchResponse[1]/header[1]/status[1]</path>
+            <content>Success</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="qualifiers.itineraryGroup.value" value=""/>
+          <con:entry key="criteria.ship.value" value="${#Global#celebrityShip}"/>
+          <con:entry key="criteria.sailingDate.dateRange.from" value="${#Global#dateRangeFrom}"/>
+          <con:entry key="criteria.sailingDate.dateRange.to" value="${#Global#dateRangeTo}"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>criteria.channel</con:entry>
+          <con:entry>criteria.bookingType</con:entry>
+          <con:entry>header.domainId</con:entry>
+          <con:entry>header.language</con:entry>
+          <con:entry>header.application</con:entry>
+          <con:entry>criteria.brand.value</con:entry>
+          <con:entry>criteria.ship.value</con:entry>
+          <con:entry>criteria.cruiseType.value</con:entry>
+          <con:entry>criteria.office</con:entry>
+          <con:entry>criteria.country</con:entry>
+          <con:entry>criteria.currency</con:entry>
+          <con:entry>criteria.occupancy.adult</con:entry>
+          <con:entry>resultsPreference.pagination.offset</con:entry>
+          <con:entry>resultsPreference.pagination.count</con:entry>
+          <con:entry>resultsPreference.strictSearch</con:entry>
+          <con:entry>resultsPreference.sortBy</con:entry>
+          <con:entry>resultsPreference.sortOrder</con:entry>
+          <con:entry>resultsPreference.groupBy</con:entry>
+          <con:entry>resultsPreference.includeResults</con:entry>
+          <con:entry>resultsPreference.includeOnlyIfPriceAvailable</con:entry>
+          <con:entry>resultsPreference.priceLevel.bestPricedCategory</con:entry>
+          <con:entry>resultsPreference.includePrices</con:entry>
+          <con:entry>qualifiers.priceScope</con:entry>
+          <con:entry>qualifiers.qualifierScope</con:entry>
+          <con:entry>qualifiers.offersType.strictPricingFlag</con:entry>
+          <con:entry>qualifiers.itineraryGroup.value</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.from</con:entry>
+          <con:entry>criteria.sailingDate.dateRange.to</con:entry>
+          <con:entry>criteria.sailingDate.date</con:entry>
+        </con:parameterOrder>
+        <con:environmentSpec>
+          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with brand c" id="2cfaf7e9-d118-45da-a0b8-89eee3b2e035">
+  <con:testStep type="groovy" name="Fetch_REQ_brand/app/language/domainId 2" id="0cdc7d32-8e5b-4587-8cd1-9e48c3a71f2c">
+    <con:settings/>
+    <con:config>
+      <script><![CDATA[import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+import org.apache.commons.lang3.StringUtils;
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+String  url =  ts.getHttpRequest().getResponse().getURL(); 
+log.info(url)
+
+String brand = StringUtils.substringBetween(url, "criteria.brand.value=", "&");
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+String app = StringUtils.substringBetween(url, "header.application=", "&");
+log.info(app)
+testRunner.testCase.setPropertyValue("application",app);
+
+String language = StringUtils.substringBetween(url, "header.language=", "&");
+log.info(language)
+testRunner.testCase.setPropertyValue("language",language);
+
+String domainId = StringUtils.substringBetween(url, "header.domainId=", "&");
+log.info(domainId)
+testRunner.testCase.setPropertyValue("domainId",domainId);
+
+String country = StringUtils.substringBetween(url, "criteria.country=", "&");
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+String currency = StringUtils.substringBetween(url, "criteria.currency=", "&");
+log.info(currency)
+testRunner.testCase.setPropertyValue("currency",currency);]]></script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_packagecode/shipcode/saildate 2" id="7c78c665-1e3e-4727-b686-e28934cf1aa2">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("cruiseSearch-CEL");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def packageCode = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].packageReference.@code.text()
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def  shipCode= packageCode.substring(0,2);
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.resultsByPackage.packageSummaryWithClassLevelPricing[0].cabinClassPriceBySailing[0].sailingRef.@saildate.text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def celebrityBrand = "C"
+def royalBrand = "R"
+
+def celebrityShips = ['AX', 'AT', 'BY', 'CS', 'EC', 'EG', 'EQ', 'FL', 'IN', 'ML', 'RF', 'SI', 'SL', 'SM', 'XP', 'XO']
+def royalShips = ['AD', 'AL', 'AN', 'BR', 'NE', 'EN', 'EX', 'FR', 'GR', 'HM', 'IC', 'ID', 'JW', 'LB', 'MJ', 'MA', 'NV', 'NC', 'OA', 'OY', 'OV', 'QN', 'RD', 'RH', 'SR', 'SC', 'SY', 'WC', 'UT', 'VI', 'VY', 'WN']
+
+
+if (celebrityShips.contains(shipCode)) {	
+	testRunner.testCase.setPropertyValue("brand",celebrityBrand);
+	} else {
+		testRunner.testCase.setPropertyValue("brand",royalBrand);
+		}</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrievePortsSummary-C" id="6e828994-b0f0-4bcf-a613-31c84fff5ced">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with brand c" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-C" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -1099,15 +1324,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1234,15 +1458,41 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with brand c, destinationCode" id="10eaa969-5523-44a0-924e-fff80ee7e769">
+  <con:testStep type="groovy" name="Fetch_RES_destinationCode/countryCode/portCode/portType 2" id="84e373b9-e5ae-48ca-9e2b-b8ac83616710">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+
+def ts = testRunner.testCase.getTestStepByName("RetrievePortsSummary-C");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def destinationCode = res.ports.port.destinations.destination.code[0].text()
+log.info(destinationCode)
+testRunner.testCase.setPropertyValue("destinationCode",destinationCode);
+
+def countryCode = res.ports.port.countryCode[0].text()
+log.info(countryCode)
+testRunner.testCase.setPropertyValue("countryCode",countryCode);
+
+def portCode = res.ports.port.code[0].text()
+log.info(portCode)
+testRunner.testCase.setPropertyValue("portCode",portCode);
+
+def portType = res.ports.port.portType[0].text()
+log.info(portType)
+testRunner.testCase.setPropertyValue("portType",portType);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="RetrievePortsSummary-C-with destinationCode" id="da8913b1-60a7-4eff-b2a6-c564512868b7">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with brand c, destinationCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-C-with destinationCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -1263,15 +1513,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
-          <con:entry key="destinationCode" value="${RetrievePortsSummary with brand c#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrievePortsSummaryResponse[1]/ports[1]/port[1]/destinations[1]/destination[1]/code[1]}"/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
+          <con:entry key="destinationCode" value="${#TestCase#destinationCode}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1398,15 +1647,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with brand c, countryCode" id="1cffea01-df1e-44ca-b1ae-232ae698e188">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-C-with countryCode" id="092ddeed-74a0-4815-82ab-42c2708ba2cb">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with brand c, countryCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-C-with countryCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -1427,15 +1673,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
-          <con:entry key="countryCode" value="${CatalogDS1#countryCode}"/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
+          <con:entry key="countryCode" value="${#TestCase#countryCode}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1562,15 +1807,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with brand c, portCode" id="ff9a8e3a-d85c-4ecb-b82a-06b07ae620b7">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-C-with portCode" id="6ca801c5-d4cc-4ddd-bcd4-452eeaa926f6">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with brand c, portCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-C-with portCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -1591,15 +1833,14 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
-          <con:entry key="portCode" value="${RetrievePortsSummary with brand c#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrievePortsSummaryResponse[1]/ports[1]/port[1]/code[1]}"/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
+          <con:entry key="portCode" value="${#TestCase#portCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1726,15 +1967,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with brand c,  portType" id="2a59ac2a-ec9e-4a2d-82ad-10b6768c5d48">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-C-with portType" id="23086f33-064f-4174-bb9d-4fc76714bb22">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with brand c,  portType" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-C-with portType" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -1754,16 +1992,15 @@
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
-          <con:entry key="portType" value="${RetrievePortsSummary with brand c#Response#declare namespace ns2='http://www.rccl.com/esl/services/catalog/v2'; //ns2:RetrievePortsSummaryResponse[1]/ports[1]/port[1]/portType[1]}"/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
+          <con:entry key="portType" value="${#TestCase#portType}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
-          <con:entry key="shipCode" value=""/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -1890,15 +2127,12 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrievePortsSummary with brand c, shipCode" id="d3b8216c-7d35-474e-a017-ba53963464ca">
+  <con:testStep type="restrequest" name="RetrievePortsSummary-C-with shipCode" id="e43c2135-e68b-49b7-ba22-5641a78b26ea">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/portsSummary" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="RetrievePortsSummary with brand c, shipCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
+      <con:restRequest name="RetrievePortsSummary-C-with shipCode" id="32e52d97-2096-4193-944e-36d3b9dafd98" mediaType="application/json">
         <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment xmlns:con="http://eviware.com/soapui/config">
-  &lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}"/>
-  &lt;con:entry key="AppKey" value="${#Project#AppKey}"/>
-&lt;/xml-fragment></con:setting>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="Refresh-Cache" value="${#Project#Refresh-Cache}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request/>
         <con:originalUri>https://stg1.api.rccl.com/esl/catalog/stg1/rest/v2.0/portsSummary</con:originalUri>
@@ -1919,15 +2153,15 @@
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
         <con:parameters>
           <con:entry key="portType" value=""/>
-          <con:entry key="header.language" value="${CatalogDS1#language}"/>
+          <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="destinationCode" value=""/>
-          <con:entry key="header.application" value="${CatalogDS1#application}"/>
+          <con:entry key="header.application" value="${#TestCase#application}"/>
           <con:entry key="includeCruiseTours" value=""/>
           <con:entry key="countryCode" value=""/>
-          <con:entry key="header.domainId" value="${CatalogDS1#domainId}"/>
+          <con:entry key="header.domainId" value="${#TestCase#domainId}"/>
           <con:entry key="portCode" value=""/>
-          <con:entry key="header.brand" value="${CatalogDS1#brand}"/>
-          <con:entry key="shipCode" value="${CatalogDS1#shipCode}"/>
+          <con:entry key="header.brand" value="${#TestCase#brand}"/>
+          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
         </con:parameters>
         <con:parameterOrder>
           <con:entry>header.brand</con:entry>
@@ -2054,7 +2288,60 @@
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:properties>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>application</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>language</con:name>
+      <con:value>en_us</con:value>
+    </con:property>
+    <con:property>
+      <con:name>domainId</con:name>
+      <con:value>1</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>currency</con:name>
+      <con:value>USD</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>SL17T034</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>SL</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>2023-10-01</con:value>
+    </con:property>
+    <con:property>
+      <con:name>destinationCode</con:name>
+      <con:value>EUROP</con:value>
+    </con:property>
+    <con:property>
+      <con:name>countryCode</con:name>
+      <con:value>ESP</con:value>
+    </con:property>
+    <con:property>
+      <con:name>portCode</con:name>
+      <con:value>CTS</con:value>
+    </con:property>
+    <con:property>
+      <con:name>portType</con:name>
+      <con:value>C</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
   <con:environmentSpec>
     <con:entry environmentId="1009a08b-a845-48a2-b1c6-aa5a500238ea">
