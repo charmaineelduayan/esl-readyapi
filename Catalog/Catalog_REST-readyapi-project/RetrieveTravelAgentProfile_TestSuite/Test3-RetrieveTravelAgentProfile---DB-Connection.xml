@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:testCase id="6c122cae-b629-4498-bae1-3efac2340ffb" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test1-P-RetrieveTravelAgentProfile" searchProperties="true" timeout="0" maxResults="0" xmlns:con="http://eviware.com/soapui/config">
+<con:testCase id="d44c21ea-6e4d-4d83-8d99-7f5130b42251" discardOkResults="true" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Test3-RetrieveTravelAgentProfile - DB Connection" searchProperties="true" timeout="0" maxResults="0" disabled="true" xmlns:con="http://eviware.com/soapui/config">
   <con:settings>
-    <con:setting id="6c122cae-b629-4498-bae1-3efac2340ffbfileName">Test1-P-RetrieveTravelAgentProfile</con:setting>
+    <con:setting id="d44c21ea-6e4d-4d83-8d99-7f5130b42251fileName">Test3-RetrieveTravelAgentProfile---DB-Connection</con:setting>
   </con:settings>
   <con:savedRecentRuns>1</con:savedRecentRuns>
-  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="e1e952dd-31f8-4e4a-9dc0-baed82d614a3">
+  <con:testStep type="restrequest" name="cruiseSearch-CEL" id="220e53fd-41a6-49eb-ac2a-733208e5b50d">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch-CEL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
@@ -106,7 +106,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/brand/shipCode" id="83e564be-6970-40cd-954f-c9a4037ed0f2">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/brand/shipCode" id="d28cec47-d905-4f3a-83c5-a82d9fed4bfe">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -143,7 +143,7 @@ log.info(domainId)
 testRunner.testCase.setPropertyValue("domainId",domainId);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveTravelAgencies-C" id="0cc77918-d04e-4b01-8f9c-c006196e0df0">
+  <con:testStep type="restrequest" name="retrieveTravelAgencies-C" id="493cc963-7b9f-4c6d-9385-b4ea84a9a00b">
     <con:settings/>
     <con:config service="Content operations" resourcePath="/rest/v3/travelAgencies" methodName="travelAgencies" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveTravelAgencies-C" id="61863bb9-258d-4615-9d5b-7c95bf751ff5" mediaType="application/json">
@@ -197,7 +197,7 @@ assert travelAgencies!=null</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_travelAgentid" id="eb857502-16bc-4d4a-98bc-370e3d2a9f2d">
+  <con:testStep type="groovy" name="Fetch_RES_travelAgentid" id="32d6d2d1-d4fb-467e-a37a-62315c45f8dc">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -216,7 +216,7 @@ log.info(agencyId)
 testRunner.testCase.setPropertyValue("agencyId",agencyId);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveTravelAgentProfile-C" id="b5121923-0aaf-4fed-a510-74faa4ff4152">
+  <con:testStep type="restrequest" name="RetrieveTravelAgentProfile-C" id="0e3d7da3-ed10-4f29-8f32-90eb41fd9b17">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/travelAgentProfile" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveTravelAgentProfile-C" id="6b11069a-6361-4ebd-8f6e-71272c4243ba" mediaType="application/json">
@@ -235,22 +235,12 @@ testRunner.testCase.setPropertyValue("agencyId",agencyId);</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="09b3c255-26a2-4bbf-aff8-1bc40ed64198" name="Script Assertion">
-          <con:configuration>
-            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
-def xmlSlurper = new groovy.xml.XmlSlurper();
-def parse = xmlSlurper.parseText(xmlRes)
-
-def agentId = parse.agent.agentId
-log.info agentId
-assert agentId!=null</scriptText>
-          </con:configuration>
-        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="agentId" value="${#TestCase#agencyId}"/>
@@ -356,29 +346,23 @@ assert agentId!=null</scriptText>
           <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="afbed76e-9fa2-45aa-aba9-d81f6932e4bd">
+          <con:entry environmentId="08d304c8-fedc-40a1-9350-c12a7753fc87">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="88e40651-8e1b-4254-8ce4-63d38395aa39">
+          <con:entry environmentId="e26e11a1-a70b-4eff-8802-122db38232dc">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="cb80cefe-6d41-4a7c-b59a-45526eab19db">
+          <con:entry environmentId="feabd46b-7cc3-494d-9bc2-8cb2d2d9838e">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="7169756d-cc6d-4669-bd69-2b38a47c7d34">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="c17cc50a-9f40-48ac-9cb4-c8bdfff3a989">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2a29eb58-5eba-479a-8b18-198bc47a8e71">
+          <con:entry environmentId="2eeae799-2655-426c-b18a-725790b73823">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="798f6ac9-5182-4e99-85ca-d666e2127e08">
+  <con:testStep type="restrequest" name="cruiseSearch-ROYAL" id="f789b473-2836-4b26-abbe-6ef7581a1ac2">
     <con:settings/>
     <con:config service="Cruise Search" methodName="cruiseSearch" resourcePath="/esl/search/rest/cruiseSearch" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="cruiseSearch-ROYAL" id="4b83a4b3-3cb3-4dac-ab4a-9f8353f23135" mediaType="application/json">
@@ -482,7 +466,7 @@ assert totalHits!=0</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_REQ_app/country/brand/shipCode 2" id="8991594d-e496-4fb9-b88c-bd366b8ab522">
+  <con:testStep type="groovy" name="Fetch_REQ_app/country/brand/shipCode 2" id="7401b427-bba7-4bea-9c50-b5a53b6dfa8d">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -519,7 +503,7 @@ log.info(domainId)
 testRunner.testCase.setPropertyValue("domainId",domainId);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="retrieveTravelAgencies-R" id="4372da8c-a7b8-4983-99a6-d182380cf922">
+  <con:testStep type="restrequest" name="retrieveTravelAgencies-R" id="60bc22ca-621f-4cdd-bb92-14873ba04673">
     <con:settings/>
     <con:config service="Content operations" resourcePath="/rest/v3/travelAgencies" methodName="travelAgencies" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="retrieveTravelAgencies-R" id="61863bb9-258d-4615-9d5b-7c95bf751ff5" mediaType="application/json">
@@ -573,7 +557,7 @@ assert travelAgencies!=null</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="groovy" name="Fetch_RES_travelAgentid 2" id="f457e670-d5fc-4274-ae0e-47499fd17c76">
+  <con:testStep type="groovy" name="Fetch_RES_travelAgentid 2" id="b1fe9d49-1c41-4e48-ae0a-252b0c9a5c46">
     <con:settings/>
     <con:config>
       <script>import java.io.*;
@@ -592,7 +576,7 @@ log.info(agencyId)
 testRunner.testCase.setPropertyValue("agencyId",agencyId);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="RetrieveTravelAgentProfile-R" id="27f83a2d-5477-435f-8d0b-fd01da1426b2">
+  <con:testStep type="restrequest" name="RetrieveTravelAgentProfile-R" id="996e0e95-edec-4abb-a6d4-9a454096bc39">
     <con:settings/>
     <con:config service="Catalog operations" resourcePath="/travelAgentProfile" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="RetrieveTravelAgentProfile-R" id="6b11069a-6361-4ebd-8f6e-71272c4243ba" mediaType="application/json">
@@ -611,22 +595,12 @@ testRunner.testCase.setPropertyValue("agencyId",agencyId);</script>
             <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="c1121652-c285-4664-bf16-81cb6f56e6b5">
-          <con:configuration>
-            <scriptText>def xmlRes = messageExchange.getResponse().contentAsString
-def xmlSlurper = new groovy.xml.XmlSlurper();
-def parse = xmlSlurper.parseText(xmlRes)
-
-def agentId = parse.agent.agentId
-log.info agentId
-assert agentId!=null</scriptText>
-          </con:configuration>
-        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
         </con:credentials>
         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
         <con:parameters>
           <con:entry key="header.language" value="${#TestCase#language}"/>
           <con:entry key="agentId" value="${#TestCase#agencyId}"/>
@@ -732,26 +706,94 @@ assert agentId!=null</scriptText>
           <con:entry environmentId="cab81b41-15a4-41e5-bc51-2617169c5a1f">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="afbed76e-9fa2-45aa-aba9-d81f6932e4bd">
+          <con:entry environmentId="08d304c8-fedc-40a1-9350-c12a7753fc87">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="88e40651-8e1b-4254-8ce4-63d38395aa39">
+          <con:entry environmentId="e26e11a1-a70b-4eff-8802-122db38232dc">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="cb80cefe-6d41-4a7c-b59a-45526eab19db">
+          <con:entry environmentId="feabd46b-7cc3-494d-9bc2-8cb2d2d9838e">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
-          <con:entry environmentId="7169756d-cc6d-4669-bd69-2b38a47c7d34">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="c17cc50a-9f40-48ac-9cb4-c8bdfff3a989">
-            <con:authProfile>No Authorization</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="2a29eb58-5eba-479a-8b18-198bc47a8e71">
+          <con:entry environmentId="2eeae799-2655-426c-b18a-725790b73823">
             <con:authProfile>No Authorization</con:authProfile>
           </con:entry>
         </con:environmentSpec>
       </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request - AgentID info" id="c1c28bea-150f-4236-90c6-1c9a5f4eb7cc">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dbConnectionName xsi:nil="true"/>
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLSCLDB04.NA.RCCL.com:41852;databaseName=CruisingPowerWeb;user=b2c_user;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
+      <con:connectionProperties/>
+      <con:query>EXEC dbo.usp_Get_Travel_Agent_Profile_By_Agent_Id 144402;</con:query>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="JDBC Request" id="a8aa97be-e6f7-419a-9cca-ab0ed5c6663d">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dbConnectionName xsi:nil="true"/>
+      <con:driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</con:driver>
+      <con:connectionString>jdbc:sqlserver://WINSQLSCLDB04.NA.RCCL.com:41852;databaseName=CruisingPowerWeb;user=b2c_user;password=PASS_VALUE</con:connectionString>
+      <con:password>b2c_user</con:password>
+      <con:connectionProperties/>
+      <con:query>SELECT top 5
+	TAV.travel_agent_id as travel_agent_id
+FROM
+	TRAVEL_AGENT TAV INNER JOIN
+	TRAVEL_AGENT_AFFILIATION TAF ON
+	TAV.travel_agent_id = TAF.travel_agent_id
+	INNER JOIN TRAVEL_AGENCY TA ON
+	TAF.travel_agency_id = TA.travel_agency_id
+	INNER JOIN TRAVEL_AGENCY_ADDRESS TAA ON
+	TA.travel_agency_id = TAA.travel_agency_id
+	INNER JOIN TRAVEL_AGENCY_TELEPHONE TAT ON
+	TA.travel_agency_id = TAT.travel_agency_id
+WHERE
+	TAV.logical_delete_flag = 0 and
+	TAF.logical_delete_flag = 0 and
+	TAA.address_type_id = 4 and
+	TAT.telephone_number_type_id = 2;</con:query>
+      <con:properties/>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="jdbc" name="Copy of JDBC Request - AgentID info" id="d6293ef6-9e80-45df-8925-6d70d6613dca">
+    <con:settings>
+      <con:setting id="prettyPrintResponse">true</con:setting>
+    </con:settings>
+    <con:config xsi:type="con:JdbcRequestTestStep" convertColumnNamesToUpperCase="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:dbConnectionName>STG SQL Server</con:dbConnectionName>
+      <con:driver xsi:nil="true"/>
+      <con:connectionString xsi:nil="true"/>
+      <con:password/>
+      <con:connectionProperties/>
+      <con:query>SELECT top 5
+	TAV.travel_agent_id as travel_agent_id
+FROM
+	TRAVEL_AGENT TAV INNER JOIN
+	TRAVEL_AGENT_AFFILIATION TAF ON
+	TAV.travel_agent_id = TAF.travel_agent_id
+	INNER JOIN TRAVEL_AGENCY TA ON
+	TAF.travel_agency_id = TA.travel_agency_id
+	--INNER JOIN TRAVEL_AGENCY_ADDRESS TAA ON
+	--TA.travel_agency_id = TAA.travel_agency_id
+	--INNER JOIN TRAVEL_AGENCY_TELEPHONE TAT ON
+	--TA.travel_agency_id = TAT.travel_agency_id
+WHERE
+	TAV.logical_delete_flag = 0 and
+	TAF.logical_delete_flag = 0;
+	--TAA.address_type_id = 4 and
+	--TAT.telephone_number_type_id = 2;</con:query>
+      <con:properties/>
     </con:config>
   </con:testStep>
   <con:properties>
