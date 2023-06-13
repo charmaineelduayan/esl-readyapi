@@ -7,7 +7,7 @@
   <con:method name="redeem" id="3ee0a0c4-279b-4132-8530-69b3d586d469" method="POST">
     <con:settings/>
     <con:parameters/>
-    <con:request name="redeem" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
+    <con:request name="redeem-redemption" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
       <con:settings>
         <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
       </con:settings>
@@ -59,6 +59,39 @@
           <con:authProfile>Inherit From Parent</con:authProfile>
         </con:entry>
       </con:environmentSpec>
+    </con:request>
+    <con:request name="redeem-inquiry" id="b500cc84-82ee-47c2-8836-db4050ac5bf7" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+      </con:settings>
+      <con:request>{
+	"brand": "${#TestCase#brand}",
+	"domain": "${#TestCase#application}",
+	"mode": "${#TestCase#mode}",
+	"allOrNone": "N",
+	"countryCode": "${#TestCase#countryCode}",
+	"bookingCurrency": "${#TestCase#bookingCurrency}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"guestDetails": [
+		{
+			"firstName": "${#TestCase#firstName}",
+			"passengerId": "123232",
+			"lastName": "${#TestCase#lastName}"
+		}
+	],
+	"certificateDetails": [
+		{
+			"certificateCode": "${#TestCase#certificateCode}"
+		}
+	]
+}</con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
+      <con:credentials>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
     </con:request>
     <con:environmentSpec>
       <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">

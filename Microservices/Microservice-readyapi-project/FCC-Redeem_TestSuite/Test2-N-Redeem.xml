@@ -3,6 +3,137 @@
   <con:settings>
     <con:setting id="1d26c961-ab3a-4793-8dd1-e50acc2c4eaafileName">Test2-N-Redeem</con:setting>
   </con:settings>
+  <con:testStep type="restrequest" name="redeem-inquiry-blank parameters" id="d98c4a9b-896a-4690-820b-72bd70d27b65">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/redeem" methodName="redeem" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="redeem-inquiry-blank parameters" id="b500cc84-82ee-47c2-8836-db4050ac5bf7" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request>{
+	"brand": "${#TestCase#brand}",
+	"domain": "${#TestCase#domain}",
+	"mode": "${#TestCase#mode}",
+	"allOrNone": "N",
+	"countryCode": "${#TestCase#countryCode}",
+	"bookingCurrency": "${#TestCase#bookingCurrency}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"guestDetails": [
+		{
+			"firstName": "${#TestCase#firstName}",
+			"passengerId": "123232",
+			"lastName": "${#TestCase#lastName}"
+		}
+	],
+	"certificateDetails": [
+		{
+			"certificateCode": "${#TestCase#certificateCode}"
+		}
+	]
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="b2e21e27-98d3-409b-b694-ef1149774d87" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="a37fc0f0-89e0-4cc0-9289-af00f78208f0" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def payload = parse.payload
+log.info payload
+assert payload!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="redeem-redemption-blank parameters" id="47226d57-9fc4-434e-b78c-a63c6a26ed7b">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/redeem" methodName="redeem" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="redeem-redemption-blank parameters" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"brand": "${#TestCase#brand}",
+	"domain": "${#TestCase#domain}",
+	"mode": "redemption",
+	"countryCode": "${#TestCase#countryCode}",
+	"shareFcc": false,
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"bookingCurrency": "${#TestCase#bookingCurrency}",
+	"bookingDetails": {
+		"bookingId": "${#TestCase#bookingId}"
+	},
+	"guestDetails": [
+		{
+			"firstName": "${#TestCase#firstName}",
+			"passengerId": "361437318",
+			"lastName": "${#TestCase#lastName}",
+			"certificateDetails": [
+				{
+					"certificateCode": "${#TestCase#certificateCode}"
+				}
+			]
+		}
+	]
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="c8494e0b-f29f-4c19-8569-f2b138f1070d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="cfd0df81-7803-48df-ac2e-c739ca195bf7">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def payload = parse.payload
+log.info payload
+assert payload!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:parameterOrder/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
   <con:properties/>
   <con:reportParameters/>
 </con:testCase>

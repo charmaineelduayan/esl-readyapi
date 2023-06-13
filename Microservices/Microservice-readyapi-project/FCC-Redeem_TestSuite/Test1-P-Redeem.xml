@@ -43,6 +43,112 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 def ts = testRunner.testCase.getTestStepByName("sheet-MSDetails");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
+def domain = res.e.domain[4].text();
+log.info(domain)
+testRunner.testCase.setPropertyValue("domain",domain);
+
+def brand = res.e.brand[4].text();
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+def countryCode = res.e.countryCode[4].text();
+log.info(countryCode)
+testRunner.testCase.setPropertyValue("countryCode",countryCode);
+
+
+def shipCode = res.e.shipCode[4].text();
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.e.sailDate[4].text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def firstName= res.e.firstName[4].text();
+log.info(firstName)
+testRunner.testCase.setPropertyValue("firstName",firstName);
+
+def lastName= res.e.lastName[4].text();
+log.info(lastName)
+testRunner.testCase.setPropertyValue("lastName",lastName);
+
+def certificateCode= res.e.certificateCode[4].text();
+log.info(certificateCode)
+testRunner.testCase.setPropertyValue("certificateCode",certificateCode);
+
+
+def mode= res.e.mode[4].text();
+log.info(mode)
+testRunner.testCase.setPropertyValue("mode",mode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="redeem-inquiry" id="afa9b744-7ebc-4079-aeee-6cb4f61a3835">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/redeem" methodName="redeem" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="redeem-inquiry" id="b500cc84-82ee-47c2-8836-db4050ac5bf7" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:request>{
+	"brand": "${#TestCase#brand}",
+	"domain": "${#TestCase#domain}",
+	"mode": "${#TestCase#mode}",
+	"allOrNone": "N",
+	"countryCode": "${#TestCase#countryCode}",
+	"bookingCurrency": "${#TestCase#bookingCurrency}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"guestDetails": [
+		{
+			"firstName": "${#TestCase#firstName}",
+			"passengerId": "123232",
+			"lastName": "${#TestCase#lastName}"
+		}
+	],
+	"certificateDetails": [
+		{
+			"certificateCode": "${#TestCase#certificateCode}"
+		}
+	]
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="b2e21e27-98d3-409b-b694-ef1149774d87" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="a37fc0f0-89e0-4cc0-9289-af00f78208f0" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def payload = parse.payload
+log.info payload
+assert payload!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_fccDetails 2" id="7081812c-8741-4dea-974f-bce916acc9bf">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("sheet-MSDetails");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
 def domain = res.e.domain[3].text();
 log.info(domain)
 testRunner.testCase.setPropertyValue("domain",domain);
@@ -79,13 +185,18 @@ testRunner.testCase.setPropertyValue("lastName",lastName);
 
 def certificateCode= res.e.certificateCode[3].text();
 log.info(certificateCode)
-testRunner.testCase.setPropertyValue("certificateCode",certificateCode);</script>
+testRunner.testCase.setPropertyValue("certificateCode",certificateCode);
+
+
+def mode= res.e.mode[3].text();
+log.info(mode)
+testRunner.testCase.setPropertyValue("mode",mode);</script>
     </con:config>
   </con:testStep>
-  <con:testStep type="restrequest" name="REST Request" id="73a8e953-5676-47bb-a0d6-2592493ca47c">
+  <con:testStep type="restrequest" name="redeem-redemption" id="3d2153dc-14b8-4987-9dc3-a2c9502ce36e">
     <con:settings/>
     <con:config service="Microservice" resourcePath="/futurecruisecertificate/redeem" methodName="redeem" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="REST Request" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
+      <con:restRequest name="redeem-redemption" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
@@ -116,10 +227,21 @@ testRunner.testCase.setPropertyValue("certificateCode",certificateCode);</script
 	]
 }</con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="afa1745b-f68d-4ad1-a552-a9910488e736" name="Valid HTTP Status Codes">
+        <con:assertion type="Valid HTTP Status Codes" id="c8494e0b-f29f-4c19-8569-f2b138f1070d" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
             <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="cfd0df81-7803-48df-ac2e-c739ca195bf7">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def payload = parse.payload
+log.info payload
+assert payload!=null</scriptText>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -182,6 +304,10 @@ testRunner.testCase.setPropertyValue("certificateCode",certificateCode);</script
     <con:property>
       <con:name>certificateCode</con:name>
       <con:value>1-3H7ZUQC</con:value>
+    </con:property>
+    <con:property>
+      <con:name>mode</con:name>
+      <con:value>redemption</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
