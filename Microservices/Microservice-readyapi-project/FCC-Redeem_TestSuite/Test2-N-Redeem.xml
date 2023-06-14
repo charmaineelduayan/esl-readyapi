@@ -11,24 +11,24 @@
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
         <con:request>{
-	"brand": "${#TestCase#brand}",
-	"domain": "${#TestCase#domain}",
-	"mode": "${#TestCase#mode}",
+	"brand": "",
+	"domain": "",
+	"mode": "",
 	"allOrNone": "N",
-	"countryCode": "${#TestCase#countryCode}",
-	"bookingCurrency": "${#TestCase#bookingCurrency}",
-	"shipCode": "${#TestCase#shipCode}",
-	"sailDate": "${#TestCase#sailDate}",
+	"countryCode": "",
+	"bookingCurrency": "",
+	"shipCode": "",
+	"sailDate": "",
 	"guestDetails": [
 		{
-			"firstName": "${#TestCase#firstName}",
+			"firstName": "",
 			"passengerId": "123232",
-			"lastName": "${#TestCase#lastName}"
+			"lastName": ""
 		}
 	],
 	"certificateDetails": [
 		{
-			"certificateCode": "${#TestCase#certificateCode}"
+			"certificateCode": ""
 		}
 	]
 }</con:request>
@@ -36,7 +36,7 @@
         <con:assertion type="Valid HTTP Status Codes" id="b2e21e27-98d3-409b-b694-ef1149774d87" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
-            <codes>200</codes>
+            <codes>422</codes>
           </con:configuration>
         </con:assertion>
         <con:assertion type="GroovyScriptAssertion" id="a37fc0f0-89e0-4cc0-9289-af00f78208f0" name="Script Assertion">
@@ -45,9 +45,18 @@
 def jsonSlurper = new groovy.json.JsonSlurper();
 def parse = jsonSlurper.parseText(jsonRes)
 
-def payload = parse.payload
-log.info payload
-assert payload!=null</scriptText>
+def validationErrors = parse.errors.validationErrors.error
+log.info validationErrors
+assert validationErrors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="42829625-bb76-4537-b0ca-88a945dd7389" name="errorCode">
+          <con:configuration>
+            <path>$['errors'][0]['errorCode']</path>
+            <content>"ESL-01"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -63,6 +72,286 @@ assert payload!=null</scriptText>
     <con:settings/>
     <con:config service="Microservice" resourcePath="/futurecruisecertificate/redeem" methodName="redeem" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <con:restRequest name="redeem-redemption-blank parameters" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"brand": "",
+	"domain": "",
+	"mode": "",
+	"countryCode": "",
+	"shareFcc": false,
+	"shipCode": "",
+	"sailDate": "",
+	"bookingCurrency": "",
+	"bookingDetails": {
+		"bookingId": ""
+	},
+	"guestDetails": [
+		{
+			"firstName": "",
+			"passengerId": "361437318",
+			"lastName": "",
+			"certificateDetails": [
+				{
+					"certificateCode": ""
+				}
+			]
+		}
+	]
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="c8494e0b-f29f-4c19-8569-f2b138f1070d" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Valid HTTP Status Codes" name="Valid HTTP Status Codes 2">
+          <con:settings/>
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="166d7c7e-57ae-4bbc-9441-1ca83491fcbe">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def validationErrors = parse.errors.validationErrors.error
+log.info validationErrors
+assert validationErrors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="7356ec26-b6ea-4130-835f-355aa60b4c97">
+          <con:configuration>
+            <path>$['errors'][0]['errorCode']</path>
+            <content>"ESL-01"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:parameterOrder/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="sheet-MSDetails" id="73123fdb-fb44-4bd1-96b6-9e566301435a">
+    <con:settings/>
+    <con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="sheet-MSDetails" id="f3f63c14-4ec7-4434-a75a-f29eee602ecc" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0801ef93-66e0-44a5-956c-a6d7e25e0cfc" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="sheet" value="MSDetails"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>sheet</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_fccDetails 2" id="e8ea28d7-e912-464e-b8bf-b9592c0a69c9">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("sheet-MSDetails");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def domain = res.e.domain[3].text();
+log.info(domain)
+testRunner.testCase.setPropertyValue("domain",domain);
+
+def brand = res.e.brand[3].text();
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+def countryCode = res.e.countryCode[3].text();
+log.info(countryCode)
+testRunner.testCase.setPropertyValue("countryCode",countryCode);
+
+
+def shipCode = res.e.shipCode[3].text();
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.e.sailDate[3].text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def bookingId= res.e.bookingId[3].text();
+log.info(bookingId)
+testRunner.testCase.setPropertyValue("bookingId",bookingId);
+
+
+def firstName= res.e.firstName[3].text();
+log.info(firstName)
+testRunner.testCase.setPropertyValue("firstName",firstName);
+
+def lastName= res.e.lastName[3].text();
+log.info(lastName)
+testRunner.testCase.setPropertyValue("lastName",lastName);
+
+def certificateCode= res.e.certificateCode[3].text();
+log.info(certificateCode)
+testRunner.testCase.setPropertyValue("certificateCode",certificateCode);
+
+
+def mode= res.e.mode[3].text();
+log.info(mode)
+testRunner.testCase.setPropertyValue("mode",mode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="redeem-redemption-invalid bookingId" id="109a0630-93b8-4fad-b678-520fea91d2cb">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/redeem" methodName="redeem" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="redeem-redemption-invalid bookingId" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"brand": "${#TestCase#brand}",
+	"domain": "${#TestCase#domain}",
+	"mode": "redemption",
+	"countryCode": "${#TestCase#countryCode}",
+	"shareFcc": false,
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"bookingCurrency": "${#TestCase#bookingCurrency}",
+	"bookingDetails": {
+		"bookingId": "2227120000000"
+	},
+	"guestDetails": [
+		{
+			"firstName": "${#TestCase#firstName}",
+			"passengerId": "361437318",
+			"lastName": "${#TestCase#lastName}",
+			"certificateDetails": [
+				{
+					"certificateCode": "${#TestCase#certificateCode}"
+				}
+			]
+		}
+	]
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="166d7c7e-57ae-4bbc-9441-1ca83491fcbe">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def validationErrors = parse.errors.validationErrors.error
+log.info validationErrors
+assert validationErrors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" name="errorCode" id="7356ec26-b6ea-4130-835f-355aa60b4c97">
+          <con:configuration>
+            <path>$['errors'][0]['errorCode']</path>
+            <content>"FCC-0003"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Invalid HTTP Status Codes" id="804b42a5-2995-486d-b787-3d51615406d7" name="Invalid HTTP Status Codes">
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="3fcda170-5e32-4449-aa97-8269684eeda6" name="errorCode 2">
+          <con:configuration>
+            <path>$['errors'][1]['errorCode']</path>
+            <content>"ESL_BookingId"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="c5b476fc-006e-4b4c-a470-8633c07070ae" name="Contains internalMessage1">
+          <con:configuration>
+            <token>booking Id has invalid format</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="65ead0ac-d11a-46ee-a5cd-16bb52223458" name="Contains internalMessage2">
+          <con:configuration>
+            <token>bookingId must be a 7 or less digit number</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:parameterOrder/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="redeem-redemption-other errors from backend" id="e38ecd11-e41b-43fe-9785-bc5c8e93c4ec">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/redeem" methodName="redeem" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="redeem-redemption-other errors from backend" id="9f5805fb-2c2d-44f1-ad08-d982b8716359" mediaType="application/json" postQueryString="false">
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
         </con:settings>
@@ -93,21 +382,27 @@ assert payload!=null</scriptText>
 	]
 }</con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/futurecruisecertificate/redeem</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="c8494e0b-f29f-4c19-8569-f2b138f1070d" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="cfd0df81-7803-48df-ac2e-c739ca195bf7">
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="166d7c7e-57ae-4bbc-9441-1ca83491fcbe">
           <con:configuration>
             <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
 def jsonSlurper = new groovy.json.JsonSlurper();
 def parse = jsonSlurper.parseText(jsonRes)
 
-def payload = parse.payload
-log.info payload
-assert payload!=null</scriptText>
+def validationErrors = parse.errors
+log.info validationErrors
+assert validationErrors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Invalid HTTP Status Codes" id="804b42a5-2995-486d-b787-3d51615406d7" name="Invalid HTTP Status Codes">
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="c5b476fc-006e-4b4c-a470-8633c07070ae" name="Contains developerMessage">
+          <con:configuration>
+            <token>The request criteria did pass validation</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
           </con:configuration>
         </con:assertion>
         <con:credentials>
@@ -134,6 +429,47 @@ assert payload!=null</scriptText>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:properties/>
+  <con:properties>
+    <con:property>
+      <con:name>domain</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>countryCode</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>EQ</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>20211008</con:value>
+    </con:property>
+    <con:property>
+      <con:name>bookingId</con:name>
+      <con:value>222712</con:value>
+    </con:property>
+    <con:property>
+      <con:name>firstName</con:name>
+      <con:value>Mark</con:value>
+    </con:property>
+    <con:property>
+      <con:name>lastName</con:name>
+      <con:value>Rozelle</con:value>
+    </con:property>
+    <con:property>
+      <con:name>certificateCode</con:name>
+      <con:value>1-3H7ZUQC</con:value>
+    </con:property>
+    <con:property>
+      <con:name>mode</con:name>
+      <con:value>redemption</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
