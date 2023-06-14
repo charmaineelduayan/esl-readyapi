@@ -3,6 +3,496 @@
   <con:settings>
     <con:setting id="6e435720-3218-454f-96ef-f78601dd1545fileName">Test2-N-validation</con:setting>
   </con:settings>
-  <con:properties/>
+  <con:testStep type="restrequest" name="sheet-MSDetails" id="a9c9cd84-fbd4-4fae-8122-5ef490ced036">
+    <con:settings/>
+    <con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="sheet-MSDetails" id="f3f63c14-4ec7-4434-a75a-f29eee602ecc" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0801ef93-66e0-44a5-956c-a6d7e25e0cfc" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="sheet" value="MSDetails"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>sheet</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_fccDetails" id="4cf563b4-98c8-4e54-85ea-81f3792d607d">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("sheet-MSDetails");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def domain = res.e.domain[1].text();
+log.info(domain)
+testRunner.testCase.setPropertyValue("domain",domain);
+
+def brand = res.e.brand[1].text();
+log.info(brand)
+testRunner.testCase.setPropertyValue("brand",brand);
+
+def shipCode = res.e.shipCode[1].text();
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.e.sailDate[1].text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def firstName= res.e.firstName[1].text();
+log.info(firstName)
+testRunner.testCase.setPropertyValue("firstName",firstName);
+
+def lastName= res.e.lastName[1].text();
+log.info(lastName)
+testRunner.testCase.setPropertyValue("lastName",lastName);
+
+def certificateCode= res.e.certificateCode[1].text();
+log.info(certificateCode)
+testRunner.testCase.setPropertyValue("certificateCode",certificateCode);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validation-blank firstName, lastName" id="568a906a-edd1-4a6f-acee-cad0b9903ce3">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/validation" methodName="validation" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validation-blank firstName, lastName" id="fa38a845-2b12-49a9-9211-d3bbd513e00d" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"domain": "${#TestCase#domain}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"createModeFCCValidation": {
+		"passengerInfo": [
+			{
+				"firstName": "",
+				"lastName": "",
+				"certificateCode": "${#TestCase#certificateCode}"
+			}
+		]
+	}
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/C/web/v1/esl/futurecruisecertificate/validation</con:originalUri>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="8fc34674-85a1-42f6-b7a9-b726a3b1dc75">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def errors = parse.errors
+log.info errors
+assert errors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Invalid HTTP Status Codes" id="45d3100d-2a7c-491c-9a70-377e5f59b562" name="status">
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="824152db-570f-4d05-8e44-e3e3df95a014" name="errorCode">
+          <con:configuration>
+            <path>$['errors'][0]['errorCode']</path>
+            <content>"FCC-0006"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="9f8304e5-2499-45a7-aa18-51854754bb43" name="Contains internalMessage">
+          <con:configuration>
+            <token>firstName/lastName are required fields.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validation-blank domain" id="019d438a-3f41-417c-8518-3e0daef9cab8">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/validation" methodName="validation" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validation-blank domain" id="fa38a845-2b12-49a9-9211-d3bbd513e00d" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"domain": "",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"createModeFCCValidation": {
+		"passengerInfo": [
+			{
+				"firstName": "${#TestCase#firstName}",
+				"lastName": "${#TestCase#lastName}",
+				"certificateCode": "${#TestCase#certificateCode}"
+			}
+		]
+	}
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/C/web/v1/esl/futurecruisecertificate/validation</con:originalUri>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="8fc34674-85a1-42f6-b7a9-b726a3b1dc75">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def errors = parse.errors
+log.info errors
+assert errors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="824152db-570f-4d05-8e44-e3e3df95a014" name="errorCode">
+          <con:configuration>
+            <path>$['errors'][0]['errorCode']</path>
+            <content>"ESL-01"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="9f8304e5-2499-45a7-aa18-51854754bb43" name="Contains developerMessage">
+          <con:configuration>
+            <token>The request body did not pass validation.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Valid HTTP Status Codes" id="e625fb55-89d4-4500-b8b8-3f8303b9d6f2" name="statusCode">
+          <con:settings/>
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validation-blank certificateCode" id="4342ab6f-0760-4d61-b580-397483064243">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/validation" methodName="validation" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validation-blank certificateCode" id="fa38a845-2b12-49a9-9211-d3bbd513e00d" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"domain": "${#TestCase#domain}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"createModeFCCValidation": {
+		"passengerInfo": [
+			{
+				"firstName": "${#TestCase#firstName}",
+				"lastName": "${#TestCase#lastName}",
+				"certificateCode": ""
+			}
+		]
+	}
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/C/web/v1/esl/futurecruisecertificate/validation</con:originalUri>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="8fc34674-85a1-42f6-b7a9-b726a3b1dc75">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def errors = parse.errors
+log.info errors
+assert errors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="824152db-570f-4d05-8e44-e3e3df95a014" name="errorCode">
+          <con:configuration>
+            <path>$['errors'][0]['errorCode']</path>
+            <content>"FCC-0006"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="9f8304e5-2499-45a7-aa18-51854754bb43" name="Contains internalMessage">
+          <con:configuration>
+            <token>certificateCode is a required fields.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Invalid HTTP Status Codes" id="84cdd8b1-0f54-44a5-bbb3-904b8e3864d5" name="Invalid HTTP Status Codes">
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validation-invalid certificateCode" id="daeb43b6-e37b-413e-9461-055b0acc1da3">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/validation" methodName="validation" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validation-invalid certificateCode" id="fa38a845-2b12-49a9-9211-d3bbd513e00d" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"domain": "${#TestCase#domain}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"createModeFCCValidation": {
+		"passengerInfo": [
+			{
+				"firstName": "${#TestCase#firstName}",
+				"lastName": "${#TestCase#lastName}",
+				"certificateCode": "000000"
+			}
+		]
+	}
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/C/web/v1/esl/futurecruisecertificate/validation</con:originalUri>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="8fc34674-85a1-42f6-b7a9-b726a3b1dc75">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def errors = parse.errors
+log.info errors
+assert errors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="824152db-570f-4d05-8e44-e3e3df95a014" name="errorCode">
+          <con:configuration>
+            <path>$['errors'][0]['errorCode']</path>
+            <content>"FCC-0004"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="9f8304e5-2499-45a7-aa18-51854754bb43" name="Contains internalMessage">
+          <con:configuration>
+            <token>certificate code(s) has/have invalid format.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Invalid HTTP Status Codes" id="84cdd8b1-0f54-44a5-bbb3-904b8e3864d5" name="Invalid HTTP Status Codes">
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="validation-incorrect guestName" id="09a1b515-4f57-4226-9459-dc5d620792a1">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/validation" methodName="validation" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="validation-incorrect guestName" id="fa38a845-2b12-49a9-9211-d3bbd513e00d" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"domain": "${#TestCase#domain}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"createModeFCCValidation": {
+		"passengerInfo": [
+			{
+				"firstName": "FirstName",
+				"lastName": "${#TestCase#lastName}",
+				"certificateCode": "${#TestCase#certificateCode}"
+			}
+		]
+	}
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/C/web/v1/esl/futurecruisecertificate/validation</con:originalUri>
+        <con:assertion type="GroovyScriptAssertion" name="Script Assertion" id="8fc34674-85a1-42f6-b7a9-b726a3b1dc75">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def errors = parse.errors
+log.info errors
+assert errors!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="JsonPath Match" id="824152db-570f-4d05-8e44-e3e3df95a014" name="errorCode">
+          <con:configuration>
+            <path>$['payload']['cruiseCertificateDetails'][0]['errorCode']</path>
+            <content>"FCC-ERR02"</content>
+            <allowWildcards>false</allowWildcards>
+            <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+            <ignoreComments>false</ignoreComments>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Valid HTTP Status Codes" id="cf3e5d3a-096c-4389-a237-553563148ec0" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="d976a83e-eff7-4901-bbae-9e1999896a3e" name="Contains Passenger info doesn't match">
+          <con:configuration>
+            <token>Passenger info doesn't match</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>domain</con:name>
+      <con:value>celebritycruises.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value>C</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>SL</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>20200414</con:value>
+    </con:property>
+    <con:property>
+      <con:name>firstName</con:name>
+      <con:value>Margaret</con:value>
+    </con:property>
+    <con:property>
+      <con:name>lastName</con:name>
+      <con:value>Lange</con:value>
+    </con:property>
+    <con:property>
+      <con:name>certificateCode</con:name>
+      <con:value>1-37ZBSVA</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
