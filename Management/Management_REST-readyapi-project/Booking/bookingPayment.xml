@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="bookingPayment" path="/rest/v3/bookingPayment" id="46061911-516f-4faf-b169-54b20877183d" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="eae7ae94-d85d-446f-aa61-d1727de930effileName">bookingPayment</con:setting>
+    <con:setting id="46061911-516f-4faf-b169-54b20877183dfileName">bookingPayment</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="bookingPayment" id="dbb7dece-6c28-4bc3-bc41-1260f2897073" method="POST">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="bookingPayment_singleCC_fetchData" id="d2be06a4-8d6d-4d9e-8c52-3355433c2a16" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+      </con:settings>
+      <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1",
+		"language": "en_US"
+	},
+	"countryCode": "${#TestCase#country}",
+	"bookingId": "${#TestCase#bookingId}",
+	"lastName": "${#TestCase#lastname}",
+	"shipCode": "${#TestCase#shipCode}",
+	"sailDate": "${#TestCase#sailDate}",
+	"lockBooking": false,
+	"listOfCardPayments": {
+		"cardPayment": [
+			{
+				"cardType": "VA",
+				"cardToken": "4387751111111111",
+				"expireDate": "1030",
+				"cvv": "123",
+				"amount": 500,
+				"currency": "${#TestCase#currency}",
+				"contact": {
+					"firstName": "ESL One",
+					"lastName": "${#TestCase#lastname}"
+				}
+			}
+		]
+	}
+}</con:request>
+      <con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+      <con:environmentSpec>
+        <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+        <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+          <con:authProfile>Inherit From Parent</con:authProfile>
+        </con:entry>
+      </con:environmentSpec>
+    </con:request>
+    <con:environmentSpec>
+      <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+        <con:authProfile>Inherit From Parent</con:authProfile>
+      </con:entry>
+      <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+        <con:authProfile>Inherit From Parent</con:authProfile>
+      </con:entry>
+    </con:environmentSpec>
+  </con:method>
+  <con:environmentSpec>
+    <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+    <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
+      <con:authProfile>Inherit From Parent</con:authProfile>
+    </con:entry>
+  </con:environmentSpec>
+</con:resource>
