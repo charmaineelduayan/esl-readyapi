@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:resource name="sendBookingEmail" path="/rest/v2.0/sendBookingEmail" id="b774eae6-6d3d-49c9-b967-0222c7a0e6ab" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="3700fdd4-ddc8-420c-a6be-0194e7f1289cfileName">sendBookingEmail</con:setting>
+    <con:setting id="b774eae6-6d3d-49c9-b967-0222c7a0e6abfileName">sendBookingEmail</con:setting>
+  </con:settings>
+  <con:parameters/>
+  <con:method name="Method 1" id="faa2cdb4-5492-490e-94c1-b7eef900da50" method="POST">
+    <con:settings/>
+    <con:parameters/>
+    <con:request name="Request 1" id="779cca0d-62c4-4ed7-b71e-159ae5058786" mediaType="application/json" postQueryString="false">
+      <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers"><![CDATA[<xml-fragment><con:entry key="Refresh-Cache" value="false" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="Accept" value="application/json" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/><con:entry key="Content-Type" value="application/json" xmlns:con="http://eviware.com/soapui/config"/></xml-fragment>]]></con:setting>
+      </con:settings>
+      <con:request>{
+	"header": {
+		"application": "${#TestCase#application}",
+		"language": "en_US",
+		"brand": "${#TestCase#brand}",
+		"domainId": "1"
+	},
+	"bookingId": "${#TestCase#bookingId}",
+	"emailType": "FULL_PAY_GUEST",
+	"altRecipient": {
+		"firstName": "ESLQA",
+		"lastName": "${#TestCase#lastname}",
+		"email": "charmainejaneelduayan@rcclapac.com"
+	},
+	"countryCode": "${#TestCase#country}",
+	"agencyId": null
+}</con:request>
+      <con:originalUri>https://tst1-int.api.rccl.com/esl/management/tst2/rest/v2.0/sendBookingEmail</con:originalUri>
+      <con:credentials>
+        <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+        <con:authType>No Authorization</con:authType>
+      </con:credentials>
+      <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+      <con:parameters/>
+    </con:request>
+  </con:method>
+</con:resource>
