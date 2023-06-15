@@ -3,6 +3,181 @@
   <con:settings>
     <con:setting id="fc8132dc-9d24-4865-8d99-6321aedc177cfileName">Test1-P-targetedOffers</con:setting>
   </con:settings>
-  <con:properties/>
+  <con:testStep type="restrequest" name="sheet-targetedOffers" id="1baac389-a7af-455c-bea7-b2fb1f6f609f">
+    <con:settings/>
+    <con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="sheet-targetedOffers" id="f3f63c14-4ec7-4434-a75a-f29eee602ecc" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="3b1d0a15-1d1b-417f-b676-1d05a2661823" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="sheet" value="targetedOffers"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>sheet</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_sheet" id="d1b7a2bc-8879-4238-b8ee-11e8758e33a9">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("sheet-targetedOffers");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def domain = res.e.domain[0].text();
+log.info(domain)
+testRunner.testCase.setPropertyValue("domain",domain);
+
+def country = res.e.country[0].text();
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+def packageCode = res.e.packageCode[0].text();
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def shipCode = res.e.shipCode[0].text();
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def startDate = res.e.startDate[0].text();
+log.info(startDate)
+testRunner.testCase.setPropertyValue("startDate",startDate);
+
+def endDate = res.e.endDate[0].text();
+log.info(endDate)
+testRunner.testCase.setPropertyValue("endDate",endDate);
+
+def loyaltyId = res.e.loyaltyId[0].text();
+log.info(loyaltyId)
+testRunner.testCase.setPropertyValue("loyaltyId",loyaltyId);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Targeted Offers" id="f2e0d3e9-021d-47f2-922b-6039f6ce99e9">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/promotions/targetedOffers" methodName="targetedOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Targeted Offers" id="b52043e1-6bdc-4aab-8c61-c769f8d46c5a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"countryCode": "${#TestCase#country}",
+	"maxDuration": 7,
+	"minDuration": 3,
+	"packageId": "${#TestCase#packageCode}",
+	"shipCode": "${#TestCase#shipCode}",
+	"startDate": "${#TestCase#startDate}",
+	"domain": "${#TestCase#domain}",
+	"endDate": "${#TestCase#endDate}",
+	"guests": [
+		{
+			"age": 55,
+			"consumerId": "1212121212",
+			"email": "test@rccl.com",
+			"fireFighterReqd": false,
+			"gateway": "MIA",
+			"loyaltyId": "${#TestCase#loyaltyId}",
+			"militaryReqd": false,
+			"policeReqd": false,
+			"seniorReqd": true,
+			"stateProvince": "FL"
+		}
+	],
+	"includeClosedPromos": true,
+	"includeExpriredPromos": true,
+	"includeIneligiblePromos": true,
+	"includeNonRefundablePromos": true
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/promotions/targetedOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0f0485ff-aed3-47a2-9a75-d11b50619ab4" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="d4df3a31-9e03-43bc-810d-a0f32661f099" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def payload = parse.payload.promoDetails[0].couponCode
+log.info payload
+assert payload!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>domain</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>OY07M733</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>OY</con:value>
+    </con:property>
+    <con:property>
+      <con:name>startDate</con:name>
+      <con:value>20240804</con:value>
+    </con:property>
+    <con:property>
+      <con:name>endDate</con:name>
+      <con:value>20240811</con:value>
+    </con:property>
+    <con:property>
+      <con:name>loyaltyId</con:name>
+      <con:value>330464680</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
