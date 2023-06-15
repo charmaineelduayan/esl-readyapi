@@ -3,6 +3,171 @@
   <con:settings>
     <con:setting id="cf53f760-d211-4fbe-9fbb-39b9ef493437fileName">Test1-P-redemptionRequestStatus</con:setting>
   </con:settings>
-  <con:properties/>
+  <con:testStep type="restrequest" name="sheet-MSDetails" id="60e49500-5d62-4e1f-8f51-c9632dec336e">
+    <con:settings/>
+    <con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="sheet-MSDetails" id="f3f63c14-4ec7-4434-a75a-f29eee602ecc" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0801ef93-66e0-44a5-956c-a6d7e25e0cfc" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="sheet" value="MSDetails"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>sheet</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_fccDetails" id="4c4efe9d-e831-4907-af53-1ad94a60c5cc">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("sheet-MSDetails");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def domain = res.e.domain[2].text();
+log.info(domain)
+testRunner.testCase.setPropertyValue("domain",domain);
+
+def shipCode = res.e.shipCode[2].text();
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def sailDate = res.e.sailDate[2].text()
+log.info(sailDate)
+testRunner.testCase.setPropertyValue("sailDate",sailDate);
+
+def bookingId = res.e.bookingId[2].text()
+log.info(bookingId)
+testRunner.testCase.setPropertyValue("bookingId",bookingId);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="redemptionRequestStatus" id="4c9710e4-b008-4fcd-9d58-5ac9852bae97">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/futurecruisecertificate/redemptionRequestStatus" methodName="redemptionRequestStatus" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="redemptionRequestStatus" id="814944ef-0aa7-4169-b688-80951c8fb040" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"bookingId": "${#TestCase#bookingId}",
+	"sailDate": "${#TestCase#sailDate}",
+	"shipCode": "${#TestCase#shipCode}",
+	"domain": "${#TestCase#domain}"
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/C/web/v1/esl/futurecruisecertificate/redemptionRequestStatus</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="935a816a-2d7c-415c-9136-2d2ecc08d8cc" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="GroovyScriptAssertion" id="5088b298-e006-4caa-a125-c046122757fb" name="Script Assertion">
+          <con:configuration>
+            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
+def jsonSlurper = new groovy.json.JsonSlurper();
+def parse = jsonSlurper.parseText(jsonRes)
+
+def payload = parse.payload.bookingId
+log.info payload
+assert payload!=null
+
+def certificateStatus = parse.payload.certificateCodeStatuses
+log.info certificateStatus
+assert certificateStatus!=null
+
+def certificateCode = parse.payload.certificateCodeStatuses.certificateCode
+log.info certificateCode
+assert certificateCode!=null
+
+def status = parse.payload.certificateCodeStatuses.status
+log.info status
+assert status!=null</scriptText>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>domain</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>brand</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>countryCode</con:name>
+      <con:value/>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>SY</con:value>
+    </con:property>
+    <con:property>
+      <con:name>sailDate</con:name>
+      <con:value>20200324</con:value>
+    </con:property>
+    <con:property>
+      <con:name>firstName</con:name>
+      <con:value>Ragnar</con:value>
+    </con:property>
+    <con:property>
+      <con:name>lastName</con:name>
+      <con:value>Mogstad</con:value>
+    </con:property>
+    <con:property>
+      <con:name>certificateCode</con:name>
+      <con:value>1-3D23XYW</con:value>
+    </con:property>
+    <con:property>
+      <con:name>mode</con:name>
+      <con:value>inquiry</con:value>
+    </con:property>
+    <con:property>
+      <con:name>bookingId</con:name>
+      <con:value>7777778</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
