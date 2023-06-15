@@ -3,6 +3,542 @@
   <con:settings>
     <con:setting id="2dfce7b7-795d-4064-bc06-1bdcb92ccefdfileName">Test2-N-targetedOffers</con:setting>
   </con:settings>
-  <con:properties/>
+  <con:testStep type="restrequest" name="sheet-targetedOffers" id="5a59a2ad-4bd3-4b4d-8f20-5d7debe7f5ea">
+    <con:settings/>
+    <con:config service="Google" resourcePath="" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="sheet-targetedOffers" id="f3f63c14-4ec7-4434-a75a-f29eee602ecc" mediaType="application/json">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="Authorization" value="${#Project#Authorization}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
+        </con:settings>
+        <con:request/>
+        <con:originalUri>https://sheetdb.io/api/v1/2qakncmxaivve</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="3b1d0a15-1d1b-417f-b676-1d05a2661823" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters>
+          <con:entry key="sheet" value="targetedOffers"/>
+        </con:parameters>
+        <con:parameterOrder>
+          <con:entry>sheet</con:entry>
+        </con:parameterOrder>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="groovy" name="Fetch_RES_sheet" id="a855e70c-a662-48d2-b80a-5596bef27728">
+    <con:settings/>
+    <con:config>
+      <script>import java.io.*;
+import java.util.*;
+import com.eviware.soapui.model.testsuite.*;
+import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
+
+def ts = testRunner.testCase.getTestStepByName("sheet-targetedOffers");
+def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
+
+def domain = res.e.domain[0].text();
+log.info(domain)
+testRunner.testCase.setPropertyValue("domain",domain);
+
+def country = res.e.country[0].text();
+log.info(country)
+testRunner.testCase.setPropertyValue("country",country);
+
+def packageCode = res.e.packageCode[0].text();
+log.info(packageCode)
+testRunner.testCase.setPropertyValue("packageCode",packageCode);
+
+def shipCode = res.e.shipCode[0].text();
+log.info(shipCode)
+testRunner.testCase.setPropertyValue("shipCode",shipCode);
+
+def startDate = res.e.startDate[0].text();
+log.info(startDate)
+testRunner.testCase.setPropertyValue("startDate",startDate);
+
+def endDate = res.e.endDate[0].text();
+log.info(endDate)
+testRunner.testCase.setPropertyValue("endDate",endDate);
+
+def loyaltyId = res.e.loyaltyId[0].text();
+log.info(loyaltyId)
+testRunner.testCase.setPropertyValue("loyaltyId",loyaltyId);</script>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Targeted Offers with blank loyaltyID" id="2fe1ed6a-25a0-4ba3-a1cc-ef9220cda237">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/promotions/targetedOffers" methodName="targetedOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Targeted Offers with blank loyaltyID" id="b52043e1-6bdc-4aab-8c61-c769f8d46c5a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"countryCode": "${#TestCase#country}",
+	"maxDuration": 7,
+	"minDuration": 3,
+	"packageId": "${#TestCase#packageCode}",
+	"shipCode": "${#TestCase#shipCode}",
+	"startDate": "${#TestCase#startDate}",
+	"domain": "${#TestCase#domain}",
+	"endDate": "${#TestCase#endDate}",
+	"guests": [
+		{
+			"age": 55,
+			"consumerId": "1212121212",
+			"email": "test@rccl.com",
+			"fireFighterReqd": false,
+			"gateway": "MIA",
+			"loyaltyId": "",
+			"militaryReqd": false,
+			"policeReqd": false,
+			"seniorReqd": true,
+			"stateProvince": "FL"
+		}
+	],
+	"includeClosedPromos": true,
+	"includeExpriredPromos": true,
+	"includeIneligiblePromos": true,
+	"includeNonRefundablePromos": true
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/promotions/targetedOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0f0485ff-aed3-47a2-9a75-d11b50619ab4" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>200</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="c2503c0d-aaf3-4569-86d6-20f87395ce78" name="Contains">
+          <con:configuration>
+            <token>THERE ARE NO AVAILABLE TARGETED OFFERS FOR THE GUEST(S).</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Targeted Offers with bad loyaltyID" id="c04e4d51-c2a9-4b35-b532-62ec90fd90e4">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/promotions/targetedOffers" methodName="targetedOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Targeted Offers with bad loyaltyID" id="b52043e1-6bdc-4aab-8c61-c769f8d46c5a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"countryCode": "${#TestCase#country}",
+	"maxDuration": 7,
+	"minDuration": 3,
+	"packageId": "${#TestCase#packageCode}",
+	"shipCode": "${#TestCase#shipCode}",
+	"startDate": "${#TestCase#startDate}",
+	"domain": "${#TestCase#domain}",
+	"endDate": "${#TestCase#endDate}",
+	"guests": [
+		{
+			"age": 55,
+			"consumerId": "1212121212",
+			"email": "test@rccl.com",
+			"fireFighterReqd": false,
+			"gateway": "MIA",
+			"loyaltyId": "12341234",
+			"militaryReqd": false,
+			"policeReqd": false,
+			"seniorReqd": true,
+			"stateProvince": "FL"
+		}
+	],
+	"includeClosedPromos": true,
+	"includeExpriredPromos": true,
+	"includeIneligiblePromos": true,
+	"includeNonRefundablePromos": true
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/promotions/targetedOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0f0485ff-aed3-47a2-9a75-d11b50619ab4" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>500</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="c2503c0d-aaf3-4569-86d6-20f87395ce78" name="Contains">
+          <con:configuration>
+            <token>VALID LOYALTY ID IS MANDATORY FOR THIS TRANSACTION</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Targeted Offers with blank domainId" id="5c5912fc-9cf2-434f-86ce-aad00778da2f">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/promotions/targetedOffers" methodName="targetedOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Targeted Offers with blank domainId" id="b52043e1-6bdc-4aab-8c61-c769f8d46c5a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"countryCode": "${#TestCase#country}",
+	"maxDuration": 7,
+	"minDuration": 3,
+	"packageId": "${#TestCase#packageCode}",
+	"shipCode": "${#TestCase#shipCode}",
+	"startDate": "${#TestCase#startDate}",
+	"domain": "",
+	"endDate": "${#TestCase#endDate}",
+	"guests": [
+		{
+			"age": 55,
+			"consumerId": "1212121212",
+			"email": "test@rccl.com",
+			"fireFighterReqd": false,
+			"gateway": "MIA",
+			"loyaltyId": "${#TestCase#loyaltyId}",
+			"militaryReqd": false,
+			"policeReqd": false,
+			"seniorReqd": true,
+			"stateProvince": "FL"
+		}
+	],
+	"includeClosedPromos": true,
+	"includeExpriredPromos": true,
+	"includeIneligiblePromos": true,
+	"includeNonRefundablePromos": true
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/promotions/targetedOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0f0485ff-aed3-47a2-9a75-d11b50619ab4" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>422</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="8bce5418-169e-4ab2-8236-6c675f0a0327" name="Contains">
+          <con:configuration>
+            <token>domain name is required.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Targeted Offers with bad domainId" id="6db46dd5-44d5-4a72-97ba-a9c489dbdcb0">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/promotions/targetedOffers" methodName="targetedOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Targeted Offers with bad domainId" id="b52043e1-6bdc-4aab-8c61-c769f8d46c5a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"countryCode": "${#TestCase#country}",
+	"maxDuration": 7,
+	"minDuration": 3,
+	"packageId": "${#TestCase#packageCode}",
+	"shipCode": "${#TestCase#shipCode}",
+	"startDate": "${#TestCase#startDate}",
+	"domain": "asdfasfdafsd.com",
+	"endDate": "${#TestCase#endDate}",
+	"guests": [
+		{
+			"age": 55,
+			"consumerId": "1212121212",
+			"email": "test@rccl.com",
+			"fireFighterReqd": false,
+			"gateway": "MIA",
+			"loyaltyId": "${#TestCase#loyaltyId}",
+			"militaryReqd": false,
+			"policeReqd": false,
+			"seniorReqd": true,
+			"stateProvince": "FL"
+		}
+	],
+	"includeClosedPromos": true,
+	"includeExpriredPromos": true,
+	"includeIneligiblePromos": true,
+	"includeNonRefundablePromos": true
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/promotions/targetedOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0f0485ff-aed3-47a2-9a75-d11b50619ab4" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>500</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="8bce5418-169e-4ab2-8236-6c675f0a0327" name="Contains">
+          <con:configuration>
+            <token>DomainId could not be determined from domain name.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Targeted Offers with blank countryCode" id="d76dff4a-7d71-4b54-8fcb-ff3baa56c343">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/promotions/targetedOffers" methodName="targetedOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Targeted Offers with blank countryCode" id="b52043e1-6bdc-4aab-8c61-c769f8d46c5a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"countryCode": "",
+	"maxDuration": 7,
+	"minDuration": 3,
+	"packageId": "${#TestCase#packageCode}",
+	"shipCode": "${#TestCase#shipCode}",
+	"startDate": "${#TestCase#startDate}",
+	"domain": "${#TestCase#domain}",
+	"endDate": "${#TestCase#endDate}",
+	"guests": [
+		{
+			"age": 55,
+			"consumerId": "1212121212",
+			"email": "test@rccl.com",
+			"fireFighterReqd": false,
+			"gateway": "MIA",
+			"loyaltyId": "${#TestCase#loyaltyId}",
+			"militaryReqd": false,
+			"policeReqd": false,
+			"seniorReqd": true,
+			"stateProvince": "FL"
+		}
+	],
+	"includeClosedPromos": true,
+	"includeExpriredPromos": true,
+	"includeIneligiblePromos": true,
+	"includeNonRefundablePromos": true
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/promotions/targetedOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0f0485ff-aed3-47a2-9a75-d11b50619ab4" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>500</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="b573e01d-ce55-4d90-a686-31e0bb2900fb" name="Contains">
+          <con:configuration>
+            <token>One of these is required.</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:testStep type="restrequest" name="Targeted Offers with bad countryCode" id="7f03cf67-0a2a-4b6b-a12f-eb3c48f5ef6f">
+    <con:settings/>
+    <con:config service="Microservice" resourcePath="/promotions/targetedOffers" methodName="targetedOffers" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <con:restRequest name="Targeted Offers with bad countryCode" id="b52043e1-6bdc-4aab-8c61-c769f8d46c5a" mediaType="application/json" postQueryString="false">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment>&lt;con:entry key="env" value="${#Project#env}" xmlns:con="http://eviware.com/soapui/config"/>&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/>&lt;/xml-fragment></con:setting>
+        </con:settings>
+        <con:endpoint xsi:nil="true"/>
+        <con:request>{
+	"countryCode": "OOO",
+	"maxDuration": 7,
+	"minDuration": 3,
+	"packageId": "${#TestCase#packageCode}",
+	"shipCode": "${#TestCase#shipCode}",
+	"startDate": "${#TestCase#startDate}",
+	"domain": "${#TestCase#domain}",
+	"endDate": "${#TestCase#endDate}",
+	"guests": [
+		{
+			"age": 55,
+			"consumerId": "1212121212",
+			"email": "test@rccl.com",
+			"fireFighterReqd": false,
+			"gateway": "MIA",
+			"loyaltyId": "${#TestCase#loyaltyId}",
+			"militaryReqd": false,
+			"policeReqd": false,
+			"seniorReqd": true,
+			"stateProvince": "FL"
+		}
+	],
+	"includeClosedPromos": true,
+	"includeExpriredPromos": true,
+	"includeIneligiblePromos": true,
+	"includeNonRefundablePromos": true
+}</con:request>
+        <con:originalUri>https://tst1-int.api.rccl.com/en/R/web/v1/esl/promotions/targetedOffers</con:originalUri>
+        <con:assertion type="Valid HTTP Status Codes" id="0f0485ff-aed3-47a2-9a75-d11b50619ab4" name="Valid HTTP Status Codes">
+          <con:settings/>
+          <con:configuration>
+            <codes>500</codes>
+          </con:configuration>
+        </con:assertion>
+        <con:assertion type="Simple Contains" id="b573e01d-ce55-4d90-a686-31e0bb2900fb" name="Contains">
+          <con:configuration>
+            <token>Country info not returned from country service for countryCode</token>
+            <ignoreCase>false</ignoreCase>
+            <useRegEx>false</useRegEx>
+          </con:configuration>
+        </con:assertion>
+        <con:credentials>
+          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:parameters/>
+        <con:environmentSpec>
+          <con:entry environmentId="865e8ee2-30cb-4201-ad02-fccb10024a78">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="5ad2e84c-079e-4d5f-adc1-35f1ed43ec46">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3a1c1eb5-389d-4e62-940e-93b8313dff56">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+          <con:entry environmentId="3ff2ba31-62a8-4b2c-a96b-ded60eb5f611">
+            <con:authProfile>Inherit From Parent</con:authProfile>
+          </con:entry>
+        </con:environmentSpec>
+      </con:restRequest>
+    </con:config>
+  </con:testStep>
+  <con:properties>
+    <con:property>
+      <con:name>domain</con:name>
+      <con:value>royalcaribbean.com</con:value>
+    </con:property>
+    <con:property>
+      <con:name>country</con:name>
+      <con:value>USA</con:value>
+    </con:property>
+    <con:property>
+      <con:name>packageCode</con:name>
+      <con:value>OY07M733</con:value>
+    </con:property>
+    <con:property>
+      <con:name>shipCode</con:name>
+      <con:value>OY</con:value>
+    </con:property>
+    <con:property>
+      <con:name>startDate</con:name>
+      <con:value>20240804</con:value>
+    </con:property>
+    <con:property>
+      <con:name>endDate</con:name>
+      <con:value>20240811</con:value>
+    </con:property>
+    <con:property>
+      <con:name>loyaltyId</con:name>
+      <con:value>330464680</con:value>
+    </con:property>
+  </con:properties>
   <con:reportParameters/>
 </con:testCase>
