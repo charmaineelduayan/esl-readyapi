@@ -340,14 +340,8 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Cabin Number
 def cabinNumber = res.cabin.e[0].cabinNumber.text()
-	if (cabinNumber==''){
-		log.info(cabinNumber)
-		def gty = 'GTY'
-		log.info(gty)
-		testRunner.testCase.setPropertyValue("cabinNumber",gty);
-	} else {		
-		testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);
-		}</script>
+log.info(cabinNumber)
+testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="bookingAddOns" id="ec672422-e56b-460d-870e-1a6bef3ce9be">
@@ -418,15 +412,34 @@ def ts = testRunner.testCase.getTestStepByName("bookingAddOns");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Seating Code
-def seatingCd  = res.diningOptions.openDining.dining.e[0].seatingCd.text()
-log.info(seatingCd)
-testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
 
+int dining = res.diningOptions.traditionalDining.dining.e.size()
+log.info(dining)
 
-//Set Test Case Seating Time
-def seatingTime  = res.diningOptions.openDining.dining.e[0].seatingTime.text()
-log.info(seatingTime)
-testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
+for(i=0; i&lt;=dining-1;i++){
+
+	def status  = res.diningOptions.traditionalDining.dining.e[i].statusCd.text()
+
+	def statusCd = 'A'
+	
+	if (statusCd.equals(status)){
+	log.info(status)
+	testRunner.testCase.setPropertyValue("status",status);
+
+	def seatingCd  = res.diningOptions.traditionalDining.dining.e[i].seatingCd.text()
+	log.info(seatingCd)
+	testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
+
+	def seatingTime  = res.diningOptions.traditionalDining.dining.e[i].seatingTime.text()
+	log.info(seatingTime)
+	testRunner.testCase.setPropertyValue("seatingTime",seatingTime);
+	
+}
+else{
+	log.info('Status Closed')
+}
+
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="8139558f-8e52-4fa3-8032-5f3afcf6a844">
@@ -834,7 +847,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
   <con:properties>
     <con:property>
       <con:name>PackageCode</con:name>
-      <con:value>IN11M267</con:value>
+      <con:value>SL17T034</con:value>
     </con:property>
     <con:property>
       <con:name>TestShip</con:name>
@@ -842,11 +855,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>shipCode</con:name>
-      <con:value>IN</con:value>
+      <con:value>SL</con:value>
     </con:property>
     <con:property>
       <con:name>sailDate</con:name>
-      <con:value>2024-02-12</con:value>
+      <con:value>2023-10-01</con:value>
     </con:property>
     <con:property>
       <con:name>brand</con:name>
@@ -854,23 +867,23 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
-      <con:value>I1794952</con:value>
+      <con:value>I1920435</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>I2</con:value>
+      <con:value>A1</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>2192</con:value>
+      <con:value>1563</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
-      <con:value>O</con:value>
+      <con:value>2</con:value>
     </con:property>
     <con:property>
       <con:name>seatingTime</con:name>
-      <con:value>CEL SLCT</con:value>
+      <con:value>08:30 PM</con:value>
     </con:property>
     <con:property>
       <con:name>application</con:name>
@@ -886,7 +899,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1572388</con:value>
+      <con:value>1709496</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -894,7 +907,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>c86f9cd8-f714-4933-8b66-d85406aee6a0</con:value>
+      <con:value>187f55de-cb51-4e97-a7f9-d4c0d57afa91</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -910,7 +923,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>SecondCCPayment</con:name>
-      <con:value>5536.76</con:value>
+      <con:value>11724.32</con:value>
+    </con:property>
+    <con:property>
+      <con:name>status</con:name>
+      <con:value>A</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>

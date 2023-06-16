@@ -337,16 +337,9 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 def ts = testRunner.testCase.getTestStepByName("retrieveStateroomsForCategory");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
-//Set Test Case Cabin Number
 def cabinNumber = res.cabin.e[0].cabinNumber.text()
-	if (cabinNumber==''){
-		log.info(cabinNumber)
-		def gty = 'GTY'
-		log.info(gty)
-		testRunner.testCase.setPropertyValue("cabinNumber",gty);
-	} else {		
-		testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);
-		}</script>
+log.info(cabinNumber)
+testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="bookingAddOns" id="b28df51f-9c1c-4709-b048-2fc44aa71bcf">
@@ -417,15 +410,34 @@ def ts = testRunner.testCase.getTestStepByName("bookingAddOns");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Seating Code
-def seatingCd  = res.diningOptions.traditionalDining.dining.e[0].seatingCd.text()
-log.info(seatingCd)
-testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
 
+int dining = res.diningOptions.traditionalDining.dining.e.size()
+log.info(dining)
 
-//Set Test Case Seating Time
-def seatingTime  = res.diningOptions.traditionalDining.dining.e[0].seatingTime.text()
-log.info(seatingTime)
-testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
+for(i=0; i&lt;=dining-1;i++){
+
+	def status  = res.diningOptions.traditionalDining.dining.e[i].statusCd.text()
+
+	def statusCd = 'A'
+	
+	if (statusCd.equals(status)){
+	log.info(status)
+	testRunner.testCase.setPropertyValue("status",status);
+
+	def seatingCd  = res.diningOptions.traditionalDining.dining.e[i].seatingCd.text()
+	log.info(seatingCd)
+	testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
+
+	def seatingTime  = res.diningOptions.traditionalDining.dining.e[i].seatingTime.text()
+	log.info(seatingTime)
+	testRunner.testCase.setPropertyValue("seatingTime",seatingTime);
+	
+}
+else{
+	log.info('Status Closed')
+}
+
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="8f2828cd-aca3-4aaa-80cc-d06f5834231d">
@@ -767,23 +779,23 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
-      <con:value>I1895942</con:value>
+      <con:value>I1920435</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>C2</con:value>
+      <con:value>A1</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>1098</con:value>
+      <con:value>1568</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
-      <con:value>M</con:value>
+      <con:value>2</con:value>
     </con:property>
     <con:property>
       <con:name>seatingTime</con:name>
-      <con:value>06:00 PM</con:value>
+      <con:value>08:30 PM</con:value>
     </con:property>
     <con:property>
       <con:name>application</con:name>
@@ -799,7 +811,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1620640</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -807,11 +819,15 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>6846d95e-f840-4c20-aa35-002eb80020b4</con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>totalCruiseAmount</con:name>
-      <con:value>13412.32</con:value>
+      <con:value>12224.32</con:value>
+    </con:property>
+    <con:property>
+      <con:name>status</con:name>
+      <con:value>A</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
