@@ -246,96 +246,6 @@ testRunner.testCase.setPropertyValue("bookingId",bookingId);</script>
       </con:restRequest>
     </con:config>
   </con:testStep>
-  <con:testStep type="delay" name="Delay" id="ca0b555c-d27f-48ce-b321-88a1e857a8ae">
-    <con:settings/>
-    <con:config>
-      <delay>2000</delay>
-    </con:config>
-  </con:testStep>
-  <con:testStep type="restrequest" name="retrieveBooking 2" id="6ed9baec-e95c-45f7-80ac-5cfc705a9cb5">
-    <con:settings/>
-    <con:config service="Booking" methodName="retrieveBooking" resourcePath="/rest/v3/retrieveBooking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <con:restRequest name="retrieveBooking 2" id="5233383c-3985-4305-ab02-2225af0d0e20" mediaType="application/json">
-        <con:settings>
-          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
-        </con:settings>
-        <con:encoding>UTF-8</con:encoding>
-        <con:request/>
-        <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBooking</con:originalUri>
-        <con:assertion type="Valid HTTP Status Codes" id="aa751c95-8f3c-46fc-b1a0-39d195e9727d" name="Valid HTTP Status Codes">
-          <con:settings/>
-          <con:configuration>
-            <codes>200</codes>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="Simple Contains" name="Contains" id="836cc23a-febd-410e-a3d5-c136bb4303e9">
-          <con:configuration>
-            <token>Success</token>
-            <ignoreCase>false</ignoreCase>
-            <useRegEx>false</useRegEx>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="8d2c2110-d9ab-4d1b-9a6e-cbe94da21f3a" name="Validate accessToken is not null">
-          <con:configuration>
-            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
-
-
-def jsonSlurper = new groovy.json.JsonSlurper();
-def parse = jsonSlurper.parseText(jsonRes)
-
-
-def token = parse.bookingAccessToken
-log.info token
-assert token!=null</scriptText>
-          </con:configuration>
-        </con:assertion>
-        <con:assertion type="GroovyScriptAssertion" id="6bc9f6db-9751-4994-b4de-b88f4ec2225c" name="Validate TA-GRP booking created">
-          <con:configuration>
-            <scriptText>def jsonRes = messageExchange.getResponse().contentAsString
-
-
-def jsonSlurper = new groovy.json.JsonSlurper();
-def parse = jsonSlurper.parseText(jsonRes)
-
-def bookingType='GRP'
-def type = parse.booking.bookingInformation.type
-
-assert type!=null
-
-assert bookingType == type
-log.info bookingType +(' = ')+type</scriptText>
-          </con:configuration>
-        </con:assertion>
-        <con:credentials>
-          <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
-          <con:authType>No Authorization</con:authType>
-        </con:credentials>
-        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
-        <con:parameters>
-          <con:entry key="lastName" value="${#TestCase#lastName}"/>
-          <con:entry key="header.language" value="en_us"/>
-          <con:entry key="header.application" value="${#TestCase#application}"/>
-          <con:entry key="countryCode" value="${#TestCase#countryCode}"/>
-          <con:entry key="header.domainId" value="1"/>
-          <con:entry key="header.brand" value="${#TestCase#brand}"/>
-          <con:entry key="sailDate" value="${#TestCase#sailDate}"/>
-          <con:entry key="bookingId" value="${#TestCase#bookingId}"/>
-          <con:entry key="shipCode" value="${#TestCase#shipCode}"/>
-        </con:parameters>
-        <con:environmentSpec>
-          <con:entry environmentId="c3a4b580-ecc4-4d69-9e64-f4e9abf07977">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="1c5befc7-2431-43ac-871b-0634d210ea0b">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
-          <con:entry environmentId="40616221-3f9c-4753-b281-39f5bafc4e2c">
-            <con:authProfile>Inherit From Parent</con:authProfile>
-          </con:entry>
-        </con:environmentSpec>
-      </con:restRequest>
-    </con:config>
-  </con:testStep>
   <con:properties>
     <con:property>
       <con:name>application</con:name>
@@ -387,7 +297,7 @@ log.info bookingType +(' = ')+type</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>c5bfa977-de3e-4726-bcb9-a4f5809ec879</con:value>
+      <con:value>52521347-59da-4a77-8cfc-7baa53050e81</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
