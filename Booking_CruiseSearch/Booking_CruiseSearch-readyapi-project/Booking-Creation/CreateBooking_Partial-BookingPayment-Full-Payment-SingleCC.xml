@@ -338,14 +338,8 @@ def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Cabin Number
 def cabinNumber = res.cabin.e[0].cabinNumber.text()
-	if (cabinNumber==''){
-		log.info(cabinNumber)
-		def gty = 'GTY'
-		log.info(gty)
-		testRunner.testCase.setPropertyValue("cabinNumber",gty);
-	} else {		
-		testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);
-		}</script>
+log.info(cabinNumber)
+testRunner.testCase.setPropertyValue("cabinNumber",cabinNumber);</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="bookingAddOns" id="015dfb91-1600-40bf-a6ba-ad9a599f0cf2">
@@ -416,15 +410,34 @@ def ts = testRunner.testCase.getTestStepByName("bookingAddOns");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Seating Code
-def seatingCd  = res.diningOptions.traditionalDining.dining.e[0].seatingCd.text()
-log.info(seatingCd)
-testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
 
+int dining = res.diningOptions.traditionalDining.dining.e.size()
+log.info(dining)
 
-//Set Test Case Seating Time
-def seatingTime  = res.diningOptions.traditionalDining.dining.e[0].seatingTime.text()
-log.info(seatingTime)
-testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
+for(i=0; i&lt;=dining-1;i++){
+
+	def status  = res.diningOptions.traditionalDining.dining.e[i].statusCd.text()
+
+	def statusCd = 'A'
+	
+	if (statusCd.equals(status)){
+	log.info(status)
+	testRunner.testCase.setPropertyValue("status",status);
+
+	def seatingCd  = res.diningOptions.traditionalDining.dining.e[i].seatingCd.text()
+	log.info(seatingCd)
+	testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
+
+	def seatingTime  = res.diningOptions.traditionalDining.dining.e[i].seatingTime.text()
+	log.info(seatingTime)
+	testRunner.testCase.setPropertyValue("seatingTime",seatingTime);
+	
+}
+else{
+	log.info('Status Closed')
+}
+
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="b596ee49-dd87-4bf8-bdc4-e91b0a20751e">
@@ -945,23 +958,23 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
-      <con:value>I1895942</con:value>
+      <con:value>I1920435</con:value>
     </con:property>
     <con:property>
       <con:name>categoryCode</con:name>
-      <con:value>C2</con:value>
+      <con:value>A1</con:value>
     </con:property>
     <con:property>
       <con:name>cabinNumber</con:name>
-      <con:value>1126</con:value>
+      <con:value>1563</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
-      <con:value>M</con:value>
+      <con:value>2</con:value>
     </con:property>
     <con:property>
       <con:name>seatingTime</con:name>
-      <con:value>06:00 PM</con:value>
+      <con:value>08:30 PM</con:value>
     </con:property>
     <con:property>
       <con:name>application</con:name>
@@ -977,7 +990,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingID</con:name>
-      <con:value>1620578</con:value>
+      <con:value>1709501</con:value>
     </con:property>
     <con:property>
       <con:name>lastname</con:name>
@@ -985,7 +998,7 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>2878aa37-7388-4ab1-9a1e-758d950cce75</con:value>
+      <con:value>3204a944-326b-402c-8007-f52f07df71a3</con:value>
     </con:property>
     <con:property>
       <con:name>stateroomPrice</con:name>
@@ -1001,7 +1014,11 @@ testRunner.testCase.setPropertyValue("bookingAccessToken",bookingAccessToken);</
     </con:property>
     <con:property>
       <con:name>balanceDue</con:name>
-      <con:value>12912.32</con:value>
+      <con:value>11724.32</con:value>
+    </con:property>
+    <con:property>
+      <con:name>status</con:name>
+      <con:value>A</con:value>
     </con:property>
   </con:properties>
   <con:reportParameters/>
