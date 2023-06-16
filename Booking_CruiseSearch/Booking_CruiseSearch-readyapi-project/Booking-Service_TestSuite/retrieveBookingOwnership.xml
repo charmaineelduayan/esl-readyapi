@@ -13,7 +13,7 @@
         </con:property>
         <con:property>
           <con:name>bookingAccessToken</con:name>
-          <con:value>aa58d850-32a5-4890-bb5b-f5d4994a670c</con:value>
+          <con:value>b12fbc76-f80d-488a-942e-a6c9efdaa949</con:value>
         </con:property>
       </con:properties>
     </con:config>
@@ -502,20 +502,37 @@ import com.eviware.soapui.model.testsuite.*;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.*;
 
 
-
 def ts = testRunner.testCase.getTestStepByName("bookingAddOns");
 def res = new XmlSlurper().parseText(ts.getPropertyValue("ResponseAsXml"));
 
 //Set Test Case Seating Code
-def seatingCd  = res.diningOptions.traditionalDining.dining.e[0].seatingCd.text()
-log.info(seatingCd)
-testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
 
+int dining = res.diningOptions.traditionalDining.dining.e.size()
+log.info(dining)
 
-//Set Test Case Seating Time
-def seatingTime  = res.diningOptions.traditionalDining.dining.e[0].seatingTime.text()
-log.info(seatingTime)
-testRunner.testCase.setPropertyValue("seatingTime",seatingTime);</script>
+for(i=0; i&lt;=dining-1;i++){
+
+	def status  = res.diningOptions.traditionalDining.dining.e[i].statusCd.text()
+
+	def statusCd = 'A'
+	
+	if (statusCd.equals(status)){
+	log.info(status)
+	testRunner.testCase.setPropertyValue("status",status);
+
+	def seatingCd  = res.diningOptions.traditionalDining.dining.e[i].seatingCd.text()
+	log.info(seatingCd)
+	testRunner.testCase.setPropertyValue("seatingCd",seatingCd);
+
+	def seatingTime  = res.diningOptions.traditionalDining.dining.e[i].seatingTime.text()
+	log.info(seatingTime)
+	testRunner.testCase.setPropertyValue("seatingTime",seatingTime);
+	
+}
+else{
+	log.info('Status Closed')
+}
+}</script>
     </con:config>
   </con:testStep>
   <con:testStep type="restrequest" name="createBooking" id="289af984-05f3-48e8-9a5f-b1313b2ab7bc">
@@ -896,7 +913,7 @@ testRunner.testCase.setPropertyValue("Status",bookingStatus);</script>
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
-        <con:request>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingOwnership?header.application=celebritycruises.com&amp;header.brand=C&amp;header.language=en_us&amp;countryCode=SGP&amp;bookingId=1627237</con:request>
+        <con:request>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingOwnership?header.application=celebritycruises.com&amp;header.brand=C&amp;header.language=en_us&amp;countryCode=SGP&amp;bookingId=1709773</con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingOwnership</con:originalUri>
         <con:assertion type="Valid HTTP Status Codes" id="d9c28964-adcf-436e-b0da-7aec15ebf4a3" name="Valid HTTP Status Codes">
           <con:settings/>
@@ -977,7 +994,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
         <con:settings>
           <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;con:entry key="AppKey" value="${#Project#AppKey}" xmlns:con="http://eviware.com/soapui/config"/></con:setting>
         </con:settings>
-        <con:request>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingOwnership?header.application=celebritycruises.com&amp;header.brand=C&amp;header.language=en_us&amp;countryCode=USA&amp;bookingId=1627237</con:request>
+        <con:request>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingOwnership?header.application=celebritycruises.com&amp;header.brand=C&amp;header.language=en_us&amp;countryCode=USA&amp;bookingId=1709773</con:request>
         <con:originalUri>https://tst1-int.api.rccl.com/esl/booking/tst2/rest/v3/retrieveBookingOwnership</con:originalUri>
         <con:assertion type="Valid HTTP Status Codes" id="d9c28964-adcf-436e-b0da-7aec15ebf4a3" name="Valid HTTP Status Codes">
           <con:settings/>
@@ -1140,15 +1157,15 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>CabinNumber</con:name>
-      <con:value>1676</con:value>
+      <con:value>1594</con:value>
     </con:property>
     <con:property>
       <con:name>seatingCd</con:name>
-      <con:value>M</con:value>
+      <con:value>2</con:value>
     </con:property>
     <con:property>
       <con:name>seatingTime</con:name>
-      <con:value>06:00 PM</con:value>
+      <con:value>08:30 PM</con:value>
     </con:property>
     <con:property>
       <con:name>fareCode</con:name>
@@ -1168,7 +1185,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingId</con:name>
-      <con:value>1627237</con:value>
+      <con:value>1709773</con:value>
     </con:property>
     <con:property>
       <con:name>balanceDue</con:name>
@@ -1180,7 +1197,7 @@ messageExchange.modelItem.testStep.setPropertyValue("Request", url)</scriptText>
     </con:property>
     <con:property>
       <con:name>bookingAccessToken</con:name>
-      <con:value>aa58d850-32a5-4890-bb5b-f5d4994a670c</con:value>
+      <con:value>b12fbc76-f80d-488a-942e-a6c9efdaa949</con:value>
     </con:property>
     <con:property>
       <con:name>Status</con:name>
